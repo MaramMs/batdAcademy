@@ -1,0 +1,32 @@
+{
+  "Navbar": {
+    "home": "الرئيسية",
+    "trainingPrograms": "البرامج التدريبية",
+    "consulting": "الاستشارات",
+    "aboutUs": "من نحن",
+    "contactUs": "اتصل بنا",
+    "signIn": "دخول",
+    "signUp": "تسجيل",
+    "programs": {
+      "leadership": "التدريب القيادي",
+      "management": "المهارات الإدارية",
+      "technical": "البرامج التقنية",
+      "softSkills": "المهارات الشخصية"
+    }
+  },
+  "TopBar": {
+    "callUs": "اتصل بنا"
+  },
+  "Hero": {
+    "title": "ابحث عن دورتك <ideal>المثالية</ideal><br/>وابنِ <skills>مهاراتك</skills>",
+    "searchPlaceholder": "ابحث عن الدورات، البرامج، المدربين...",
+    "searchButton": "بحث",
+    "subtitle": "شريك التدريب الأكثر ثقة في العالم لتحسين المعرفة والمهارات والقدرات.",
+    "viewCourses": "عرض جميع الدورات",
+    "trainingHalls": "قاعات التدريب",
+    "stats": {
+      "participants": "مشارك",
+      "organisations": "منظمة"
+    }
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "Navbar": {
+    "home": "Home",
+    "trainingPrograms": "Training Programs",
+    "consulting": "Consulting",
+    "aboutUs": "About Us",
+    "contactUs": "Contact Us",
+    "signIn": "Sign in",
+    "signUp": "Sign up",
+    "programs": {
+      "leadership": "Leadership Training",
+      "management": "Management Skills",
+      "technical": "Technical Programs",
+      "softSkills": "Soft Skills"
+    }
+  },
+  "TopBar": {
+    "callUs": "Call Us"
+  },
+  "Hero": {
+    "title": "Find Your <ideal>Ideal</ideal><br/>Course, Build <skills>Skills</skills>",
+    "searchPlaceholder": "Search courses, programs, trainers...",
+    "searchButton": "Search",
+    "subtitle": "The World's Most Trusted Training Partner For Improving Knowledge, Skills, And Capabilities.",
+    "viewCourses": "View All Courses",
+    "trainingHalls": "Training Halls",
+    "stats": {
+      "participants": "Participants",
+      "organisations": "Organisations"
+    }
+  }
+}

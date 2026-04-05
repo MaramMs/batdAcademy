@@ -1,0 +1,212 @@
+// ─── Hero Wrapper ────────────────────────────────────────────────
+.hero {
+   overflow:hidden; 
+    width: 100%;
+    @media (max-width: 700px) {
+        grid-template-columns: 1fr;
+    }
+    .container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        padding-inline-start: 101px;
+        align-items: center;
+    }
+}
+// ─── Left Column ─────────────────────────────────────────────────
+.left {
+
+    display: flex;
+    flex-direction: column;
+
+    @media (max-width: 700px) {
+        padding: 32px 24px;
+    }
+
+    .title {
+        font-size: 29.77px;
+        font-weight: 500;
+        color: #333333;
+        line-height: 44.66px;
+        margin-bottom: 45px;
+        animation-delay: 0.05s;
+
+        span {
+            color: #1E2749;
+            font-size: 32px;
+        }
+    }
+}
+// ─── Search Bar ──────────────────────────────────────────────────
+.searchBar {
+    display: flex;
+    align-items: center;
+    background: #FFFFFF;
+    border-radius: 16px;
+    box-shadow: 0px 8px 10px -6px #0000001A;
+    box-shadow: 0px 20px 25px -5px #0000001A;
+    gap: 8px;
+    height: 64px;
+    margin-bottom: 39.16px;
+    padding: 8px;
+    padding-inline-start: 16px;
+    animation-delay: 0.15s;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    &:focus-within {
+        border-color: #1E2749;
+        box-shadow: 0 0 0 3px rgba(#1E2749, 0.1);
+    }
+}
+.searchIcon {
+    color: #99A1AF;
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+}
+.searchInput {
+    border: none;
+    outline: none;
+    background: transparent;
+    font-size: 0.93rem;
+    color: black;
+    flex: 1;
+    min-width: 0;
+    &::placeholder {
+        color: #99A1AF;
+    }
+}
+.btnSearch {
+    background: #1E2749;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 10px;
+    padding: 12px 20px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.2s, transform 0.15s;
+    flex-shrink: 0;
+    &:hover {
+        transform: translateY(-1px);
+    }
+
+    &:active {
+        transform: translateY(0);
+    }
+}
+
+// ─── Subtitle ────────────────────────────────────────────────────
+.subtitle {
+    font-size: 19.85px;
+    color: #333333;
+    font-weight: 400;
+    line-height: 29.77px;
+    margin-bottom: 38.84px;
+    animation-delay: 0.22s;
+}
+
+// ─── CTA Buttons ─────────────────────────────────────────────────
+.cta {
+    display: flex;
+    gap: 19.85px;
+    flex-wrap: wrap;
+    margin-bottom: 60.59px;
+    animation-delay: 0.30s;
+}
+
+.btnPrimary {
+    background: #1E2749;
+    width: 227px;
+    height: 48px;
+    box-shadow: 0px 4.96px 7.44px -4.96px #0000001A;
+    box-shadow: 0px 12.4px 18.61px -3.72px #0000001A;
+    font-weight: 500;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.15s;
+    &:hover {
+        background: #1E2749;
+        transform: translateY(-1px);
+    }
+    &:active {
+        transform: translateY(0);
+    }
+}
+
+.btnSecondary {
+    background: transparent;
+    width: 227px;
+    height: 48px;
+    color: #1E2749;
+    border: 1.5px solid #1E2749;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s, color 0.2s;
+    &:hover {
+        border-color: #1E2749;
+        background: #1E2749;
+        color: #FFFFFF;
+    }
+}
+// ─── Stats ───────────────────────────────────────────────────────
+.stats {
+    display: flex;
+    gap: 39.69px;
+    flex-wrap: wrap;
+    animation-delay: 0.38s;
+}
+.statItem {
+    height: 101.71px;
+    border-radius: 19.85px;
+    padding-inline: 29.77px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background-color: #FFFFFF99;
+    border: 1px solid #FFFFFF80;
+    box-shadow: 0px 4.96px 7.44px -4.96px #0000001A;
+    box-shadow: 0px 12.4px 18.61px -3.72px #0000001A;
+
+}
+.statIcon {
+    width: 59.54px;
+    height: 59.54px;
+    font-size: 29px;
+    background: #1E2749;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    color: #FFFFFF;
+    box-shadow: 0px 4.96px 7.44px -4.96px #0000001A;
+    box-shadow: 0px 12.4px 18.61px -3.72px #0000001A;
+
+}
+.statText {
+    font-size: 19.85px;
+    font-weight: 400;
+    line-height: 29.77px;
+    strong {
+        display: block;
+        color: #101828;
+    }
+    span {
+        color: #4A5565;
+    }
+}
+
+// ─── Right Column ─────────────────────────────────────────────────
+.right {
+  .heroImage {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+}
