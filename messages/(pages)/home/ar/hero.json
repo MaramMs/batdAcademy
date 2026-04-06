@@ -1,0 +1,14 @@
+{
+    "Hero": {
+        "title": "ابحث عن دورتك <ideal>المثالية</ideal><br></br>وابنِ <skills>مهاراتك</skills>",
+        "searchPlaceholder": "ابحث عن الدورات، البرامج، المدربين...",
+        "searchButton": "بحث",
+        "subtitle": "شريك التدريب الأكثر ثقة في العالم لتحسين المعرفة والمهارات والقدرات.",
+        "viewCourses": "عرض جميع الدورات",
+        "trainingHalls": "قاعات التدريب",
+        "stats": {
+            "participants": "مشارك",
+            "organisations": "منظمة"
+        }
+    }
+}

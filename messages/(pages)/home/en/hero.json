@@ -1,0 +1,14 @@
+{
+     "Hero": {
+    "title": "Find Your <ideal>Ideal</ideal><br></br>Course, Build <skills>Skills</skills>",
+    "searchPlaceholder": "Search courses, programs, trainers...",
+    "searchButton": "Search",
+    "subtitle": "The World's Most Trusted Training Partner For Improving Knowledge, Skills, And Capabilities.",
+    "viewCourses": "View All Courses",
+    "trainingHalls": "Training Halls",
+    "stats": {
+      "participants": "Participants",
+      "organisations": "Organisations"
+    }
+  }
+}

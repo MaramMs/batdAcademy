@@ -4,7 +4,7 @@ import { useState, useRef, useEffect } from 'react';
 import { Link } from '@/i18n/routing'; // Use localized Link
 import Image from 'next/image';
 import logo from '@/public/asstes/logo.png';
-import { ChevronDown, Menu, X } from 'lucide-react';
+import { ChevronDown, Menu, X, Search } from 'lucide-react';
 import styles from '@/sass/components/layout/main-navbar.module.scss';
 import { useTranslations } from 'next-intl';
 
@@ -97,14 +97,20 @@ const MainNavBar = () => {
           <Link href="/register" className={styles.btnSignUp}>{t('signUp')}</Link>
         </div>
 
-        {/* Mobile Hamburger */}
-        <button
-          className={styles.hamburger}
-          onClick={() => setMobileOpen((prev) => !prev)}
-          aria-label="Toggle menu"
-        >
-          {mobileOpen ? <X size={22} /> : <Menu size={22} />}
-        </button>
+        {/* Mobile Search & Hamburger */}
+        <div className={styles.mobileActions_top}>
+          <button className={styles.searchIconMobile} aria-label="Search">
+            <Search size={22} />
+          </button>
+          <button
+            className={styles.hamburger}
+            onClick={() => setMobileOpen((prev) => !prev)}
+            aria-label="Toggle menu"
+            aria-expanded={mobileOpen}
+          >
+            {mobileOpen ? <X size={22} /> : <Menu size={22} />}
+          </button>
+        </div>
       </div>
 
       {/* Mobile Menu */}

@@ -1,0 +1,17 @@
+{
+     "Navbar": {
+    "home": "الرئيسية",
+    "trainingPrograms": "البرامج التدريبية",
+    "consulting": "الاستشارات",
+    "aboutUs": "من نحن",
+    "contactUs": "اتصل بنا",
+    "signIn": "دخول",
+    "signUp": "تسجيل",
+    "programs": {
+      "leadership": "التدريب القيادي",
+      "management": "المهارات الإدارية",
+      "technical": "البرامج التقنية",
+      "softSkills": "المهارات الشخصية"
+    }
+  }
+}
