@@ -28,3 +28,7 @@ a {
   text-decoration: none;
 }
 
+.swiper-button-prev,
+.swiper-button-next {
+  display: none !important;
+}

@@ -1,0 +1,10 @@
+.home{
+    display: flex;
+    flex-direction: column;
+    gap: 167px;
+    .mainContent{
+        display: flex;
+        flex-direction: column;
+        gap: 100px;
+    }
+}

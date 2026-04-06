@@ -1,0 +1,7 @@
+@use '../../helpers' as *;
+.container {
+    @include container;
+}
+.courses {
+ margin-top: 60px;
+}

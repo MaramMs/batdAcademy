@@ -1,0 +1,36 @@
+.title {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+margin-bottom: 60px;
+    h2 {
+        font-size: 44px;
+        font-weight: 600;
+        color: #152765;
+
+        span {
+            color: #B12E33;
+            position: relative;
+            white-space: nowrap;
+  &::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -6px;
+    height: 4px;
+    background: #B12E33;
+    border-radius: 10px;
+    width: 100%;
+   transform: rotate(2deg) skewX(-10deg);
+  } 
+
+        }
+    }
+
+    p {
+        font-size: 20px;
+        font-weight: 400;
+        color: #4A5565;
+    }
+}

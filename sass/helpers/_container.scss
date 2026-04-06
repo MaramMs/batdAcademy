@@ -1,0 +1,27 @@
+// src/styles/abstracts/_container.scss
+
+$mobile:        480px;
+$tablet:        768px;
+$small-desktop: 1024px;
+$desktop:       1280px;
+$wide:          1536px;
+
+$container-max-width: 1440px;
+$container-padding:   101px;
+$container-padding-tablet: 40px;
+$container-padding-mobile: 16px;
+
+@mixin container {
+    width: 100%;
+    // max-width: $container-max-width;
+    margin-inline: auto;
+    padding-inline: $container-padding;
+
+    @media (max-width: $small-desktop) {
+        padding-inline: $container-padding-tablet;
+    }
+
+    @media (max-width: $tablet) {
+        padding-inline: $container-padding-mobile;
+    }
+}
