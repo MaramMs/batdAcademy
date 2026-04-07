@@ -1,0 +1,204 @@
+// ─── What Is Section ────────────────────────────────────────────────
+.whatIs {
+    width: 100%;
+}
+
+.content {
+    display: flex;
+    flex-direction: row;
+    gap: clamp(40px, 8vw, 145px);
+    align-items: flex-start;
+    padding-top: clamp(40px, 8vw, 60px);
+
+    @media (max-width: $small-desktop) {
+        gap: clamp(24px, 5vw, 60px);
+    }
+
+    @media (max-width: $tablet) {
+        flex-direction: column;
+        gap: clamp(60px, 12vw, 100px);
+    }
+}
+
+// ─── Left Column ─────────────────────────────────────────────────
+.left {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: clamp(80px, 10vw, 110px);
+    width: 100%;
+
+    @media (max-width: $tablet) {
+        gap: clamp(60px, 8vw, 80px);
+    }
+
+    .imgContainer {
+        position: relative;
+        border-radius: $radius-2xl;
+        
+        img {
+            width: 100%;
+            height: auto;
+            border-radius: $radius-2xl;
+            display: block;
+            box-shadow: $shadow-md;
+        }
+
+        .imgOverlay {
+            @include flex-center(row, 20px);
+            justify-content: space-between;
+            position: absolute;
+            bottom: clamp(-40px, -5vw, -49px);
+            left: clamp(16px, 4vw, 39px);
+            right: clamp(16px, 4vw, 39px);
+            @include card-base($white, $shadow-lg, $radius-md, clamp(16px, 3vw, 31px));
+            border: 1.24px solid rgba($blue-800, 0.1);
+
+            @media (max-width: $mobile) {
+                padding: 16px;
+                bottom: -35px;
+                gap: 12px;
+                left: 12px;
+                right: 12px;
+            }
+
+            .plan {
+                display: flex;
+                flex-direction: column;
+                gap: 4px;
+
+                span {
+                    color: $gray-600;
+                    font-size: clamp(14px, 1.5vw, 17.37px);
+                    font-weight: 400;
+                }
+
+                p {
+                    color: $blue-900;
+                    font-size: clamp(16px, 1.8vw, 19.95px);
+                    font-weight: 600;
+                    margin: 0;
+                }
+            }
+
+            .planBtn {
+                height: 48px;
+                padding: 4px clamp(16px, 3vw, 30px);
+                border: none;
+                background-color: $blue-900;
+                color: $white;
+                border-radius: $radius-md;
+                cursor: pointer;
+                transition: $transition-base;
+                font-weight: 500;
+                @include flex-center(row, 10px);
+
+                &:hover {
+                    background-color: $blue-800;
+                    @include hover-lift;
+                    color: $white;
+                }
+
+                @media (max-width: $mobile) {
+                    height: 40px;
+                    padding-inline: 16px;
+                    font-size: 14px;
+                }
+            }
+        }
+    }
+
+    & > p {
+        text-align: center;
+        color: $gray-700;
+        font-size: clamp(18px, 2vw, 22px);
+        font-weight: 500;
+        line-height: 1.6;
+        margin-inline: auto;
+        // max-width: 600px;
+
+        @media (max-width: $tablet) {
+            font-size: 18px;
+        }
+    }
+}
+
+// ─── Right Column ─────────────────────────────────────────────────
+.right {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: clamp(12px, 2vw, 14px);
+    width: 100%;
+
+    .item {
+        @include flex-center(row, clamp(20px, 4vw, 40px));
+        @include card-base($white, $shadow-sm, $radius-lg, clamp(12px, 3vw, 15px) clamp(16px, 4vw, 40.22px));
+        transition: $transition-slow;
+        border: 1px solid transparent;
+
+        &:hover {
+            border-color: rgba($blue-900, 0.05);
+            box-shadow: $shadow-md;
+            @include hover-lift;
+        }
+
+        @media (max-width: $mobile) {
+            gap: 16px;
+            padding: 16px;
+        }
+
+        img {
+            width: clamp(50px, 6vw, 68px);
+            height: auto;
+            flex-shrink: 0;
+        }
+
+        .itemContent {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+
+            .itemContentText {
+                display: flex;
+                flex-direction: column;
+                gap: clamp(8px, 1.5vw, 16px);
+
+                h3 {
+                    color: $gray-700;
+                    font-size: clamp(18px, 2vw, 20px);
+                    font-weight: 600;
+                    margin: 0;
+                }
+
+                p {
+                    color: $gray-600;
+                    font-size: clamp(14px, 1.5vw, 16px);
+                    font-weight: 400;
+                    line-height: 1.6;
+                    margin: 0;
+                }
+            }
+
+            .itemContentLink {
+                color: $blue-900;
+                font-size: 14px;
+                font-weight: 500;
+                margin-top: 12px;
+                margin-left: auto;
+                text-decoration: underline;
+                cursor: pointer;
+                transition: $transition-base;
+                
+                &:hover {
+                    color: $blue-600;
+                    opacity: 0.8;
+                }
+
+                @media (max-width: $mobile) {
+                    margin-top: 8px;
+                }
+            }
+        }
+    }
+}

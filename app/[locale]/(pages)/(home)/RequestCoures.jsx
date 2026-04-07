@@ -131,9 +131,7 @@ const RequestCoures = () => {
   };
 
   const onSubmit = async (data) => {
-    // Simulate API call
-    console.log("Form submitted Successfully:", data);
-    // You can add success notification logic here
+
   };
 
   return (
@@ -167,7 +165,6 @@ const RequestCoures = () => {
             </div>
           </div>
 
-          {/* RIGHT: Form */}
           <div className={styles['request-courses__right']}>
             <div className={styles['request-courses__header']}>
               <h2> 
