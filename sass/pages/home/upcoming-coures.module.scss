@@ -1,7 +1,7 @@
-@use '../../helpers' as *;
 .container {
     @include container;
 }
+
 .courses {
- margin-top: 60px;
+    margin-top: clamp(40px, 6vw, 60px); // Scalable margin
 }

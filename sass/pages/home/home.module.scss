@@ -1,10 +1,11 @@
-.home{
+.home {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(80px, 12vw, 167px); // Scalable gap for large sections
+
+  .mainContent {
     display: flex;
     flex-direction: column;
-    gap: 167px;
-    .mainContent{
-        display: flex;
-        flex-direction: column;
-        gap: 100px;
-    }
+    gap: clamp(50px, 8vw, 100px); // Scalable gap
+  }
 }
