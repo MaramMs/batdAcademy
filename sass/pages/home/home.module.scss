@@ -1,11 +1,12 @@
 .home {
   display: flex;
   flex-direction: column;
-  gap: clamp(80px, 12vw, 167px); // Scalable gap for large sections
+  gap: clamp(80px, 12vw, 167px); 
+  background-color: $home_color;
 
   .mainContent {
     display: flex;
     flex-direction: column;
-    gap: clamp(50px, 8vw, 100px); // Scalable gap
+    gap: clamp(50px, 8vw, 100px); 
   }
 }
