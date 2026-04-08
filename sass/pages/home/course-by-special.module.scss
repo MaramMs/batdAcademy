@@ -1,0 +1,79 @@
+.courseBySpecial {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    padding: 0px 178px;
+    gap: 16px;
+    width: 100%;
+
+    @media (max-width: 768px) {
+        grid-template-columns: 1fr;
+        gap: 12px;
+        padding: 20px;
+    }
+}
+
+.card {
+    box-shadow: 0px 4px 6px -4px #0000001A, 0px 10px 15px -3px #0000001A;
+    border: 1px solid #E5E7EB;
+    background-color: $white;
+    border-radius: 16px;
+    padding: 20px;
+    display: flex;
+    gap: 16px;
+    align-items: center; 
+    @media (max-width: 768px) {
+        padding: 16px;
+        border-radius: 12px;
+        width: 48%;
+    }
+
+    .cardImage {
+        width: 48px;
+        height: 48px;
+        min-width: 48px;
+        border-radius: 14px;
+        background-color: $blue-900;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: $white;
+        font-size: 24px;
+        box-shadow: 0px 2px 4px -2px #0000001A, 0px 4px 6px -1px #0000001A;
+
+        @media (max-width: 768px) {
+            width: 42px;
+            height: 42px;
+            min-width: 42px;
+            border-radius: 12px;
+            font-size: 20px;
+        }
+    }
+
+    .cardContent {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        flex: 1;
+
+        .cardTitle {
+            font-size: 16px;
+            font-weight: 500;
+            color: #101828;
+
+            @media (max-width: 768px) {
+                font-size: 14px;
+            }
+        }
+
+        .cardDescription {
+            font-size: 14px;
+            font-weight: 400;
+            color: #6A7282;
+
+            @media (max-width: 768px) {
+                font-size: 12px;
+            }
+        }
+    }
+
+}

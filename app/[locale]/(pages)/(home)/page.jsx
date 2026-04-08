@@ -5,12 +5,14 @@ import styles from '@/sass/pages/home/home.module.scss'
 import WhatIs from "./WhatIs"
 import CourseByCity from "./CourseByCity"
 import Customers from "./Customers"
+import CoursesBySpecial from "./CoursesBySpecial"
 const Home = () =>{
     return (
         <div className={styles.home}>
             <Hero />
            <div className={styles.mainContent}>
              <UpcomingCourses />
+             <CoursesBySpecial />
              <RequestCoures />
              <WhatIs />
              <CourseByCity />

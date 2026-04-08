@@ -1,0 +1,40 @@
+import styles from '@/sass/components/common/tabs.module.scss'
+import Tab from './Tab'
+import { Heart } from 'lucide-react'
+
+const tabsItem = [
+    {
+        id: 1,
+        icon: <Heart />,
+        title: 'All Courses',
+        content: 'All Courses'
+    },
+    {
+        id: 2,
+        icon: <Heart />,
+        title: 'Upcoming Courses',
+        content: 'Upcoming Courses'
+    },
+    {
+        id: 3,
+        icon: <Heart />,
+        title: 'Past Courses',
+        content: 'Past Courses'
+    }
+]
+const Tabs = ({ activeTabId, onTabChange, tabs = tabsItem }) => {
+    return (
+        <div className={styles.tabs}>
+            {tabs.map((tab) => (
+                <Tab
+                    key={tab.id}
+                    tab={tab}
+                    isActive={tab.id === activeTabId}
+                    onClick={() => onTabChange?.(tab.id)}
+                />
+            ))}
+        </div>
+    )
+}
+
+export default Tabs
