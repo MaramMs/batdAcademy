@@ -6,6 +6,7 @@ import WhatIs from "./WhatIs"
 import CourseByCity from "./CourseByCity"
 import Customers from "./Customers"
 import CoursesBySpecial from "./CoursesBySpecial"
+import LastestPublication from "./LastestPublication"
 const Home = () =>{
     return (
         <div className={styles.home}>
@@ -16,6 +17,7 @@ const Home = () =>{
              <RequestCoures />
              <WhatIs />
              <CourseByCity />
+             <LastestPublication />
              <Customers />
            </div>
         </div>

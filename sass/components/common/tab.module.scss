@@ -1,10 +1,13 @@
 .tab {
-    width: 198px;
-    height: 129px;
+    width: 165px;
+    height: 48px;
+    gap: 14px;
+    // width: 198px;
+    // height: 129px;
     display: flex;
     justify-content: center;
     align-items: center;
-    flex-direction: column;
+    // flex-direction: column;
     background-color: $white;
     padding: 22px;
     border-radius: 13.58px;
