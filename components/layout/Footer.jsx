@@ -1,6 +1,6 @@
 import styles from '@/sass/components/layout/footer.module.scss';
 import Image from 'next/image';
-import footerLogo from '/public/asstes/footerlogo.png';
+import footerLogo from '@/public/asstes/footerlogo.png';
 
 // ─── SVG Icons ────────────────────────────────────────────────
 const IconYoutube = () => (
@@ -92,7 +92,7 @@ export default function Footer() {
     <footer className={styles.footer} aria-label="Site footer">
 
       <div className={styles.top}>
-          <Image src={footerLogo} width={150} height={107}/>
+          <Image src={footerLogo} width={150} height={107} alt='Britih Academy'/>
         <p className={styles.tagline}>
           The world's most trusted training partner for improving knowledge, 
           skills, and capabilities through innovative learning solutions.

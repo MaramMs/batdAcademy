@@ -51,7 +51,7 @@ const Customer = ({ city }) => {
     return (
         <div className={styles.customer}>
             <div className={styles.customer__image}>
-                <Image src={city.image} alt={city.title} width={130} height={130} />
+                <Image alt={city.title} src={city.image} width={130} height={130} />
             </div>
         </div>
     )

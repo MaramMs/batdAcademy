@@ -224,10 +224,15 @@
     border-radius: 6px;
     display: flex;
     align-items: center;
+display: none;
 
     &:hover {
         background: $gray-100;
     }
+    @media (max-width: $tablet) {
+        display: block;
+    
+}
 }
 
 // ─── Mobile Menu (Drawer) ────────────────────────────

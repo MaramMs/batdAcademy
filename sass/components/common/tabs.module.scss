@@ -8,6 +8,7 @@
     @media (max-width: 768px) {
         gap: 10px;
         overflow-x: auto;
+        justify-content: flex-start;
         scrollbar-width: none; 
         -ms-overflow-style: none;
         padding-bottom: 4px;
