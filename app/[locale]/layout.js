@@ -6,6 +6,7 @@ import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { routing } from '@/i18n/routing';
+import Footer from '@/components/layout/Footer';
 
 const poppins = Poppins({ subsets: ['latin'], weight: ['400', '600', '700'] });
 const cairo = Cairo({ subsets: ['arabic'], weight: ['400', '600', '700'] });
@@ -38,7 +39,7 @@ export default async function RootLayout({ children, params }) {
           <main id="main-content" tabIndex={-1}>
             {children}
           </main>
-          {/* <Footer /> */}
+          <Footer />
         </NextIntlClientProvider>
       </body>
     </html>
