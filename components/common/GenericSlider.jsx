@@ -5,7 +5,6 @@ import "swiper/css";
 import styles from '@/sass/components/common/generic-slider.module.scss'
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import { useRef } from "react";
 
 export default function GenericSlider({
     items = [],

@@ -1,9 +1,9 @@
 'use client'
 import Tabs from "@/components/common/Tabs";
 import Title from "@/components/common/Title";
-import styleContainer from '@/sass/components/common/container.module.scss'
-import styles from '@/sass/pages/home/lastest-publication.module.scss'
-import { ArrowRight, Clock, Eye, Play,BookOpen, Briefcase, MessageSquare  } from 'lucide-react'
+import styleContainer from '@/sass/components/common/container.module.scss';
+import styles from '@/sass/pages/home/lastest-publication.module.scss';
+import { ArrowRight, BookOpen, Briefcase, Clock, Eye, MessageSquare, Play } from 'lucide-react';
 import { useState } from "react";
 
 const tabs = [
@@ -42,7 +42,7 @@ const videoData = [
         duration: "12:45",
         views: "2.5K Views",
         date: "2 days ago",
-        thumbnail: "/images/video-thumb.jpg", 
+        thumbnail: "/images/video-thumb.jpg",
     },
 ]
 

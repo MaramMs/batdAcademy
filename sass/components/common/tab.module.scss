@@ -25,16 +25,26 @@
         background-color: $blue-900;
         color: $white;
 
-        .tabIcon { color: $white; }
-        .tabTitle { color: $white; }
+        .tabIcon {
+            color: $white;
+        }
+
+        .tabTitle {
+            color: $white;
+        }
     }
 
     &.active {
         background-color: $blue-900;
         color: $white;
 
-        .tabIcon { color: $white; }
-        .tabTitle { color: $white; }
+        .tabIcon {
+            color: $white;
+        }
+
+        .tabTitle {
+            color: $white;
+        }
     }
 
     .tabIcon {

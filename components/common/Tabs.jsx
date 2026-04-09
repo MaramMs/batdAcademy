@@ -1,6 +1,6 @@
 import styles from '@/sass/components/common/tabs.module.scss'
-import Tab from './Tab'
 import { Heart } from 'lucide-react'
+import Tab from './Tab'
 
 const tabsItem = [
     {

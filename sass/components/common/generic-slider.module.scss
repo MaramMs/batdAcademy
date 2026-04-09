@@ -1,8 +1,9 @@
 .genericSlider {
   position: relative;
+  @media (max-width: $tablet) {
+    padding-bottom: 80px;
+  }
 }
-
-// shared arrow styles
 %arrow-base {
   position: absolute;
   top: 50%;
@@ -18,8 +19,6 @@
   cursor: pointer;
   color: $white;
   transition: $transition-base;
-
-  // ✅ :global so Swiper's JS-added class is matched despite scoping
   &:global(.swiper-button-disabled) {
     opacity: 0.3;
     cursor: not-allowed;
@@ -30,11 +29,23 @@
 .sliderPrev {
   @extend %arrow-base;
   left: -38px;
+  @media (max-width: $tablet) {
+    top: auto;
+    bottom: 0;
+    left: calc(50% - 55px);
+    transform: none;
+  }
 }
 
 .sliderNext {
   @extend %arrow-base;
   right: -38px;
+  @media (max-width: $tablet) {
+    top: auto;
+    bottom: 0;
+    right: calc(50% - 55px);
+    transform: none;
+  }
 }
 
 

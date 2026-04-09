@@ -2,8 +2,8 @@
 import GenericSlider from "@/components/common/GenericSlider";
 import Tabs from "@/components/common/Tabs";
 import Title from "@/components/common/Title";
-import styleContainer from '@/sass/components/common/container.module.scss'
-import styles from '@/sass/pages/home/course-by-special.module.scss'
+import styleContainer from '@/sass/components/common/container.module.scss';
+import styles from '@/sass/pages/home/course-by-special.module.scss';
 import { Activity, HeartPulse, Hospital, PillBottle, ShieldCheck, Stethoscope } from "lucide-react";
 import { useMemo, useState } from "react";
 
