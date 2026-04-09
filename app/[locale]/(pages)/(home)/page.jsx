@@ -7,6 +7,7 @@ import CourseByCity from "./CourseByCity"
 import Customers from "./Customers"
 import CoursesBySpecial from "./CoursesBySpecial"
 import LastestPublication from "./LastestPublication"
+import TeamWork from "./TeamWork"
 const Home = () =>{
     return (
         <div className={styles.home}>
@@ -18,6 +19,7 @@ const Home = () =>{
              <WhatIs />
              <CourseByCity />
              <LastestPublication />
+             <TeamWork />
              <Customers />
            </div>
         </div>
