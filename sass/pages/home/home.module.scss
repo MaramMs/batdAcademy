@@ -1,6 +1,7 @@
 .home {
   display: flex;
   flex-direction: column;
+  position: relative;
   // gap: clamp(80px, 12vw, 167px); 
   background-color: $home_color;
   .mainContent {

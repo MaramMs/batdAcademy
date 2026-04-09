@@ -8,10 +8,12 @@ import Customers from "./Customers"
 import CoursesBySpecial from "./CoursesBySpecial"
 import LastestPublication from "./LastestPublication"
 import TeamWork from "./TeamWork"
+import ChatAi from "./ChatAi"
 const Home = () =>{
     return (
         <div className={styles.home}>
             <Hero />
+            <ChatAi />
            <div className={styles.mainContent}>
              <UpcomingCourses />
              <CoursesBySpecial />
