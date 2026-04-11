@@ -8,11 +8,8 @@
   box-shadow: 0px 2px 4px -2px #0000001A;
   box-shadow: 0px 4px 6px -1px #0000001A;
   transition: all 0.3s ease;
-
-  @media (max-width: $tablet) {
-    .card {
-      margin-bottom: 10px;
-    }
+   &:hover {
+    transform: translateY(-1.5px);
   }
 
   .imageWrapper {
@@ -56,10 +53,7 @@
     border-radius: 31285300px;
   }
 
-  &:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-  }
+ 
 
   .content {
     display: flex;

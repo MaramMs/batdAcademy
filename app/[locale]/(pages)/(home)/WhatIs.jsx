@@ -8,28 +8,28 @@ import Link from "next/link"
 const items = [
     {
         img: '/asstes/icons/computer.svg',
-        title: '100% Online Learning',
-        desc: 'Learn at your own pace with flexible online courses and programs designed to fit your schedule and career goals.'
+        title: 'Courses with discount',
+        desc: 'We provide the latest international courses at suitable prices.'
     },
     {
         img: '/asstes/icons/game-development.svg',
-        title: '100% Online Learning',
-        desc: 'Learn at your own pace with flexible online courses and programs designed to fit your schedule and career goals.'
+        title: 'Approvide Courses',
+        desc: 'Our courses offer participants many services and features.'
     },
     {
         img: '/asstes/icons/promotion.svg',
-        title: '100% Online Learning',
-        desc: 'Learn at your own pace with flexible online courses and programs designed to fit your schedule and career goals.'
+        title: 'Featured Courses',
+        desc: 'Constantly updated course lists to meet labor market needs.'
     },
     {
         img: '/asstes/icons/ux-interface.svg',
-        title: '100% Online Learning',
-        desc: 'Learn at your own pace with flexible online courses and programs designed to fit your schedule and career goals.'
+        title: 'Courses by specialization',
+        desc: 'More than 20 specializations in many fields'
     },
     {
         img: '/asstes/icons/computer.svg',
-        title: '100% Online Learning',
-        desc: 'Learn at your own pace with flexible online courses and programs designed to fit your schedule and career goals.'
+        title: 'Courses by city',
+        desc: ' Our favorite cities with attractive attractions'
     },
 ]
 const WhatIs = () => {

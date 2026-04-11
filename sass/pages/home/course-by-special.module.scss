@@ -79,3 +79,18 @@
     }
 
 }
+
+.specialTabs{
+    display: flex;
+    flex-direction: column;
+    width: 198px;
+    height: 100px;
+    padding: 0px;
+    gap: 0px;
+    justify-content: start;
+    align-items: center;
+    @media (max-width: 768px) {
+        width: 100%;
+        height: auto;
+    }
+}

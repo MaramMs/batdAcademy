@@ -69,6 +69,10 @@ const Customers = () => {
                     slidesPerView={6}
                     spaceBetween={20}
                     showViewAll={false}
+                    autoplay={{
+                        delay: 1500,
+                        disableOnInteraction: false,
+                    }}
                 />
             </div>
         </section>

@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import styles from '@/sass/pages/home/hero.module.scss';
-import hero from "@/public/asstes/heroImage.png"
+import hero from "@/public/asstes/heroImage.jpg"
 import { Building2, Search, Users } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import stylesConteiner from '@/sass/components/common/container.module.scss'
@@ -77,9 +77,9 @@ export default function Hero() {
                         src={hero}
                         alt={t('searchPlaceholder')} // Or use a separate alt key
                         className={styles.heroImage}
-                        width={584}
-                        height={662}
-                        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                        // width={584}
+                        // height={662}
+                        // style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                     />
                 </div>
               </div>

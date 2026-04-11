@@ -1,6 +1,6 @@
 'use client'
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation } from "swiper/modules";
+import { Navigation ,Autoplay} from "swiper/modules";
 import "swiper/css";
 import styles from '@/sass/components/common/generic-slider.module.scss'
 import Link from "next/link";
@@ -14,7 +14,8 @@ export default function GenericSlider({
     showViewAll = false,
     viewAllLink = "/courses",
     breakpoints,
-    navId
+    navId,
+    autoplay
 }) {
     const prevSel = `[data-prev="${navId}"]`;
     const nextSel = `[data-next="${navId}"]`;
@@ -37,12 +38,12 @@ export default function GenericSlider({
             </button>
 
             <Swiper
-                modules={[Navigation]}
+                modules={[Navigation,Autoplay]}
                navigation={{
                     prevEl: prevSel,
                     nextEl: nextSel,
                 }}
-            
+              autoplay={autoplay}
                 spaceBetween={spaceBetween}
                 slidesPerView={slidesPerView}
                 breakpoints={breakpoints ?? defaultBreakpoints}
