@@ -58,7 +58,7 @@ const ALL_COURSES = [
  */
 const StatItem = ({ icon: Icon, value, label }) => (
   <div className={styles['request-courses__stat-card']}>
-    <Icon color='#1E2749' size={34} />
+    <Icon color='#1E2749' className={styles['request-courses__stat-icon']} />
     <span>{value}</span>
     <p>{label}</p>
   </div>

@@ -21,8 +21,8 @@ export default function GenericSlider({
 
 
     const defaultBreakpoints = {
-        320: { slidesPerView: 1.5 },
-        640: { slidesPerView: 2 },
+        320: { slidesPerView: 1.4 },
+        640: { slidesPerView: 1.8 },
         1024: { slidesPerView: slidesPerView },
     };
 

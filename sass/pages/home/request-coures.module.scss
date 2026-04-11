@@ -14,17 +14,24 @@
     }
   }
 
-  // --- LEFT SECTION ---
   &__left {
     display: flex;
     flex-direction: column;
     gap: clamp(1.5rem, 3vw, 2.5rem);
+    @media (max-width: $tablet) {
+       order: 2;
+    }
   }
 
   &__stats {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
     gap: 1rem;
+
+    @media (max-width: $tablet) {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 9px;
+    }
   }
 
   &__stat-card {
@@ -33,18 +40,37 @@
     text-align: center;
     @include hover-lift;
 
+    &__stat-icon {
+      color: #1E2749;
+      width: 34px;
+      height: 34px;
+
+      @media (max-width: $tablet) {
+        width: 19px;
+        height: 19px;
+      }
+    }
+
     span {
       display: block;
       margin-top: 0.75rem;
       font-size: 1.25rem;
       font-weight: 600;
       color: $blue-800;
+
+      @media (max-width: $tablet) {
+        font-size: 14px;
+      }
     }
 
     p {
       font-size: 0.85rem;
       color: $gray-600;
       margin: 0;
+
+      @media (max-width: $tablet) {
+        font-size: 10px;
+      }
     }
   }
 
@@ -95,6 +121,9 @@
     background: $white;
     border-radius: $radius-2xl;
     box-shadow: $shadow-lg;
+     @media (max-width: $tablet) {
+       order: 1;
+     }
   }
 
   &__header {
@@ -182,6 +211,7 @@
 
     &--error {
       border-color: $error !important;
+
       &:focus-within {
         @include input-focus-ring($error);
       }
@@ -190,7 +220,7 @@
 
   &__input-icon {
     position: absolute;
-    inset-inline-start: 12px; 
+    inset-inline-start: 12px;
     pointer-events: none;
     color: $gray-400;
   }
@@ -198,7 +228,7 @@
   &__input {
     width: 100%;
     padding: 0.75rem 0.75rem 0.75rem 2.5rem;
-    padding-inline-start: 2.5rem; 
+    padding-inline-start: 2.5rem;
     border: none;
     background: transparent;
     font-size: 0.95rem;
@@ -218,7 +248,7 @@
   &__select {
     appearance: none;
     cursor: pointer;
-    padding-inline-end: 2.5rem; 
+    padding-inline-end: 2.5rem;
 
     &.placeholder {
       color: $gray-400;
@@ -227,7 +257,7 @@
 
   &__select-arrow {
     position: absolute;
-    inset-inline-end: 12px; 
+    inset-inline-end: 12px;
     pointer-events: none;
     color: $gray-400;
   }
@@ -235,7 +265,7 @@
   &__error {
     font-size: 0.8rem;
     color: $error;
-    padding-inline-start: 2px; 
+    padding-inline-start: 2px;
   }
 
   &__submit {

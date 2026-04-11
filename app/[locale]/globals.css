@@ -32,3 +32,10 @@ a {
 .swiper-button-next {
   display: none !important;
 }
+
+@media (max-width: 768px) {
+  .swiper-slide {
+    margin-bottom: 8px;
+    margin-right: 10px !important;
+  }
+}

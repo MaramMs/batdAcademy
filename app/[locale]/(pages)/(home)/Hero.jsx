@@ -3,6 +3,7 @@ import styles from '@/sass/pages/home/hero.module.scss';
 import hero from "@/public/asstes/heroImage.png"
 import { Building2, Search, Users } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+import stylesConteiner from '@/sass/components/common/container.module.scss'
 
 export default function Hero() {
     const t = useTranslations('Hero');
@@ -24,8 +25,9 @@ export default function Hero() {
 
     return (
         <section className={styles.hero}>
-            <div className={styles.container}>
-                {/* ── LEFT ── */}
+            <div className={stylesConteiner.container}>
+              <div className={styles.content}>
+                  {/* ── LEFT ── */}
                 <div className={styles.left}>
                     <h1 className={styles.title}>
                         {t.rich('title', {
@@ -80,7 +82,8 @@ export default function Hero() {
                         style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                     />
                 </div>
+              </div>
             </div>
         </section>
     );
-}
+}

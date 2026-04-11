@@ -1,0 +1,180 @@
+// sass/components/ui/session-picker-modal.module.scss
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  padding: 16px;
+}
+
+.modal {
+  background: #fff;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 480px;
+  overflow: hidden;
+}
+
+// ── Header ──────────────────────────────────────────
+.header {
+  background: linear-gradient(135deg, #2c3e8c, #3b5bdb);
+  padding: 20px 20px 20px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.headerLeft {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.headerIcon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  flex-shrink: 0;
+}
+
+.title {
+  font-size: 17px;
+  font-weight: 600;
+  color: #fff;
+  margin: 0 0 2px;
+}
+
+.subtitle {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.75);
+  margin: 0;
+}
+
+.closeBtn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255, 255, 255, 0.15);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  flex-shrink: 0;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.25);
+  }
+}
+
+// ── Body ─────────────────────────────────────────────
+.body {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: #f5f6fa;
+}
+
+// ── Session Row ───────────────────────────────────────
+.sessionRow {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 16px;
+  border-radius: 12px;
+  background: #fff;
+  border: 1.5px solid #e8eaf0;
+  transition: border-color 0.2s ease;
+
+  &:hover {
+    border-color: #bcc0d0;
+  }
+
+  &.featured {
+    background: #b83232;
+    border-color: #b83232;
+
+    .sessionIcon {
+      background: rgba(255, 255, 255, 0.15);
+      color: #fff;
+    }
+
+    .sessionDate  { color: #fff; }
+    .sessionLabel { color: rgba(255, 255, 255, 0.8); }
+
+    .selectBtn {
+      background: rgba(255, 255, 255, 0.15);
+      color: #fff;
+      border-color: rgba(255, 255, 255, 0.3);
+
+      &:hover {
+        background: rgba(255, 255, 255, 0.25);
+      }
+    }
+  }
+}
+
+.sessionIcon {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background: #eef0f8;
+  color: #3b5bdb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.sessionInfo {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.sessionDate {
+  font-size: 15px;
+  font-weight: 600;
+  color: #1a1d2e;
+}
+
+.sessionLabel {
+  font-size: 12px;
+  color: #7a7f99;
+}
+
+.selectBtn {
+  padding: 8px 18px;
+  border-radius: 8px;
+  border: 1.5px solid #3b5bdb;
+  background: #3b5bdb;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 0.2s ease, opacity 0.2s ease;
+
+  &:hover {
+    background: #2c4cc4;
+    border-color: #2c4cc4;
+  }
+
+  &:active {
+    opacity: 0.85;
+    transform: scale(0.97);
+  }
+}

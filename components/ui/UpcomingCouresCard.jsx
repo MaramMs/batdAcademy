@@ -1,8 +1,16 @@
+'use client';
 import styles from "@/sass/components/ui/Upcoming-Coures-Card.module.scss";
 import { Calendar, Clock, MapPin, Star } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { useState } from "react";
+import DatePopUp from "./DatePopUp";
 const UpcomingCouresCard = ({course}) => {
+    const [isOpen, setIsOpen] = useState(false);
+     const handleSelect = (session) => {
+    console.log('Selected session:', session);
+    // your enroll / booking logic here
+  };
     return (
         <div className={styles.card}>
             <div className={styles.imageWrapper}>
@@ -53,9 +61,16 @@ const UpcomingCouresCard = ({course}) => {
                 </div>
                 <div className={styles.more}>
                     <Calendar />
-                    <span className={styles.moreDates}>
+
+                    <span className={styles.moreDates} onClick={() => setIsOpen(true)}>
                         +2 more dates available
                     </span>
+                       <DatePopUp
+        isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
+        onSelect={handleSelect}
+        courseName={course.title}
+      />
                 </div>
                 <div className={styles.btns}>
                    <Link href="/register" className={styles.btnRegister}>Register </Link>

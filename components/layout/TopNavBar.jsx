@@ -1,25 +1,14 @@
 'use client';
-
 import { useEffect, useRef, useState } from 'react';
 import { Headphones, Phone, ChevronDown, Globe } from 'lucide-react';
 import styles from '@/sass/components/layout/top-navbar.module.scss';
-import { useLocale, useTranslations } from 'next-intl';
-import { useRouter, usePathname } from '@/i18n/routing';
-
-const LANGUAGES = [
-  { code: 'ar', label: 'العربية', dir: 'rtl' },
-  { code: 'en', label: 'English',  dir: 'ltr' },
-];
-
+import { useTranslations } from 'next-intl';
+import { useLanguageSwitcher } from '@/hooks/useLanguageSwitcher';
 const TopNavBar = () => {
   const t = useTranslations('TopBar');
-  const locale = useLocale();
-  const router = useRouter();
-  const pathname = usePathname();
-  
   const [isOpen, setIsOpen] = useState(false);
-  const selectedLang = LANGUAGES.find(l => l.code === locale) || LANGUAGES[1];
   const dropdownRef = useRef(null);
+   const { selectedLang, languages, switchTo } = useLanguageSwitcher();
 
   useEffect(() => {
     const handleOutsideClick = (e) => {
@@ -33,8 +22,7 @@ const TopNavBar = () => {
 
   const handleLangSelect = (lang) => {
     setIsOpen(false);
-    // Switch locale while keeping the current path
-    router.replace(pathname, { locale: lang.code });
+   switchTo(lang.code);
   };
 
   return (
@@ -76,7 +64,7 @@ const TopNavBar = () => {
 
             {isOpen && (
               <ul className={styles.dropdownMenu} role="listbox">
-                {LANGUAGES.map((lang) => (
+                {languages.map((lang) => (
                   <li
                     key={lang.code}
                     role="option"
@@ -99,4 +87,4 @@ const TopNavBar = () => {
   );
 };
 
-export default TopNavBar;
+export default TopNavBar;

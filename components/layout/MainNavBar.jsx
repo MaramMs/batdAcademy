@@ -1,15 +1,18 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import { Link } from '@/i18n/routing'; // Use localized Link
+import { Link } from '@/i18n/routing';
 import Image from 'next/image';
 import logo from '@/public/asstes/logo.png';
 import { ChevronDown, Menu, X, Search } from 'lucide-react';
 import styles from '@/sass/components/layout/main-navbar.module.scss';
 import { useTranslations } from 'next-intl';
+import { useLanguageSwitcher } from '@/hooks/useLanguageSwitcher';
 
 const MainNavBar = () => {
   const t = useTranslations('Navbar');
+  const { oppositeLang, toggle } = useLanguageSwitcher();
+
   const [trainingOpen, setTrainingOpen] = useState(false);
   const [mobileOpen, setMobileOpen]     = useState(false);
   const dropdownRef = useRef(null);
@@ -35,7 +38,6 @@ const MainNavBar = () => {
     <header className={styles.mainNavBar}>
       <div className={styles.inner}>
 
-        {/* Logo */}
         <Link href="/" className={styles.logo}>
           <Image
             src={logo}
@@ -47,13 +49,11 @@ const MainNavBar = () => {
           />
         </Link>
 
-        {/* Desktop Nav */}
         <nav className={styles.nav} aria-label="Main navigation">
           <Link href="/" className={`${styles.navLink} ${styles.active}`}>
             {t('home')}
           </Link>
 
-          {/* Training Programs dropdown */}
           <div className={styles.dropdown} ref={dropdownRef}>
             <button
               className={styles.navLink}
@@ -91,17 +91,26 @@ const MainNavBar = () => {
           <Link href="/contact"     className={styles.navLink}>{t('contactUs')}</Link>
         </nav>
 
-        {/* Auth Buttons */}
         <div className={styles.actions}>
           <Link href="/login"    className={styles.btnSignIn}>{t('signIn')}</Link>
           <Link href="/register" className={styles.btnSignUp}>{t('signUp')}</Link>
         </div>
 
-        {/* Mobile Search & Hamburger */}
+        {/* Mobile Search, Lang Toggle & Hamburger */}
         <div className={styles.mobileActions_top}>
           <button className={styles.searchIconMobile} aria-label="Search">
             <Search size={22} />
           </button>
+
+          {/* ✅ Mobile lang toggle — uses shared hook, different UI */}
+          <button
+            className={styles.langToggleMobile}
+            onClick={toggle}
+            aria-label={`Switch to ${oppositeLang.label}`}
+          >
+            {oppositeLang.code.toUpperCase()}
+          </button>
+
           <button
             className={styles.hamburger}
             onClick={() => setMobileOpen((prev) => !prev)}
@@ -113,17 +122,16 @@ const MainNavBar = () => {
         </div>
       </div>
 
-      {/* Mobile Menu */}
       {mobileOpen && (
         <div className={styles.mobileMenu}>
-          <Link href="/"            className={styles.mobileLink} onClick={() => setMobileOpen(false)}>{t('home')}</Link>
-          <Link href="/programs"    className={styles.mobileLink} onClick={() => setMobileOpen(false)}>{t('trainingPrograms')}</Link>
-          <Link href="/consulting"  className={styles.mobileLink} onClick={() => setMobileOpen(false)}>{t('consulting')}</Link>
-          <Link href="/about"       className={styles.mobileLink} onClick={() => setMobileOpen(false)}>{t('aboutUs')}</Link>
-          <Link href="/contact"     className={styles.mobileLink} onClick={() => setMobileOpen(false)}>{t('contactUs')}</Link>
+          <Link href="/"           className={styles.mobileLink} onClick={() => setMobileOpen(false)}>{t('home')}</Link>
+          <Link href="/programs"   className={styles.mobileLink} onClick={() => setMobileOpen(false)}>{t('trainingPrograms')}</Link>
+          <Link href="/consulting" className={styles.mobileLink} onClick={() => setMobileOpen(false)}>{t('consulting')}</Link>
+          <Link href="/about"      className={styles.mobileLink} onClick={() => setMobileOpen(false)}>{t('aboutUs')}</Link>
+          <Link href="/contact"    className={styles.mobileLink} onClick={() => setMobileOpen(false)}>{t('contactUs')}</Link>
           <div className={styles.mobileActions}>
-            <Link href="/login"    className={styles.btnSignIn}  onClick={() => setMobileOpen(false)}>{t('signIn')}</Link>
-            <Link href="/register" className={styles.btnSignUp}  onClick={() => setMobileOpen(false)}>{t('signUp')}</Link>
+            <Link href="/login"    className={styles.btnSignIn} onClick={() => setMobileOpen(false)}>{t('signIn')}</Link>
+            <Link href="/register" className={styles.btnSignUp} onClick={() => setMobileOpen(false)}>{t('signUp')}</Link>
           </div>
         </div>
       )}
@@ -131,4 +139,4 @@ const MainNavBar = () => {
   );
 };
 
-export default MainNavBar;
+export default MainNavBar;
