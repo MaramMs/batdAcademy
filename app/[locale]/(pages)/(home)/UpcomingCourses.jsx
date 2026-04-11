@@ -14,7 +14,24 @@ const UpcomingCourses = () => {
                     navId="courses"
                     items={upcomingCourses}
                     renderSlide={(course) => <UpcomingCouresCard course={course} />}
-                    slidesPerView={4}
+                      breakpoints={{
+                        320: {
+                            slidesPerView: 1,
+                        },
+                        640: {
+                            slidesPerView: 1,
+                        },
+                        768: {
+                            slidesPerView: 2,
+                        },
+                        1024: {
+                            slidesPerView: 4,
+                        },
+                    }}  
+                    // autoplay={{
+                    //     delay: 2500,
+                    //     disableOnInteraction: false,
+                    // }}
                     spaceBetween={25}
                     showViewAll={true}
                     viewAllLink="/courses"

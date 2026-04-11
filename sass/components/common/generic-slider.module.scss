@@ -1,10 +1,12 @@
 .genericSlider {
   position: relative;
+
   @media (max-width: $tablet) {
     padding-bottom: 80px;
 
   }
 }
+
 %arrow-base {
   position: absolute;
   top: 50%;
@@ -20,6 +22,7 @@
   cursor: pointer;
   color: $white;
   transition: $transition-base;
+
   &:global(.swiper-button-disabled) {
     opacity: 0.3;
     cursor: not-allowed;
@@ -30,6 +33,7 @@
 .sliderPrev {
   @extend %arrow-base;
   left: -38px;
+
   @media (max-width: $tablet) {
     top: auto;
     bottom: 0;
@@ -42,6 +46,7 @@
 .sliderNext {
   @extend %arrow-base;
   right: -38px;
+
   @media (max-width: $tablet) {
     top: auto;
     bottom: 0;
@@ -50,7 +55,6 @@
     display: none;
   }
 }
-
 
 .viewAll {
   width: 287px;
@@ -61,6 +65,12 @@
   padding: 4px 30px;
   @include flex-center;
   margin: 60px auto 0 auto;
+  transition:
+    background-color 0.35s ease,
+    color 0.35s ease,
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+
   @media (max-width: $tablet) {
     display: none;
   }
@@ -72,5 +82,16 @@
     display: flex;
     align-items: center;
     gap: 10px;
+
+    transition: color 0.35s ease;
+  }
+
+  &:hover {
+    background-color: $blue-900;
+    box-shadow: 0 8px 20px rgba(30, 39, 73, 0.2);
+
+    a {
+      color: $white;
+    }
   }
 }
