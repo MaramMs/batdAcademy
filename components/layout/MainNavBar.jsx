@@ -87,7 +87,7 @@ const MainNavBar = () => {
           </div>
 
           <Link href="/consulting"  className={styles.navLink}>{t('consulting')}</Link>
-          <Link href="/about"       className={styles.navLink}>{t('aboutUs')}</Link>
+          <Link href="/blog"       className={styles.navLink}>{t('blog')}</Link>
           <Link href="/contact"     className={styles.navLink}>{t('contactUs')}</Link>
         </nav>
 

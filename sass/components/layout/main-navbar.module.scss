@@ -58,10 +58,7 @@
     border: none;
     cursor: pointer;
     white-space: nowrap;
-    transition: background 0.15s, color 0.15s;
-
     &:hover {
-        background: $gray-100;
         color: $blue-900;
     }
 
@@ -202,13 +199,11 @@
             text-transform: uppercase;
             cursor: pointer;
 
-            // Hide the arrow and globe icon for a clean inline button
             svg {
                 display: none;
             }
         }
 
-        // Hide the dropdown menu completely on mobile/tablet
         .dropdownMenu {
             display: none !important;
         }
