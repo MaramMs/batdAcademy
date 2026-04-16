@@ -29,6 +29,7 @@ const articles = [
             linkedin: "https://linkedin.com/johndoe",
             instagram: "https://instagram.com/johndoe",
         },
+        slug: "institutional-partnerships-in-resource-protection"
     }
     ,
     {

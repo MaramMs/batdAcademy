@@ -1,8 +1,8 @@
-import LatestArticlesCard from "../LatestArticlesCard";
-import Link from "next/link";
-import { ArrowRight } from "lucide-react";
 import style from "@/sass/pages/blog/blog-details.module.scss";
+import { ArrowRight } from "lucide-react";
+import Link from "next/link";
 import Reactions from "./Reactions";
+import LatestArticlesCard from "../../blog/LatestArticlesCard";
 const articles = [
     {
         id: 1,
@@ -83,13 +83,13 @@ const articles = [
             instagram: "https://instagram.com/johndoe",
         },
     },
-  
-   
+
+
 ]
 const MainContent = () => {
     return (
         <div className={style.mainContent}>
-               <Reactions />
+            <Reactions />
             <div className={style.content}>
                 Swift UI represents a paradigm shift in how we build user interfaces for Apple platforms. Introduced at WWDC 2019, this declarative framework has transformed the iOS development landscape,
                 offering developers a more intuitive and efficient way to create stunning applications.
@@ -102,14 +102,14 @@ const MainContent = () => {
                             <LatestArticlesCard key={article.id} article={article} />
                         ))
                     }
-                    
-                  
+
+
 
                 </div>
 
-                  <Link href="/blog" className={style.viewMore}>
-                        View More <ArrowRight />
-                    </Link>
+                <Link href="/blog" className={style.viewMore}>
+                    View More <ArrowRight />
+                </Link>
 
             </div>
         </div>

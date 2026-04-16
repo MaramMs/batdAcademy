@@ -1,6 +1,7 @@
 import Image from "next/image";
 import styles from "@/sass/pages/blog/lastest-articles-card.module.scss";
 import { ArrowRight, Clock, Eye, Heart, Star} from "lucide-react";
+import Link from "next/link";
 const LatestArticlesCard = ({article , view}) => {
     return (
         <div className={`${styles.card} ${styles[view]}`}>
@@ -34,10 +35,10 @@ const LatestArticlesCard = ({article , view}) => {
                             </div>
                         </div>
 
-                <button className={styles.readMore}>
+                <Link className={styles.readMore} href={`/en/post/${article.slug}`}>
                     Read More
                     <ArrowRight size={14} color="#fff" />
-                </button>
+                </Link>
             </div>
             
             
