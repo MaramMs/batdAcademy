@@ -7,9 +7,10 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "production":"next build --webpack && next start"
+    "production": "next build --webpack && next start"
   },
   "dependencies": {
+    "@radix-ui/react-collapsible": "^1.1.12",
     "lucide-react": "^1.7.0",
     "next": "16.2.2",
     "next-intl": "^4.9.0",

@@ -16,22 +16,26 @@ export const metadata = {
   description: "British Academy for Training & Development website",
 };
 
+export const viewport = {
+  width: 'device-width',
+  initialScale: 1,
+};
+
 export default async function RootLayout({ children, params }) {
   const { locale } = await params;
   
-  // Ensure that the incoming `locale` is valid
   if (!routing.locales.includes(locale)) {
     notFound();
   }
 
-  // Providing all messages to the client
-  // side is the easiest way to get started
+
   const messages = await getMessages();
 
   const bodyClassName = locale === 'ar' ? cairo.className : poppins.className;
 
   return (
      <html lang={locale} dir={locale === 'ar' ? 'rtl' : 'ltr'}>
+   
       <body className={bodyClassName}>
         <NextIntlClientProvider messages={messages}>
           <TopNavBar />
