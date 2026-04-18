@@ -79,7 +79,27 @@ const CourseByCity = () => {
                     navId="citys"
                     items={couresByCitiesItem}
                     renderSlide={(city) => <CouresByCities city={city} />}
-                    slidesPerView={6}
+                    breakpoints={{
+                        768: {
+                            slidesPerView: 2,
+                        },
+                        1024: {
+                            slidesPerView: 3,
+                        },
+                        1280: {
+                            slidesPerView: 4,
+                        },
+                        1536: {
+                            slidesPerView: 5,
+                        },
+                        1792: {
+                            slidesPerView: 6,
+                        },
+                    }}
+                     autoplay={{
+                        delay: 2000,
+                        disableOnInteraction: false,
+                    }}
                     spaceBetween={20}
                     showViewAll={false}
                 />

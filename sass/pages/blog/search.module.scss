@@ -7,7 +7,10 @@
         justify-content: space-between;
         gap: 16px;
         .searchContent__left{
-            width: 883px;
+            width: 750px;
+            @media (min-width:1920px){
+                width: 883px;
+            }
             height: 48px;
             display: flex;
             align-items: center;

@@ -66,12 +66,29 @@ const Customers = () => {
                     navId="customers"
                     items={customersItem}
                     renderSlide={(city) => <Customer city={city} />}
-                    slidesPerView={6}
                     spaceBetween={20}
                     showViewAll={false}
                     autoplay={{
-                        delay: 1500,
+                        delay: 2000,
                         disableOnInteraction: false,
+                    }}
+                    hidden={true}
+                      breakpoints={{
+                        768: {
+                            slidesPerView: 2,
+                        },
+                        1024: {
+                            slidesPerView: 3,
+                        },
+                        1280: {
+                            slidesPerView: 4,
+                        },
+                        1536: {
+                            slidesPerView: 5,
+                        },
+                        1792: {
+                            slidesPerView: 6,
+                        },
                     }}
                 />
             </div>

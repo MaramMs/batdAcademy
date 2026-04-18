@@ -19,39 +19,21 @@ const UpcomingCourses = () => {
                     pauseAutoplay={isModalOpen}
                     items={upcomingCourses}
                     centeredSlides={true}
-                    renderSlide={(course, index) => <UpcomingCouresCard course={course}
-                        slideIndex={index}
-                        swiperRef={swiperRef}
-                        onModalOpen={() => setIsModalOpen(true)}
-                        onModalClose={() => setIsModalOpen(false)} />}
-                    breakpoints={{
-                        320: {
-                            slidesPerView: 1,
-                        },
-                        640: {
-                            slidesPerView: 1,
-                        },
-                        768: {
-                            slidesPerView: 2,
-                        },
-                        1024: {
-                            slidesPerView: 3,
-                        },
-                        1200: {
-                            slidesPerView: 3,
-                        },
-                        1400: {
-                            slidesPerView: 3,
-                        },
-                        1600: {
-                            slidesPerView: 4,
-                        },
-                    }}
-                    autoplay={{
-                        delay: 2000,
-                        disableOnInteraction: false,
-                    }}
-                    spaceBetween={25}
+                    renderSlide={(course, index) => (
+                        <div style={{ display: 'flex', justifyContent: 'center' }}>
+                            <div style={{ maxWidth: '400px', width: '100%' }}>
+                                <UpcomingCouresCard course={course}
+                                    slideIndex={index}
+                                    swiperRef={swiperRef}
+                                    onModalOpen={() => setIsModalOpen(true)}
+                                    onModalClose={() => setIsModalOpen(false)} />
+                            </div>
+                        </div>
+                    )}
+                    slidesPerView={1}
+                    autoplay={false}
+                    pauseOnMouseEnter={true}
+                    spaceBetween={5}
                     showViewAll={true}
                     viewAllLink="/courses"
                 />

@@ -2,7 +2,7 @@
   position: relative;
 
   @media (max-width: $tablet) {
-    padding-bottom:0px;
+    padding-bottom:80px;
 
   }
 }
@@ -39,7 +39,7 @@
     bottom: 0;
     left: calc(50% - 55px);
     transform: none;
-    display: none;
+    // display: none;
   }
 }
 
@@ -52,7 +52,7 @@
     bottom: 0;
     right: calc(50% - 55px);
     transform: none;
-    display: none;
+    // display: none;
   }
 }
 
