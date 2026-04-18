@@ -8,7 +8,8 @@
     flex-direction: row;
     gap: clamp(40px, 8vw, 145px);
     align-items: flex-start;
-    padding-top: clamp(40px, 8vw, 60px);
+    padding-top: 60px;
+
 
     @media (max-width: $small-desktop) {
         gap: clamp(24px, 5vw, 60px);
@@ -17,6 +18,7 @@
     @media (max-width: $tablet) {
         flex-direction: column;
         gap: clamp(60px, 12vw, 100px);
+        padding-top: 0px;
     }
 }
 
@@ -69,15 +71,23 @@
 
                 span {
                     color: $gray-600;
-                    font-size: clamp(14px, 1.5vw, 17.37px);
+                    font-size: 14px;
                     font-weight: 400;
+
+                    @media (min-width:1920px) {
+                        font-size: 17.37px;
+                    }
                 }
 
                 p {
                     color: $blue-900;
-                    font-size: clamp(16px, 1.8vw, 19.95px);
+                    font-size: 16px;
                     font-weight: 600;
                     margin: 0;
+
+                    @media (min-width:1920px) {
+                        font-size: 19.95px;
+                    }
                 }
             }
 
@@ -99,6 +109,12 @@
                     color: $white;
                 }
 
+                @media (min-width:1920px) {
+                    height: 48px;
+                    padding-inline: 30px;
+                    font-size: 16px;
+                }
+
                 @media (max-width: $mobile) {
                     height: 40px;
                     padding-inline: 16px;
@@ -111,11 +127,14 @@
     &>p {
         text-align: center;
         color: $gray-700;
-        font-size: clamp(18px, 2vw, 22px);
+        font-size: 18px;
         font-weight: 500;
         line-height: 1.6;
         margin-inline: auto;
-        // max-width: 600px;
+
+        @media (min-width:1920px) {
+            font-size: 22px;
+        }
 
         @media (max-width: $tablet) {
             font-size: 18px;
@@ -132,19 +151,28 @@
     width: 100%;
 
     .item {
-        @include flex-center(row, clamp(20px, 4vw, 40px));
-        @include card-base($white, $shadow-sm, $radius-lg, clamp(12px, 3vw, 15px) clamp(16px, 4vw, 40.22px));
+        @include flex-center(row);
+        gap: 20px;
+        @include card-base($white, $shadow-sm, $radius-lg);
+        padding: 10px 20px;
+
+        @media (min-width:1920px) {
+            padding: 15px 40px;
+            gap: 40px;
+        }
+
         border: 1px solid transparent;
         transition: all 0.3s ease-in-out;
-&:hover{
-  transform: scale(1.005);
-  transform: translateX(-10px);
-}
+
+        &:hover {
+            transform: scale(1.005);
+            transform: translateX(-10px);
+        }
 
         &:hover:nth-child(1) {
             background-color: #FCF7FF;
             box-shadow: 0px 1.22px 4.89px 0px #0000001A;
-          
+
 
 
         }
@@ -184,9 +212,13 @@
         }
 
         img {
-            width: clamp(50px, 6vw, 68px);
+            width: 50px;
             height: auto;
             flex-shrink: 0;
+
+            @media (min-width:1920px) {
+                width: 68px;
+            }
         }
 
         .itemContent {
@@ -197,21 +229,33 @@
             .itemContentText {
                 display: flex;
                 flex-direction: column;
-                gap: clamp(8px, 1.5vw, 16px);
+                gap: 10px;
+
+                @media (min-width:1920px) {
+                    gap: 16px;
+                }
 
                 h3 {
                     color: $gray-700;
-                    font-size: clamp(18px, 2vw, 20px);
+                    font-size: 18px;
                     font-weight: 600;
                     margin: 0;
+
+                    @media (min-width:1920px) {
+                        font-size: 20px;
+                    }
                 }
 
                 p {
                     color: $gray-600;
-                    font-size: clamp(14px, 1.5vw, 16px);
+                    font-size: 14px;
                     font-weight: 400;
                     line-height: 1.6;
                     margin: 0;
+
+                    @media (min-width:1920px) {
+                        font-size: 16px;
+                    }
                 }
             }
 

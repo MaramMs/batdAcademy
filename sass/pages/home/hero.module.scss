@@ -2,21 +2,21 @@
     overflow: hidden;
     width: 100%;
     background-color: #F8F9FB;
-     min-height: 100vh;
+   
 }
 .content {
     display: flex;
     flex-direction: row;
     align-items: center;
-    min-height: 100vh;
-
-    @media (max-width: $small-desktop) {
-          padding-top: 50px;
+    padding: 100px 0px 21px 0px;
+    @media (min-width:1920px){
+        padding: 100px 0px 21px 0px;
     }
-
+  
 
     @media (max-width: $tablet) {
         flex-direction: column;
+        min-height: auto;
     }
 }
 

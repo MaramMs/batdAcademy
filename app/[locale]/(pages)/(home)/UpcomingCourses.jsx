@@ -26,10 +26,10 @@ const UpcomingCourses = () => {
                         onModalClose={() => setIsModalOpen(false)} />}
                     breakpoints={{
                         320: {
-                            slidesPerView: 1.1,
+                            slidesPerView: 1,
                         },
                         640: {
-                            slidesPerView: 1.1,
+                            slidesPerView: 1,
                         },
                         768: {
                             slidesPerView: 2,

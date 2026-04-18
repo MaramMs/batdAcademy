@@ -4,6 +4,9 @@
     flex-direction: column;
     gap: 24px;
     margin-bottom: 60px;
+    @media (max-width: $tablet) {
+        margin-bottom: 24.86px;
+    }
 
     h2 {
         font-size: 44px;
