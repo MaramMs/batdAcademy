@@ -63,11 +63,11 @@
     .blogContent {
         display: grid;
         grid-template-columns: 1fr 3fr;
-        gap: 67px;
+        gap: clamp(24px, 5vw, 67px);
         margin: 42px 0px 100px 0px;
         align-items: start;
 
-        @media (max-width: $tablet) {
+        @media (max-width: $small-desktop) {
             grid-template-columns: 1fr;
             margin: 16px 0px 100px 0px;
         }

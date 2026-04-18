@@ -25,13 +25,19 @@ const UpcomingCourses = () => {
                             slidesPerView: 2,
                         },
                         1024: {
+                            slidesPerView: 3,
+                        },
+                        1200: {
+                            slidesPerView: 3,
+                        },
+                        1400: {
+                            slidesPerView: 3,
+                        },
+                        1600: {
                             slidesPerView: 4,
                         },
                     }}  
-                    // autoplay={{
-                    //     delay: 2500,
-                    //     disableOnInteraction: false,
-                    // }}
+                 
                     spaceBetween={25}
                     showViewAll={true}
                     viewAllLink="/courses"

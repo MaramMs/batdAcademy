@@ -1,33 +1,22 @@
-// ─── Hero Wrapper ────────────────────────────────────────────────
 .hero {
     overflow: hidden;
     width: 100%;
     background-color: #F8F9FB;
+     min-height: 100vh;
 }
-
-// .container {
-//     display: flex;
-//     flex-direction: row;
-//     align-items: stretch;
-//     padding-inline-start: clamp(16px, 8vw, 101px);
-//     min-height: clamp(500px, 80vh, 700px);
-
-//     @media (max-width: $tablet) {
-//         flex-direction: column; 
-//         padding-inline-start: 0;
-//     }
-// }
-
 .content {
     display: flex;
     flex-direction: row;
-    align-items: stretch;
-    // padding-inline-start: clamp(16px, 8vw, 101px);
-    // min-height: clamp(500px, 80vh, 700px);
+    align-items: center;
+    min-height: 100vh;
+
+    @media (max-width: $small-desktop) {
+          padding-top: 50px;
+    }
+
 
     @media (max-width: $tablet) {
-        flex-direction: column; 
-        // padding-inline-start: 0;
+        flex-direction: column;
     }
 }
 
@@ -37,8 +26,8 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding-block: clamp(40px, 8vw, 80px);
-    padding-inline-end: clamp(16px, 4vw, 60px);
+    // padding-block: clamp(40px, 8vw, 80px);
+    // padding-inline-end: clamp(16px, 4vw, 60px);
 
     @media (max-width: $tablet) {
         padding: clamp(24px, 6vw, 48px) clamp(16px, 5vw, 32px);
@@ -49,12 +38,32 @@
     }
 
     @media (max-width: $mobile) {
-        .title { order: 1; }
-        .subtitle { order: 2; }
-        .searchBar { order: 3; }
-        .cta { order: 4; }
-        .stats { order: 5; }
+        .title {
+            order: 1;
+        }
+
+        .subtitle {
+            order: 2;
+        }
+
+        .searchBar {
+            order: 3;
+        }
+
+        .cta {
+            order: 4;
+        }
+
+        .stats {
+            order: 5;
+        }
     }
+
+    // @media (min-width: $small-desktop) {
+    //     // padding-block: 0px;
+    //     // margin: 40px 0px;
+        
+    // }
 
     .title {
         font-size: clamp(24px, 4vw, 29.77px);
@@ -125,6 +134,7 @@
         color: black;
         flex: 1;
         min-width: 0;
+
         &::placeholder {
             color: $gray-400;
         }
@@ -162,15 +172,17 @@
         @media (max-width: $mobile) {
             flex-direction: row !important;
             gap: 12px;
-            
-            .btnPrimary, .btnSecondary {
+
+            .btnPrimary,
+            .btnSecondary {
                 width: 50% !important;
                 flex: 1;
             }
         }
     }
 
-    .btnPrimary, .btnSecondary {
+    .btnPrimary,
+    .btnSecondary {
         width: clamp(160px, 30vw, 227px);
         height: 48px;
         font-weight: 500;
@@ -213,7 +225,7 @@
         gap: clamp(12px, 3vw, 39.69px);
         flex-wrap: nowrap;
         width: 100%;
-        
+
         @media (max-width: $tablet) {
             justify-content: center;
         }
@@ -267,6 +279,7 @@
             display: block;
             color: #101828;
         }
+
         span {
             color: $gray-600;
             font-size: clamp(12px, 1.4vw, 14px);

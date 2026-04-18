@@ -75,11 +75,9 @@ export default function Hero() {
                 <div className={styles.right}>
                     <Image
                         src={hero}
-                        alt={t('searchPlaceholder')} // Or use a separate alt key
+                        alt={t('searchPlaceholder')} 
                         className={styles.heroImage}
-                        // width={584}
-                        // height={662}
-                        // style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                    
                     />
                 </div>
               </div>

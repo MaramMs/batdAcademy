@@ -8,7 +8,8 @@
   box-shadow: 0px 2px 4px -2px #0000001A;
   box-shadow: 0px 4px 6px -1px #0000001A;
   transition: all 0.3s ease;
-   &:hover {
+
+  &:hover {
     transform: translateY(-1.5px);
   }
 
@@ -53,7 +54,7 @@
     border-radius: 31285300px;
   }
 
- 
+
 
   .content {
     display: flex;

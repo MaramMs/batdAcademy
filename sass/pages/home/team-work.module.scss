@@ -1,8 +1,12 @@
 .content {
-    display: flex;
-    gap: 15px;
-    justify-content: center;
+    // display: flex;
+    // gap: 15px;
+    // justify-content: center;
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(250,1fr));
+    gap:20px;
       @media (max-width: 768px) {
+        display: flex;
     overflow-x: auto;
     justify-content: flex-start;
     padding-bottom: 10px;
