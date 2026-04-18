@@ -5,6 +5,7 @@ import "swiper/css";
 import styles from '@/sass/components/common/generic-slider.module.scss'
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
+import { useEffect, useRef } from "react";
 
 export default function GenericSlider({
     items = [],
@@ -15,18 +16,29 @@ export default function GenericSlider({
     viewAllLink = "/courses",
     breakpoints,
     navId,
-    autoplay
+    centeredSlides,
+    pauseAutoplay, 
+    autoplay,
+    swiperRef: externalRef
 }) {
     const prevSel = `[data-prev="${navId}"]`;
     const nextSel = `[data-next="${navId}"]`;
-
+    const internalRef = useRef(null);
+const swiperRef = externalRef ?? internalRef;
 
     const defaultBreakpoints = {
         320: { slidesPerView: 1.4 },
         640: { slidesPerView: 1.8 },
         1024: { slidesPerView: slidesPerView },
     };
-
+     useEffect(() => {
+        if (!swiperRef.current) return;
+        if (pauseAutoplay) {
+            swiperRef.current.autoplay.stop();
+        } else {
+            swiperRef.current.autoplay.start();
+        }
+    }, [pauseAutoplay]);
     return (
         <div className={styles.genericSlider}>
 
@@ -38,11 +50,13 @@ export default function GenericSlider({
             </button>
 
             <Swiper
+             onSwiper={(swiper) => (swiperRef.current = swiper)}
                 modules={[Navigation,Autoplay]}
                navigation={{
                     prevEl: prevSel,
                     nextEl: nextSel,
                 }}
+                 centeredSlides={centeredSlides}
               autoplay={autoplay}
                 spaceBetween={spaceBetween}
                 slidesPerView={slidesPerView}
@@ -50,9 +64,10 @@ export default function GenericSlider({
             >
                 {items.map((item, index) => (
                     <SwiperSlide key={item.id ?? index}>
-                        {renderSlide(item)}
+                       {renderSlide(item, index)}
                     </SwiperSlide>
                 ))}
+               
             </Swiper>
 
             <button data-next={navId} className={styles.sliderNext}>

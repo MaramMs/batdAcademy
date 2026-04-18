@@ -1,16 +1,28 @@
 'use client';
-import styles from "@/sass/components/ui/Upcoming-Coures-Card.module.scss";
 import { Calendar, Clock, MapPin, Star } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import DatePopUp from "./DatePopUp";
-const UpcomingCouresCard = ({course}) => {
+import styles from "@/sass/components/ui/Upcoming-Coures-Card.module.scss";
+const UpcomingCouresCard = ({course, onModalOpen, onModalClose,slideIndex, swiperRef}) => {
     const [isOpen, setIsOpen] = useState(false);
-     const handleSelect = (session) => {
-    console.log('Selected session:', session);
-    // your enroll / booking logic here
-  };
+    const handleOpen = () => {
+          if (swiperRef?.current) {
+            swiperRef.current.slideTo(slideIndex);
+        }
+        setIsOpen(true);
+        onModalOpen?.(); 
+    };
+
+    const handleClose = () => {
+        setIsOpen(false);
+        onModalClose?.(); 
+    };
+
+    const handleSelect = (session) => {
+        console.log('Selected session:', session);
+    };
     return (
         <div className={styles.card}>
             <div className={styles.imageWrapper}>
@@ -62,12 +74,12 @@ const UpcomingCouresCard = ({course}) => {
                 <div className={styles.more}>
                     <Calendar />
 
-                    <span className={styles.moreDates} onClick={() => setIsOpen(true)}>
+                    <span className={styles.moreDates} onClick={handleOpen}>
                         +2 more dates available
                     </span>
                        <DatePopUp
         isOpen={isOpen}
-        onClose={() => setIsOpen(false)}
+         onClose={handleClose}
         onSelect={handleSelect}
         courseName={course.title}
       />

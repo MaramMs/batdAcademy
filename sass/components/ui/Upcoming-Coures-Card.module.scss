@@ -8,6 +8,7 @@
   box-shadow: 0px 2px 4px -2px #0000001A;
   box-shadow: 0px 4px 6px -1px #0000001A;
   transition: all 0.3s ease;
+  overflow: visible;
 
   &:hover {
     transform: translateY(-1.5px);
@@ -22,6 +23,8 @@
     img {
       display: block;
       width: 100%;
+      border-top-left-radius: 14.92px;
+      border-top-right-radius: 14.92px;
     }
   }
 
