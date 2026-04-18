@@ -36,12 +36,12 @@
 .nav {
     display: flex;
     align-items: center;
-    gap: 40px;
+    gap: 16px;
     flex: 1;
     justify-content: center;
 
-    @media (min-width: 1200px) {
-        gap: 16px;
+    @media (min-width: 1600px) {
+        gap: 40px;
     }
 
     @include respond('small-desktop') {
@@ -53,7 +53,7 @@
     display: flex;
     align-items: center;
     gap: 4px;
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 400;
     color: #333333;
     text-decoration: none;
@@ -62,8 +62,8 @@
     border: none;
     cursor: pointer;
     white-space: nowrap;
-    @media (min-width: 1200px) {
-        font-size: 16px;
+    @media (min-width:1600px) {
+        font-size: 18px;
     }
 
     &:hover {
