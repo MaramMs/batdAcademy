@@ -53,7 +53,7 @@ const NAV_COLUMNS = [
       { label: 'About Us', href: '#' },
       { label: 'Consultations', href: '#' },
       { label: 'Blog', href: '#' },
-      { label: 'FAQ', href: '#' },
+      { label: 'FAQ', href: '/en/page/FQA' },
     ],
   },
   {
