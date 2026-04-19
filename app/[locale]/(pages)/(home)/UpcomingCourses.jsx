@@ -18,7 +18,7 @@ const UpcomingCourses = () => {
                     swiperRef={swiperRef}
                     pauseAutoplay={isModalOpen}
                     items={upcomingCourses}
-                    centeredSlides={true}
+                    // centeredSlides={true}
                     renderSlide={(course, index) => (
                         <div style={{ display: 'flex', justifyContent: 'center' }}>
                             <div style={{ maxWidth: '400px', width: '100%' }}>
@@ -30,7 +30,21 @@ const UpcomingCourses = () => {
                             </div>
                         </div>
                     )}
-                    slidesPerView={1}
+                    // slidesPerView={1}
+                    breakpoints={{
+                        640: {
+                            slidesPerView: 1,
+                        },
+                        768: {
+                            slidesPerView: 2,
+                        },
+                        1024: {
+                            slidesPerView: 3,
+                        },
+                        1200: {
+                            slidesPerView: 4,
+                        }
+                    }}
                     autoplay={false}
                     pauseOnMouseEnter={true}
                     spaceBetween={5}
