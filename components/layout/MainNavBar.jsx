@@ -18,10 +18,9 @@ const MainNavBar = () => {
   const dropdownRef = useRef(null);
 
   const TRAINING_ITEMS = [
-    { label: t('programs.leadership'), href: '/programs/leadership' },
-    { label: t('programs.management'), href: '/programs/management' },
-    { label: t('programs.technical'),  href: '/programs/technical' },
-    { label: t('programs.softSkills'),  href: '/programs/soft-skills' },
+    { label: t('programs.master'), href: '/search_course?type=2' },
+    { label: t('programs.diploma'), href: '/search_course?type=3' },
+    { label: t('programs.trainingCourses'),  href: '/search_course?type=1' },
   ];
 
   useEffect(() => {

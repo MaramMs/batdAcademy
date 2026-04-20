@@ -8,10 +8,9 @@
     "signIn": "Sign in",
     "signUp": "Sign up",
     "programs": {
-      "leadership": "Leadership Training",
-      "management": "Management Skills",
-      "technical": "Technical Programs",
-      "softSkills": "Soft Skills"
+      "master": "Master",
+      "diploma": "Diploma",
+      "trainingCourses": "Training Courses"
     }
   }
 }

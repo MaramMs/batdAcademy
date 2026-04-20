@@ -1,0 +1,89 @@
+.header {
+    padding: 41.8px 0px 82.95px 0px;
+    background: $blue-900;
+
+    @media (max-width: 768px) {
+        padding: 16px 0px;
+    }
+    
+    .wrapper {
+        display: flex;
+        flex-direction: column;
+        gap: 40.89px;
+
+        @media (max-width: 768px) {
+            gap: 16px;
+        }
+
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 10.27px;
+            color: #FFFFFFCC;
+            font-size: 20.53px;
+
+            @media (max-width: 768px) {
+                font-size: 16px;
+            }
+
+            a {
+                color: #FFFFFFCC;
+
+            }
+        }
+
+        .content {
+            display: flex;
+            flex-direction: column;
+            gap: 20.53px;
+            justify-content: center;
+            align-items: center;
+
+            @media (max-width: 768px) {
+                gap: 16px;
+            }
+
+            .title {
+                display: flex;
+                flex-direction: column;
+                gap: 15.55px;
+                text-align: center;
+
+                @media (max-width: 768px) {
+                    gap: 8px;
+                }
+
+                h1 {
+                    font-size: 20.74px;
+                    font-weight: 400;
+                    color: #fff;
+
+                    @media (max-width: 768px) {
+                        font-size: 16px;
+                    }
+
+                    span {
+                        font-weight: 600;
+                    }
+                }
+
+                p {
+                    color: $white;
+                    font-size: 23.33px;
+                    font-weight: 400;
+
+                    @media (max-width: 768px) {
+                        font-size: 14px;
+                    }
+                }
+            }
+
+            .search {
+                display: flex;
+                flex-direction: column;
+                gap: 16px;
+            }
+        }
+    }
+
+}

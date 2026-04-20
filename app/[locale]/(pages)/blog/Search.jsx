@@ -5,7 +5,6 @@ import { Search } from "lucide-react";
 const SearchInput = () => {
     return (
         <div className={styles.search}>
-            {/* <div className={stylesContainer.container}> */}
                 <div className={styles.searchContent}>
                     <div className={styles.searchContent__left}>
                         <div className={styles.searchContent__left__icon}>
@@ -18,7 +17,6 @@ const SearchInput = () => {
                     <button>Search</button>
                 </div>
             </div>
-         {/* </div> */}
         </div>
     );
 };
