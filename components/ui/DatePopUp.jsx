@@ -1,14 +1,14 @@
-// components/SessionPickerModal.jsx
 'use client';
 
 import { useEffect, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import { X, Calendar } from 'lucide-react';
 import styles from '@/sass/components/ui/Date-pop-up.module.scss';
 
 const SESSIONS = [
-  { id: 1, date: 'Jun 5, 2023',  label: 'Next available session', featured: true  },
-  { id: 2, date: 'Aug 14, 2023', label: 'Available',              featured: false },
-  { id: 3, date: 'Oct 9, 2023',  label: 'Available',              featured: false },
+  { id: 1, date: 'Jun 5, 2023', label: 'Next available session', featured: true },
+  { id: 2, date: 'Aug 14, 2023', label: 'Available', featured: false },
+  { id: 3, date: 'Oct 9, 2023', label: 'Available', featured: false },
 ];
 
 const DatePopUp = ({ isOpen, onClose, onSelect, courseName }) => {
@@ -34,11 +34,18 @@ const DatePopUp = ({ isOpen, onClose, onSelect, courseName }) => {
     if (e.target === overlayRef.current) onClose();
   };
 
-  return (
+  // ✅ Stop ALL pointer events from bubbling up to Swiper
+  const handleModalPointerDown = (e) => {
+    e.stopPropagation();
+  };
+
+  const modalContent = (
     <div
       ref={overlayRef}
       className={styles.overlay}
       onClick={handleOverlayClick}
+      onPointerDown={handleModalPointerDown}
+      onTouchStart={handleModalPointerDown}
       role="dialog"
       aria-modal="true"
       aria-labelledby="modal-title"
@@ -95,6 +102,9 @@ const DatePopUp = ({ isOpen, onClose, onSelect, courseName }) => {
       </div>
     </div>
   );
+
+  // ✅ Render outside Swiper DOM entirely
+  return createPortal(modalContent, document.body);
 };
 
 export default DatePopUp;

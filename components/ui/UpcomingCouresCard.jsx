@@ -1,23 +1,23 @@
 'use client';
-import { Calendar, Clock, MapPin, Star } from "lucide-react";
-import Image from "next/image";
-import Link from "next/link";
 import { useState } from "react";
+import Link from "next/link";
+import Image from "next/image";
+import { Calendar, Clock, MapPin, Star } from "lucide-react";
 import DatePopUp from "./DatePopUp";
 import styles from "@/sass/components/ui/Upcoming-Coures-Card.module.scss";
-const UpcomingCouresCard = ({course, onModalOpen, onModalClose,slideIndex, swiperRef}) => {
+const UpcomingCouresCard = ({ course, onModalOpen, onModalClose, slideIndex, swiperRef }) => {
     const [isOpen, setIsOpen] = useState(false);
     const handleOpen = () => {
-          if (swiperRef?.current) {
+        if (swiperRef?.current) {
             swiperRef.current.slideTo(slideIndex);
         }
         setIsOpen(true);
-        onModalOpen?.(); 
+        onModalOpen?.();
     };
 
     const handleClose = () => {
         setIsOpen(false);
-        onModalClose?.(); 
+        onModalClose?.();
     };
 
     const handleSelect = (session) => {
@@ -39,54 +39,60 @@ const UpcomingCouresCard = ({course, onModalOpen, onModalClose,slideIndex, swipe
                     <span className={styles.location}>
                         <MapPin size={12} /> {course.location}
                     </span>
-                 {
-                    course.rating && (
-                        <span className={styles.rating}>
-                            <Star size={12} /> {course.rating}
-                        </span>
-                    )
-                 }
+                    {
+                        course.rating && (
+                            <span className={styles.rating}>
+                                <Star size={12} /> {course.rating}
+                            </span>
+                        )
+                    }
                 </div>
             </div>
             <div className={styles.content}>
-              <div className={styles.top}>
-                  <span className={styles.type}>{course.type}</span>
-                  <span className={styles.price}>{course.price}</span>
-              </div>
+                <div className={styles.top}>
+                    <span className={styles.type}>{course.type}</span>
+                    <span className={styles.price}>{course.price}</span>
+                </div>
                 <p className={styles.description}>
                     {course.description}
                 </p>
                 <div className={styles.meta}>
-                   <div className={styles.date}>
-                    <Calendar color="#1E2749" size={14}/>
-                    <span>
-                        {course.date}
-                    </span>
-                   </div>
-                   <div className={styles.time}>
-                    <Clock color="#1E2749" size={14}/>
-                    <span className={styles.time}>
-                        {course.time}
-                    </span>
-                   </div>
-                   
+                    <div className={styles.date}>
+                        <Calendar color="#1E2749" size={14} />
+                        <span>
+                            {course.date}
+                        </span>
+                    </div>
+                    <div className={styles.time}>
+                        <Clock color="#1E2749" size={14} />
+                        <span className={styles.time}>
+                            {course.time}
+                        </span>
+                    </div>
+
                 </div>
                 <div className={styles.more}>
                     <Calendar />
 
-                    <span className={styles.moreDates} onClick={handleOpen}>
+                    <span
+                        className={styles.moreDates}
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            handleOpen();
+                        }}
+                    >
                         +2 more dates available
                     </span>
-                       <DatePopUp
-        isOpen={isOpen}
-         onClose={handleClose}
-        onSelect={handleSelect}
-        courseName={course.title}
-      />
+                    <DatePopUp
+                        isOpen={isOpen}
+                        onClose={handleClose}
+                        onSelect={handleSelect}
+                        courseName={course.title}
+                    />
                 </div>
                 <div className={styles.btns}>
-                   <Link href="/register" className={styles.btnRegister}>Register </Link>
-                   <Link href="/details" className={styles.btnDetails}> Details</Link>
+                    <Link href="/register" className={styles.btnRegister}>Register </Link>
+                    <Link href="/details" className={styles.btnDetails}> Details</Link>
                 </div>
             </div>
         </div>
@@ -94,3 +100,5 @@ const UpcomingCouresCard = ({course, onModalOpen, onModalClose,slideIndex, swipe
 };
 
 export default UpcomingCouresCard;
+
+
