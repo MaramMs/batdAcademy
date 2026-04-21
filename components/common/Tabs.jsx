@@ -22,16 +22,17 @@ const tabsItem = [
         content: 'Past Courses'
     }
 ]
-const Tabs = ({ activeTabId, onTabChange, tabs = tabsItem,className }) => {
+const Tabs = ({ activeTabId, onTabChange, tabs = tabsItem, className, tabClassName, activeTabClassName }) => {
     return (
-        <div className={styles.tabs}>
+        <div className={`${styles.tabs} ${className || ''}`}>
             {tabs.map((tab) => (
                 <Tab
                     key={tab.id}
                     tab={tab}
                     isActive={tab.id === activeTabId}
                     onClick={() => onTabChange?.(tab.id)}
-                    className={className}
+                    className={tabClassName}
+                    activeClassName={activeTabClassName}
                 />
             ))}
         </div>
