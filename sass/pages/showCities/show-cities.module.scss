@@ -1,0 +1,50 @@
+.mainContent{
+    padding: 60px 0px 100px 0px;
+    @media (max-width:768px){
+        padding:16px  0px 60px 0px;
+    }
+   .content{
+     display: flex;
+    flex-direction: column;
+    gap: 60px;
+    @media (max-width:768px){
+        gap: 16px;
+    }
+     .title{
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        @media (max-width:768px){
+            gap: 8px;
+        }
+
+        h2{
+            color: #333333;
+            font-weight: 600;
+            font-size: 32px;
+            line-height: 16px;
+            letter-spacing: 0%;
+            
+             @media (max-width:768px){
+                font-size: 16px;
+            }
+        }
+        p{
+            color: #4A5565;
+            font-weight: 400;
+            font-size: 18px;
+             @media (max-width:768px){
+                font-size: 14px;
+            }
+        }
+    }
+
+    .cities{
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(302px, 1fr));
+        gap: 24px;
+    }
+   }
+
+   
+}

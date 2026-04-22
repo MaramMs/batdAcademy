@@ -11,6 +11,7 @@ const DropdownMenuCustom = ({
   multi = false,
   icon,
   alignRight = false,
+  triggerClassName,
 }) => {
   const displayLabel = multi
     ? value.length === 0 ? label
@@ -33,7 +34,7 @@ const DropdownMenuCustom = ({
   return (
     <DropdownMenu.Root>
       <DropdownMenu.Trigger asChild>
-        <button className={styles.trigger}>
+        <button className={`${styles.trigger} ${triggerClassName || ""}`}>
           <span className={styles.label}>{displayLabel}</span>
           {icon}
         </button>

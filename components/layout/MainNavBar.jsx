@@ -43,7 +43,7 @@ const MainNavBar = () => {
             alt="British Academy for Training & Development"
             width={106}
             height={83}
-            style={{ objectFit: 'cover' }}
+            style={{ objectFit: 'cover', height: 'auto' }}
             priority
           />
         </Link>
