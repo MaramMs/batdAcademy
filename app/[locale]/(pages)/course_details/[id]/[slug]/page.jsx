@@ -1,17 +1,18 @@
 'use client'
 import CategoriesBox from "@/components/common/CategoriesBox";
-import Header from "./Header";
+import CustomDatePicker from "@/components/common/DateInput";
+import Tabs from "@/components/common/Tabs";
 import Range from "@/components/ui/Range";
-import { ArrowRight, ChevronRight, Filter, Play, Info, List, PlayCircle, MessageCircle, Mail, Copy, Printer, Calendar, Star, Users, Clock, Award } from "lucide-react";
-import styles from "@/sass/pages/course-details/course-details.module.scss";
-import stylesContainer from "@/sass/components/common/container.module.scss";
 import UpcomingCouresCard from "@/components/ui/UpcomingCouresCard";
 import { upcomingCourses } from "@/data/upcomingcourse";
-import Tabs from "@/components/common/Tabs";
-import { useState } from "react";
+import stylesContainer from "@/sass/components/common/container.module.scss";
+import styles from "@/sass/pages/course-details/course-details.module.scss";
+import * as Dialog from "@radix-ui/react-dialog";
+import { ArrowRight, Calendar, ChevronRight, Clock, Copy, Filter, Mail, MessageCircle, Play, Printer, Star, Users, X } from "lucide-react";
 import Image from "next/image";
-import CustomDatePicker from "@/components/common/DateInput";
 import Link from "next/link";
+import { useEffect, useState } from "react";
+import Header from "./Header";
 
 const tabs = [
     {
@@ -34,6 +35,12 @@ const tabs = [
 const CourseDetails = () => {
     const [activeTabId, setActiveTabId] = useState(1);
     const [date, setDate] = useState();
+    const [mounted, setMounted] = useState(false);
+
+    useEffect(() => {
+        setMounted(true);
+    }, []);
+
 
     const activeTab = tabs.find(tab => tab.id === activeTabId) || tabs[0];
 
@@ -43,10 +50,120 @@ const CourseDetails = () => {
             <div className={stylesContainer.container}>
                 <div className={styles.mainContent}>
                     <div className={styles.mainTitle}>
-                        <h1>All Details For Course <span> AES</span></h1>
-                        <button className={styles.filterBtn}>
-                            <Filter size={20} />
-                        </button>
+                        <h1>All Details For Course <span> AES</span></h1>   <Dialog.Root modal={true}>
+                            <Dialog.Trigger asChild>
+                                <button className={styles.filterBtn}>
+                                    <Filter size={20} />
+                                </button>
+                            </Dialog.Trigger>
+
+                            {mounted && (
+                                <Dialog.Portal>
+                                    <Dialog.Overlay className={styles.drawerOverlay} />
+                                    <Dialog.Content className={styles.drawerContent}>
+                                        <div className={styles.drawerHeader}>
+                                            <Dialog.Title className={styles.drawerTitle}>Filters</Dialog.Title>
+                                            <Dialog.Close className={styles.drawerClose}>
+                                                <X size={20} />
+                                            </Dialog.Close>
+                                        </div>
+                                        <div className={styles.filter}>
+
+                                            {/* Box 1: Filters/Settings */}
+                                            <CategoriesBox title="All Categories" icon={<Filter size={18} />}>
+                                                <div className={styles.sidebarFilterContent}>
+                                                    <div className={styles.range}>
+                                                        <h4 className={styles.filterGroupTitle}>Price Range</h4>
+                                                        <Range
+                                                            min={0}
+                                                            max={2000}
+                                                            step={10}
+                                                        //   onChange={({ min, max }) => console.log(min, max)}
+                                                        />
+                                                    </div>
+
+                                                    <h4 className={styles.filterGroupTitle}>Course Type</h4>
+                                                    <div className={styles.checkboxGroup}>
+                                                        <label className={styles.checkboxLabel}>
+                                                            <input type="checkbox" /> Featured Courses
+                                                        </label>
+                                                        <label className={styles.checkboxLabel}>
+                                                            <input type="checkbox" /> Approved Courses
+                                                        </label>
+                                                        <label className={styles.checkboxLabel}>
+                                                            <input type="checkbox" /> Discounted Courses
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </CategoriesBox>
+
+                                            {/* Box 2: Category List */}
+                                            <CategoriesBox title="All Category">
+                                                <ul className={styles.sidebarCategoryList}>
+                                                    <li>
+                                                        <span>Business</span>
+                                                        <div className={styles.badgeWrapper} >
+                                                            <span className={styles.badge}>95</span>
+                                                            <ChevronRight size={12} />
+                                                        </div>
+
+                                                    </li>
+                                                    <li>
+                                                        <span>Technical</span>
+                                                        <div className={styles.badgeWrapper} >
+                                                            <span className={styles.badge}>32</span>
+                                                            <ChevronRight size={12} />
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        <span>Power</span>
+                                                        <div className={styles.badgeWrapper} >
+                                                            <span className={styles.badge}>32</span>
+                                                            <ChevronRight size={12} />
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        <span>Management</span>
+                                                        <div className={styles.badgeWrapper} >
+                                                            <span className={styles.badge}>32</span>
+                                                            <ChevronRight size={12} />
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        <span>Development</span>
+                                                        <div className={styles.badgeWrapper} >
+                                                            <span className={styles.badge}>32</span>
+                                                            <ChevronRight size={12} />
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            </CategoriesBox>
+
+                                            {/* Box 3: Tags */}
+                                            <CategoriesBox title="All Tags">
+                                                <div className={styles.sidebarTagsContainer}>
+                                                    <span className={styles.tagPill}>Business</span>
+                                                    <span className={styles.tagPill}>Graphic Design</span>
+                                                    <span className={styles.tagPill}>Technology</span>
+                                                    <span className={styles.tagPill}>Business Idea</span>
+                                                    <span className={styles.tagPill}>App Development</span>
+                                                    <span className={styles.tagPill}>Website Design</span>
+                                                    <span className={styles.tagPill}>Marketing</span>
+                                                    <span className={styles.tagPill}>Leadership</span>
+                                                    <span className={styles.tagPill}>Finance</span>
+                                                    <span className={styles.tagPill}>Project Management</span>
+                                                </div>
+                                            </CategoriesBox>
+
+                                        </div>
+
+
+                                    </Dialog.Content>
+                                </Dialog.Portal>
+                            )}
+                        </Dialog.Root>
+
+
                     </div>
 
                     <div className={styles.content}>
@@ -180,13 +297,44 @@ const CourseDetails = () => {
                                         </div>
 
                                         <div className={styles.right}>
-                                            <div className={styles.priceTag}>
-                                                <span>$555</span>
-                                                <p>One-time payment</p>
+                                            <div className={styles.priceHeaderMobile}>
+                                                <div className={styles.priceTag}>
+                                                    <span>$555</span>
+                                                    <p>One-time payment</p>
+                                                </div>
+                                                <Link href="/en/register" className={styles.enrollBtnMobile}>
+                                                    Enroll Now
+                                                </Link>
+                                            </div>
+
+                                            <div className={styles.mobileStatsRow}>
+                                                <div className={styles.mobileStatItem}>
+                                                    <div className={styles.statIcon}><Star size={16} fill="#FACC15" color="#FACC15" /></div>
+                                                    <div className={styles.statInfo}>
+                                                        <span className={styles.statValue}>4.5</span>
+                                                        <span className={styles.statLabel}>Rating</span>
+                                                    </div>
+                                                </div>
+                                                <div className={styles.mobileStatItem}>
+                                                    <div className={styles.statIcon}><Users size={16} color="#2F327D" /></div>
+                                                    <div className={styles.statInfo}>
+                                                        <span className={styles.statValue}>8,643</span>
+                                                        <span className={styles.statLabel}>Students</span>
+                                                    </div>
+                                                </div>
+                                                <div className={styles.mobileStatItem}>
+                                                    <div className={styles.statIcon}><Clock size={16} color="#B12E33" /></div>
+                                                    <div className={styles.statInfo}>
+                                                        <span className={styles.statValue}>8 weeks</span>
+                                                        <span className={styles.statLabel}>Duration</span>
+                                                    </div>
+                                                </div>
                                             </div>
 
                                             <div className={styles.dateInfo}>
-                                                <h4> <Calendar color="#1E2749" size={20} /> Select Course Date</h4>
+                                           <h3 >$5555</h3>
+                                             <div className={styles.infoContainer}>
+                                                   <h4> <Calendar color="#1E2749" size={20} /> Select Course Date</h4>
                                                 <div className={styles.dates}>
                                                     <div className={styles.date}>
                                                         <p>March 15,2026</p>
@@ -208,11 +356,12 @@ const CourseDetails = () => {
                                                         />
                                                     </div>
                                                 </div>
+                                             </div>
                                             </div>
 
                                             <div className={styles.register}>
                                                 <Link href="/en/register" className={styles.primaryBtn}>
-                                                    Enroll Now
+                                                    Register Now
                                                 </Link>
                                                 <Link href="/en/register">
                                                     Request an Internal Course
@@ -254,7 +403,7 @@ const CourseDetails = () => {
                                             </div>
                                         </div>
 
-                                        <div className={styles.item}>
+                                        {/* <div className={styles.item}>
                                             <div className={`${styles.icon} ${styles.pink}`}>
                                                 <Award size={24} color="#C41E3A" />
                                             </div>
@@ -262,7 +411,7 @@ const CourseDetails = () => {
                                                 <h4>4.9</h4>
                                                 <p>1278 Reviews</p>
                                             </div>
-                                        </div>
+                                        </div> */}
                                     </div>
 
                                     <div className={styles.tabContainer}>

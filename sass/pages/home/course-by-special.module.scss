@@ -83,13 +83,21 @@
 
 .specialTabs {
     display: flex;
-    flex-direction: column;
-    width: 198px;
-    height: 100px;
+    // flex-direction: column;
+    // width: 198px;
+    // height: 100px;
     padding: 0px;
-    gap: 0px;
-    justify-content: start;
+    gap: 13px;
+    justify-content: center;
     align-items: center;
+
+    .specialTab {
+        flex-direction: column;
+        min-width: 198px;
+        min-height: 129px;
+        gap: 0px;
+       
+    }
 
     @media (max-width: 768px) {
         width: auto;

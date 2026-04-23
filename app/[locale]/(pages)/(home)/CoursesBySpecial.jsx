@@ -81,7 +81,7 @@ const CoursesBySpecial = () => {
             <div className={styleContainer.container}>
                 <Title title="Courses  " span='By Specialization' subtitle='British-European expertise and specialized cadres for your success.' />
                 <Tabs activeTabId={activeTabId}
-                    onTabChange={setActiveTabId}  className={styles.specialTabs}/>
+                    onTabChange={setActiveTabId}  className={styles.specialTabs} tabClassName={styles.specialTab} />
                 <GenericSlider
                     key={activeTabId}
                     navId="coursebyspecial"

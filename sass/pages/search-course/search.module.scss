@@ -106,7 +106,7 @@
         }
 
         .searchContent__left {
-            width: 750px;
+            // width: 750px;
 
             @media (min-width:1920px) {
                 width: 883px;
@@ -160,7 +160,7 @@
         .funnel {
             display: none;
 
-            @media(max-width:768px) {
+            @media(max-width:576px) {
                 width: 40px;
                 height: 40px;
                 padding: 8px;

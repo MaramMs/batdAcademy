@@ -1,3 +1,219 @@
+.drawerOverlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 9999;
+    animation: fadeIn 300ms ease;
+}
+
+.drawerContent {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 85%;
+    max-width: 320px;
+    background: #ffffff;
+    z-index: 10000;
+    padding: 24px 20px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 10px 0 30px rgba(0, 0, 0, 0.2);
+    animation: slideInLeft 400ms cubic-bezier(0.16, 1, 0.3, 1);
+    overflow-y: auto;
+
+    &:focus {
+        outline: none;
+    }
+
+    .drawerHeader {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 24px;
+        padding-bottom: 16px;
+        border-bottom: 1px solid #F3F4F6;
+
+        .drawerTitle {
+            font-size: 18px;
+            font-weight: 700;
+            color: $blue-900;
+            margin: 0;
+        }
+
+        .drawerClose {
+            background: #F3F4F6;
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: #6B7280;
+            transition: $transition-base;
+
+            &:hover {
+                background: #E5E7EB;
+                color: $blue-900;
+            }
+        }
+    }
+
+    .filter {
+        display: flex !important;
+        flex-direction: column !important;
+        padding: 0;
+
+        @media (max-width: 576px) {
+            display: flex !important;
+        }
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideInLeft {
+    from {
+        transform: translateX(-100%);
+    }
+
+    to {
+        transform: translateX(0);
+    }
+}
+
+
+
+
+.filter {
+    display: flex;
+    flex-direction: column !important;
+
+
+    .filterGroupTitle {
+        font-size: 15.77px;
+        font-weight: 600;
+        padding: 18.3px 13.9px;
+        color: #364153;
+
+        &:first-child {
+            margin-top: 0;
+
+        }
+    }
+
+    .sidebarFilterContent {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+
+        .checkboxGroup {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            padding: 0px 18px 18px 18px;
+
+            .checkboxLabel {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                font-size: 13px;
+                color: #374151;
+                cursor: pointer;
+
+                input[type="checkbox"] {
+                    width: 16px;
+                    height: 16px;
+                    accent-color: $blue-900;
+                    cursor: pointer;
+                    border: 1px solid #D1D5DB;
+                    border-radius: 4px;
+                }
+            }
+        }
+
+    }
+
+    .sidebarCategoryList {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 9px;
+
+        li {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 18.03px;
+            color: #364153;
+            cursor: pointer;
+            transition: $transition-base;
+            padding: 11.77px 18.3px;
+
+            &:hover {
+                color: $blue-900;
+                font-weight: 500;
+            }
+
+            .badgeWrapper {
+                display: flex;
+                align-items: center;
+                gap: 14.67px;
+
+                .badge {
+                    display: flex;
+                    align-items: center;
+                    gap: 6px;
+                    font-size: 12px;
+                    background: #F3F4F6;
+                    padding: 4px 8px;
+                    border-radius: 12px;
+                    color: #6B7280;
+
+                    svg {
+                        color: #9CA3AF;
+                    }
+                }
+            }
+
+        }
+    }
+
+    .sidebarTagsContainer {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        padding: 9.3px;
+
+        .tagPill {
+            font-size: 12px;
+            color: #4B5563;
+            background: #F3F4F6;
+            padding: 6px 14px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: $transition-base;
+
+            &:hover {
+                background: $blue-900;
+                color: $white;
+            }
+        }
+    }
+}
+
 .mainContent {
     display: flex;
     flex-direction: column;
@@ -7,7 +223,7 @@
     @media (max-width: 576px) {
         gap: 10px;
         padding-top: 4px;
-    }   
+    }
 
     .mainTitle {
         display: flex;
@@ -49,125 +265,7 @@
     }
 
     .filter {
-        display: flex;
-        flex-direction: column !important;
-
-
-        .filterGroupTitle {
-            font-size: 15.77px;
-            font-weight: 600;
-            padding: 18.3px 13.9px;
-            color: #364153;
-
-            &:first-child {
-                margin-top: 0;
-
-            }
-        }
-
-        .sidebarFilterContent {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-
-            .checkboxGroup {
-                display: flex;
-                flex-direction: column;
-                gap: 12px;
-                padding: 0px 18px 18px 18px;
-
-                .checkboxLabel {
-                    display: flex;
-                    align-items: center;
-                    gap: 10px;
-                    font-size: 13px;
-                    color: #374151;
-                    cursor: pointer;
-
-                    input[type="checkbox"] {
-                        width: 16px;
-                        height: 16px;
-                        accent-color: $blue-900;
-                        cursor: pointer;
-                        border: 1px solid #D1D5DB;
-                        border-radius: 4px;
-                    }
-                }
-            }
-
-        }
-
-        .sidebarCategoryList {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-            display: flex;
-            flex-direction: column;
-            gap: 9px;
-
-            li {
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-                font-size: 18.03px;
-                color: #364153;
-                cursor: pointer;
-                transition: $transition-base;
-                padding: 11.77px 18.3px;
-
-                &:hover {
-                    color: $blue-900;
-                    font-weight: 500;
-                }
-
-                .badgeWrapper {
-                    display: flex;
-                    align-items: center;
-                    gap: 14.67px;
-
-                    .badge {
-                        display: flex;
-                        align-items: center;
-                        gap: 6px;
-                        font-size: 12px;
-                        background: #F3F4F6;
-                        padding: 4px 8px;
-                        border-radius: 12px;
-                        color: #6B7280;
-
-                        svg {
-                            color: #9CA3AF;
-                        }
-                    }
-                }
-
-            }
-        }
-
-        .sidebarTagsContainer {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            padding: 9.3px;
-
-            .tagPill {
-                font-size: 12px;
-                color: #4B5563;
-                background: #F3F4F6;
-                padding: 6px 14px;
-                border-radius: 20px;
-                cursor: pointer;
-                transition: $transition-base;
-
-                &:hover {
-                    background: $blue-900;
-                    color: $white;
-                }
-            }
-        }
-
-
-        @media (max-width:768px) {
+        @media (max-width: 768px) {
             display: none;
         }
     }
@@ -227,8 +325,9 @@
                                 @media (max-width: 991px) {
                                     order: 3;
                                     flex-direction: column;
-                                    padding: 16px;
-                                    margin-top: 40px; // Space for the floating price box
+                                    padding: 20px;
+                                    margin-top: 180px; // Space for the floating price box
+                                    border-radius: 20px;
                                 }
 
                                 .title {
@@ -350,111 +449,202 @@
                             @media (max-width: 991px) {
                                 order: 2;
                                 position: absolute;
-                                top: 180px;
-                                left: 5%;
-                                width: 90%;
+                                top: 220px;
+                                left: 2.5%;
+                                width: 95%;
                                 z-index: 10;
-                                flex-direction: row;
-                                align-items: center;
-                                justify-content: space-between;
-                                padding: 12px 20px;
-                                box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
+                                flex-direction: column;
+                                align-items: flex-start;
+                                padding: 20px;
+                                box-shadow: 0px 8px 30px rgba(0, 0, 0, 0.08);
+                                border: 1.5px solid #3B82F6;
+                                background-color: #FFFFFF;
+                            }
+
+                            .priceHeaderMobile {
+                                display: none;
+
+                                @media (max-width: 991px) {
+                                    display: flex;
+                                    justify-content: space-between;
+                                    align-items: center;
+                                    width: 100%;
+                                    padding-bottom: 12px;
+                                    border-bottom: 1px solid #F3F4F6;
+                                }
+
+                                .priceTag {
+                                    display: flex;
+                                    flex-direction: column;
+                                    gap: 4px;
+
+                                    span {
+                                        font-size: 24px;
+                                        font-weight: 700;
+                                        color: #1E2749;
+                                    }
+
+                                    p {
+                                        font-size: 12px;
+                                        color: #64748B;
+                                        margin: 0;
+                                    }
+                                }
+
+                                .enrollBtnMobile {
+                                    background-color: #1E2749;
+                                    color: white;
+                                    padding: 10px 24px;
+                                    border-radius: 8px;
+                                    font-size: 14px;
+                                    font-weight: 600;
+                                    box-shadow: 0px 4px 10px rgba(30, 39, 73, 0.2);
+                                }
+                            }
+
+                            .mobileStatsRow {
+                                display: none;
+
+                                @media (max-width: 991px) {
+                                    display: flex;
+                                    justify-content: space-between;
+                                    width: 100%;
+                                    padding-top: 16px;
+                                    gap: 4px;
+                                }
+
+                                .mobileStatItem {
+                                    display: flex;
+                                    align-items: center;
+                                    gap: 6px;
+                                    flex: 1;
+
+                                    .statIcon {
+                                        width: 36px;
+                                        height: 36px;
+                                        background-color: #F8FAFC;
+                                        border: 1px solid #F1F5F9;
+                                        border-radius: 10px;
+                                        display: flex;
+                                        align-items: center;
+                                        justify-content: center;
+                                        flex-shrink: 0;
+                                    }
+
+                                    .statInfo {
+                                        display: flex;
+                                        flex-direction: column;
+                                        line-height: 1.2;
+
+                                        .statValue {
+                                            font-size: 13px;
+                                            font-weight: 700;
+                                            color: #1E2749;
+                                            white-space: nowrap;
+                                        }
+
+                                        .statLabel {
+                                            font-size: 10px;
+                                            color: #64748B;
+                                            text-transform: capitalize;
+                                        }
+                                    }
+                                }
                             }
 
                             .priceTag {
                                 display: flex;
                                 flex-direction: column;
-                                text-align: center;
+                                text-align: left;
 
                                 @media (max-width: 991px) {
-                                    text-align: left;
-                                }
-
-                                span {
-                                    font-size: 48px;
-                                    font-weight: 600;
-                                    color: $text-blue;
-
-                                    @media (max-width: 991px) {
-                                        font-size: 24px;
-                                    }
-                                }
-
-                                p {
-                                    font-size: 14px;
-                                    color: #4A5565;
-                                    margin: 0;
-
-                                    @media (min-width: 992px) {
-                                        display: none;
-                                    }
+                                    display: none; // Hidden in favor of priceHeaderMobile
                                 }
                             }
 
                             .dateInfo {
                                 display: flex;
                                 flex-direction: column;
-                                gap: 16px;
+                                gap: 20px;
+
+                                h3 {
+                                    font-size: 48px;
+                                    color: $text-blue;
+                                    text-align: center;
+                                    font-weight: 600;
+
+                                }
 
                                 @media (max-width: 991px) {
                                     display: none;
                                 }
 
-                                h4 {
-                                    display: flex;
-                                    align-items: center;
-                                    gap: 8px;
-                                    font-size: 16px;
-                                    font-weight: 500;
-                                    color: $text-blue;
-                                }
-
-                                .dates {
+                                .infoContainer {
                                     display: flex;
                                     flex-direction: column;
-                                    gap: 12px;
+                                    gap: 16px;
 
-                                    .date {
+
+                                    h4 {
                                         display: flex;
-                                        flex-direction: column;
-                                        border: 1px solid #E5E7EB;
-                                        height: 81px;
-                                        padding: 16px;
-                                        border-radius: 10px;
-
-                                        p {
-                                            font-weight: 500;
-                                            font-size: 16px;
-                                            color: $text-blue;
-                                        }
-
-                                        span {
-                                            color: #4A5565;
-                                            font-weight: 500;
-                                            font-size: 14px;
-                                            text-align: left;
-                                        }
+                                        align-items: center;
+                                        gap: 8px;
+                                        font-size: 16px;
+                                        font-weight: 500;
+                                        color: $text-blue;
                                     }
 
-                                    .selectDate {
-                                        border: 1px solid #333333;
-                                        border-radius: 10px;
-                                        height: 110px;
-                                        padding: 18px 18px 2px 18px;
+                                    .dates {
                                         display: flex;
                                         flex-direction: column;
-                                        gap: 8px;
+                                        gap: 12px;
 
-                                        h4 {
+                                        .date {
                                             display: flex;
-                                            gap: 12px;
-                                            align-items: center;
-                                            font-size: 16px;
-                                            font-weight: 500;
-                                            color: $text-blue;
+                                            flex-direction: column;
+                                            border: 1px solid #E5E7EB;
+                                            height: 81px;
+                                            padding: 16px;
+                                            border-radius: 10px;
+
+                                            p {
+                                                font-weight: 500;
+                                                font-size: 16px;
+                                                color: $text-blue;
+                                            }
+
+                                            span {
+                                                color: #4A5565;
+                                                font-weight: 500;
+                                                font-size: 14px;
+                                                text-align: left;
+                                            }
+                                        }
+
+                                        .selectDate {
+                                            border: 1px solid #333333;
+                                            border-radius: 10px;
+                                            height: 110px;
+                                            padding: 18px 18px 2px 18px;
+                                            display: flex;
+                                            flex-direction: column;
+                                            gap: 8px;
+
+                                            h4 {
+                                                display: flex;
+                                                gap: 12px;
+                                                align-items: center;
+                                                font-size: 16px;
+                                                font-weight: 500;
+                                                color: $text-blue;
+                                            }
                                         }
                                     }
                                 }
+
+
+
+
                             }
 
                             .register {
@@ -463,7 +653,7 @@
                                 gap: 12px;
 
                                 @media (max-width: 991px) {
-                                    flex-direction: row;
+                                    display: none;
                                 }
 
                                 a {
@@ -492,7 +682,11 @@
                                         background-color: #1E2749;
                                         border: none;
                                         color: $white;
+                                        box-shadow: 0px 4px 6px -4px #0000001A;
+
                                         box-shadow: 0px 10px 15px -3px #0000001A;
+                                        opacity: 50%;
+
                                     }
                                 }
                             }
