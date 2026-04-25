@@ -1,0 +1,11 @@
+.mainContent{
+    padding: 40px 0px 100px 0px;
+    @media (max-width: 576px) {
+        padding:16px 0px  60px 0px;
+    }
+ .list{
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+ }
+}
