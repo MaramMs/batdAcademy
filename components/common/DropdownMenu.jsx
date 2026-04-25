@@ -32,7 +32,7 @@ const DropdownMenuCustom = ({
   };
 
   return (
-    <DropdownMenu.Root>
+    <DropdownMenu.Root modal={false}>
       <DropdownMenu.Trigger asChild>
         <button className={`${styles.trigger} ${triggerClassName || ""}`}>
           <span className={styles.label}>{displayLabel}</span>
