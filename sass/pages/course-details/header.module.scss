@@ -3,6 +3,18 @@
     background-color: $white;
     border-bottom: 1.29px solid #E5E7EB;
     padding: 20.57px 0px;
+    position: relative;
+
+    .progressBar {
+        position: absolute;
+        bottom: -1px;
+        left: 0;
+        height: 3px;
+        background: linear-gradient(90deg, #2F327D 0%, #C9302C 100%);
+        transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        z-index: 10;
+        border-radius: 0 4px 4px 0;
+    }
 
     .wrapper {
         display: flex;
