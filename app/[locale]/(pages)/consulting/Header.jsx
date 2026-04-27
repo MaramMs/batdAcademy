@@ -14,13 +14,14 @@ const Header = () => {
         <div className={styles.header}>
             <div className={styles.content}>
                 <div className={styles.title}>
-                    <span><Aperture color="#B12E33" size={22} />EXPLORE OUR GLOBAL LOCATIONS</span>
-                    <h1>Find Your Perfect <br /> Training Destination</h1>
-                    <p>World-class training programs across 12 cities worldwide</p>
+                    <span><Aperture color="#B12E33" size={22} />Expert Consultants Worldwide</span>
+                    <h1>Find Your Perfect <br />
+                        Consultation Service</h1>
+                    <p>Professional consulting services across multiple domains worldwide</p>
                 </div>
                 <div className={styles.searchCourse}>
                     <SearchCourse className={styles.filter} />
-                    <div className={styles.locationSelect}>
+                    {/* <div className={styles.locationSelect}>
                         <DropdownMenuCustom
                             label="All Specializations"
                             options={["Specialization 1", "Specialization 2"]}
@@ -39,7 +40,7 @@ const Header = () => {
                             icon={<ChevronDown size={14} />}
                             triggerClassName={styles.dropdownTrigger}
                         />
-                    </div>
+                    </div> */}
                 </div>
 
             </div>
