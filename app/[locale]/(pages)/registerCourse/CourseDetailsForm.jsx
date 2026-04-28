@@ -1,9 +1,21 @@
+"use client";
+
 import React from 'react';
-import { Calendar, Clock, MapPin, Globe, ArrowLeft, ArrowRight, CircleCheck } from 'lucide-react';
+import { Calendar, Clock, MapPin, Globe, ArrowLeft, ArrowRight, CircleCheck, ChevronDown } from 'lucide-react';
+import { Controller, useWatch } from 'react-hook-form';
 import styles from '@/sass/pages/register-course/course-details-form.module.scss';
 import Image from 'next/image';
+import DropdownMenuCustom from '@/components/common/DropdownMenu';
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
-const CourseDetailsForm = ({ register, errors, handleBack, onSubmit, handleSubmit }) => {
+const CourseDetailsForm = ({ register, control, setValue, errors, handleBack, onSubmit, handleSubmit }) => {
+  const [mounted, setMounted] = React.useState(false);
+
+  React.useEffect(() => {
+    setMounted(true);
+  }, []);
+
   const availableDates = [
     { date: 'May 17, 2024', duration: '8 weeks duration' },
     { date: 'Jun 28, 2024', duration: '8 weeks duration' },
@@ -17,6 +29,23 @@ const CourseDetailsForm = ({ register, errors, handleBack, onSubmit, handleSubmi
     { title: '8 Weeks - Comprehensive', price: '$999' },
     { title: '12 Weeks - Extended', price: '$1299' },
   ];
+
+  // Watch form values for live confirmation
+  const { selectedDate, customDate, duration, location, language = "english" } = useWatch({ control });
+
+  // Format date for display
+  const getDisplayDate = () => {
+    if (customDate) {
+      return customDate instanceof Date
+        ? customDate.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })
+        : customDate;
+    }
+    return selectedDate || 'Not selected';
+  };
+
+  const isFormComplete = (selectedDate || customDate) && duration && location;
+
+  if (!mounted) return null;
 
   return (
     <div className={styles.formContainer}>
@@ -35,7 +64,15 @@ const CourseDetailsForm = ({ register, errors, handleBack, onSubmit, handleSubmi
           <div className={styles.dateGrid}>
             {availableDates.map((item, index) => (
               <label key={index} className={styles.dateCard}>
-                <input type="radio" name="selectedDate" value={item.date} {...register("selectedDate", { required: true })} />
+                <input
+                  type="radio"
+                  value={item.date}
+                  {...register("selectedDate", {
+                    onChange: () => {
+                      setValue("customDate", null);
+                    }
+                  })}
+                />
                 <div className={styles.cardContent}>
                   <div className={styles.iconBox}>
                     <Calendar size={20} />
@@ -57,10 +94,22 @@ const CourseDetailsForm = ({ register, errors, handleBack, onSubmit, handleSubmi
             <span>Or Choose Your Own Date</span>
           </div>
           <div className={styles.inputWrapper}>
-            <input
-              type="text"
-              placeholder="DD / MM / YYYY"
-              {...register("customDate")}
+            <Controller
+              control={control}
+              name="customDate"
+              render={({ field }) => (
+                <DatePicker
+                  placeholderText="DD / MM / YYYY"
+                  onChange={(date) => {
+                    field.onChange(date);
+                    setValue("selectedDate", null);
+                  }}
+                  selected={field.value}
+                  className={styles.datePickerInput}
+                  dateFormat="dd / MM / yyyy"
+                  isClearable
+                />
+              )}
             />
             <Calendar className={styles.inputIcon} size={18} />
           </div>
@@ -98,12 +147,24 @@ const CourseDetailsForm = ({ register, errors, handleBack, onSubmit, handleSubmi
             <span>Training Location *</span>
           </div>
           <div className={styles.selectWrapper}>
-            <select {...register("location", { required: true })}>
-              <option value="">Select training location...</option>
-              <option value="online">Online</option>
-              <option value="riyadh">Riyadh, Saudi Arabia</option>
-              <option value="dubai">Dubai, UAE</option>
-            </select>
+            <Controller
+              name="location"
+              control={control}
+              rules={{ required: true }}
+              render={({ field }) => (
+                <DropdownMenuCustom
+                  label="Select training location..."
+                  options={[
+                    { value: "online", label: "Online" },
+                    { value: "riyadh", label: "Riyadh, Saudi Arabia" },
+                    { value: "dubai", label: "Dubai, UAE" }
+                  ]}
+                  value={field.value}
+                  onChange={field.onChange}
+                  icon={<ChevronDown size={14} />}
+                />
+              )}
+            />
           </div>
         </div>
 
@@ -132,58 +193,62 @@ const CourseDetailsForm = ({ register, errors, handleBack, onSubmit, handleSubmi
           </div>
         </div>
 
-        <div className={styles.dataConfirmed}>
-          <div className={styles.title} >
-            <CircleCheck color='#00A63E' size={20} />
-            <h3>Your Selection Confirmed</h3>
+        {
+          isFormComplete && (
+            <div className={styles.dataConfirmed}>
+              <div className={styles.title} >
+                <CircleCheck color='#00A63E' size={20} />
+                <h3>Your Selection Confirmed</h3>
 
-          </div>
-          <div className={styles.confirmedData}>
-            <div className={styles.item}>
-              <span className={styles.icon}><Calendar size={18} color="#1E293B" /></span>
-              <div className={styles.info}>
-                <span className={styles.label}>Start Date</span>
-                <span className={styles.value}>May 17, 2024</span>
+              </div>
+              <div className={styles.confirmedData}>
+                <div className={styles.item}>
+                  <span className={styles.icon}><Calendar size={18} color="#1E293B" /></span>
+                  <div className={styles.info}>
+                    <span className={styles.label}>Start Date</span>
+                    <span className={styles.value}>{getDisplayDate()}</span>
 
+                  </div>
+
+                </div>
+
+                <div className={styles.item}>
+                  <span className={styles.icon}><Clock size={18} color="#1E293B" /></span>
+                  <div className={styles.info}>
+                    <span className={styles.label}>Duration</span>
+                    <span className={styles.value}>{duration || 'Not selected'}</span>
+
+                  </div>
+
+                </div>
+
+                <div className={styles.item}>
+                  <span className={styles.icon}><MapPin size={18} color="#1E293B" /></span>
+                  <div className={styles.info}>
+                    <span className={styles.label}>Location</span>
+                    <span className={styles.value}>{location || 'Not selected'}</span>
+
+                  </div>
+
+                </div>
+
+
+                <div className={styles.item}>
+                  <span className={styles.icon}><Globe size={18} color="#1E293B" /></span>
+                  <div className={styles.info}>
+                    <span className={styles.label}>Language</span>
+                    <span className={styles.value}>{language.charAt(0).toUpperCase() + language.slice(1)}</span>
+
+                  </div>
+
+
+                </div>
               </div>
 
             </div>
 
-            <div className={styles.item}>
-              <span className={styles.icon}><Clock size={18} color="#1E293B" /></span>
-              <div className={styles.info}>
-                <span className={styles.label}>Duration</span>
-                <span className={styles.value}>8 weeks</span>
-
-              </div>
-
-            </div>
-
-
-
-            <div className={styles.item}>
-              <span className={styles.icon}><MapPin size={18} color="#1E293B" /></span>
-              <div className={styles.info}>
-                <span className={styles.label}>Location</span>
-                <span className={styles.value}>Dubai, UAE</span>
-
-              </div>
-
-            </div>
-
-
-            <div className={styles.item}>
-              <span className={styles.icon}><Globe size={18} color="#1E293B" /></span>
-              <div className={styles.info}>
-                <span className={styles.label}>Language</span>
-                <span className={styles.value}>English</span>
-
-              </div>
-
-            </div>
-          </div>
-
-        </div>
+          )
+        }
 
 
         {/* Actions */}

@@ -98,7 +98,8 @@
     }
 
     input,
-    select {
+    select,
+    button {
         width: 100%;
         height: 46px;
         padding: 0 14px 0 40px;
@@ -113,12 +114,17 @@
             color: $gray-400;
         }
     }
+button {
+    background-color: transparent;
 
+}
     select {
         appearance: none;
         cursor: pointer;
     }
 }
+
+
 
 .selectWrapper::after {
     content: "";

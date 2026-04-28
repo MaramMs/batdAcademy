@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useMemo } from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form';
 import { 
   Award, 
   BookOpen, 
@@ -19,6 +19,7 @@ import {
 import Title from "@/components/common/Title";
 import styles from '@/sass/pages/home/request-coures.module.scss';
 import containerStyles from '@/sass/components/common/container.module.scss';
+import DropdownMenuCustom from "@/components/common/DropdownMenu";
 
 // --- CONSTANTS ---
 
@@ -111,6 +112,7 @@ const FormField = ({
 const RequestCoures = () => {
   const {
     register,
+    control,
     handleSubmit,
     setValue,
     watch,
@@ -236,21 +238,25 @@ const RequestCoures = () => {
               </FormField>
 
               <FormField error={errors.course} icon={BookOpen}>
-                <select
-                  id="courseSelect"
-                  className={`
-                    ${styles['request-courses__input']} 
-                    ${styles['request-courses__select']} 
-                    ${!selectedCourse ? styles.placeholder : ""}
-                  `}
-                  {...register("course", { required: "Please select a course" })}
-                >
-                  <option value="" disabled>Select your course</option>
-                  {ALL_COURSES.map((c) => (
-                    <option key={c} value={c}>{c}</option>
-                  ))}
-                </select>
-                <ChevronDown size={20} className={styles['request-courses__select-arrow']} />
+                <Controller
+                  name="course"
+                  control={control}
+                  rules={{ required: "Please select a course" }}
+                  render={({ field }) => (
+                    <DropdownMenuCustom
+                      label="Select your course"
+                      options={ALL_COURSES}
+                      value={field.value}
+                      onChange={field.onChange}
+                      triggerClassName={`
+                        ${styles['request-courses__input']} 
+                        ${styles['request-courses__select']} 
+                        ${!selectedCourse ? styles.placeholder : ""}
+                      `}
+                      icon={<ChevronDown size={20} className={styles['request-courses__select-arrow']} />}
+                    />
+                  )}
+                />
               </FormField>
 
               <button 

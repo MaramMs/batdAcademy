@@ -7,11 +7,15 @@
   flex-direction: column;
   gap: 32px;
 
+  @media (max-width: 1024px) {
+    padding: 32px;
+  }
+
   @media (max-width: 768px) {
     padding: 0px;
     background-color: transparent;
     gap: 24px;
-    border:none;
+    border: none;
   }
 
   .formHeader {
@@ -63,13 +67,11 @@
   .dateGrid,
   .durationGrid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(2, 1fr);
     gap: 16px;
 
-    @media (max-width: 640px) {
-      grid-template-columns: 1fr 1fr;
-      row-gap: 16px;
-      column-gap: 10px;
+    @media (max-width: 768px) {
+      grid-template-columns: 1fr;
     }
   }
 
@@ -172,23 +174,42 @@
       display: flex;
       align-items: center;
 
-      input {
+      input, .datePickerInput {
         width: 100%;
         padding: 12px 16px;
         border: none;
         outline: none;
         font-size: 14px;
         background: transparent;
+        cursor: pointer;
 
         &::placeholder {
           color: #94A3B8;
         }
       }
 
+      // Styles for DatePicker popup
+      :global(.react-datepicker-wrapper) {
+        width: 100%;
+      }
+      
+      :global(.react-datepicker-popper) {
+        z-index: 1000 !important;
+      }
+
+      :global(.react-datepicker) {
+        border: 1px solid #E2E8F0;
+        border-radius: 12px;
+        font-family: inherit;
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+      }
+
       .inputIcon {
         position: absolute;
         right: 16px;
         color: #94A3B8;
+        z-index: 10;
+        pointer-events: none;
       }
     }
 
@@ -199,8 +220,8 @@
     }
   }
 
-  .selectWrapper {
-    select {
+  .selectWrapper  {
+    select ,button{
       width: 100%;
       padding: 14px 16px;
       border: 1px solid #E2E8F0;
@@ -291,10 +312,10 @@
     .title {
       display: flex;
       gap: 8px;
-       @media (max-width: 640px) {
-justify-content: center;
-align-items: center;
-    }
+      @media (max-width: 768px) {
+        justify-content: center;
+        align-items: center;
+      }
 
       h3 {
         font-weight: 600;
@@ -305,13 +326,15 @@ align-items: center;
     }
 
     .confirmedData {
-      display: flex;
-      justify-content: space-between;
-      flex-wrap: wrap;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
       align-items: center;
- @media (max-width: 640px) {
-  row-gap: 43px;
-    }
+
+      @media (max-width: 768px) {
+        grid-template-columns: 1fr;
+        row-gap: 20px;
+      }
       .item {
         display: flex;
         align-items: center;
@@ -355,12 +378,14 @@ align-items: center;
     justify-content: space-between;
     margin-top: 40px;
     gap: 16px;
-     @media (max-width: 640px) {
-     flex-direction: column;
+
+    @media (max-width: 768px) {
+      flex-direction: column;
     }
 
     button {
       padding: 14px 32px;
+      width: 100%;
       border-radius: 8px;
       font-weight: 600;
       font-size: 15px;

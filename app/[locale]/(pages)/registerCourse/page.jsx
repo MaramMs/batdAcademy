@@ -15,7 +15,7 @@ import stylesContainer from '@/sass/components/common/container.module.scss';
 const RegisterCoursePage = () => {
     const [currentStep, setCurrentStep] = useState(1);
     const [regType, setRegType] = useState('individual');
-    const { register, handleSubmit, control, formState: { errors } } = useForm();
+    const { register, handleSubmit, control, watch, setValue, formState: { errors } } = useForm();
 
     const onSubmit = (data) => {
         if (currentStep === 1) {
@@ -23,11 +23,12 @@ const RegisterCoursePage = () => {
             setCurrentStep(2);
         } else if (currentStep === 2) {
             console.log('Step 2 data:', data);
-            setCurrentStep(3);
-        } else if (currentStep === 3) {
-            console.log('Step 3 data (Payment):', data);
             setCurrentStep(4);
         }
+        // } else if (currentStep === 3) {
+        //     console.log('Step 3 data (Payment):', data);
+        //     setCurrentStep(4);
+        // }
     };
 
     const handleBack = () => {
@@ -59,20 +60,26 @@ const RegisterCoursePage = () => {
                                     handleSubmit={handleSubmit}
                                     onSubmit={onSubmit}
                                     register={register}
+                                    control={control}
+                                    watch={watch}
+                                    setValue={setValue}
                                     errors={errors}
                                     handleBack={handleBack}
                                 />
-                            ) : currentStep === 3 ? (
-                                <PaymentForm
-                                    handleSubmit={handleSubmit}
-                                    onSubmit={onSubmit}
-                                    register={register}
-                                    errors={errors}
-                                    handleBack={handleBack}
-                                />
-                            ) : (
-                                <SuccessPage />
-                            )}
+                            )
+                                // ) : currentStep === 3 ? (
+                                //     <PaymentForm
+                                //         handleSubmit={handleSubmit}
+                                //         onSubmit={onSubmit}
+                                //         register={register}
+                                //         errors={errors}
+                                //         handleBack={handleBack}
+                                //     />
+                                // ) 
+
+                                : (
+                                    <SuccessPage />
+                                )}
                         </div>
                         {currentStep <= 3 && <CourseSummaryCard />}
                     </div>

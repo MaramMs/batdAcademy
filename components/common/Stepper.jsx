@@ -6,7 +6,7 @@ import styles from '@/sass/components/common/stepper.module.scss';
 const steps = [
   { id: 1, label: 'Step 1', title: 'Personal Info', icon: User },
   { id: 2, label: 'Step 2', title: 'Course Details', icon: Calendar },
-  { id: 3, label: 'Step 3', title: 'Payment', icon: CreditCard },
+  // { id: 3, label: 'Step 3', title: 'Payment', icon: CreditCard },
 ];
 
 const Stepper = ({ currentStep = 1 }) => {

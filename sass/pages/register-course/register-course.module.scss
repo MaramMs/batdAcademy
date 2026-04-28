@@ -1,6 +1,6 @@
 .mainContent {
   padding: 40px 0px 100px 0px;
-  @media (max-width: 992px) {
+  @media (max-width: 1024px) {
     padding: 24px 0px 60px 0px;
   }
 
@@ -12,7 +12,7 @@
     margin-bottom: 24px;
     overflow: hidden;
 
-    @media (max-width: 992px) {
+    @media (max-width: 1024px) {
       display: block;
     }
 
@@ -71,12 +71,12 @@
     grid-template-columns: 2fr 1fr;
     gap: 40px; // Reduced from 152px for better tablet fit
 
-    @media (max-width: 1200px) {
-        gap: 40px;
+    @media (max-width: 1024px) {
+      grid-template-columns: 1fr;
     }
 
-    @media (max-width: 992px) {
-      grid-template-columns: 1fr;
+    @media (max-width: 768px) {
+      gap: 24px;
     }
 
     &.successLayout {
@@ -97,8 +97,8 @@
     }
 
     .sidebar {
-      @media (max-width: 992px) {
-        display: none; // Hidden on mobile/tablet because of MobileCourseHeader
+      @media (max-width: 1024px) {
+        display: none; // Hidden on tablet because of MobileCourseHeader
       }
     }
   }

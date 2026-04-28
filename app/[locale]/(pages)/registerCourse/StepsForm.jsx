@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
-import { User, Mail, Phone, Briefcase, ArrowRight, Users, Plus, X } from 'lucide-react';
-import { useFieldArray } from 'react-hook-form';
+import { User, Mail, Phone, Briefcase, ArrowRight, Users, Plus, X, ChevronDown } from 'lucide-react';
+import { useFieldArray, Controller } from 'react-hook-form';
 import RegistrationTypeToggle from './RegistrationTypeToggle';
 import styles from '@/sass/pages/register-course/steps-form.module.scss';
+import DropdownMenuCustom from '@/components/common/DropdownMenu';
 
 const StepsForm = ({ handleSubmit, onSubmit, errors, register, control, setRegType, regType }) => {
   const { fields, append, remove } = useFieldArray({
@@ -80,12 +81,27 @@ const StepsForm = ({ handleSubmit, onSubmit, errors, register, control, setRegTy
             <div className={styles.inputGroup}>
               <label>Country <span>*</span></label>
               <div className={styles.inputWrapper}>
-                <select {...register("country", { required: true })}>
-                  <option value="">Select your country</option>
-                  <option value="US">United States</option>
-                  <option value="UK">United Kingdom</option>
-                  <option value="CA">Canada</option>
-                </select>
+
+             
+
+                <Controller
+                name="country"
+                control={control}
+                rules={{ required: true }}
+                render={({ field }) => (
+                  <DropdownMenuCustom 
+                      label="Select your country"
+                      options={[
+                        { value: "US", label: "United States" },
+                        { value: "UK", label: "United Kingdom" },
+                        { value: "CA", label: "Canada" },
+                      ]}
+                      value={field.value}
+                      onChange={field.onChange}
+                      icon={<ChevronDown size={14} />}
+                    />
+                  )}
+                />
               </div>
               {errors.country && <span className={styles.errorText}>Please select a country</span>}
             </div>

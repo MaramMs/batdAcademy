@@ -109,3 +109,36 @@
     }
   }
 }
+
+.searchContainer {
+  padding: 8px 12px;
+  border-bottom: 1px solid #e2e8f0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  
+  svg {
+    color: #64748b;
+    flex-shrink: 0;
+  }
+}
+
+.searchInput {
+  border: none;
+  outline: none;
+  width: 100%;
+  font-size: 13px;
+  color: #334155;
+  background: transparent;
+  
+  &::placeholder {
+    color: #94a3b8;
+  }
+}
+
+.emptyState {
+  padding: 12px;
+  text-align: center;
+  font-size: 13px;
+  color: #64748b;
+}

@@ -1,6 +1,6 @@
 "use client";
 import React from 'react';
-import { User, Building2, CheckCircle2 } from 'lucide-react';
+import { User, Building2, CheckCircle2, Users } from 'lucide-react';
 import styles from '@/sass/pages/register-course/registration-type-toggle.module.scss';
 
 const RegistrationTypeToggle = ({ value, onChange }) => {
@@ -25,7 +25,7 @@ const RegistrationTypeToggle = ({ value, onChange }) => {
         onClick={() => onChange('company')}
       >
         <div className={styles.iconBox}>
-          <Building2 size={24} />
+          <Users size={24} />
         </div>
         <div className={styles.info}>
           <h3>Company</h3>

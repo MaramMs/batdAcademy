@@ -1,7 +1,8 @@
 'use client';
 import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { User, Mail, Phone, Package, MessageSquare, Send, MessageCircle } from "lucide-react";
+import { useForm, Controller } from "react-hook-form";
+import { User, Mail, Phone, Package, MessageSquare, Send, MessageCircle, ChevronDown } from "lucide-react";
+import DropdownMenuCustom from "@/components/common/DropdownMenu";
 import styles from "@/sass/pages/contact/form.module.scss";
 
 const subjects = [
@@ -18,6 +19,7 @@ const ContactForm = () => {
 
     const {
         register,
+        control,
         handleSubmit,
         formState: { errors },
         reset,
@@ -104,12 +106,20 @@ const ContactForm = () => {
                     <label>Subject <span>*</span></label>
                     <div className={`${styles.inputWrapper} ${styles.selectWrapper} ${errors.subject ? styles.hasError : ""}`}>
                         <MessageSquare size={16} className={styles.inputIcon} />
-                        <select {...register("subject", { required: "Please select a subject" })}>
-                            <option value="">Select a subject</option>
-                            {subjects.map((s) => (
-                                <option key={s} value={s}>{s}</option>
-                            ))}
-                        </select>
+                        <Controller
+                            name="subject"
+                            control={control}
+                            rules={{ required: "Please select a subject" }}
+                            render={({ field }) => (
+                                <DropdownMenuCustom
+                                    label="Select a subject"
+                                    options={subjects}
+                                    value={field.value}
+                                    onChange={field.onChange}
+                                    icon={<ChevronDown size={14} />}
+                                />
+                            )}
+                        />
                     </div>
                     {errors.subject && <span className={styles.error}>{errors.subject.message}</span>}
                 </div>
