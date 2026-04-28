@@ -1,4 +1,4 @@
-import styles from "@/sass/pages/consulting/consulting-details/Overview.module.scss";
+import styles from "@/sass/pages/consulting/consulting-details/overview.module.scss";
 import { Check, CircleCheck } from "lucide-react";
 
 const Overview = () => {
