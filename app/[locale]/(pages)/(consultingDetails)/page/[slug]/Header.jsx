@@ -7,15 +7,9 @@ const Header = () => {
         <div className={styles.header}>
             <div className={container.container}>
                 <div className={styles.wrapper}>
-                    <div className={styles.breadcrumb}>
-                        <House />
-                        <ChevronRight />
-                        <span>Year Plan</span>
-                    </div>
-
                     <div className={styles.content}>
-                        <h1>Strategic Plan Pages</h1>
-                        <p>Comprehensive Planning for Future Development</p>
+                        <h1>Strategic Planning & Development</h1>
+                        <p>Comprehensive strategic planning services to help your business define goals and create actionable roadmaps</p>
                     </div>
                 </div>
             </div>
