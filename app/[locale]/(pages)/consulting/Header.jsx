@@ -1,7 +1,7 @@
 "use client";
 
 import DropdownMenuCustom from "@/components/common/DropdownMenu";
-import styles from "@/sass/pages/showCities/header.module.scss";
+import styles from "@/sass/pages/consulting/header.module.scss";
 import { Aperture, ChevronDown } from "lucide-react";
 import { useState } from "react";
 import SearchCourse from "../search_course/Search";

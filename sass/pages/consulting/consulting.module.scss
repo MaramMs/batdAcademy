@@ -1,5 +1,6 @@
 .mainContent {
     padding: 60px 0px 100px 0px;
+
     @media (max-width:576px) {
         padding: 16px 0px 40px 0px;
     }
@@ -8,18 +9,21 @@
         display: flex;
         flex-direction: column;
         gap: 100px;
-         @media (max-width:576px) {
-                    gap: 16px;
-                }
+
+        @media (max-width:576px) {
+            gap: 16px;
+        }
 
         .consultingCategory {
             display: flex;
             flex-direction: column;
             justify-content: center;
             gap: 69px;
- @media (max-width:576px) {
-                    gap: 24px;
-                }
+
+            @media (max-width:576px) {
+                gap: 24px;
+            }
+
             .heading {
                 display: flex;
                 flex-direction: column;
@@ -57,10 +61,17 @@
 
             .consultingCard {
                 display: grid;
-                grid-template-columns: repeat(auto-fill, minmax(405px, 1fr));
+                grid-template-columns: repeat(3, 1fr);
+                // grid-template-columns: repeat(auto-fill, minmax(405px, 1fr));
                 gap: 24px;
                 padding: 0px 100px;
+
+                @media (max-width:992px) {
+                    grid-template-columns: repeat(2, 1fr);
+                }
+
                 @media (max-width:576px) {
+                    grid-template-columns: repeat(1, 1fr);
                     padding: 0px;
                     gap: 16px;
                 }
@@ -107,10 +118,10 @@
                     font-size: 28px;
                     font-weight: 600;
                     color: #333333;
-                    
-                     @media (max-width:576px) {
+
+                    @media (max-width:576px) {
                         font-size: 16px;
-                }
+                    }
                 }
 
                 p {
@@ -118,21 +129,28 @@
                     font-weight: 400;
                     color: #4A5565;
                     text-align: center;
-                    
-                     @media (max-width:576px) {
+
+                    @media (max-width:576px) {
                         font-size: 14px;
-                }
+                    }
                 }
             }
 
             .expertCards {
                 display: grid;
-                grid-template-columns: repeat(auto-fill, minmax(315px, 1fr));
-                gap: 34px;
-                 @media (max-width:576px) {
-                        padding: 0px;
-                        gap: 16px;
-                    }
+                grid-template-columns: repeat(4, 1fr);
+                // grid-template-columns: repeat(auto-fill, minmax(315px, 1fr));
+                gap: 24px;
+
+                @media (max-width:992px) {
+                    grid-template-columns: repeat(2, 1fr);
+                }
+
+                @media (max-width:576px) {
+                    grid-template-columns: repeat(1, 1fr);
+                    padding: 0px;
+                    gap: 16px;
+                }
             }
         }
 
@@ -142,17 +160,20 @@
             justify-content: center;
             align-items: center;
             gap: 48px;
+
             @media (max-width:576px) {
                 padding: 0px 0px;
                 gap: 16px;
             }
+
             .heading {
                 display: flex;
                 flex-direction: column;
                 align-items: center;
                 justify-content: center;
                 gap: 16px;
-                 @media (max-width:576px) {
+
+                @media (max-width:576px) {
                     gap: 12px;
                 }
 
@@ -161,9 +182,9 @@
                     font-weight: 600;
                     color: #333333;
 
-                     @media (max-width:576px) {
+                    @media (max-width:576px) {
                         font-size: 16px;
-                }
+                    }
                 }
 
                 p {
@@ -171,21 +192,21 @@
                     font-weight: 400;
                     color: #4A5565;
                     text-align: center;
-                    
-                     @media (max-width:576px) {
+
+                    @media (max-width:576px) {
                         font-size: 14px;
-                }
+                    }
                 }
             }
 
             .questions {
-            display: flex;
-    flex-direction: column;
-    gap: 20px;
-    max-width:1000px;        // or whatever width matches your design
-    width: 100%;
-    margin: 0 auto;          // this centers it horizontally
-    align-self: center
+                display: flex;
+                flex-direction: column;
+                gap: 20px;
+                max-width: 1000px; // or whatever width matches your design
+                width: 100%;
+                margin: 0 auto; // this centers it horizontally
+                align-self: center
             }
         }
     }

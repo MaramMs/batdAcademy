@@ -17,7 +17,12 @@ const RegisterCoursePage = () => {
     const [regType, setRegType] = useState('individual');
     const { register, handleSubmit, control, watch, setValue, formState: { errors } } = useForm();
 
+
     const onSubmit = (data) => {
+          if (!recaptchaToken) {
+        alert('يرجى إتمام التحقق من أنك لست روبوتاً');
+        return;
+    }
         if (currentStep === 1) {
             console.log('Step 1 data:', { ...data, registrationType: regType });
             setCurrentStep(2);

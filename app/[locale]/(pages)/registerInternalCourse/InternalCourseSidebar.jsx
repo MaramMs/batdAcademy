@@ -21,9 +21,9 @@ const InternalCourseSidebar = () => {
                 <div className={styles.whatsIncluded}>
                     <h4>including</h4>
                     <ul>
-                        <li><Check size={14} /> Daily snacks and lunches</li>
-                        <li><Check size={14} /> Course materials</li>
-                        <li><Check size={14} /> Certificate of completion</li>
+                        <li> <span></span> Daily snacks and lunches</li>
+                        <li><span></span> Course materials</li>
+                        <li> <span></span> Certificate of completion</li>
                     </ul>
                 </div>
             </div>

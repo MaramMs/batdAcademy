@@ -1,7 +1,7 @@
 import React from 'react';
 import { Users, Plus, X } from 'lucide-react';
 import { useFieldArray } from 'react-hook-form';
-import styles from '@/sass/pages/register-course/steps-form.module.scss';
+import styles from '@/sass/pages/request-course/form.module.scss';
 
 const ParticipantsSection = ({ control, register, errors }) => {
     const { fields, append, remove } = useFieldArray({

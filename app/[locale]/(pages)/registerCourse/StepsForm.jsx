@@ -1,22 +1,24 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { User, Mail, Phone, Briefcase, ArrowRight, Users, Plus, X, ChevronDown } from 'lucide-react';
 import { useFieldArray, Controller } from 'react-hook-form';
 import RegistrationTypeToggle from './RegistrationTypeToggle';
 import styles from '@/sass/pages/register-course/steps-form.module.scss';
 import DropdownMenuCustom from '@/components/common/DropdownMenu';
+import ReCAPTCHA from 'react-google-recaptcha';
 
 const StepsForm = ({ handleSubmit, onSubmit, errors, register, control, setRegType, regType }) => {
   const { fields, append, remove } = useFieldArray({
     control,
     name: "participants"
   });
-
+const [recaptchaToken, setRecaptchaToken] = useState(null);
   // Ensure at least one participant if company
   useEffect(() => {
     if (regType === 'company' && fields.length === 0) {
       append({ fullName: '', email: '', jobTitle: '', phone: '', mobile: '' });
     }
   }, [regType, fields.length, append]);
+
   return (
     <div className={styles.formContent}>
       <div className={styles.formCard}>
@@ -237,6 +239,21 @@ const StepsForm = ({ handleSubmit, onSubmit, errors, register, control, setRegTy
             </div>
           )}
 
+
+{/* Before the footerActions div */}
+<div style={{ marginTop: '24px' }}>
+    {/* <p style={{ fontSize: '14px', color: '#1E293B', marginBottom: '8px', textAlign: 'right' }}>
+        هل أنت روبوت؟
+    </p> */}
+    <ReCAPTCHA
+        sitekey="YOUR_GOOGLE_SITE_KEY"  // 👈 Get from Google reCAPTCHA console
+        onChange={(token) => setRecaptchaToken(token)}
+        onExpired={() => setRecaptchaToken(null)}
+    />
+    {!recaptchaToken && errors.recaptcha && (
+        <span style={{ color: '#EF4444', fontSize: '12px' }}>يرجى إتمام التحقق</span>
+    )}
+</div>
           <div className={styles.footerActions}>
             <button type="submit" className={styles.btnContinue}>
               Continue <ArrowRight size={18} />

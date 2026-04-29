@@ -84,6 +84,7 @@
 
         @media (max-width: 992px) {
             grid-template-columns: 1fr;
+            gap: 16px;
         }
 
         &.successLayout {
@@ -101,6 +102,17 @@
             display: flex;
             flex-direction: column;
             gap: 35.63px;
+
+            .formCard {
+                .formGrid {
+                    grid-template-columns: 1fr;
+                    gap: 24px;
+
+                    .DateInput_wrapper {
+                        width: 100%;
+                    }
+                }
+            }
         }
 
         .sidebar {
@@ -111,6 +123,13 @@
     }
 }
 
+.datePickerInput {
+    width: 100%;
+}
+
+.DateInput_wrapper {
+    width: 100%;
+}
 
 .mainLayout {
     display: grid;
@@ -126,13 +145,13 @@
 }
 
 .summaryCard {
-    border: 1px solid #F3F4F6;
-    background-color: $white;
+  border: 1px solid #E5E7EB;
+  background: linear-gradient(135deg, #F8FAFC 0%, #EFF6FF 100%);
+padding:30px 25px;
     border-radius: 20px;
-    overflow: hidden;
-    margin-bottom: 20px;
-    box-shadow: 0px 8px 10px -6px #0000001A;
-    box-shadow: 0px 20px 25px -5px #0000001A;
+    @media (max-width: 576px) {
+        padding:16px;
+    }
 
     .courseImg {
         width: 100%;
@@ -142,7 +161,9 @@
 
     .summaryContent {
         padding: 25px;
-
+ @media (max-width: 576px) {
+        padding:0px;
+    }
         h3 {
             font-size: 18px;
             color: $blue-900;
@@ -210,6 +231,9 @@
             height: 1px;
             background-color: $gray-100;
             margin: 20px 0;
+             @media (max-width: 576px) {
+        margin:16px 0px;
+    }
         }
 
         .priceSection {
@@ -241,13 +265,20 @@
         }
 
         .whatsIncluded {
-            margin-top: 30px;
+         
+            border: 1px solid #E5E7EB;
+            background-color: #FFFFFF;
+            border-radius: 10px;
+            padding: 17px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
 
             h4 {
-                font-size: 14px;
-                font-weight: 700;
-                color: $blue-900;
-                margin-bottom: 15px;
+                font-size: 12px;
+                font-weight: 400;
+                color: #4A5565;
+                
             }
 
             ul {
@@ -258,15 +289,17 @@
                 li {
                     display: flex;
                     align-items: center;
-                    gap: 10px;
-                    font-size: 13px;
-                    color: $text-gray;
+                    gap: 6px;
+                    font-size: 12px;
+                    color: #364153;
                     margin-bottom: 10px;
-
-                    svg {
-                        color: $blue-600;
-                        width: 14px;
+                    span{
+                        width: 6px;
+                        height: 6px;
+                        border-radius: 50%;
+                        background-color: #3B4A7D;
                     }
+
                 }
             }
         }

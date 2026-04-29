@@ -18,6 +18,7 @@
     position: relative;
     display: flex;
     align-items: center;
+  
 
     .input {
         width: 100%;
@@ -37,9 +38,16 @@
     }
 
     .icon {
+          svg{
+        right: 15px !important;
+    }
         position: absolute;
-        right: 12px;
+        right: 12px !important;
         color: #9CA3AF;
         pointer-events: none;
+    }
+
+    .datePickerWrapper {
+        width: 100%;
     }
 }
