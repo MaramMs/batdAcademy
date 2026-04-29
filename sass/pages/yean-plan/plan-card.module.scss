@@ -5,11 +5,16 @@
     display: flex;
     padding: 24px;
     gap: 24px;
-
-    @media (max-width: 768px) {
-        flex-direction: column;
+       @media (max-width:992px){
+            flex-direction: column;
+          
+        }
+        @media (max-width: 576px) {
+           flex-direction: column;
         padding: 8px;
-    }
+        }
+
+  
 
     .img {
         position: relative;

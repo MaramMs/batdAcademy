@@ -27,7 +27,7 @@ const CityCard = ({ city }) => {
                 </div>
 
               </div>
-            <Link href="#" className={styles.link}>
+            <Link href="/en/city/1/dfhh" className={styles.link}>
                  Explore Courses <ChevronRight />
             </Link>
           </div>

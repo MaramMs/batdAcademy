@@ -4,6 +4,7 @@ import { useForm, Controller } from "react-hook-form";
 import { User, Mail, Phone, Package, MessageSquare, Send, MessageCircle, ChevronDown } from "lucide-react";
 import DropdownMenuCustom from "@/components/common/DropdownMenu";
 import styles from "@/sass/pages/contact/form.module.scss";
+import ReCAPTCHA from "react-google-recaptcha";
 
 const subjects = [
     "Course Inquiry",
@@ -16,6 +17,8 @@ const subjects = [
 const ContactForm = () => {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [submitted, setSubmitted] = useState(false);
+    const [recaptchaToken, setRecaptchaToken] = useState(null);
+
 
     const {
         register,
@@ -135,7 +138,18 @@ const ContactForm = () => {
                     </div>
                     {errors.message && <span className={styles.error}>{errors.message.message}</span>}
                 </div>
+                <div style={{ marginTop: '24px' }}>
 
+                    <ReCAPTCHA
+
+                        sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}
+                        onChange={(token) => setRecaptchaToken(token)}
+                        onExpired={() => setRecaptchaToken(null)}
+                    />
+                    {!recaptchaToken && errors.recaptcha && (
+                        <span style={{ color: '#EF4444', fontSize: '12px' }}>يرجى إتمام التحقق</span>
+                    )}
+                </div>
                 <button
                     type="submit"
                     className={styles.submitBtn}

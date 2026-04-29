@@ -6,7 +6,7 @@
         grid-template-columns: 1fr 2fr;
         gap: 67px;
 
-        @media (max-width:768px) {
+        @media (max-width:992px) {
             grid-template-columns: 1fr;
         }
 
@@ -128,7 +128,7 @@
             }
 
 
-            @media (max-width:768px) {
+            @media (max-width:992px) {
                 display: none;
             }
         }
@@ -151,7 +151,11 @@
                     grid-template-columns: repeat(1, 1fr);
                 }
 
-                @media (max-width:768px) {
+                @media (max-width:992px) {
+                    grid-template-columns: repeat(2, 1fr);
+                    gap: 8px;
+                }
+                 @media (max-width:576px) {
                     grid-template-columns: repeat(1, 1fr);
                 }
             }

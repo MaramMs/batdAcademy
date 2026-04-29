@@ -1,5 +1,5 @@
 "use client";
-import styles from "@/sass/pages/showCities/header.module.scss";
+import styles from "@/sass/pages/consulting/consulting-category/header.module.scss";
 import { Aperture } from "lucide-react";
 import SearchCourse from "../../search_course/Search";
 const Header = () => {

@@ -87,12 +87,12 @@ const MainNavBar = () => {
 
           <Link href="/consulting"  className={styles.navLink}>{t('consulting')}</Link>
           <Link href="/blog"       className={styles.navLink}>{t('blog')}</Link>
-          <Link href="/contact"     className={styles.navLink}>{t('contactUs')}</Link>
+          <Link href="/contact_us"     className={styles.navLink}>{t('contactUs')}</Link>
         </nav>
 
         <div className={styles.actions}>
-          <Link href="/login"    className={styles.btnSignIn}>{t('signIn')}</Link>
-          <Link href="/register" className={styles.btnSignUp}>{t('signUp')}</Link>
+          <Link href="/signIn"    className={styles.btnSignIn}>{t('signIn')}</Link>
+          <Link href="/signUp" className={styles.btnSignUp}>{t('signUp')}</Link>
         </div>
 
         {/* Mobile Search, Lang Toggle & Hamburger */}
@@ -124,13 +124,47 @@ const MainNavBar = () => {
       {mobileOpen && (
         <div className={styles.mobileMenu}>
           <Link href="/"           className={styles.mobileLink} onClick={() => setMobileOpen(false)}>{t('home')}</Link>
-          <Link href="/programs"   className={styles.mobileLink} onClick={() => setMobileOpen(false)}>{t('trainingPrograms')}</Link>
+
+          <div className={styles.mobileDropdown}>
+            <button
+              className={styles.mobileLink}
+              onClick={() => setTrainingOpen((prev) => !prev)}
+              aria-haspopup="true"
+              aria-expanded={trainingOpen}
+            >
+              {t('trainingPrograms')}
+              <ChevronDown
+                className={`${styles.chevron} ${trainingOpen ? styles.open : ''}`}
+                aria-hidden="true"
+              />
+            </button>
+
+            {trainingOpen && (
+              <ul className={styles.mobileDropdownMenu} role="menu">
+                {TRAINING_ITEMS.map((item) => (
+                  <li key={item.href} role="none">
+                    <Link
+                      href={item.href}
+                      className={styles.mobileDropdownItem}
+                      role="menuitem"
+                      onClick={() => {
+                        setTrainingOpen(false);
+                        setMobileOpen(false);
+                      }}
+                    >
+                      {item.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
           <Link href="/consulting" className={styles.mobileLink} onClick={() => setMobileOpen(false)}>{t('consulting')}</Link>
-          <Link href="/about"      className={styles.mobileLink} onClick={() => setMobileOpen(false)}>{t('aboutUs')}</Link>
+          <Link href="/blog"      className={styles.mobileLink} onClick={() => setMobileOpen(false)}>{t('blog')}</Link>
           <Link href="/contact"    className={styles.mobileLink} onClick={() => setMobileOpen(false)}>{t('contactUs')}</Link>
           <div className={styles.mobileActions}>
-            <Link href="/login"    className={styles.btnSignIn} onClick={() => setMobileOpen(false)}>{t('signIn')}</Link>
-            <Link href="/register" className={styles.btnSignUp} onClick={() => setMobileOpen(false)}>{t('signUp')}</Link>
+            <Link href="/signIn"    className={styles.btnSignIn} onClick={() => setMobileOpen(false)}>{t('signIn')}</Link>
+            <Link href="/signUp" className={styles.btnSignUp} onClick={() => setMobileOpen(false)}>{t('signUp')}</Link>
           </div>
         </div>
       )}

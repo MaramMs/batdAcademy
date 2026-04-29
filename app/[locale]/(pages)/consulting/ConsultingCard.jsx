@@ -15,7 +15,7 @@ const ConsultingCard = ({ data }) => {
             </div>
           <div className={styles.body}>
               <p>{data.description}</p>
-            <Link href="#">View More <ChevronRight /></Link>
+            <Link href={`/en/consulting/${data.slug}`}>View More <ChevronRight /></Link>
           </div>
         </div>
     );

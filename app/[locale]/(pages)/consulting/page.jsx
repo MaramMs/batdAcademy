@@ -11,32 +11,40 @@ const consultingData = [
     {
         image: '/asstes/const.jpg',
         title: "Consulting 1",
-        description: "Description 1"
+        description: "Description 1",
+        slug:'consulting-test-1'
     },
     {
         image: "/asstes/const.jpg",
         title: "Consulting 2",
-        description: "Description 2"
+        description: "Description 2",
+         slug:'consulting-test-1'
+
     },
     {
         image: "/asstes/const.jpg",
         title: "Consulting 3",
-        description: "Description 3"
+        description: "Description 3",
+         slug:'consulting-test-1'
+
     },
     {
         image: '/asstes/const.jpg',
-        title: "Consulting 1",
-        description: "Description 1"
+        title: "Consulting",
+        description: "Description 1",
+         slug:'consulting-test-1'
     },
     {
         image: "/asstes/const.jpg",
-        title: "Consulting 2",
-        description: "Description 2"
+        title: "Consulting ",
+        description: "Description 2",
+         slug:'consulting-test-1'
     },
     {
         image: "/asstes/const.jpg",
-        title: "Consulting 3",
-        description: "Description 3"
+        title: "Consulting ",
+        description: "Description 3",
+         slug:'consulting-test-1'
     },
 ]
 

@@ -1,31 +1,32 @@
 'use client';
 
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
-import { 
-  Award, 
-  BookOpen, 
-  ChevronDown, 
-  CircleCheck, 
-  GraduationCap, 
-  Mail, 
-  Phone, 
-  Send, 
-  Sparkles, 
-  User, 
-  Users 
+import {
+  Award,
+  BookOpen,
+  ChevronDown,
+  CircleCheck,
+  GraduationCap,
+  Mail,
+  Phone,
+  Send,
+  Sparkles,
+  User,
+  Users
 } from "lucide-react";
 
 import Title from "@/components/common/Title";
 import styles from '@/sass/pages/home/request-coures.module.scss';
 import containerStyles from '@/sass/components/common/container.module.scss';
 import DropdownMenuCustom from "@/components/common/DropdownMenu";
+import ReCAPTCHA from 'react-google-recaptcha';
 
 // --- CONSTANTS ---
 
 const STATS_DATA = [
   { icon: Users, value: "15,000+", label: "Active Students" },
-  { icon: Award, value: "15,000+", label: "Active Students" }, 
+  { icon: Award, value: "15,000+", label: "Active Students" },
   { icon: GraduationCap, value: "15,000+", label: "Active Students" },
 ];
 
@@ -79,7 +80,7 @@ const BenefitItem = ({ text }) => (
  * Interactive Course Tag
  */
 const CourseTag = ({ name, isSelected, onClick }) => (
-  <button 
+  <button
     type="button"
     className={`${styles['request-courses__tag']} ${isSelected ? styles['request-courses__tag--active'] : ''}`}
     onClick={() => onClick(name)}
@@ -91,11 +92,11 @@ const CourseTag = ({ name, isSelected, onClick }) => (
 /**
  * Specialized Form Field with Icon and Error Handling
  */
-const FormField = ({ 
-  icon: Icon, 
-  error, 
-  children, 
-  className = "" 
+const FormField = ({
+  icon: Icon,
+  error,
+  children,
+  className = ""
 }) => (
   <div className={`${styles['request-courses__field-group']} ${className}`}>
     <div className={`
@@ -135,14 +136,15 @@ const RequestCoures = () => {
   const onSubmit = async (data) => {
 
   };
+  const [recaptchaToken, setRecaptchaToken] = useState(null);
 
   return (
     <section className={styles['request-courses']}>
       <div className={containerStyles.container}>
-        <Title 
-          title='Request A ' 
-          span='Course' 
-          subtitle='You can contact us for a special course' 
+        <Title
+          title='Request A '
+          span='Course'
+          subtitle='You can contact us for a special course'
         />
 
         <div className={styles['request-courses__content']}>
@@ -156,7 +158,7 @@ const RequestCoures = () => {
 
             <div className={styles['request-courses__benefits']}>
               <h2>
-                <Award color="#3B82F6" size={21} /> 
+                <Award color="#3B82F6" size={21} />
                 What You Get
               </h2>
               <div className={styles['request-courses__benefits-list']}>
@@ -169,15 +171,15 @@ const RequestCoures = () => {
 
           <div className={styles['request-courses__right']}>
             <div className={styles['request-courses__header']}>
-              <h2> 
-                <Sparkles color='#3B82F6' size={20} /> 
+              <h2>
+                <Sparkles color='#3B82F6' size={20} />
                 Popular choices:
               </h2>
               <div className={styles['request-courses__tags']}>
                 {POPULAR_COURSES.map((course) => (
-                  <CourseTag 
-                    key={course} 
-                    name={course} 
+                  <CourseTag
+                    key={course}
+                    name={course}
                     isSelected={selectedCourse === course}
                     onClick={handleTagClick}
                   />
@@ -185,9 +187,9 @@ const RequestCoures = () => {
               </div>
             </div>
 
-            <form 
-              onSubmit={handleSubmit(onSubmit)} 
-              className={styles['request-courses__form']} 
+            <form
+              onSubmit={handleSubmit(onSubmit)}
+              className={styles['request-courses__form']}
               noValidate
             >
               <div className={styles['request-courses__field-row']}>
@@ -259,8 +261,20 @@ const RequestCoures = () => {
                 />
               </FormField>
 
-              <button 
-                type="submit" 
+              <div style={{ marginTop: '24px' }}>
+
+                <ReCAPTCHA
+
+                  sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}
+                  onChange={(token) => setRecaptchaToken(token)}
+                  onExpired={() => setRecaptchaToken(null)}
+                />
+                {!recaptchaToken && errors.recaptcha && (
+                  <span style={{ color: '#EF4444', fontSize: '12px' }}>يرجى إتمام التحقق</span>
+                )}
+              </div>
+              <button
+                type="submit"
                 className={styles['request-courses__submit']}
                 disabled={isSubmitting}
               >

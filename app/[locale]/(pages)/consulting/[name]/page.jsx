@@ -10,6 +10,7 @@ const consultingData =[
         image:"/asstes/constCategory.jpg",
         prices:'$5000-$15000',
         duration:'2-16 weeks',
+        slug:"consulting-test-1",
     },
     {
         id:2,
@@ -18,6 +19,7 @@ const consultingData =[
         image:"/asstes/constCategory.jpg",
         prices:'$5000-$15000',
         duration:'2-16 weeks',
+         slug:"consulting-test-1",
     },
     {
         id:3,

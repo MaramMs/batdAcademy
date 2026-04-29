@@ -16,7 +16,7 @@ const ConsultingCategoryCard = ({ data }) => {
                     <p>{data.description}</p>
                 </div>
                 <span>{data.prices}</span>
-                <Link href="" className={styles.viewDetails}>
+                <Link href={`/en/page/${data.slug}`} className={styles.viewDetails}>
                     View Details
                     <ChevronRight />
                 </Link>

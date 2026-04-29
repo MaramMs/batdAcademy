@@ -106,9 +106,13 @@ const CourseByCityDetails = () => {
 
 
                     <div className={styles.rightContent}>
-                        {upcomingCourses.slice(0, 6).map((course) => (
+                    <div className={styles.cards}>
+                            {upcomingCourses.slice(0, 6).map((course) => (
                            <UpcomingCouresCard key={course.id} course={course} />
                         ))}
+                    </div>
+                        <button className={styles.showMoreBtn}>Show More</button>
+
                     </div>
                     </div>
 

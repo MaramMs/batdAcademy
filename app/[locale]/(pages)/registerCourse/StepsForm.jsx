@@ -11,8 +11,7 @@ const StepsForm = ({ handleSubmit, onSubmit, errors, register, control, setRegTy
     control,
     name: "participants"
   });
-const [recaptchaToken, setRecaptchaToken] = useState(null);
-  // Ensure at least one participant if company
+  const [recaptchaToken, setRecaptchaToken] = useState(null);
   useEffect(() => {
     if (regType === 'company' && fields.length === 0) {
       append({ fullName: '', email: '', jobTitle: '', phone: '', mobile: '' });
@@ -28,7 +27,7 @@ const [recaptchaToken, setRecaptchaToken] = useState(null);
         </div>
         <div className={styles.registrationTypeSection}>
           <div className={styles.sectionTitle}>
-            <Users  color='#C9302C' size={20}/> Registration Type *
+            <Users color='#C9302C' size={20} /> Registration Type *
           </div>
 
           <RegistrationTypeToggle
@@ -84,14 +83,14 @@ const [recaptchaToken, setRecaptchaToken] = useState(null);
               <label>Country <span>*</span></label>
               <div className={styles.inputWrapper}>
 
-             
+
 
                 <Controller
-                name="country"
-                control={control}
-                rules={{ required: true }}
-                render={({ field }) => (
-                  <DropdownMenuCustom 
+                  name="country"
+                  control={control}
+                  rules={{ required: true }}
+                  render={({ field }) => (
+                    <DropdownMenuCustom
                       label="Select your country"
                       options={[
                         { value: "US", label: "United States" },
@@ -157,9 +156,9 @@ const [recaptchaToken, setRecaptchaToken] = useState(null);
                   <div key={field.id} className={styles.participantCard}>
                     <div className={styles.participantCardHeader}>
                       <h4>Participant {index + 1}</h4>
-                      <button 
-                        type="button" 
-                        onClick={() => remove(index)} 
+                      <button
+                        type="button"
+                        onClick={() => remove(index)}
                         className={styles.removeBtn}
                         disabled={fields.length === 1}
                       >
@@ -240,20 +239,18 @@ const [recaptchaToken, setRecaptchaToken] = useState(null);
           )}
 
 
-{/* Before the footerActions div */}
-<div style={{ marginTop: '24px' }}>
-    {/* <p style={{ fontSize: '14px', color: '#1E293B', marginBottom: '8px', textAlign: 'right' }}>
-        هل أنت روبوت؟
-    </p> */}
-    <ReCAPTCHA
-        sitekey="YOUR_GOOGLE_SITE_KEY"  // 👈 Get from Google reCAPTCHA console
-        onChange={(token) => setRecaptchaToken(token)}
-        onExpired={() => setRecaptchaToken(null)}
-    />
-    {!recaptchaToken && errors.recaptcha && (
-        <span style={{ color: '#EF4444', fontSize: '12px' }}>يرجى إتمام التحقق</span>
-    )}
-</div>
+          <div style={{ marginTop: '24px' }}>
+    
+            <ReCAPTCHA
+
+              sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY} 
+              onChange={(token) => setRecaptchaToken(token)}
+              onExpired={() => setRecaptchaToken(null)}
+            />
+            {!recaptchaToken && errors.recaptcha && (
+              <span style={{ color: '#EF4444', fontSize: '12px' }}>يرجى إتمام التحقق</span>
+            )}
+          </div>
           <div className={styles.footerActions}>
             <button type="submit" className={styles.btnContinue}>
               Continue <ArrowRight size={18} />

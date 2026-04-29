@@ -10,11 +10,15 @@ flex-direction: column;
 gap: 10px;
 .image{
     position: relative;
+    @media (max-width :576px){
+        height: 239px;
+    }
     img{
         width: 100%;
         height: 100%;
         border-top-left-radius: 14.9px;
         border-top-right-radius: 14.9px;
+        object-fit: cover;
     }
     span{
         position: absolute;

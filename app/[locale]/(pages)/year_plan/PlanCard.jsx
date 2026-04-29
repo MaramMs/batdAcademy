@@ -1,4 +1,4 @@
-import styles from "@/sass/pages/yean-plan/plan-card.module.scss";
+import styles from "@/sass/pages/year-plan/plan-card.module.scss";
 import { ArrowRight, FileText, TvMinimal } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -23,7 +23,7 @@ const PlanCard = () => {
                         <span>Read more....</span>
                     </p>
                 </div>
-                <Link href={""} className={styles.link}>
+                <Link href='/en/printCategory/1' className={styles.link}>
                   View Year Plans <ArrowRight />
                 </Link>
             </div>

@@ -1,8 +1,8 @@
-import styleContainer from "@/sass/components/common/container.module.scss";
-import styles from "@/sass/pages/blog/blog-details.module.scss";
 import ArticleParts from "./ArticleParts";
 import Header from "./Header";
 import MainContent from "./MainContent";
+import styleContainer from "@/sass/components/common/container.module.scss";
+import styles from "@/sass/pages/blog/blog-details.module.scss";
 
 const BlogDetailsPage = ({ params }) => {
       const { locale, slug } = params;

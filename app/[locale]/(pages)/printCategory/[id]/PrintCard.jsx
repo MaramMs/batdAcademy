@@ -69,10 +69,10 @@ const PrintCard = ({ card }) => {
             </div>
 
             <div className={styles.btns}>
-                <Link href='' className={styles.btnDetails}>
+                <Link href='/en/course_details/1/test' className={styles.btnDetails}>
                     Details
                 </Link>
-                <Link href='' className={styles.btnReg}>
+                <Link href='/en/registerCourse' className={styles.btnReg}>
                     Register <ArrowRight size={16} />
                 </Link>
 

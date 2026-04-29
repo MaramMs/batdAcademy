@@ -1,16 +1,17 @@
 "use client";
-
-import React from 'react';
+import { useState } from 'react';
 import { Calendar, Clock, MapPin, Globe, ArrowLeft, ArrowRight, CircleCheck, ChevronDown } from 'lucide-react';
 import { Controller, useWatch } from 'react-hook-form';
-import styles from '@/sass/pages/register-course/course-details-form.module.scss';
 import Image from 'next/image';
 import DropdownMenuCustom from '@/components/common/DropdownMenu';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import ReCAPTCHA from 'react-google-recaptcha';
+import styles from '@/sass/pages/register-course/course-details-form.module.scss';
 
 const CourseDetailsForm = ({ register, control, setValue, errors, handleBack, onSubmit, handleSubmit }) => {
-  const [mounted, setMounted] = React.useState(false);
+  const [mounted, setMounted] = useState(false);
+  const [recaptchaToken, setRecaptchaToken] = useState(null);
 
   React.useEffect(() => {
     setMounted(true);
@@ -250,7 +251,18 @@ const CourseDetailsForm = ({ register, control, setValue, errors, handleBack, on
           )
         }
 
+     <div style={{ marginTop: '24px' }}>
+    
+            <ReCAPTCHA
 
+              sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY} 
+              onChange={(token) => setRecaptchaToken(token)}
+              onExpired={() => setRecaptchaToken(null)}
+            />
+            {!recaptchaToken && errors.recaptcha && (
+              <span style={{ color: '#EF4444', fontSize: '12px' }}>يرجى إتمام التحقق</span>
+            )}
+          </div>
         {/* Actions */}
         <div className={styles.footerActions}>
           <button type="button" onClick={handleBack} className={styles.btnBack}>
