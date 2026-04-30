@@ -14,7 +14,8 @@ const MainNavBar = () => {
 
   const [trainingOpen, setTrainingOpen] = useState(false);
   const [mobileOpen, setMobileOpen]     = useState(false);
-  const dropdownRef = useRef(null);
+  const dropdownRef   = useRef(null);
+  const mobileMenuRef = useRef(null);
 
   const TRAINING_ITEMS = [
     { label: t('programs.master'), href: '/search_course?type=2' },
@@ -24,7 +25,9 @@ const MainNavBar = () => {
 
   useEffect(() => {
     const handleOutside = (e) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+      const insideDesktop = dropdownRef.current?.contains(e.target);
+      const insideMobile  = mobileMenuRef.current?.contains(e.target);
+      if (!insideDesktop && !insideMobile) {
         setTrainingOpen(false);
       }
     };
@@ -121,7 +124,7 @@ const MainNavBar = () => {
       </div>
 
       {mobileOpen && (
-        <div className={styles.mobileMenu}>
+        <div className={styles.mobileMenu} ref={mobileMenuRef}>
           <Link href="/"           className={styles.mobileLink} onClick={() => setMobileOpen(false)}>{t('home')}</Link>
 
           <div className={styles.mobileDropdown}>

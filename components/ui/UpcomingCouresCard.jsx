@@ -91,8 +91,8 @@ const UpcomingCouresCard = ({ course, onModalOpen, onModalClose, slideIndex, swi
                     />
                 </div>
                 <div className={styles.btns}>
-                    <Link href="/register" className={styles.btnRegister}>Register </Link>
-                    <Link href="/details" className={styles.btnDetails}> Details</Link>
+                    <Link href="/en/registerCourse" className={styles.btnRegister}>Register </Link>
+                    <Link href="/en/course_details/1/dsd" className={styles.btnDetails}> Details</Link>
                 </div>
             </div>
         </div>
