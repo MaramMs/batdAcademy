@@ -9,7 +9,7 @@ const nextConfig = {
   /* config options here */
   reactCompiler: true,
   sassOptions: {
-    prependData: `@import "@/sass/helpers/_index.scss";`
+    prependData: `@import "@/sass/helpers/index";`
   }
 };
 

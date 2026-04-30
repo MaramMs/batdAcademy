@@ -1,8 +1,8 @@
 import Header from "./Header";
 import PlanCard from "./PlanCard";
 
-import styles from "@/sass/pages/year-plan/year-plan.module.scss";
 import stylesContainer from "@/sass/components/common/container.module.scss";
+import styles from "@/sass/pages/year-plan/year-plan.module.scss";
 const YearPlan = () => {
     return (
         <div className={styles.main}>

@@ -1,6 +1,6 @@
-import container from "@/sass/components/common/container.module.scss";
-import styles from "@/sass/pages/yean-plan/header.module.scss";
 import { ChevronRight, House } from "lucide-react";
+import container from "@/sass/components/common/container.module.scss";
+import styles from "@/sass/pages/year-plan/header.module.scss";
 
 const Header = () => {
     return (
