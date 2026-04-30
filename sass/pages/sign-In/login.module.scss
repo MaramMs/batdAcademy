@@ -7,6 +7,7 @@
     min-height: calc(100vh - 120px);
     display: flex;
     flex-direction: column;
+     padding: 60px 0px 100px 0px;
 }
 
 .grid {
@@ -39,6 +40,9 @@
     align-items: center;
     justify-content: center;
     padding: 60px 0;
+    background-color: $white;
+    border-radius: 32px;
+   
 
     @media (max-width: $small-desktop) {
         padding: 40px 0 32px;
@@ -56,6 +60,7 @@
 
     @media (max-width: $small-desktop) {
         max-width: 100%;
+        padding: 0 20px;
     }
 }
 
@@ -317,8 +322,11 @@
 .infoPanel {
     flex: 1;
     border-radius: $radius-2xl;
-    background: linear-gradient(145deg, #252e62 0%, #1e2749 55%, #283270 100%);
-    position: relative;
+  background-image: url('/asstes/img.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+        position: relative;
     overflow: hidden;
     display: flex;
     align-items: center;
@@ -327,7 +335,7 @@
         content: "";
         position: absolute;
         inset: 0;
-        background: radial-gradient(ellipse at 75% 50%, rgba(91, 108, 200, 0.18) 0%, transparent 70%);
+        background: linear-gradient(135deg, rgba(45, 43, 94, 0.95) 0%, rgba(61, 59, 126, 0.9) 50%, rgba(77, 75, 142, 0.95) 100%);
         pointer-events: none;
     }
 

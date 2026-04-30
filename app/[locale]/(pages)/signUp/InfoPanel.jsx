@@ -1,4 +1,4 @@
-import { GraduationCap, CheckCircle2 } from "lucide-react";
+import { GraduationCap, CheckCircle2, CircleCheckBig } from "lucide-react";
 import styles from "@/sass/pages/sign-up/register.module.scss";
 
 const features = [
@@ -37,7 +37,7 @@ const InfoPanel = () => {
                 <ul className={styles.featureList}>
                     {features.map((f) => (
                         <li key={f.title} className={styles.featureItem}>
-                            <CheckCircle2 size={20} className={styles.checkIcon} />
+                            <CircleCheckBig size={20} className={styles.checkIcon} />
                             <div className={styles.featureText}>
                                 <strong>{f.title}</strong>
                                 <span>{f.description}</span>

@@ -38,7 +38,8 @@
 
 .banner {
     height: 130px;
-    background: linear-gradient(130deg, #374168 0%, #2d3458 100%);
+    background-color: $blue-900;
+    opacity: 80%;
 
     @media (max-width: $mobile) {
         height: 100px;
@@ -358,8 +359,9 @@
     display: flex;
     align-items: center;
     gap: 12px;
-    padding-bottom: 14px;
-    border-bottom: 1.5px solid $gray-100;
+    padding: 16px;
+    border-radius: 10px;
+    background-color: #F9FAFB;
 
     svg {
         color: $gray-400;
@@ -367,8 +369,8 @@
     }
 
     span {
-        font-size: 14px;
-        color: $text-blue;
+        font-size: 17px;
+        color: #2D2B5E;
     }
 }
 
@@ -924,15 +926,13 @@
 }
 
 .msgIconArea {
-    width: 88px;
+    width: 256px;
     flex-shrink: 0;
     @include flex-center;
-    background: $gray-50;
     border-right: 1.5px solid $gray-100;
 
     svg {
-        color: $blue-900;
-        opacity: 0.55;
+        color: #3D3B7E;
     }
 
     @media (max-width: $mobile) {
@@ -1000,8 +1000,14 @@
         flex-shrink: 0;
     }
 
-    &.statusRead   { color: $gray-600; }
-    &.statusUnread { color: $blue-600; font-weight: 600; }
+    &.statusRead {
+        color: $gray-600;
+    }
+
+    &.statusUnread {
+        color: $blue-600;
+        font-weight: 600;
+    }
 }
 
 .msgActions {
@@ -1102,8 +1108,13 @@
 }
 
 @keyframes overlayIn {
-    from { opacity: 0; }
-    to   { opacity: 1; }
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
 }
 
 .modal {
@@ -1122,6 +1133,7 @@
     &::-webkit-scrollbar {
         width: 4px;
     }
+
     &::-webkit-scrollbar-thumb {
         background: $gray-300;
         border-radius: 99px;
@@ -1135,13 +1147,25 @@
 }
 
 @keyframes modalIn {
-    from { opacity: 0; transform: scale(0.96) translateY(10px); }
-    to   { opacity: 1; transform: scale(1) translateY(0); }
+    from {
+        opacity: 0;
+        transform: scale(0.96) translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
 }
 
 @keyframes modalInMobile {
-    from { transform: translateY(100%); }
-    to   { transform: translateY(0); }
+    from {
+        transform: translateY(100%);
+    }
+
+    to {
+        transform: translateY(0);
+    }
 }
 
 .modalImageArea {
