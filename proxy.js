@@ -3,12 +3,17 @@ import { routing } from "./i18n/routing";
 
 const intlMiddleware = createMiddleware(routing);
 
-export default function middleware(request) {
+/**
+ * Proxy (formerly Middleware) logic for internationalization and redirects.
+ * 
+ * @param {import('next/server').NextRequest} request 
+ */
+export function proxy(request) {
   const { pathname } = request.nextUrl;
 
-  // Custom redirect from "/" to "/ar" as requested by the user
+  // Custom redirect from "/" to "/en" as requested by the user
   if (pathname === "/") {
-    return Response.redirect(new URL("/ar", request.url));
+    return Response.redirect(new URL("/en`", request.url));
   }
 
   return intlMiddleware(request);
