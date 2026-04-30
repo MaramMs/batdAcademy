@@ -1,6 +1,5 @@
 import Image from 'next/image';
 import styles from '@/sass/pages/home/hero.module.scss';
-import hero from "@/public/asstes/heroImage.jpg"
 import { Building2, Search, Users } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import stylesConteiner from '@/sass/components/common/container.module.scss'
@@ -74,10 +73,11 @@ export default function Hero() {
                 {/* ── RIGHT ── */}
                 <div className={styles.right}>
                     <Image
-                        src={hero}
+                        src="/asstes/heroImage.jpg"
                         alt={t('searchPlaceholder')} 
                         className={styles.heroImage}
-                    
+                        width={600}
+                        height={400}
                     />
                 </div>
               </div>

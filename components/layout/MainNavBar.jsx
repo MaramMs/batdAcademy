@@ -3,7 +3,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { Link } from '@/i18n/routing';
 import Image from 'next/image';
-import logo from '@/public/asstes/logo.png';
 import { ChevronDown, Menu, X, Search } from 'lucide-react';
 import styles from '@/sass/components/layout/main-navbar.module.scss';
 import { useTranslations } from 'next-intl';
@@ -39,7 +38,7 @@ const MainNavBar = () => {
 
         <Link href="/" className={styles.logo}>
           <Image
-            src={logo}
+            src="/asstes/logo.png"
             alt="British Academy for Training & Development"
             width={106}
             height={83}
