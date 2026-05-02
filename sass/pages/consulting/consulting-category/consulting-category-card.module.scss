@@ -11,13 +11,16 @@
         height: 224px;
         overflow: hidden;
 
+        @media (max-width: 768px) {
+            height: 200px;
+        }
+
         img {
             width: 100%;
             height: 100%;
             border-top-left-radius: 14px;
             border-top-right-radius: 14px;
-                        object-fit: cover;
-
+            object-fit: cover;
         }
 
         &::after {
@@ -41,7 +44,7 @@
             font-weight: 400;
             color: #3B4A7D;
             background-color: #FFFFFFE5;
-
+            z-index: 1;
         }
     }
 
@@ -51,21 +54,38 @@
         flex-direction: column;
         gap: 16px;
 
+        @media (max-width: 768px) {
+            padding: 16px;
+            gap: 12px;
+        }
+
         .info {
             display: flex;
             flex-direction: column;
             gap: 12px;
 
+            @media (max-width: 768px) {
+                gap: 8px;
+            }
+
             h2 {
                 font-size: 20px;
-                font-weight: 400;
+                font-weight: 600;
                 color: #101828;
+
+                @media (max-width: 768px) {
+                    font-size: 16px;
+                }
             }
 
             p {
                 font-size: 16px;
                 font-weight: 400;
                 color: #4A5565;
+
+                @media (max-width: 768px) {
+                    font-size: 14px;
+                }
             }
         }
 
@@ -73,6 +93,10 @@
             font-size: 18px;
             font-weight: 400;
             color: #3B4A7D;
+
+            @media (max-width: 768px) {
+                font-size: 14px;
+            }
         }
 
         .viewDetails {
@@ -87,6 +111,11 @@
             font-size: 16px;
             font-weight: 500;
             color: $white;
+
+            @media (max-width: 768px) {
+                height: 44px;
+                font-size: 14px;
+            }
         }
     }
 

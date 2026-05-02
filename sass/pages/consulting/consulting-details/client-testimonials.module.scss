@@ -9,8 +9,8 @@
     flex-direction: column;
     gap: 27px;
 
-    @media (max-width: 576px) {
-        padding: 16px 8px;
+    @media (max-width: 768px) {
+        padding: 20px 16px;
     }
 
     h2 {
@@ -18,7 +18,7 @@
         font-weight: 500;
         font-size: 27px;
 
-        @media (max-width: 576px) {
+        @media (max-width: 768px) {
             font-size: 16px;
         }
     }
@@ -38,7 +38,7 @@
             border: 1px solid #DBEAFE;
             padding: 28px;
 
-            @media (max-width: 576px) {
+            @media (max-width: 768px) {
                 padding: 8px;
                 height: 100%;
                 gap: 8px;
@@ -61,7 +61,7 @@
                 font-size: 18px;
                 line-height: 27px;
 
-                @media (max-width: 576px) {
+                @media (max-width: 768px) {
                     font-size: 14px;
                 }
             }
@@ -71,7 +71,7 @@
                 font-weight: 400;
                 font-size: 18px;
 
-                @media (max-width: 576px) {
+                @media (max-width: 768px) {
                     font-size: 12px;
                 }
             }
