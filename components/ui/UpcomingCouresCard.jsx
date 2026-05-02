@@ -50,7 +50,7 @@ const UpcomingCouresCard = ({ course, onModalOpen, onModalClose, slideIndex, swi
             </div>
             <div className={styles.content}>
                 <div className={styles.top}>
-                    <span className={styles.type}>{course.type}</span>
+                    <span className={styles.type}>{course.category?.name}</span>
                     <span className={styles.price}>{course.price}</span>
                 </div>
                 <p className={styles.description}>
@@ -66,7 +66,7 @@ const UpcomingCouresCard = ({ course, onModalOpen, onModalClose, slideIndex, swi
                     <div className={styles.time}>
                         <Clock color="#1E2749" size={14} />
                         <span className={styles.time}>
-                            {course.time}
+                            {course?.week_number} weeks
                         </span>
                     </div>
 

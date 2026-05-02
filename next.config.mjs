@@ -10,7 +10,17 @@ const nextConfig = {
   reactCompiler: true,
   sassOptions: {
     prependData: `@import "@/sass/helpers/index";`
-  }
+  },
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'batdacademy.simplesdev.space',
+        port: '',
+        pathname: '/public/**',
+      },
+    ],
+  },
 };
 
 export default withNextIntl(nextConfig);

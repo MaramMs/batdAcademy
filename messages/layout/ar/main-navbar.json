@@ -8,10 +8,9 @@
     "signIn": "دخول",
     "signUp": "تسجيل",
     "programs": {
-      "leadership": "التدريب القيادي",
-      "management": "المهارات الإدارية",
-      "technical": "البرامج التقنية",
-      "softSkills": "المهارات الشخصية"
+      "master": "الماجستير",
+      "diploma": "الدبلوم",
+      "trainingCourses": "الدورات التدريبية"
     }
   }
 }

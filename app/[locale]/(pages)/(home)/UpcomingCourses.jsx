@@ -1,14 +1,24 @@
 'use client'
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Title from "@/components/common/Title";
 import UpcomingCouresCard from "@/components/ui/UpcomingCouresCard";
 import { upcomingCourses } from "@/data/upcomingcourse";
 import GenericSlider from "@/components/common/GenericSlider";
 import styles from "@/sass/components/common/container.module.scss";
+import useCoursesStore from "@/store/useCoursesStore";
 
 const UpcomingCourses = () => {
     const swiperRef = useRef(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const {handleGetCourses,courses} = useCoursesStore();
+
+    console.log(courses , 'courses')
+
+
+    useEffect(() => {
+        handleGetCourses();
+    }, []);
     return (
         <div>
             <div className={styles.container}>
@@ -17,8 +27,7 @@ const UpcomingCourses = () => {
                     navId="courses"
                     swiperRef={swiperRef}
                     pauseAutoplay={isModalOpen}
-                    items={upcomingCourses}
-                    // centeredSlides={true}
+                    items={courses}
                     renderSlide={(course, index) => (
                         <div style={{ display: 'flex', justifyContent: 'center' }}>
                             <div style={{ maxWidth: '400px', width: '100%' }}>
@@ -30,7 +39,6 @@ const UpcomingCourses = () => {
                             </div>
                         </div>
                     )}
-                    // slidesPerView={1}
                     breakpoints={{
                         640: {
                             slidesPerView: 1,
