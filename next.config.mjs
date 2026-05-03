@@ -17,7 +17,7 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'batdacademy.simplesdev.space',
         port: '',
-        pathname: '/public/**',
+        pathname: '/**',
       },
     ],
   },

@@ -4,35 +4,9 @@ import Tabs from "@/components/common/Tabs";
 import Title from "@/components/common/Title";
 import styleContainer from '@/sass/components/common/container.module.scss';
 import styles from '@/sass/pages/home/course-by-special.module.scss';
-import { Activity, HeartPulse, Hospital, PillBottle, ShieldCheck, Stethoscope } from "lucide-react";
-import { useMemo, useState } from "react";
-
-
-const itemsByTab = {
-    1: [ // All Courses
-        { id: 1, icon: <Stethoscope />, title: "Medical Training", description: "3 specializations" },
-        { id: 2, icon: <HeartPulse />, title: "Public Health & Epidemiology", description: "2 specializations" },
-        { id: 3, icon: <Activity />, title: "Healthcare Services", description: "2 specializations" },
-        { id: 4, icon: <Hospital />, title: "Healthcare Policy & Planning", description: "2 specializations" },
-        { id: 5, icon: <ShieldCheck />, title: "Medical Quality & Safety", description: "2 specializations" },
-        { id: 6, icon: <PillBottle />, title: "Hospital Management", description: "2 specializations" },
-        { id: 7, icon: <Stethoscope />, title: "Medical Training", description: "3 specializations" },
-        { id: 8, icon: <HeartPulse />, title: "Public Health & Epidemiology", description: "2 specializations" },
-        { id: 9, icon: <Activity />, title: "Healthcare Services", description: "2 specializations" },
-        { id: 10, icon: <Hospital />, title: "Healthcare Policy & Planning", description: "2 specializations" },
-        { id: 11, icon: <ShieldCheck />, title: "Medical Quality & Safety", description: "2 specializations" },
-        { id: 12, icon: <PillBottle />, title: "Hospital Management", description: "2 specializations" },
-    ],
-    2: [ // Upcoming Courses
-        { id: 1, icon: <Stethoscope />, title: "Medical Training", description: "3 specializations" },
-        { id: 2, icon: <HeartPulse />, title: "Cardiology", description: "1 specialization" },
-        { id: 3, icon: <Activity />, title: "Emergency Medicine", description: "2 specializations" },
-    ],
-    3: [ // Past Courses
-        { id: 1, icon: <Hospital />, title: "Hospital Management", description: "2 specializations" },
-        { id: 2, icon: <ShieldCheck />, title: "Patient Safety", description: "1 specialization" },
-    ],
-}
+import useCategoriesStore from "@/store/useCategoriesStore";
+import Image from "next/image";
+import { useEffect, useMemo, useState } from "react";
 
 function chunkArray(arr, size) {
     const chunks = []
@@ -44,11 +18,11 @@ const CourseBySpecialCard = ({ item }) => {
     return (
         <div className={styles.card}>
             <div className={styles.cardImage}>
-                {item.icon}
+                {item.icon && <Image src={item.icon} alt={item.name} width={40} height={40} />}
             </div>
             <div className={styles.cardContent}>
-                <h3 className={styles.cardTitle}>{item.title}</h3>
-                <p className={styles.cardDescription}>{item.description}</p>
+                <h3 className={styles.cardTitle}>{item.name}</h3>
+                <p className={styles.cardDescription}>{item.courses_count} courses</p>
             </div>
 
         </div>
@@ -69,19 +43,47 @@ const CourseBySpecial = ({ items }) => {
 }
 
 const CoursesBySpecial = () => {
-    const [activeTabId, setActiveTabId] = useState(1)
+    const { categories, handleGetCategories } = useCategoriesStore();
+    const [activeTabId, setActiveTabId] = useState(null)
+
+    useEffect(() => {
+        handleGetCategories();
+    }, [])
+
+    useEffect(() => {
+        if (categories?.length > 0 && !activeTabId) {
+            setActiveTabId(categories[0].id)
+        }
+    }, [categories, activeTabId])
 
     const slides = useMemo(() => {
-        const items = itemsByTab[activeTabId] ?? []
-        return chunkArray(items, 6)
-    }, [activeTabId])
+        const activeCategory = categories?.find((item) => item.id === activeTabId);
+        const specializations = activeCategory?.specializations || [];
+        return chunkArray(specializations, 6)
+    }, [categories, activeTabId])
+
+    const tabsData = useMemo(() => {
+        return categories
+            ?.filter(cat => cat?.specializations?.length > 0)
+            .map(cat => ({
+                id: cat.id,
+                title: cat.name,
+            })) || [];
+    }, [categories]);
+
+    console.log(tabsData, 'tabsData')
 
     return (
         <section>
             <div className={styleContainer.container}>
                 <Title title="Courses  " span='By Specialization' subtitle='British-European expertise and specialized cadres for your success.' />
-                <Tabs activeTabId={activeTabId}
-                    onTabChange={setActiveTabId}  className={styles.specialTabs} tabClassName={styles.specialTab} />
+                <Tabs 
+                    activeTabId={activeTabId}
+                    onTabChange={setActiveTabId}  
+                    className={styles.specialTabs} 
+                    tabClassName={styles.specialTab}
+                    tabs={tabsData.slice(0,4)}
+                />
                 <GenericSlider
                     key={activeTabId}
                     navId="coursebyspecial"

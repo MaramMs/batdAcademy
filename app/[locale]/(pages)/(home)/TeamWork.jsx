@@ -1,40 +1,10 @@
+"use client"
+import { useEffect } from "react"
+import useTeamWorkStore from "@/store/useTeamWorkStore"
+import { Mail, Phone } from "lucide-react"
 import Title from "@/components/common/Title"
 import styleContainer from '@/sass/components/common/container.module.scss'
 import styles from '@/sass/pages/home/team-work.module.scss'
-import { Mail, Phone } from "lucide-react"
-const teams = [
-    {
-        id: 1,
-        name: 'John Doe',
-        position: 'Web Developer',
-        image: '/asstes/team1.jpg'
-    },
-    {
-        id: 2,
-        name: 'John Doe',
-        position: 'Web Developer',
-        image: '/asstes/team1.jpg'
-    },
-    {
-        id: 3,
-        name: 'John Doe',
-        position: 'Web Developer',
-        image: '/asstes/team1.jpg'
-    },
-    {
-        id: 4,
-        name: 'John Doe',
-        position: 'Web Developer',
-        image: '/asstes/team1.jpg'
-    },
-    {
-        id: 5,
-        name: 'John Doe',
-        position: 'Web Developer',
-        image: '/asstes/team1.jpg'
-    },
-]
-
 const Card = ({ team }) => {
     return (
         <div className={styles.card}>
@@ -44,27 +14,35 @@ const Card = ({ team }) => {
 
             <div className={styles.cardInfo}>
                 <h3 className={styles.name}>{team.name}</h3>
-                <p className={styles.position}>{team.position}</p>
+                <p className={styles.position}>{team?.job}</p>
             </div>
 
             <div className={styles.hoverContent}>
                 <div className={styles.hoverContentTop}>
                     <h3 className={styles.name}>{team.name}</h3>
-                    <p className={styles.position}>{team.position}</p>
+                    <p className={styles.position}>{team?.job}</p>
                 </div>
                 <div className={styles.social}>
-                    <a href="#"><i className="fab fa-facebook-f">
+                    <a href={team.social?.facebook} target="_blank" rel="noopener noreferrer"><i className="fab fa-facebook-f">
                         <svg width="8" height="13" viewBox="0 0 8 13" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M6.70808 0.559082H5.03108C4.2898 0.559082 3.57888 0.853554 3.05472 1.37772C2.53055 1.90188 2.23608 2.6128 2.23608 3.35408V5.03108H0.559082V7.26708H2.23608V11.7391H4.47208V7.26708H6.14908L6.70808 5.03108H4.47208V3.35408C4.47208 3.20583 4.53098 3.06364 4.63581 2.95881C4.74064 2.85398 4.88283 2.79508 5.03108 2.79508H6.70808V0.559082Z" stroke="#1E2749" strokeWidth="1.118" strokeLinecap="round" strokeLinejoin="round" />
                         </svg>
 
-                    </i></a>
-                    <a href="#"><i className="fab fa-twitter">
+                    </i>
+                    </a>
+                    <a href={team?.social?.facebook} target="_blank" rel="noopener noreferrer"><i className="fab fa-facebook-f">
+                        <svg width="8" height="13" viewBox="0 0 8 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M6.70808 0.559082H5.03108C4.2898 0.559082 3.57888 0.853554 3.05472 1.37772C2.53055 1.90188 2.23608 2.6128 2.23608 3.35408V5.03108H0.559082V7.26708H2.23608V11.7391H4.47208V7.26708H6.14908L6.70808 5.03108H4.47208V3.35408C4.47208 3.20583 4.53098 3.06364 4.63581 2.95881C4.74064 2.85398 4.88283 2.79508 5.03108 2.79508H6.70808V0.559082Z" stroke="#1E2749" strokeWidth="1.118" strokeLinecap="round" strokeLinejoin="round" />
+                        </svg>
+
+                    </i>
+                    </a>
+                    <a href={team?.social?.twitter} target="_blank" rel="noopener noreferrer"><i className="fab fa-twitter">
                         <svg width="13" height="11" viewBox="0 0 13 11" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M11.7391 0.563462C11.7391 0.563462 11.3478 1.73736 10.6211 2.46406C11.5155 8.05406 5.36648 12.1348 0.559082 8.94846C1.78888 9.00436 3.01868 8.61306 3.91308 7.83046C1.11808 6.99196 -0.279418 3.69386 1.11808 1.12246C2.34788 2.57586 4.24848 3.41436 6.14908 3.35846C5.64598 1.01066 8.38508 -0.330938 10.0621 1.23426C10.677 1.23426 11.7391 0.563462 11.7391 0.563462Z" stroke="#1E2749" strokeWidth="1.118" strokeLinecap="round" strokeLinejoin="round" />
                         </svg>
                     </i></a>
-                    <a href="#"><i className="fab fa-linkedin-in">
+                    <a href={team?.social?.linkedin} target="_blank" rel="noopener noreferrer"><i className="fab fa-linkedin-in">
                         <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <g clipPath="url(#clip0_214_7963)">
                                 <path d="M8.94384 4.47217C9.83338 4.47217 10.6865 4.82553 11.3155 5.45453C11.9445 6.08353 12.2978 6.93663 12.2978 7.82617V11.7392H10.0618V7.82617C10.0618 7.52966 9.94405 7.24529 9.73439 7.03562C9.52472 6.82596 9.24036 6.70817 8.94384 6.70817C8.64733 6.70817 8.36296 6.82596 8.1533 7.03562C7.94363 7.24529 7.82584 7.52966 7.82584 7.82617V11.7392H5.58984V7.82617C5.58984 6.93663 5.94321 6.08353 6.57221 5.45453C7.2012 4.82553 8.05431 4.47217 8.94384 4.47217Z" stroke="#1E2749" strokeWidth="1.118" strokeLinecap="round" strokeLinejoin="round" />
@@ -80,7 +58,7 @@ const Card = ({ team }) => {
 
 
                     </i></a>
-                    <a href="#"><i className="fab fa-instagram">
+                    <a href={team?.social?.instagram} target="_blank" rel="noopener noreferrer"><i className="fab fa-instagram">
                         <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <g clipPath="url(#clip0_214_7968)">
                                 <path d="M9.50316 1.11816H3.91316C2.36953 1.11816 1.11816 2.36953 1.11816 3.91316V9.50316C1.11816 11.0468 2.36953 12.2982 3.91316 12.2982H9.50316C11.0468 12.2982 12.2982 11.0468 12.2982 9.50316V3.91316C12.2982 2.36953 11.0468 1.11816 9.50316 1.11816Z" stroke="#1E2749" strokeWidth="1.118" strokeLinecap="round" strokeLinejoin="round" />
@@ -105,14 +83,14 @@ const Card = ({ team }) => {
                             <Phone size={11} color=" #364153" />
 
                         </span>
-                        +1 (378) 400-1234
+                      {team?.ssd}
                     </p>
                     <p className={styles.contactInfo}>
                         <span className={styles.icon}>
                             <Mail size={11} color=" #364153" />
 
                         </span>
-                        julie@email.com
+                       {team?.email}
                     </p>
 
                 </div>
@@ -121,12 +99,17 @@ const Card = ({ team }) => {
     )
 }
 const TeamWork = () => {
+    const {teamWork,handleGetTeamWork} = useTeamWorkStore();
+    console.log(teamWork , 'team work')
+    useEffect(() => {
+        handleGetTeamWork();
+    }, []);
     return (
         <section className={styles.teamWork}>
             <div className={styleContainer.container}>
                 <Title title="Team " span='Work' subtitle='We have the strongest trainers with a high level of skill' />
                 <div className={styles.content}>
-                    {teams.map((team) => (
+                    {teamWork.map((team) => (
                         <Card key={team.id} team={team} />
                     ))}
                 </div>

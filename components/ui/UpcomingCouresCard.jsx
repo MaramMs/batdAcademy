@@ -27,8 +27,8 @@ const UpcomingCouresCard = ({ course, onModalOpen, onModalClose, slideIndex, swi
         <div className={styles.card}>
             <div className={styles.imageWrapper}>
                 <Image
-                    src={course.image}
-                    alt={course.title}
+                    src={course?.image || 'https://batdacademy.simplesdev.space/assets/media/svg/files/blank-image.svg'}
+                    alt={course?.title || 'Course Image'}
                     width={361}
                     height={208}
                     style={{ objectFit: "cover" }}
@@ -36,21 +36,21 @@ const UpcomingCouresCard = ({ course, onModalOpen, onModalClose, slideIndex, swi
 
                 <div className={styles.overlay} />
                 <div className={styles.imageLabels}>
-                    <span className={styles.location}>
+                    {/* <span className={styles.location}>
                         <MapPin size={12} /> {course.location}
-                    </span>
-                    {
+                    </span> */}
+                    {/* {
                         course.rating && (
                             <span className={styles.rating}>
                                 <Star size={12} /> {course.rating}
                             </span>
                         )
-                    }
+                    } */}
                 </div>
             </div>
             <div className={styles.content}>
                 <div className={styles.top}>
-                    <span className={styles.type}>{course.category?.name}</span>
+                    <span className={styles.type}>{course.category?.name.slice(0,15)}</span>
                     <span className={styles.price}>{course.price}</span>
                 </div>
                 <p className={styles.description}>
@@ -66,7 +66,7 @@ const UpcomingCouresCard = ({ course, onModalOpen, onModalClose, slideIndex, swi
                     <div className={styles.time}>
                         <Clock color="#1E2749" size={14} />
                         <span className={styles.time}>
-                            {course?.week_number} weeks
+                            1-2 weeks
                         </span>
                     </div>
 

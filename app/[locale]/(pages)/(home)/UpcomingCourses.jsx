@@ -2,7 +2,6 @@
 import { useEffect, useRef, useState } from "react";
 import Title from "@/components/common/Title";
 import UpcomingCouresCard from "@/components/ui/UpcomingCouresCard";
-import { upcomingCourses } from "@/data/upcomingcourse";
 import GenericSlider from "@/components/common/GenericSlider";
 import styles from "@/sass/components/common/container.module.scss";
 import useCoursesStore from "@/store/useCoursesStore";
