@@ -6,17 +6,24 @@ import styleContainer from "@/sass/components/common/container.module.scss";
 import styles from "@/sass/pages/home/course-by-city.module.scss";
 import useCitiesStore from "@/store/useCitiesStore";
 import Image from "next/image";
+import Link from "next/link";
+import { useParams } from "next/navigation";
 
 const CouresByCities = ({city}) => {
+    const {locale} = useParams();
     return (
-        <div className={styles.couresByCities}>
+        <Link
+            className={styles.couresByCities}
+            href={`${locale}/city/${city.id}/${city.country.slug}`}
+            title={city.name}
+        >
             <div className={styles.couresByCities__image}>
                 <Image src={city.image} alt={city.name} width={130} height={130} />
             </div>
             <div className={styles.couresByCities__content}>
                 <h3 className={styles.couresByCities__content__title}>{city.name}</h3>
             </div>
-        </div>
+        </Link>
     )
 }
 
