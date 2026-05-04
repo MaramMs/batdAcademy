@@ -2,7 +2,18 @@ import Image from "next/image";
 import styles from "@/sass/components/common/latest-posts-card.module.scss";
 import { Heart, MessageCircle, Repeat2 } from "lucide-react";
 
+// Temporary placeholder images
+const placeholderImages = [
+    "https://placehold.co/600x400/png?text=Image+1",
+    "https://placehold.co/600x400/png?text=Image+2",
+    "https://placehold.co/600x400/png?text=Image+3",
+];
+
 const LatestPostsCard = ({item}) => {
+    // Select a random image based on the item's ID or randomly.
+    const randomImageIndex = item?.id ? item.id % 3 : Math.floor(Math.random() * 3);
+    const randomImage = placeholderImages[randomImageIndex];
+
     return (
         <div className={styles.card}>
             <div className={styles.left}>
@@ -20,7 +31,7 @@ const LatestPostsCard = ({item}) => {
                     {item.description}
                    </p>
                 </div>
-              <Image src={item.image} alt="" width={100} height={100} className={styles.image}/>
+              <Image src={randomImage} alt="" width={100} height={100} className={styles.image} unoptimized />
 
               <div className={styles.social}>
                 <div className={styles.reaction}>

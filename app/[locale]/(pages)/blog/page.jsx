@@ -80,7 +80,19 @@ const BlogPage = () => {
 
                 <div className={styles.blogContent}>
                     <div className={styles.blogContent__left}>
-                        <div className={styles.categories}>
+                        {
+                            isLoading ? (
+                                <div className={styles.skeletonContainer}>
+                                    <div className={styles.skeletonGridRow}>
+                                    <Skeleton className={styles.skeletonCard} />
+                                    <Skeleton className={styles.skeletonCard} />
+                                    
+                                </div>
+                                </div>
+                            ) :(
+                                <>
+                                
+                                <div className={styles.categories}>
                             <h2 className={styles.title}>All Categories</h2>
                             {posts?.categories?.map((category) => {
                                 const isActive = searchParams.get('category_id') === String(category.id);
@@ -126,7 +138,7 @@ const BlogPage = () => {
 
                             </div>
                             {
-                                posts?.posts?.map((item) => (
+                                posts?.posts?.slice(0, 2).map((item) => (
                                     <LatestPostsCard key={item.id} item={item} />
                                 ))
                             }
@@ -153,6 +165,10 @@ const BlogPage = () => {
                                 </button>
                             </div>
                         </div>
+                                </>
+                            )
+                        }
+                     
 
                     </div>
                     <div className={styles.blogContent__right}>

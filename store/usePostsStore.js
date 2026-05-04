@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { getPosts } from "@/action/posts";
+import { getPostBySlug, getPosts } from "@/action/posts";
 import useLanguageStore from "./useLanguageStore";
 
 const usePostsStore = create((set) => ({
@@ -23,6 +23,18 @@ const usePostsStore = create((set) => ({
                 }
                 return { posts: data.data, isLoading: false };
             });
+        } catch (error) {
+            set({ isLoading: false });
+        }
+    },
+
+
+    handleGetPostBySlug: async (slug) => {
+        try {
+            const locale = useLanguageStore.getState().locale;
+            const data = await getPostBySlug(locale, slug);
+            console.log(data?.data,'data post from store')
+            set({ post: data?.data, isLoading: false });
         } catch (error) {
             set({ isLoading: false });
         }

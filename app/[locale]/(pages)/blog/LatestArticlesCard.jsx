@@ -2,12 +2,26 @@ import Image from "next/image";
 import styles from "@/sass/pages/blog/lastest-articles-card.module.scss";
 import { ArrowRight, Clock, Eye, Heart, Star } from "lucide-react";
 import Link from "next/link";
+
+// Temporary placeholder images
+const placeholderImages = [
+    "https://batdacademy.com/uploads/placeholder_image.webp",
+    "/asstes/default-1.jpeg",
+    "/asstes/course1.jpg",
+];
+
 const LatestArticlesCard = ({ article, view }) => {
+    // Select a random image based on the article's ID or randomly. 
+    // Using article.id (if available) ensures the image doesn't change on every re-render.
+    const randomImageIndex = article?.id ? article.id % 3 : Math.floor(Math.random() * 3);
+    const randomImage = placeholderImages[randomImageIndex];
+
     return (
         <div className={`${styles.card} ${styles[view]}`}>
 
             <div className={styles.image}>
-                <Image src={article.image} alt={article.title} width={363} height={207} />
+                {/* Temporarily using randomImage instead of article.image */}
+                <Image src={randomImage} alt={article.title} width={363} height={207} unoptimized />
             </div>
             <div className={styles.content}>
                 <div className={styles.articleInfo}>

@@ -2,14 +2,25 @@ import styles from "@/sass/pages/blog/featured-article.module.scss";
 import { ArrowRight, Calendar, ClipboardPlus, Clock, Eye, Heart, Share2, Star, TrendingUp } from "lucide-react";
 import Image from "next/image";
 
+// Temporary placeholder images
+const placeholderImages = [
+    "https://placehold.co/600x400/png?text=Image+1",
+    "https://placehold.co/600x400/png?text=Image+2",
+    "https://placehold.co/600x400/png?text=Image+3",
+];
+
 const FeaturedArticle = ({ postFeatured }) => {
+    // Select a random image based on the post's ID or randomly.
+    const randomImageIndex = postFeatured?.id ? postFeatured.id % 3 : Math.floor(Math.random() * 3);
+    const randomImage = placeholderImages[randomImageIndex];
+
     console.log(postFeatured, 'postFeatured')
     return (
         <section className={styles.featuredArticle}>
             <h2> <Star fill="#C41E3A" size={18} color="#C41E3A" /> Featured Article</h2>
             <div className={styles.content}>
                 <div className={styles.left}>
-                    <Image src={postFeatured?.image} alt="postFeatured.name" className={styles.image} width={554} height={382} />
+                    <Image src={randomImage} alt="postFeatured.name" className={styles.image} width={554} height={382} unoptimized />
                     <span> <TrendingUp fill="#00C950" size={12} color="#00C950" /> Trending</span>
                 </div>
                 <div className={styles.right}>

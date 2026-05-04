@@ -212,13 +212,16 @@ padding: 0px 101px;
     display: grid;
     grid-template-columns: 1fr 3fr;
     gap: clamp(24px, 5vw, 78px);
+    padding: 50px 0px;
 
     @media (max-width: 1024px) {
         grid-template-columns: 1fr 2fr;
+        padding: 25px 0px;
     }
 
     @media (max-width: 576px) {
         grid-template-columns: 1fr;
+        padding: 16px 0px;  
     }
 
 
@@ -237,10 +240,10 @@ padding: 0px 101px;
 
     .content {
         box-shadow: 0px 5.7px 8.56px -5.7px #0000001A;
-
+padding: 24px;
         box-shadow: 0px 14.26px 21.39px -4.28px #0000001A;
         border: 1.43px solid #F3F4F6;
-        color: #FFFFFF;
+        // color: #FFFFFF;
         border-radius: 22.82px;
 
     }

@@ -315,6 +315,20 @@
                 border-radius: 16px;
             }
         }
+        .skeletonGridRow{
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 24px;
+
+            @media (max-width: $tablet) {
+                grid-template-columns: 1fr;
+            }
+
+            .skeletonCard {
+                height: 300px;
+                border-radius: 16px;
+            }
+        }
     }
 
     .skeletonContainer {
