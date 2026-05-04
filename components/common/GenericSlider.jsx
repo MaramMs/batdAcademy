@@ -6,6 +6,7 @@ import styles from '@/sass/components/common/generic-slider.module.scss'
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { useEffect, useRef } from "react";
+import { useParams } from "next/navigation";
 
 export default function GenericSlider({
     items = [],
@@ -36,6 +37,8 @@ const swiperRef = externalRef ?? internalRef;
             swiperRef.current.autoplay.start();
         }
     }, [pauseAutoplay, autoplay]);
+
+    const {locale} = useParams();
     return (
         <div className={styles.genericSlider}>
 
@@ -87,7 +90,7 @@ const swiperRef = externalRef ?? internalRef;
 
             {showViewAll && (
                 <div className={styles.viewAll}>
-                    <Link href={viewAllLink}>
+                    <Link href={`/${locale}/search_course`}>
                         View All Courses <ArrowRight color='#1E2749' size={14} />
                     </Link>
                 </div>

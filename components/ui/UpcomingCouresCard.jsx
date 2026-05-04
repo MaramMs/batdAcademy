@@ -36,9 +36,14 @@ const UpcomingCouresCard = ({ course, onModalOpen, onModalClose, slideIndex, swi
 
                 <div className={styles.overlay} />
                 <div className={styles.imageLabels}>
-                    {/* <span className={styles.location}>
-                        <MapPin size={12} /> {course.location}
-                    </span> */}
+                    {/* {
+                        course.location && (
+                            <span className={styles.location}>
+                                <MapPin size={12} /> {course.location}
+                            </span>
+                        )
+                    } */}
+                    
                     {/* {
                         course.rating && (
                             <span className={styles.rating}>
@@ -50,19 +55,27 @@ const UpcomingCouresCard = ({ course, onModalOpen, onModalClose, slideIndex, swi
             </div>
             <div className={styles.content}>
                 <div className={styles.top}>
-                    <span className={styles.type}>{course.category?.name.slice(0,15)}</span>
-                    <span className={styles.price}>{course.price}</span>
+                    {
+                        course.category && (
+                            <span className={styles.type}>{course.category?.name.slice(0,15)}</span>
+                        )
+                    }
+                    {
+                        course.price && (
+                            <span className={styles.price}>{course.price}</span>
+                        )
+                    }
                 </div>
                 <p className={styles.description}>
                     {course.description}
                 </p>
                 <div className={styles.meta}>
-                    <div className={styles.date}>
+                    {/* <div className={styles.date}>
                         <Calendar color="#1E2749" size={14} />
                         <span>
                             {course.date}
                         </span>
-                    </div>
+                    </div> */}
                     <div className={styles.time}>
                         <Clock color="#1E2749" size={14} />
                         <span className={styles.time}>
