@@ -1,183 +1,50 @@
-import styles from "@/sass/pages/blog/latest-articles.module.scss";
-import LatestArticlesCard from "./LatestArticlesCard";
+import { useState, useEffect } from "react";
+import usePostsStore from "@/store/usePostsStore";
 import { ArrowRight } from "lucide-react";
+import LatestArticlesCard from "./LatestArticlesCard";
+import styles from "@/sass/pages/blog/latest-articles.module.scss";
 
+const LatestArticles = ({ view, posts }) => {
+    const { handleGetPosts } = usePostsStore();
+    const [visibleCount, setVisibleCount] = useState(6);
 
-const articles = [
-    {
-        id: 1,
-        image: "/asstes/last.jpg",
-        type: 'article',
-        title: "The Future of AI in Education",
-        description: "Artificial intelligence is revolutionizing the way we learn and teach. From personalized learning paths to automated grading, AI is transforming the educational landscape.",
-        date: "2022-01-01",
-        author: "John Doe",
-        // authorImage:"/images/blog/latest-articles/1.png",
-        authorDescription: "John Doe is a writer and educator with over 10 years of experience in the field of education.",
-        authorSocial: {
-            twitter: "@johndoe",
-            linkedin: "@johndoe",
-            instagram: "@johndoe",
-        },
-        authorSocialLinks: {
-            twitter: "https://twitter.com/johndoe",
-            linkedin: "https://linkedin.com/johndoe",
-            instagram: "https://instagram.com/johndoe",
-        },
-        authorSocialLinks: {
-            twitter: "https://twitter.com/johndoe",
-            linkedin: "https://linkedin.com/johndoe",
-            instagram: "https://instagram.com/johndoe",
-        },
-        slug: "institutional-partnerships-in-resource-protection"
-    }
-    ,
-    {
-        id: 2,
-        image: "/asstes/last.jpg",
-        type: 'media',
-        title: "The Future of AI in Education",
-        description: "Artificial intelligence is revolutionizing the way we learn and teach. From personalized learning paths to automated grading, AI is transforming the educational landscape.",
-        date: "2022-01-01",
-        author: "John Doe",
-        // authorImage:"/images/blog/latest-articles/1.png",
-        authorDescription: "John Doe is a writer and educator with over 10 years of experience in the field of education.",
-        authorSocial: {
-            twitter: "@johndoe",
-            linkedin: "@johndoe",
-            instagram: "@johndoe",
-        },
-        authorSocialLinks: {
-            twitter: "https://twitter.com/johndoe",
-            linkedin: "https://linkedin.com/johndoe",
-            instagram: "https://instagram.com/johndoe",
-        },
-        authorSocialLinks: {
-            twitter: "https://twitter.com/johndoe",
-            linkedin: "https://linkedin.com/johndoe",
-            instagram: "https://instagram.com/johndoe",
-        },
-    },
-    {
-        id: 3,
-        image: "/asstes/last.jpg",
-        type: 'video',
-        title: "The Future of AI in Education",
-        description: "Artificial intelligence is revolutionizing the way we learn and teach. From personalized learning paths to automated grading, AI is transforming the educational landscape.",
-        date: "2022-01-01",
-        author: "John Doe",
-        // authorImage:"/images/blog/latest-articles/1.png",
-        authorDescription: "John Doe is a writer and educator with over 10 years of experience in the field of education.",
-        authorSocial: {
-            twitter: "@johndoe",
-            linkedin: "@johndoe",
-            instagram: "@johndoe",
-        },
-        authorSocialLinks: {
-            twitter: "https://twitter.com/johndoe",
-            linkedin: "https://linkedin.com/johndoe",
-            instagram: "https://instagram.com/johndoe",
-        },
-        authorSocialLinks: {
-            twitter: "https://twitter.com/johndoe",
-            linkedin: "https://linkedin.com/johndoe",
-            instagram: "https://instagram.com/johndoe",
-        },
-    },
-    {
-        id: 4,
-        image: "/asstes/last.jpg",
-        type: 'video',
-        title: "The Future of AI in Education",
-        description: "Artificial intelligence is revolutionizing the way we learn and teach. From personalized learning paths to automated grading, AI is transforming the educational landscape.",
-        date: "2022-01-01",
-        author: "John Doe",
-        // authorImage:"/images/blog/latest-articles/1.png",
-        authorDescription: "John Doe is a writer and educator with over 10 years of experience in the field of education.",
-        authorSocial: {
-            twitter: "@johndoe",
-            linkedin: "@johndoe",
-            instagram: "@johndoe",
-        },
-        authorSocialLinks: {
-            twitter: "https://twitter.com/johndoe",
-            linkedin: "https://linkedin.com/johndoe",
-            instagram: "https://instagram.com/johndoe",
-        },
-        authorSocialLinks: {
-            twitter: "https://twitter.com/johndoe",
-            linkedin: "https://linkedin.com/johndoe",
-            instagram: "https://instagram.com/johndoe",
-        },
-    },
-    {
-        id: 5,
-        image: "/asstes/last.jpg",
-        type: 'video',
-        title: "The Future of AI in Education",
-        description: "Artificial intelligence is revolutionizing the way we learn and teach. From personalized learning paths to automated grading, AI is transforming the educational landscape.",
-        date: "2022-01-01",
-        author: "John Doe",
-        // authorImage:"/images/blog/latest-articles/1.png",
-        authorDescription: "John Doe is a writer and educator with over 10 years of experience in the field of education.",
-        authorSocial: {
-            twitter: "@johndoe",
-            linkedin: "@johndoe",
-            instagram: "@johndoe",
-        },
-        authorSocialLinks: {
-            twitter: "https://twitter.com/johndoe",
-            linkedin: "https://linkedin.com/johndoe",
-            instagram: "https://instagram.com/johndoe",
-        },
-        authorSocialLinks: {
-            twitter: "https://twitter.com/johndoe",
-            linkedin: "https://linkedin.com/johndoe",
-            instagram: "https://instagram.com/johndoe",
-        },
-    },
-    {
-        id: 6,
-        image: "/asstes/last.jpg",
-        type: 'video',
-        title: "The Future of AI in Education",
-        description: "Artificial intelligence is revolutionizing the way we learn and teach. From personalized learning paths to automated grading, AI is transforming the educational landscape.",
-        date: "2022-01-01",
-        author: "John Doe",
-        // authorImage:"/images/blog/latest-articles/1.png",
-        authorDescription: "John Doe is a writer and educator with over 10 years of experience in the field of education.",
-        authorSocial: {
-            twitter: "@johndoe",
-            linkedin: "@johndoe",
-            instagram: "@johndoe",
-        },
-        authorSocialLinks: {
-            twitter: "https://twitter.com/johndoe",
-            linkedin: "https://linkedin.com/johndoe",
-            instagram: "https://instagram.com/johndoe",
-        },
-        authorSocialLinks: {
-            twitter: "https://twitter.com/johndoe",
-            linkedin: "https://linkedin.com/johndoe",
-            instagram: "https://instagram.com/johndoe",
-        },
-    }
-]
-const LatestArticles = ({ view }) => {
+    const firstPostId = posts?.posts?.[0]?.id;
+
+    // Reset visible count ONLY if the first post changes (e.g. category filter applied), 
+    // NOT when we append new posts to the bottom.
+    useEffect(() => {
+        setVisibleCount(6);
+    }, [firstPostId]);
+
+    const handleViewMore = () => {
+        if (posts?.posts && visibleCount < posts.posts.length) {
+            setVisibleCount(prev => prev + 6);
+        } else if (posts?.has_more) {
+            setVisibleCount(prev => prev + 6); // Increase count to reveal the newly fetched ones
+            const params = new URLSearchParams(window.location.search);
+            params.set('cursor', posts.next_cursor);
+            handleGetPosts(`?${params.toString()}`, true);
+        }
+    };
+
     return (
         <div className={styles.latestArticles}>
             <h2>Latest Articles</h2>
             <div className={`${styles.cards} ${styles[view]}`}>
                 {
-                    articles.map((article) => (
+                    posts?.posts?.slice(0, visibleCount).map((article) => (
                         <LatestArticlesCard key={article.id} article={article} view={view} />
                     ))
                 }
             </div>
+            {
+                (visibleCount < posts?.posts?.length || posts?.has_more) && (
+                    <button className={styles.viewMore} onClick={handleViewMore}>
+                        View More <ArrowRight />
+                    </button>
+                )
+            }
 
-            <button className={styles.viewMore}>
-                view More <ArrowRight />
-            </button>
         </div>
     );
 };

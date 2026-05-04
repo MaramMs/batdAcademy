@@ -1,8 +1,8 @@
 import Image from "next/image";
 import styles from "@/sass/pages/blog/lastest-articles-card.module.scss";
-import { ArrowRight, Clock, Eye, Heart, Star} from "lucide-react";
+import { ArrowRight, Clock, Eye, Heart, Star } from "lucide-react";
 import Link from "next/link";
-const LatestArticlesCard = ({article , view}) => {
+const LatestArticlesCard = ({ article, view }) => {
     return (
         <div className={`${styles.card} ${styles[view]}`}>
 
@@ -13,35 +13,35 @@ const LatestArticlesCard = ({article , view}) => {
                 <div className={styles.articleInfo}>
                     <div className={styles.articleType}>
                         <div className={styles.type}>
-                            {article.type}
+                            {article?.category?.name}
                         </div>
                         <div className={styles.date}>
-                             <Clock color="#6A7282" size={14} />
-                            <span> {article.date}</span>
+                            <Clock color="#6A7282" size={14} />
+                            <span> {article.publish_date}</span>
                         </div>
                     </div>
-                    <h2>{article.title}</h2>
-                    <p>{article.description}</p>
+                    <h2>{article?.name}</h2>
+                    <p>{article?.description}</p>
                 </div>
-             
-                        <div className={styles.articleAuthor}>
-                            <div className={styles.author}>
-                                <h3>name</h3>
-                                <span>Author</span>
-                            </div>
-                            <div className={styles.articleReaction}>
-                                <span> <Eye color="#6B7280" size={14} /> 2.4k</span>
-                                <span> <Heart color="#6B7280" size={14} /> 200</span>
-                            </div>
-                        </div>
+
+                <div className={styles.articleAuthor}>
+                    <div className={styles.author}>
+                        <h3>{article?.author_name}</h3>
+                        <span>Author</span>
+                    </div>
+                    <div className={styles.articleReaction}>
+                        <span> <Eye color="#6B7280" size={14} /> 2.4k</span>
+                        <span> <Heart color="#6B7280" size={14} /> 200</span>
+                    </div>
+                </div>
 
                 <Link className={styles.readMore} href={`/en/post/${article.slug}`}>
                     Read More
                     <ArrowRight size={14} color="#fff" />
                 </Link>
             </div>
-            
-            
+
+
         </div>
     )
 }

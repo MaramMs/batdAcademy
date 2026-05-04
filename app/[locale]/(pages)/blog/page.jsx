@@ -1,108 +1,62 @@
 "use client"
-import { useState } from "react";
-import { SquareArrowOutUpRight } from "lucide-react";
-import SelectCategories from "@/components/common/SelectCategories";
 import LatestPostsCard from "@/components/common/LatestPostsCard";
-import FeaturedArticle from "./FeaturedArticle";
-import LatestArticles from "./LatestArticles";
-import SearchInput from "./Search";
+import SelectCategories from "@/components/common/SelectCategories";
 import DisplayType from "@/components/ui/DisplayType";
+import Skeleton from "@/components/ui/Skeleton";
 import Sort from "@/components/ui/Sort";
 import stylesContainer from "@/sass/components/common/container.module.scss";
 import styles from "@/sass/pages/blog/blog.module.scss";
-
-const categories = [
-    {
-        id: 1,
-        name: "All Categories",
-        count: 10,
-    },
-    {
-        id: 2,
-        name: "All Categories",
-        count: 10,
-    },
-    {
-        id: 3,
-        name: "All Categories",
-        count: 10,
-    },
-    {
-        id: 4,
-        name: "All Categories",
-        count: 10,
-    },
-    {
-        id: 5,
-        name: "All Categories",
-        count: 10,
-    },
-    {
-        id: 6,
-        name: "All Categories",
-        count: 10,
-    },
-    {
-        id: 7,
-        name: "All Categories",
-        count: 10,
-    },
-    {
-        id: 8,
-        name: "All Categories",
-        count: 10,
-    },
-    {
-        id: 9,
-        name: "All Categories",
-        count: 10,
-    },
-    {
-        id: 10,
-        name: "All Categories",
-        count: 10,
-    },
-];
+import usePostsStore from "@/store/usePostsStore";
+import { SquareArrowOutUpRight } from "lucide-react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
+import FeaturedArticle from "./FeaturedArticle";
+import LatestArticles from "./LatestArticles";
+import SearchInput from "./Search";
 
 
-const posts = [
-    {
-        id: 1,
-        authorImage: "/asstes/person.jpg",
-        userName: "@brithiAcademy",
-        image: "/asstes/post-image.jpg",
-        date: "2 days ago",
-        description: "Minimal Post With A Preview Image",
-    },
-   {
-        id: 2,
-        authorImage: "/asstes/person.jpg",
-        userName: "@brithiAcademy",
-        image: "/asstes/post-image.jpg",
-        date: "2 days ago",
-        description: "Minimal Post With A Preview Image",
-    },
-    {
-        id: 3,
-        authorImage: "/asstes/person.jpg",
-        userName: "@brithiAcademy",
-        image: "/asstes/post-image.jpg",
-        date: "2 days ago",
-        description: "Minimal Post With A Preview Image",
-    },
-];
 
 const BlogPage = () => {
+    const searchParams = useSearchParams();
+    const router = useRouter();
+    const pathname = usePathname();
+
+
     const [view, setView] = useState("grid");
+    const { handleGetPosts, posts, isLoading } = usePostsStore();
+    console.log(posts, 'posts');
+
+
+
+    useEffect(() => {
+        const paramsString = searchParams.toString();
+        const queryString = paramsString ? `?${paramsString}` : "";
+        handleGetPosts(queryString);
+    }, [searchParams, handleGetPosts]);
+
+    const updateFilter = (key, value) => {
+        console.log(key, value,'val');
+        const params = new URLSearchParams(searchParams.toString());
+
+        if (value) {
+            params.set(key, value);
+        } else {
+            params.delete(key); 
+        }
+        router.push(`${pathname}?${params.toString()}`, { scroll: false });
+    };
 
     return (
         <section className={styles.blog}>
             <div className={styles.top}>
                 <div className={stylesContainer.container}>
                     <div className={styles.top__content}>
-                        <SearchInput />
+                        <SearchInput updateFilter={updateFilter}/>
                         <div className={styles.top__right}>
-                            <Sort />
+                            <Sort 
+                                activeSort={searchParams.get('sort') || 'latest'} 
+                                onChange={(value) => updateFilter('sort', value)} 
+                            />
                             <DisplayType view={view} onChange={setView} />
                         </div>
                     </div>
@@ -128,11 +82,18 @@ const BlogPage = () => {
                     <div className={styles.blogContent__left}>
                         <div className={styles.categories}>
                             <h2 className={styles.title}>All Categories</h2>
-                            {
-                                categories.map((category) => (
-                                    <SelectCategories key={category.id} category={category} />
-                                ))
-                            }
+                            {posts?.categories?.map((category) => {
+                                const isActive = searchParams.get('category_id') === String(category.id);
+                                return (
+                                    <SelectCategories
+                                        key={category.id}
+                                        category={category}
+                                        isActive={isActive}
+                                        onClick={() => updateFilter('category_id', isActive ? '' : category.id)}
+                                    />
+                                );
+                            })}
+
                         </div>
 
                         <div className={styles.latestPosts}>
@@ -165,7 +126,7 @@ const BlogPage = () => {
 
                             </div>
                             {
-                                posts.map((item) => (
+                                posts?.posts?.map((item) => (
                                     <LatestPostsCard key={item.id} item={item} />
                                 ))
                             }
@@ -195,8 +156,28 @@ const BlogPage = () => {
 
                     </div>
                     <div className={styles.blogContent__right}>
-                        <FeaturedArticle />
-                        <LatestArticles view={view} />
+                        {isLoading ? (
+                            <div className={styles.skeletonContainer}>
+                                {/* 
+                                <div className={styles.loaderContainer}>
+                                    <span className={styles.loader}></span>
+                                    <span className={styles.loaderText}>Loading articles...</span>
+                                </div>
+                                */}
+                                <Skeleton className={styles.skeletonFeatured} />
+                                <div className={styles.skeletonGrid}>
+                                    <Skeleton className={styles.skeletonCard} />
+                                    <Skeleton className={styles.skeletonCard} />
+                                    <Skeleton className={styles.skeletonCard} />
+                                    <Skeleton className={styles.skeletonCard} />
+                                </div>
+                            </div>
+                        ) : (
+                            <>
+                                <FeaturedArticle postFeatured={posts?.featured} />
+                                <LatestArticles view={view} posts={posts} />
+                            </>
+                        )}
                     </div>
                 </div>
 

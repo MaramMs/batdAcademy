@@ -77,11 +77,13 @@
         display: flex;
         flex-direction: column;
         gap: 14.8px;
+        flex: 1;
 
         .articleInfo {
             display: flex;
             flex-direction: column;
             gap: 11.1px;
+            flex: 1;
 
             .articleType {
                 display: flex;

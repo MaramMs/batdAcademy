@@ -1,15 +1,15 @@
-import { ArrowRight, Calendar, ClipboardPlus, Clock, Eye, Heart, Share2, Star, TrendingUp } from "lucide-react";
 import styles from "@/sass/pages/blog/featured-article.module.scss";
-import featured from "@/public/asstes/featured.jpg"
+import { ArrowRight, Calendar, ClipboardPlus, Clock, Eye, Heart, Share2, Star, TrendingUp } from "lucide-react";
 import Image from "next/image";
 
-const FeaturedArticle = () => {
+const FeaturedArticle = ({ postFeatured }) => {
+    console.log(postFeatured, 'postFeatured')
     return (
         <section className={styles.featuredArticle}>
             <h2> <Star fill="#C41E3A" size={18} color="#C41E3A" /> Featured Article</h2>
             <div className={styles.content}>
                 <div className={styles.left}>
-                    <Image src={featured} alt="" className={styles.image} />
+                    <Image src={postFeatured?.image} alt="postFeatured.name" className={styles.image} width={554} height={382} />
                     <span> <TrendingUp fill="#00C950" size={12} color="#00C950" /> Trending</span>
                 </div>
                 <div className={styles.right}>
@@ -17,24 +17,24 @@ const FeaturedArticle = () => {
                     <div className={styles.articleContent}>
                         <div className={styles.articleInfo}>
                             <div className={styles.articleType}>
-                                <span className={styles.type}>Technology</span>
+                                <span className={styles.type}>{postFeatured?.category?.name}</span>
                                 <div className={styles.date}>
-                                    <span> <Calendar color="#6B7280" size={14} />  2 days ago</span>
-                                    <span> <Clock color="#6B7280" size={14} /> 4 min read</span>
+                                    <span> <Calendar color="#6B7280" size={14} />{postFeatured?.publish_date_raw}</span>
+                                    <span> <Clock color="#6B7280" size={14} />{postFeatured?.reading_time}</span>
                                 </div>
 
                             </div>
-                            <h2>Why Swift UI Should Be on the Radar of Every Mobile Developer</h2>
-                            <p>TOTC is a platform that allows educators to create online classes whereby they can store the course materials online; manTOTC is a platform that allows educators...</p>
+                            <h2>{postFeatured?.name}</h2>
+                            <p>{postFeatured?.description}</p>
                         </div>
 
                         <div className={styles.articleAuthor}>
                             <div className={styles.author}>
-                                <h3>name</h3>
+                                <h3>{postFeatured?.author_name}</h3>
                                 <span>Author</span>
                             </div>
                             <div className={styles.articleReaction}>
-                                <span> <Eye color="#6B7280" size={14} /> 2.4k</span>
+                                <span> <Eye color="#6B7280" size={14} /> {postFeatured?.total_views_formatted}</span>
                                 <span> <Heart color="#6B7280" size={14} /> 200</span>
                                 <span> <Star color="#C41E3A" fill="#C41E3A" size={14} /> 100</span>
                             </div>

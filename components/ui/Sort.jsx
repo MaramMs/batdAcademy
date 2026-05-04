@@ -9,20 +9,21 @@ const SORT_OPTIONS = [
     { label: "Most Relevant", value: "relevant" },
 ];
 
-const Sort = ({ value, onChange }) => {
+const Sort = ({ activeSort, onChange }) => {
+
     const [open, setOpen] = useState(false);
     const ref = useRef(null);
 
-    const selected = SORT_OPTIONS.find((o) => o.value === value) ?? SORT_OPTIONS[0];
-
     // close on outside click
     useEffect(() => {
-        const handler = (e) => {
+        const handler = (e) => { 
             if (ref.current && !ref.current.contains(e.target)) setOpen(false);
         };
         document.addEventListener("mousedown", handler);
         return () => document.removeEventListener("mousedown", handler);
     }, []);
+
+    const currentOption = SORT_OPTIONS.find(opt => opt.value === activeSort) || SORT_OPTIONS[0];
 
     return (
         <div className={styles.sort} ref={ref}>
@@ -30,7 +31,7 @@ const Sort = ({ value, onChange }) => {
                 className={styles.trigger}
                 onClick={() => setOpen((prev) => !prev)}
             >
-                <span>{selected.label}</span>
+                <span>{currentOption.label}</span>
                 <ChevronDown
                     className={`${styles.chevron} ${open ? styles.open : ""}`}
                 />
@@ -41,7 +42,7 @@ const Sort = ({ value, onChange }) => {
                     {SORT_OPTIONS.map((option) => (
                         <li
                             key={option.value}
-                            className={`${styles.option} ${value === option.value ? styles.active : ""}`}
+                            className={`${styles.option} ${activeSort === option.value ? styles.active : ""}`}
                             onClick={() => {
                                 onChange(option.value);
                                 setOpen(false);
