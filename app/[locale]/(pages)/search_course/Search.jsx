@@ -7,7 +7,7 @@ import CategoriesBox from "@/components/common/CategoriesBox";
 import Range from "@/components/ui/Range";
 import { useEffect, useState } from "react";
 
-const SearchCourse = ({className}) => {
+const SearchCourse = ({className, onSearch}) => {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -21,7 +21,7 @@ const SearchCourse = ({className}) => {
           <div className={styles.searchContent__left__icon}>
             <Search size={13} color="#99A1AF" />
           </div>
-          <input type="text" placeholder="Search in specific course..." className={styles.input} />
+          <input type="text" placeholder="Search in specific course..." className={styles.input} onChange={(e) => onSearch?.(e.target.value)} />
         </div>
 
         <Dialog.Root modal={true}>

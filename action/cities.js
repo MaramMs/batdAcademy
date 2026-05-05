@@ -1,8 +1,8 @@
 "use server";
 const API_KEY = process.env.NEXT_PUBLIC_API_KEY;
 
-export async function getCities(language) {
-  const response = await fetch(`${API_KEY}/cities`, {
+export async function getCities(language, queryParams = '') {
+  const response = await fetch(`${API_KEY}/cities${queryParams}`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",

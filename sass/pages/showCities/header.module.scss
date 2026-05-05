@@ -104,7 +104,7 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            border-right: none !important; // Override default DropdownMenu trigger style
+            border-inline-end: none !important;
 
             &:hover {
                 border-color: $blue-600;

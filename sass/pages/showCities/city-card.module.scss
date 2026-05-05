@@ -17,6 +17,22 @@
 
         position: relative;
 
+        .imagePlaceholder {
+            width: 100%;
+            height: 224px;
+            background: linear-gradient(135deg, #1a2b5e 0%, #2d4a8a 100%);
+            border-start-start-radius: 16px;
+            border-start-end-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            svg {
+                opacity: 0.3;
+                color: $white;
+            }
+        }
+
         &::after {
             content: "";
             position: absolute;
@@ -31,10 +47,8 @@
         img {
             width: 100%;
             height: 100%;
-            border-top-left-radius: 16px;
-            border-top-right-radius: 16px;
-
-
+            border-start-start-radius: 16px;
+            border-start-end-radius: 16px;
         }
         .location{
             display: flex;
@@ -43,7 +57,7 @@
             align-items: flex-start;
             position: absolute;
             bottom: 20px;
-            left: 20px;
+            inset-inline-start: 20px;
             z-index: 2;
             span{
                 display: flex;
@@ -55,6 +69,7 @@
                 svg{
                     width: 18px;
                     height: 18px;
+                    flex-shrink: 0;
                 }
             }
             h5{
@@ -62,6 +77,7 @@
                 font-size: 24px;
                 color: $white;
                 line-height: 28px;
+                text-align: start;
             }
         }
     }
@@ -99,8 +115,8 @@
                 }
 
                 &:nth-child(2) {
-                    padding-left: 19px;
-                    border-left: 1px solid #E5E7EB;
+                    padding-inline-start: 19px;
+                    border-inline-start: 1px solid #E5E7EB;
                 }
             }
         }
