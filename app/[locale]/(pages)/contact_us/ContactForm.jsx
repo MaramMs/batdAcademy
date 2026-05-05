@@ -5,6 +5,8 @@ import { User, Mail, Phone, Package, MessageSquare, Send, MessageCircle, Chevron
 import DropdownMenuCustom from "@/components/common/DropdownMenu";
 import styles from "@/sass/pages/contact/form.module.scss";
 import ReCAPTCHA from "react-google-recaptcha";
+import { submitContact } from "@/action/contact";
+import useLanguageStore from "@/store/useLanguageStore";
 
 const subjects = [
     "Course Inquiry",
@@ -17,8 +19,8 @@ const subjects = [
 const ContactForm = () => {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [submitted, setSubmitted] = useState(false);
+    const [submitError, setSubmitError] = useState(null);
     const [recaptchaToken, setRecaptchaToken] = useState(null);
-
 
     const {
         register,
@@ -28,14 +30,32 @@ const ContactForm = () => {
         reset,
     } = useForm();
 
-    const onSubmit = async (data) => {
+    const onSubmit = async (formData) => {
+        if (!recaptchaToken) return;
         setIsSubmitting(true);
-        await new Promise((r) => setTimeout(r, 1200));
-        console.log(data);
-        setIsSubmitting(false);
-        setSubmitted(true);
-        reset();
-        setTimeout(() => setSubmitted(false), 4000);
+        setSubmitError(null);
+        try {
+            const locale = useLanguageStore.getState().locale;
+            const result = await submitContact(locale, {
+                name: formData.fullName,
+                email: formData.email,
+                phone: formData.phone || "",
+                po_box: formData.poBox || "",
+                subject: formData.subject,
+                message: formData.message,
+            });
+            if (result?.success) {
+                setSubmitted(true);
+                reset();
+                setTimeout(() => setSubmitted(false), 4000);
+            } else {
+                setSubmitError(result?.message || "Something went wrong. Please try again.");
+            }
+        } catch {
+            setSubmitError("Something went wrong. Please try again.");
+        } finally {
+            setIsSubmitting(false);
+        }
     };
 
     return (
@@ -150,10 +170,13 @@ const ContactForm = () => {
                         <span style={{ color: '#EF4444', fontSize: '12px' }}>يرجى إتمام التحقق</span>
                     )}
                 </div>
+                {submitError && (
+                    <p style={{ color: "#EF4444", fontSize: "13px", marginTop: "8px" }}>{submitError}</p>
+                )}
                 <button
                     type="submit"
                     className={styles.submitBtn}
-                    disabled={isSubmitting}
+                    disabled={isSubmitting || !recaptchaToken}
                 >
                     <Send size={16} />
                     {isSubmitting ? "Sending..." : submitted ? "Message Sent!" : "Send Message"}
