@@ -2,9 +2,11 @@
 import GenericSlider from "@/components/common/GenericSlider";
 import Tabs from "@/components/common/Tabs";
 import Title from "@/components/common/Title";
+import Skeleton from "@/components/ui/Skeleton";
 import styleContainer from '@/sass/components/common/container.module.scss';
 import styles from '@/sass/pages/home/course-by-special.module.scss';
 import useCategoriesStore from "@/store/useCategoriesStore";
+import { BookOpen } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
 
@@ -18,7 +20,7 @@ const CourseBySpecialCard = ({ item }) => {
     return (
         <div className={styles.card}>
             <div className={styles.cardImage}>
-                {item.icon && <Image src={item.icon} alt={item.name} width={40} height={40} />}
+                {item.icon ?  <Image src={item.icon} alt={item.name} width={40} height={40} /> : <BookOpen /> }
             </div>
             <div className={styles.cardContent}>
                 <h3 className={styles.cardTitle}>{item.name}</h3>
@@ -43,7 +45,7 @@ const CourseBySpecial = ({ items }) => {
 }
 
 const CoursesBySpecial = () => {
-    const { categories, handleGetCategories } = useCategoriesStore();
+    const { categories, handleGetCategories, isLoading } = useCategoriesStore();
     const [activeTabId, setActiveTabId] = useState(null)
 
     useEffect(() => {
@@ -71,41 +73,50 @@ const CoursesBySpecial = () => {
             })) || [];
     }, [categories]);
 
-    console.log(tabsData, 'tabsData')
-
     return (
         <section>
             <div className={styleContainer.container}>
                 <Title title="Courses  " span='By Specialization' subtitle='British-European expertise and specialized cadres for your success.' />
-                <Tabs 
-                    activeTabId={activeTabId}
-                    onTabChange={setActiveTabId}  
-                    className={styles.specialTabs} 
-                    tabClassName={styles.specialTab}
-                    tabs={tabsData.slice(0,4)}
-                />
-                <GenericSlider
-                    key={activeTabId}
-                    navId="coursebyspecial"
-                    items={slides}
-                    renderSlide={(slideItems) => <CourseBySpecial items={slideItems} />}
-                    breakpoints={{
-                        320: {
-                            slidesPerView: 0.5,
-                        },
-                        640: {
-                            slidesPerView: 0.5,
-                        },
-                        768: {
-                            slidesPerView: 0.5,
-                        },
-                        1024: {
-                            slidesPerView: 1,
-                        },
-                    }}
-                    spaceBetween={20}
-                    showViewAll={false}
-                />
+                {
+                    isLoading ? (
+                        <div style={{ display: 'flex', justifyContent: 'center', gap: '20px' }}>
+                            <Skeleton type="card" className={styles.skeletonCard} />
+                            <Skeleton type="card" className={styles.skeletonCard} />
+
+                        </div>) : (
+                        <>
+                            <Tabs
+                                activeTabId={activeTabId}
+                                onTabChange={setActiveTabId}
+                                className={styles.specialTabs}
+                                tabClassName={styles.specialTab}
+                                tabs={tabsData.slice(0, 4)}
+                            />
+                            <GenericSlider
+                                key={activeTabId}
+                                navId="coursebyspecial"
+                                items={slides}
+                                renderSlide={(slideItems) => <CourseBySpecial items={slideItems} />}
+                                breakpoints={{
+                                    320: {
+                                        slidesPerView: 0.5,
+                                    },
+                                    640: {
+                                        slidesPerView: 0.5,
+                                    },
+                                    768: {
+                                        slidesPerView: 0.5,
+                                    },
+                                    1024: {
+                                        slidesPerView: 1,
+                                    },
+                                }}
+                                spaceBetween={20}
+                                showViewAll={false}
+                            />
+                        </>
+                    )
+                }
             </div>
         </section>
     );

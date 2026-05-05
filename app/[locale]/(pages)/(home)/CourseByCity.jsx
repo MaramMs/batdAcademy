@@ -8,9 +8,10 @@ import useCitiesStore from "@/store/useCitiesStore";
 import Image from "next/image";
 import Link from "next/link";
 import { useParams } from "next/navigation";
+import Skeleton from "@/components/ui/Skeleton";
 
-const CouresByCities = ({city}) => {
-    const {locale} = useParams();
+const CouresByCities = ({ city }) => {
+    const { locale } = useParams();
     return (
         <Link
             className={styles.couresByCities}
@@ -28,7 +29,7 @@ const CouresByCities = ({city}) => {
 }
 
 const CourseByCity = () => {
-    const {handleGetCities, cities} = useCitiesStore();
+    const { handleGetCities, cities , isLoading } = useCitiesStore();
     useEffect(() => {
         handleGetCities();
     }, []);
@@ -36,34 +37,47 @@ const CourseByCity = () => {
         <section>
             <div className={styleContainer.container}>
                 <Title title="Course " span='By City' subtitle='Our favorite cities with attractive tourist attractions' />
-                <GenericSlider
-                    navId="citys"
-                    items={cities}
-                    renderSlide={(city) => <CouresByCities key={city.id} city={city} />}
-                    breakpoints={{
-                        768: {
-                            slidesPerView: 2,
-                        },
-                        1024: {
-                            slidesPerView: 3,
-                        },
-                        1280: {
-                            slidesPerView: 4,
-                        },
-                        1536: {
-                            slidesPerView: 5,
-                        },
-                        1792: {
-                            slidesPerView: 6,
-                        },
-                    }}
-                     autoplay={{
-                        delay: 2000,
-                        disableOnInteraction: false,
-                    }}
-                    spaceBetween={20}
-                    showViewAll={false}
-                />
+
+                {
+                    isLoading ? (
+                        <div style={{ display: 'flex', justifyContent: 'center', gap: '20px' }}>
+                            <Skeleton type="card" className={styles.skeletonCard} />
+                            <Skeleton type="card" className={styles.skeletonCard} />
+                            <Skeleton type="card" className={styles.skeletonCard} />
+                            <Skeleton type="card" className={styles.skeletonCard} />
+                        </div>
+                    ) : (
+                        <GenericSlider
+                            navId="citys"
+                            items={cities}
+                            renderSlide={(city) => <CouresByCities key={city.id} city={city} />}
+                            breakpoints={{
+                                768: {
+                                    slidesPerView: 2,
+                                },
+                                1024: {
+                                    slidesPerView: 3,
+                                },
+                                1280: {
+                                    slidesPerView: 4,
+                                },
+                                1536: {
+                                    slidesPerView: 5,
+                                },
+                                1792: {
+                                    slidesPerView: 6,
+                                },
+                            }}
+                            autoplay={{
+                                delay: 2000,
+                                disableOnInteraction: false,
+                            }}
+                            spaceBetween={20}
+                            showViewAll={false}
+                        />
+                    )
+                }
+
             </div>
         </section>
     );

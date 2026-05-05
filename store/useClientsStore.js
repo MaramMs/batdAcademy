@@ -4,10 +4,12 @@ import useLanguageStore from "./useLanguageStore";
 
 const useClientsStore = create((set) => ({
     clients: [],
+    isLoading: true,
     handleGetClients: async () => {
+        set({ isLoading: true });
         const locale = useLanguageStore.getState().locale;
         const data = await getClients(locale);
-        set({ clients: data.data.clients });
+        set({ clients: data.data.clients, isLoading: false });
     },
 }));
 

@@ -84,10 +84,9 @@ const BlogPage = () => {
                             isLoading ? (
                                 <div className={styles.skeletonContainer}>
                                     <div className={styles.skeletonGridRow}>
-                                    <Skeleton className={styles.skeletonCard} />
-                                    <Skeleton className={styles.skeletonCard} />
-                                    
-                                </div>
+                                        <Skeleton type="card" className={styles.skeletonCard} />
+                                        <Skeleton type="card" className={styles.skeletonCard} />
+                                    </div>
                                 </div>
                             ) :(
                                 <>
@@ -180,12 +179,12 @@ const BlogPage = () => {
                                     <span className={styles.loaderText}>Loading articles...</span>
                                 </div>
                                 */}
-                                <Skeleton className={styles.skeletonFeatured} />
+                                <Skeleton type="card" className={styles.skeletonFeatured} />
                                 <div className={styles.skeletonGrid}>
-                                    <Skeleton className={styles.skeletonCard} />
-                                    <Skeleton className={styles.skeletonCard} />
-                                    <Skeleton className={styles.skeletonCard} />
-                                    <Skeleton className={styles.skeletonCard} />
+                                    <Skeleton type="card" className={styles.skeletonCard} />
+                                    <Skeleton type="card" className={styles.skeletonCard} />
+                                    <Skeleton type="card" className={styles.skeletonCard} />
+                                    <Skeleton type="card" className={styles.skeletonCard} />
                                 </div>
                             </div>
                         ) : (

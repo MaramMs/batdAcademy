@@ -1,10 +1,10 @@
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowLeft, Calendar, Clock, Eye, Heart } from "lucide-react";
+import { ArrowLeft, Calendar, Clock, Eye, Heart, User } from "lucide-react";
 import styles from "@/sass/pages/blog/blog-details.module.scss";
 import useLanguageStore from "@/store/useLanguageStore";
 
-const Header = ({post}) => {
+const Header = ({ post, isLoading }) => {
     const locale = useLanguageStore((state) => state.locale);
     console.log(post, 'header')
     return (
@@ -20,7 +20,10 @@ const Header = ({post}) => {
                     </div>
                     <div className={styles.contentItem}>
                         <div className={styles.type}>
-                            <span>{post?.category?.name}</span>
+                            {
+                               post?.category?.name && <span>{post?.category?.name}</span>
+
+                            }
                             <span className={styles.featured}>
                                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M8.39034 1.72401C8.14035 1.47394 7.80127 1.33342 7.44767 1.33334H2.66634C2.31272 1.33334 1.97358 1.47382 1.72353 1.72387C1.47348 1.97392 1.33301 2.31305 1.33301 2.66668V7.44801C1.33308 7.8016 1.47361 8.14069 1.72367 8.39068L7.52634 14.1933C7.82935 14.4944 8.23917 14.6634 8.66634 14.6634C9.09351 14.6634 9.50333 14.4944 9.80634 14.1933L14.193 9.80668C14.4941 9.50367 14.6631 9.09385 14.6631 8.66668C14.6631 8.23951 14.4941 7.82969 14.193 7.52668L8.39034 1.72401Z" stroke="white" strokeWidth="1.33333" strokeLinecap="round" strokeLinejoin="round" />
@@ -52,7 +55,7 @@ const Header = ({post}) => {
                                 </div>
 
                             </div>
-                                  <div className={styles.social}>
+                            <div className={styles.social}>
                                 <Link href="#">
                                     <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <g clipPath="url(#clip0_344_11265)">
@@ -107,18 +110,31 @@ const Header = ({post}) => {
 
                         </div>
 
+                   {post?.user ? (
                         <div className={styles.author}>
                             <div className={styles.avatar}>
-                                <Image src={post?.user?.image} alt="Author" width={50} height={50} />
+                                {
+                                    post?.user?.image ? (
+                                        <Image src={post?.user?.image} alt="Author" width={50} height={50} />
+                                    ) : post?.user?.name ? (
+                                        <div>
+                                            {post?.user?.name?.charAt(0).toUpperCase()}
+                                        </div>
+
+                                    ) : (
+                                            <User size={40} color="white" strokeWidth={1} />
+                                    )
+                                }
                             </div>
                             <div className={styles.authorInfo}>
-                                <h3>{post?.author?.name}</h3>
+                                <h3>{post?.user?.name}</h3>
                                 <p>Author</p>
                             </div>
 
                         </div>
+                   ) : null}
 
-                  
+
 
                     </div>
                 </div>

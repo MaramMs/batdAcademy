@@ -1,49 +1,45 @@
 "use client";
 
 import React, { useState } from "react";
-import { BookOpen, ChevronRight, ChevronDown } from "lucide-react";
+import { BookOpen, ChevronRight } from "lucide-react";
 import styles from "@/sass/pages/blog/article-parts.module.scss";
+import Skeleton from "@/components/ui/Skeleton";
 
-const tocItems = [
-  {
-    id: "intro",
-    title: "Introduction to Swift UI",
-    active: true,
-  },
-  {
-    id: "why",
-    title: "Why Swift UI Matters",
-  },
-  {
-    id: "features",
-    title: "Key Features",
-    children: [
-      { id: "syntax", title: "Declarative Syntax" },
-      { id: "preview", title: "Live Preview" },
-    ],
-  },
-  {
-    id: "getting-started",
-    title: "Getting Started",
-  },
-  {
-    id: "best-practices",
-    title: "Best Practices",
-  },
-  {
-    id: "conclusion",
-    title: "Conclusion",
-  },
-];
+const ArticleParts = ({ post, isLoading }) => {
+  console.log(isLoading, 'loading from  art')
+  const [activeId, setActiveId] = useState(null);
 
-const ArticleParts = () => {
-  const [expandedIds, setExpandedIds] = useState(["intro", "features"]);
+  const tableOfContents = post?.table_of_contents || [];
+  const readTime = post?.read_time;
 
-  const toggleExpand = (id) => {
-    setExpandedIds((prev) =>
-      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
-    );
+  const handleScrollToTitle = (title, index) => {
+    setActiveId(index);
+    // Find all headings
+    const headings = Array.from(document.querySelectorAll("h1, h2, h3, h4, h5, h6"));
+
+    // Find the heading that matches the title
+    const targetHeading = headings.find(el => {
+      const headingText = el.textContent.trim();
+      const titleText = title.trim();
+      // Match if the heading text contains the title text or vice versa 
+      // (some titles might be truncated in the backend)
+      if (!headingText || !titleText) return false;
+      return headingText.includes(titleText) || titleText.includes(headingText);
+    });
+
+    if (targetHeading) {
+      // Calculate top offset, considering fixed header height (approx 100px)
+      const y = targetHeading.getBoundingClientRect().top + window.scrollY - 100;
+      window.scrollTo({ top: y, behavior: 'smooth' });
+    }
   };
+
+  // Assuming level starts from 2 or 3 usually, we normalize it to calculate left margin.
+  // We can find the minimum level to use as base.
+  // if tableOfContents is empty, minLevel might be Infinity, so handle it safely.
+  const minLevel = tableOfContents.length > 0 ? Math.min(...tableOfContents.map(item => item.level)) : 0;
+
+  if (tableOfContents.length === 0) return null;
 
   return (
     <div className={styles.tocContainer}>
@@ -52,50 +48,48 @@ const ArticleParts = () => {
         <h3 className={styles.headerTitle}>In This Article</h3>
       </header>
 
-      <div className={styles.divider} />
+      {tableOfContents && tableOfContents.length > 0 ? (
+        <>
+          <div className={styles.divider} />
 
-      <nav className={styles.nav}>
-        {tocItems.map((item) => {
-          const isExpanded = expandedIds.includes(item.id);
-          const hasChildren = item.children && item.children.length > 0;
+          <nav className={styles.nav}>
+            {tableOfContents.map((item, index) => {
+              // Calculate indentation based on heading level relative to minimum level
+              const marginLeft = Math.max(0, (item.level - minLevel)) * 12;
 
-          return (
-            <div key={item.id} className={styles.itemGroup}>
-              <button
-                onClick={() => toggleExpand(item.id)}
-                className={`${styles.navItem} ${item.active ? styles.active : ""}`}
-              >
-                <span className={styles.chevron}>
-                  {isExpanded ? <ChevronDown size={16} /> : <ChevronRight size={16} />}
-                </span>
-                <span className={styles.title}>{item.title}</span>
-              </button>
-
-              {hasChildren && isExpanded && (
-                <div className={styles.subItems}>
-                  {item.children.map((sub) => (
-                    <button key={sub.id} className={styles.subNavItem}>
-                      <span className={styles.chevron}>
-                        <ChevronRight size={16} />
-                      </span>
-                      <span className={styles.title}>{sub.title}</span>
-                    </button>
-                  ))}
+              return (
+                <div key={index} className={styles.itemGroup}>
+                  <button
+                    onClick={() => handleScrollToTitle(item.title, index)}
+                    className={`${styles.navItem} ${activeId === index ? styles.active : ""}`}
+                    style={{ paddingLeft: `${marginLeft}px` }}
+                  >
+                    <span className={styles.chevron}>
+                      <ChevronRight size={16} />
+                    </span>
+                    <span className={styles.title}>{item.title}</span>
+                  </button>
                 </div>
-              )}
-            </div>
-          );
-        })}
-      </nav>
+              );
+            })}
+          </nav>
 
-      <div className={styles.footerDivider} />
-
-      <footer className={styles.footer}>
-        <span className={styles.readingTime}>8 min read</span>
-      </footer>
+          {readTime && (
+            <>
+              <div className={styles.footerDivider} />
+              <footer className={styles.footer}>
+                <span className={styles.readingTime}>{readTime} min read</span>
+              </footer>
+            </>
+          )}
+        </>
+      ) : (
+        <div>
+          <p>No data available</p>
+        </div>
+      )}
     </div>
   );
 };
 
 export default ArticleParts;
-
