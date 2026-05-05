@@ -1,3 +1,6 @@
+'use client';
+import { motion } from 'framer-motion';
+
 import Image from 'next/image';
 import styles from '@/sass/pages/home/hero.module.scss';
 import { Building2, Search, Users } from 'lucide-react';
@@ -22,66 +25,104 @@ export default function Hero() {
         },
     ];
 
+    const containerVariants = {
+        hidden: { opacity: 0 },
+        visible: {
+            opacity: 1,
+            transition: {
+                staggerChildren: 0.2
+            }
+        }
+    };
+
+    const itemVariants = {
+        hidden: { opacity: 0, y: 20 },
+        visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } }
+    };
+
     return (
         <section className={styles.hero}>
             <div className={stylesConteiner.container}>
-              <div className={styles.content}>
-                  {/* ── LEFT ── */}
-                <div className={styles.left}>
-                    <h1 className={styles.title}>
-                        {t.rich('title', {
-                            ideal: (chunks) => <span>{chunks}</span>,
-                            skills: (chunks) => <span>{chunks}</span>,
-                            br: () => <br />
-                        })}
-                    </h1>
+                <motion.div 
+                    className={styles.content}
+                    variants={containerVariants}
+                    initial="hidden"
+                    animate="visible"
+                >
+                    {/* ── LEFT ── */}
+                    <div className={styles.left}>
+                        <motion.h1 className={styles.title} variants={itemVariants}>
+                            {t.rich('title', {
+                                ideal: (chunks) => <span>{chunks}</span>,
+                                skills: (chunks) => <span>{chunks}</span>,
+                                br: () => <br />
+                            })}
+                        </motion.h1>
 
-                    <div className={styles.searchBar}>
-                        <span className={styles.searchIcon}>
-                            <Search color='#99A1AF' size={16} />
-                        </span>
-                        <input
-                            type="text"
-                            placeholder={t('searchPlaceholder')}
-                            className={styles.searchInput}
-                        />
-                        <button className={styles.btnSearch}>{t('searchButton')}</button>
-                    </div>
+                        <motion.div className={styles.searchBar} variants={itemVariants}>
+                            <span className={styles.searchIcon}>
+                                <Search color='#99A1AF' size={16} />
+                            </span>
+                            <input
+                                type="text"
+                                placeholder={t('searchPlaceholder')}
+                                className={styles.searchInput}
+                            />
+                            <button className={styles.btnSearch}>{t('searchButton')}</button>
+                        </motion.div>
 
-                    <p className={styles.subtitle}>
-                        {t('subtitle')}
-                    </p>
+                        <motion.p className={styles.subtitle} variants={itemVariants}>
+                            {t('subtitle')}
+                        </motion.p>
 
-                    <div className={styles.cta}>
-                        <button className={styles.btnPrimary}>{t('viewCourses')}</button>
-                        <button className={styles.btnSecondary}>{t('trainingHalls')}</button>
-                    </div>
+                        <motion.div className={styles.cta} variants={itemVariants}>
+                            <motion.button 
+                                whileHover={{ scale: 1.05 }}
+                                whileTap={{ scale: 0.95 }}
+                                className={styles.btnPrimary}
+                            >
+                                {t('viewCourses')}
+                            </motion.button>
+                            <motion.button 
+                                whileHover={{ scale: 1.05 }}
+                                whileTap={{ scale: 0.95 }}
+                                className={styles.btnSecondary}
+                            >
+                                {t('trainingHalls')}
+                            </motion.button>
+                        </motion.div>
 
-                    <div className={styles.stats}>
-                        {statsData.map((stat) => (
-                            <div key={stat.id} className={styles.statItem}>
-                                <div className={styles.statIcon}>{stat.icon}</div>
-                                <div className={styles.statText}>
-                                    <strong>{stat.value}</strong>
-                                    <span>{stat.label}</span>
+                        <motion.div className={styles.stats} variants={itemVariants}>
+                            {statsData.map((stat) => (
+                                <div key={stat.id} className={styles.statItem}>
+                                    <div className={styles.statIcon}>{stat.icon}</div>
+                                    <div className={styles.statText}>
+                                        <strong>{stat.value}</strong>
+                                        <span>{stat.label}</span>
+                                    </div>
                                 </div>
-                            </div>
-                        ))}
+                            ))}
+                        </motion.div>
                     </div>
-                </div>
 
-                {/* ── RIGHT ── */}
-                <div className={styles.right}>
-                    <Image
-                        src="/asstes/heroImage.jpg"
-                        alt={t('searchPlaceholder')} 
-                        className={styles.heroImage}
-                        width={600}
-                        height={400}
-                    />
-                </div>
-              </div>
+                    {/* ── RIGHT ── */}
+                    <motion.div 
+                        className={styles.right}
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ duration: 0.8, ease: "easeOut", delay: 0.4 }}
+                    >
+                        <Image
+                            src="/asstes/heroImage.jpg"
+                            alt={t('searchPlaceholder')}
+                            className={styles.heroImage}
+                            width={600}
+                            height={400}
+                        />
+                    </motion.div>
+                </motion.div>
             </div>
         </section>
     );
 }
+

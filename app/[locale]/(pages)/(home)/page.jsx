@@ -9,23 +9,26 @@ import CoursesBySpecial from "./CoursesBySpecial"
 import LastestPublication from "./LastestPublication"
 import TeamWork from "./TeamWork"
 import ChatAi from "./ChatAi"
+import MotionWrapper from "@/components/common/MotionWrapper";
+
 const Home = () =>{
     return (
         <div className={styles.home}>
             <Hero />
             <ChatAi />
            <div className={styles.mainContent}>
-             <UpcomingCourses />
-             <CoursesBySpecial />
-             <RequestCoures />
-             <WhatIs />
-             <CourseByCity />
-             <LastestPublication />
-             <TeamWork />
-             <Customers />
+             <MotionWrapper><UpcomingCourses /></MotionWrapper>
+             <MotionWrapper><CoursesBySpecial /></MotionWrapper>
+             <MotionWrapper><RequestCoures /></MotionWrapper>
+             <MotionWrapper><WhatIs /></MotionWrapper>
+             <MotionWrapper><CourseByCity /></MotionWrapper>
+             <MotionWrapper><LastestPublication /></MotionWrapper>
+             <MotionWrapper><TeamWork /></MotionWrapper>
+             <MotionWrapper><Customers /></MotionWrapper>
            </div>
         </div>
     )
 }
+
 
 export default Home

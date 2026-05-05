@@ -13,6 +13,7 @@ import { useEffect, useState } from "react";
 import FeaturedArticle from "./FeaturedArticle";
 import LatestArticles from "./LatestArticles";
 import SearchInput from "./Search";
+import MotionWrapper from "@/components/common/MotionWrapper";
 
 
 
@@ -79,7 +80,7 @@ const BlogPage = () => {
             <div className={stylesContainer.container}>
 
                 <div className={styles.blogContent}>
-                    <div className={styles.blogContent__left}>
+                    <MotionWrapper className={styles.blogContent__left}>
                         {
                             isLoading ? (
                                 <div className={styles.skeletonContainer}>
@@ -169,16 +170,10 @@ const BlogPage = () => {
                         }
                      
 
-                    </div>
-                    <div className={styles.blogContent__right}>
+                    </MotionWrapper>
+                    <MotionWrapper className={styles.blogContent__right}>
                         {isLoading ? (
                             <div className={styles.skeletonContainer}>
-                                {/* 
-                                <div className={styles.loaderContainer}>
-                                    <span className={styles.loader}></span>
-                                    <span className={styles.loaderText}>Loading articles...</span>
-                                </div>
-                                */}
                                 <Skeleton type="card" className={styles.skeletonFeatured} />
                                 <div className={styles.skeletonGrid}>
                                     <Skeleton type="card" className={styles.skeletonCard} />
@@ -193,7 +188,7 @@ const BlogPage = () => {
                                 <LatestArticles view={view} posts={posts} />
                             </>
                         )}
-                    </div>
+                    </MotionWrapper>
                 </div>
 
             </div>

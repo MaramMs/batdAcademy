@@ -1,6 +1,8 @@
+"use client";
+import { motion } from "framer-motion";
 import Image from "next/image";
 import styles from "@/sass/pages/blog/lastest-articles-card.module.scss";
-import { ArrowRight, Clock, Eye, Heart, Star } from "lucide-react";
+import { ArrowRight, Clock, Eye, Heart} from "lucide-react";
 import Link from "next/link";
 
 // Temporary placeholder images
@@ -9,18 +11,21 @@ const placeholderImages = [
     "/asstes/default-1.jpeg",
     "/asstes/course1.jpg",
 ];
-
 const LatestArticlesCard = ({ article, view }) => {
-    // Select a random image based on the article's ID or randomly. 
-    // Using article.id (if available) ensures the image doesn't change on every re-render.
     const randomImageIndex = article?.id ? article.id % 3 : Math.floor(Math.random() * 3);
     const randomImage = placeholderImages[randomImageIndex];
 
     return (
-        <div className={`${styles.card} ${styles[view]}`}>
+        <motion.div 
+            className={`${styles.card} ${styles[view]}`}
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            whileHover={{ y: -10, boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)" }}
+        >
 
             <div className={styles.image}>
-                {/* Temporarily using randomImage instead of article.image */}
                 <Image src={randomImage} alt={article.title} width={363} height={207} unoptimized />
             </div>
             <div className={styles.content}>
@@ -56,7 +61,7 @@ const LatestArticlesCard = ({ article, view }) => {
             </div>
 
 
-        </div>
+        </motion.div>
     )
 }
 
