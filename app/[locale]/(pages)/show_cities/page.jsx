@@ -6,20 +6,44 @@ import CityCard from "./CityCard";
 import Skeleton from "@/components/ui/Skeleton";
 import useCitiesStore from "@/store/useCitiesStore";
 import { useEffect } from "react";
-import { useSearchParams, useRouter, usePathname } from "next/navigation";
+import { useSearchParams, useRouter, usePathname, useParams } from "next/navigation";
 import { ArrowRight } from "lucide-react";
 
 const ShowCities = () => {
     const searchParams = useSearchParams();
     const router = useRouter();
     const pathname = usePathname();
+    const { locale } = useParams();
     const { handleGetCities, handleLoadMore, cities, isLoading, hasMore } = useCitiesStore();
 
     useEffect(() => {
-        const paramsString = searchParams.toString();
-        const queryString = paramsString ? `?${paramsString}` : "";
-        handleGetCities(queryString);
-    }, [searchParams, handleGetCities]);
+        handleGetCities();
+    }, [handleGetCities]);
+
+    useEffect(() => {
+        const citySlug = searchParams.get("city");
+        const specialization = searchParams.get("specialization");
+        const search = searchParams.get("search");
+
+        if ((citySlug || specialization || search) && cities.length > 0) {
+            let targetCity;
+            
+            if (citySlug) {
+                targetCity = cities.find((c) => c.slug === citySlug);
+            } else {
+                // If no city selected but other filters are present, use the first city
+                targetCity = cities[0];
+            }
+
+            if (targetCity) {
+                const params = new URLSearchParams(searchParams.toString());
+                // Remove city from query params as it will be in the URL path
+                params.delete("city");
+                const queryString = params.toString() ? `?${params.toString()}` : "";
+                router.push(`/${locale}/city/${targetCity.id}/${targetCity.slug}${queryString}`);
+            }
+        }
+    }, [searchParams, cities, locale, router]);
 
     const updateFilter = (key, value) => {
         const params = new URLSearchParams(searchParams.toString());

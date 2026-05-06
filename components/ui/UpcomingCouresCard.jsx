@@ -9,6 +9,7 @@ import DatePopUp from "./DatePopUp";
 import styles from "@/sass/components/ui/Upcoming-Coures-Card.module.scss";
 import useLanguageStore from "@/store/useLanguageStore";
 const UpcomingCouresCard = ({ course, onModalOpen, onModalClose, slideIndex, swiperRef}) => {
+
     const [isOpen, setIsOpen] = useState(false);
     const locale = useLanguageStore((state) => state.locale);
     const handleOpen = () => {
@@ -27,6 +28,14 @@ const UpcomingCouresCard = ({ course, onModalOpen, onModalClose, slideIndex, swi
     const handleSelect = (session) => {
         console.log('Selected session:', session);
     };
+    const placeholderImages = [
+    "https://batdacademy.com/uploads/placeholder_image.webp",
+    "/asstes/default-1.jpeg",
+    "/asstes/course1.jpg",
+];
+      const randomImageIndex = course?.id ? course?.id % 3 : Math.floor(Math.random() * 3);
+    const randomImage = placeholderImages[randomImageIndex];
+    console.log(course,'course');
     return (
       
         <motion.div 
@@ -39,7 +48,7 @@ const UpcomingCouresCard = ({ course, onModalOpen, onModalClose, slideIndex, swi
         >
             <div className={styles.imageWrapper}>
                 <Image
-                    src={course?.image || 'https://batdacademy.simplesdev.space/assets/media/svg/files/blank-image.svg'}
+                    src={randomImage}
                     alt={course?.title || 'Course Image'}
                     width={361}
                     height={208}

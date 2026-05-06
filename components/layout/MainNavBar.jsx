@@ -86,7 +86,7 @@ const MainNavBar = () => {
               </ul>
             )}
           </div>
-
+          <Link href={'/show_cities'} className={styles.navLink} >Cities</Link>
           <Link href="/consulting"  className={styles.navLink}>{t('consulting')}</Link>
           <Link href="/blog"       className={styles.navLink}>{t('blog')}</Link>
           <Link href="/contact_us"     className={styles.navLink}>{t('contactUs')}</Link>

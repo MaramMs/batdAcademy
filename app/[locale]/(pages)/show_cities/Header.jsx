@@ -40,7 +40,7 @@ const Header = ({ updateFilter }) => {
                     <p>World-class training programs across {stats?.cities || "..."} cities worldwide</p>
                 </div>
                 <div className={styles.searchCourse}>
-                    <SearchCourse className={styles.filter} onSearch={(val) => updateFilter?.("search", val)} />
+                    <SearchCourse className={styles.filter} updateFilter={(key, val) => updateFilter?.(key, val)} />
                     <div className={styles.locationSelect}>
                         <DropdownMenuCustom
                             label="All Specializations"
