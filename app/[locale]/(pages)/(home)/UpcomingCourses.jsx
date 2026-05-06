@@ -11,8 +11,7 @@ const UpcomingCourses = () => {
     const swiperRef = useRef(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-    const {handleGetCourses,courses,isLoading} = useCoursesStore();
-    console.log(courses , 'courses')
+    const {handleGetCourses,data,isLoading} = useCoursesStore();
 
 
     useEffect(() => {
@@ -35,7 +34,7 @@ const UpcomingCourses = () => {
                         navId="courses"
                         swiperRef={swiperRef}
                         pauseAutoplay={isModalOpen}
-                        items={courses}
+                        items={data?.courses}
                         renderSlide={(course, index) => (
                             <div style={{ display: 'flex', justifyContent: 'center' }}>
                                 <div style={{ maxWidth: '400px', width: '100%' }}>
