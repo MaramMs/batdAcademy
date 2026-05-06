@@ -5,10 +5,31 @@ import styles from "@/sass/pages/showCities/header.module.scss";
 import { Aperture, ChevronDown } from "lucide-react";
 import { useState } from "react";
 import SearchCourse from "../search_course/Search";
+import useCitiesStore from "@/store/useCitiesStore";
 
-const Header = () => {
+const formatStat = (n) => {
+    if (!n) return "0";
+    if (n >= 1000) return `${(n / 1000).toFixed(1).replace(/\.0$/, "")}K`;
+    return String(n);
+};
+
+const Header = ({ updateFilter }) => {
     const [specialization, setSpecialization] = useState("");
     const [city, setCity] = useState("");
+    const { stats, specializations, cities } = useCitiesStore();
+
+    const specializationOptions = specializations.map((s) => ({ label: s.name, value: s.slug }));
+    const cityOptions = cities.map((c) => ({ label: c.name, value: c.slug }));
+
+    const handleSpecializationChange = (val) => {
+        setSpecialization(val);
+        updateFilter?.("specialization", val);
+    };
+
+    const handleCityChange = (val) => {
+        setCity(val);
+        updateFilter?.("city", val);
+    };
 
     return (
         <div className={styles.header}>
@@ -16,46 +37,45 @@ const Header = () => {
                 <div className={styles.title}>
                     <span><Aperture color="#B12E33" size={22} />EXPLORE OUR GLOBAL LOCATIONS</span>
                     <h1>Find Your Perfect <br /> Training Destination</h1>
-                    <p>World-class training programs across 12 cities worldwide</p>
+                    <p>World-class training programs across {stats?.cities || "..."} cities worldwide</p>
                 </div>
                 <div className={styles.searchCourse}>
-                    <SearchCourse className={styles.filter} />
+                    <SearchCourse className={styles.filter} onSearch={(val) => updateFilter?.("search", val)} />
                     <div className={styles.locationSelect}>
                         <DropdownMenuCustom
                             label="All Specializations"
-                            options={["Specialization 1", "Specialization 2"]}
+                            options={specializationOptions}
                             value={specialization}
-                            onChange={(val) => setSpecialization(val)}
+                            onChange={handleSpecializationChange}
                             multi={false}
                             icon={<ChevronDown size={14} />}
                             triggerClassName={styles.dropdownTrigger}
                         />
                         <DropdownMenuCustom
                             label="All Cities"
-                            options={["City 1", "City 2"]}
+                            options={cityOptions}
                             value={city}
-                            onChange={(val) => setCity(val)}
+                            onChange={handleCityChange}
                             multi={false}
                             icon={<ChevronDown size={14} />}
                             triggerClassName={styles.dropdownTrigger}
                         />
                     </div>
                 </div>
-
             </div>
+
             <div className={styles.statistics}>
                 <div className={styles.item}>
-                    <h5>42+</h5>
-                    <span>Countries</span>
+                    <h5>{stats?.cities ? `${stats.cities}+` : "..."}</h5>
+                    <span>Global Cities</span>
                 </div>
                 <div className={styles.item}>
-                    <h5>38+</h5>
-                    <span>Cities</span>
+                    <h5>{stats?.training_programs ? `${formatStat(stats.training_programs)}+` : "..."}</h5>
+                    <span>Training Programs</span>
                 </div>
-
                 <div className={styles.item}>
-                    <h5>450+</h5>
-                    <span>Courses</span>
+                    <h5>{stats?.total_students !== undefined ? `${formatStat(stats.total_students)}+` : "..."}</h5>
+                    <span>Happy Students</span>
                 </div>
             </div>
         </div>
