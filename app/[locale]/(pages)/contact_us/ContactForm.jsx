@@ -1,7 +1,7 @@
 'use client';
 import { useState } from "react";
 import { useForm, Controller } from "react-hook-form";
-import { User, Mail, Phone, Package, MessageSquare, Send, MessageCircle, ChevronDown } from "lucide-react";
+import { User, Mail, Phone, Package, MessageSquare, Send, MessageCircle, ChevronDown, CheckCircle } from "lucide-react";
 import DropdownMenuCustom from "@/components/common/DropdownMenu";
 import styles from "@/sass/pages/contact/form.module.scss";
 import ReCAPTCHA from "react-google-recaptcha";
@@ -69,6 +69,13 @@ const ContactForm = () => {
                     <p>We&apos;ll respond within 24 hours</p>
                 </div>
             </div>
+
+            {submitted && (
+                <div className={styles.successMessage}>
+                    <CheckCircle size={18} />
+                    <span>Your message has been sent successfully! We will get back to you soon.</span>
+                </div>
+            )}
 
             <form onSubmit={handleSubmit(onSubmit)} noValidate>
                 <div className={styles.field}>

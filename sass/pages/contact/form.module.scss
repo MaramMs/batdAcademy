@@ -197,3 +197,34 @@ button {
         cursor: not-allowed;
     }
 }
+
+.successMessage {
+    background-color: #ecfdf5;
+    border: 1px solid #10b981;
+    color: #065f46;
+    padding: 16px;
+    border-radius: $radius-md;
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    animation: slideDown 0.3s ease-out;
+
+    @media (max-width: $mobile) {
+        padding: 12px;
+        font-size: 13px;
+    }
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
