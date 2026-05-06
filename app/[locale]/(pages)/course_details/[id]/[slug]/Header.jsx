@@ -1,15 +1,18 @@
 import { ArrowLeft, ArrowRight, House } from "lucide-react"
 import styles from "@/sass/pages/course-details/header.module.scss"
 import stylesContainer from "@/sass/components/common/container.module.scss"
+import Link from "next/link"
+import useLanguageStore from "@/store/useLanguageStore"
 
 const Header = () => {
+    const {locale} = useLanguageStore();
     return (
         <section className={styles.header}>
        <div className={stylesContainer.container}>
         <div className={styles.wrapper}>
                  <div className={styles.breadcrumb}>
                 <ArrowLeft color='#2F327D' size={20}/>
-                <span>Back to Courses</span>
+                <Link href={`/${locale}/search_course`}>Back to Courses</Link>
             </div>
             <span>|</span>
             <House color='#4A5565' size={20} />

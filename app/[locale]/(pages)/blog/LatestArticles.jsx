@@ -4,29 +4,7 @@ import { ArrowRight } from "lucide-react";
 import LatestArticlesCard from "./LatestArticlesCard";
 import styles from "@/sass/pages/blog/latest-articles.module.scss";
 
-const LatestArticles = ({ view, posts }) => {
-    const { handleGetPosts } = usePostsStore();
-    const [visibleCount, setVisibleCount] = useState(6);
-
-    const firstPostId = posts?.posts?.[0]?.id;
-
-    // Reset visible count ONLY if the first post changes (e.g. category filter applied), 
-    // NOT when we append new posts to the bottom.
-    useEffect(() => {
-        setVisibleCount(6);
-    }, [firstPostId]);
-
-    const handleViewMore = () => {
-        if (posts?.posts && visibleCount < posts.posts.length) {
-            setVisibleCount(prev => prev + 6);
-        } else if (posts?.has_more) {
-            setVisibleCount(prev => prev + 6); // Increase count to reveal the newly fetched ones
-            const params = new URLSearchParams(window.location.search);
-            params.set('cursor', posts.next_cursor);
-            handleGetPosts(`?${params.toString()}`, true);
-        }
-    };
-
+const LatestArticles = ({ view, posts, visibleCount, handleViewMore }) => {
     return (
         <div className={styles.latestArticles}>
             <h2>Latest Articles</h2>
@@ -45,8 +23,10 @@ const LatestArticles = ({ view, posts }) => {
                 )
             }
 
+
         </div>
     );
 };
+
 
 export default LatestArticles;

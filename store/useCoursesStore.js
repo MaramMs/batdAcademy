@@ -1,44 +1,69 @@
+import { getCourseBySlug, getCourses } from "@/action/courses";
 import { create } from "zustand";
 import useLanguageStore from "./useLanguageStore";
-import { getCourses } from "@/action/courses";
 
 const useCoursesStore = create((set) => ({
-    courses: [],
+    data: null,
     isLoading: true,
-    handleGetCourses: async (queryParams='', append=false) => {
-        set({ isLoading: !append }); 
+    handleGetCourses: async (queryParams = '', append = false) => {
+        set({ isLoading: !append });
         try {
             const locale = useLanguageStore.getState().locale;
-            const data = await getCourses(locale,queryParams);
-            console.log(data , 'data from store')
+            const data = await getCourses(locale, queryParams);
+            console.log(data, 'data from store')
             set((state) => {
-                if (append && state.courses?.courses) {
+                if (append && state.data?.courses) {
                     return {
-                        courses: {
+                        data: {
                             ...data.data,
-                            courses: [...state.courses.courses, ...data.data.courses]
+                            courses: [...state.data.courses, ...data.data.courses]
                         },
                         isLoading: false
                     };
                 }
-                return { courses: data.data.courses, isLoading: false };
+                return { data: data.data, isLoading: false };
             });
+
         } catch (error) {
             set({ isLoading: false });
         }
     },
 
 
-    // handleGetCourseBySlug: async (slug) => {
+    handleGetCourseBySlug: async (slug) => {
+        try {
+            const locale = useLanguageStore.getState().locale;
+            const data = await getCourseBySlug(locale, slug);
+            console.log(data?.data, 'data post from store')
+            set({ course: data?.data, isLoading: false });
+        } catch (error) {
+            set({ isLoading: false });
+        }
+    },
+    // handleSearchCourses: async (queryParams = '', append = false) => {
+    //     set({ isLoading: !append });
     //     try {
     //         const locale = useLanguageStore.getState().locale;
-    //         const data = await getCourseBySlug(locale, slug);
-    //         console.log(data?.data,'data post from store')
-    //         set({ course: data?.data, isLoading: false });
+    //         const data = await getCourses(locale, queryParams);
+    //         console.log(data, 'data from store')
+    //         set((state) => {
+    //             if (append && state.data?.courses) {
+    //                 return {
+    //                     data: {
+    //                         ...data.data,
+    //                         courses: [...state.data.courses, ...data.data.courses]
+    //                     },
+    //                     isLoading: false
+    //                 };
+    //             }
+    //             return { data: data.data, isLoading: false };
+    //         });
+
     //     } catch (error) {
     //         set({ isLoading: false });
     //     }
     // },
+
 }));
 
 export default useCoursesStore;

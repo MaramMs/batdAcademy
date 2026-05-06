@@ -7,8 +7,10 @@ import Image from "next/image";
 import { Calendar, Clock, MapPin, Star } from "lucide-react";
 import DatePopUp from "./DatePopUp";
 import styles from "@/sass/components/ui/Upcoming-Coures-Card.module.scss";
+import useLanguageStore from "@/store/useLanguageStore";
 const UpcomingCouresCard = ({ course, onModalOpen, onModalClose, slideIndex, swiperRef}) => {
     const [isOpen, setIsOpen] = useState(false);
+    const locale = useLanguageStore((state) => state.locale);
     const handleOpen = () => {
         if (swiperRef?.current) {
             swiperRef.current.slideTo(slideIndex);
@@ -62,7 +64,7 @@ const UpcomingCouresCard = ({ course, onModalOpen, onModalClose, slideIndex, swi
                     }
                 </div>
                 <p className={styles.description}>
-                    {course.description}
+                    {course.name}
                 </p>
                 <div className={styles.meta}>
                     <div className={styles.time}>
@@ -94,7 +96,7 @@ const UpcomingCouresCard = ({ course, onModalOpen, onModalClose, slideIndex, swi
                 </div>
                 <div className={styles.btns}>
                     <Link href="/en/registerCourse" className={styles.btnRegister}>Register </Link>
-                    <Link href="/en/course_details/1/dsd" className={styles.btnDetails}> Details</Link>
+                    <Link href={`/${locale}/course_details/${course?.id}/${course?.slug}`} className={styles.btnDetails}> Details</Link>
                 </div>
             </div>
         </motion.div>

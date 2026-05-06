@@ -76,7 +76,8 @@
                     transition: $transition-base;
                     padding: 11.77px 18.3px;
 
-                    &:hover {
+                    &:hover,
+                    &.active {
                         color: $blue-900;
                         font-weight: 500;
                     }
@@ -120,7 +121,8 @@
                     cursor: pointer;
                     transition: $transition-base;
 
-                    &:hover {
+                    &:hover,
+                    &.active {
                         background: $blue-900;
                         color: $white;
                     }

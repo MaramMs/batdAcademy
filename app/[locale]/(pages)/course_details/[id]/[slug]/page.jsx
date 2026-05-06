@@ -1,4 +1,9 @@
 'use client'
+import { useEffect, useState } from "react";
+import { useParams } from "next/navigation";
+import Link from "next/link";
+import Image from "next/image";
+import * as Dialog from "@radix-ui/react-dialog";
 import CategoriesBox from "@/components/common/CategoriesBox";
 import CustomDatePicker from "@/components/common/DateInput";
 import Tabs from "@/components/common/Tabs";
@@ -7,12 +12,12 @@ import UpcomingCouresCard from "@/components/ui/UpcomingCouresCard";
 import { upcomingCourses } from "@/data/upcomingcourse";
 import stylesContainer from "@/sass/components/common/container.module.scss";
 import styles from "@/sass/pages/course-details/course-details.module.scss";
-import * as Dialog from "@radix-ui/react-dialog";
 import { ArrowRight, Calendar, ChevronRight, Clock, Copy, Filter, Mail, MessageCircle, Play, Printer, Star, Users, X } from "lucide-react";
-import Image from "next/image";
-import Link from "next/link";
-import { useEffect, useState } from "react";
 import Header from "./Header";
+import useCoursesStore from "@/store/useCoursesStore";
+import Skeleton from "@/components/ui/Skeleton";
+import useLanguageStore from "@/store/useLanguageStore";
+import useCategoriesStore from "@/store/useCategoriesStore";
 
 const tabs = [
     {
@@ -36,10 +41,16 @@ const CourseDetails = () => {
     const [activeTabId, setActiveTabId] = useState(1);
     const [date, setDate] = useState();
     const [mounted, setMounted] = useState(false);
+    const { handleGetCourseBySlug, course, isLoading } = useCoursesStore();
+    const { categories, handleGetCategories } = useCategoriesStore();
+    const { locale } = useLanguageStore();
+    const { slug } = useParams();
 
     useEffect(() => {
         setMounted(true);
-    }, []);
+        handleGetCourseBySlug(slug)
+        handleGetCategories();
+    }, [slug]);
 
 
     const activeTab = tabs.find(tab => tab.id === activeTabId) || tabs[0];
@@ -50,7 +61,7 @@ const CourseDetails = () => {
             <div className={stylesContainer.container}>
                 <div className={styles.mainContent}>
                     <div className={styles.mainTitle}>
-                        <h1>All Details For Course <span> AES</span></h1>   <Dialog.Root modal={true}>
+                        <h1>All Details For Course <span> {course?.name}</span></h1>   <Dialog.Root modal={true}>
                             <Dialog.Trigger asChild>
                                 <button className={styles.filterBtn}>
                                     <Filter size={20} />
@@ -166,244 +177,249 @@ const CourseDetails = () => {
 
                     </div>
 
-                    <div className={styles.content}>
-                        <div className={styles.filter}>
-                            {/* Box 1: Filters/Settings */}
-                            <CategoriesBox title="All Categories" icon={<Filter size={18} />}>
-                                <div className={styles.sidebarFilterContent}>
-                                    <div className={styles.range}>
-                                        <h4 className={styles.filterGroupTitle}>Price Range</h4>
-                                        <Range
-                                            min={0}
-                                            max={2000}
-                                            step={10}
-                                        />
-                                    </div>
+                    {
+                        isLoading ? (
+                            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2,1fr)', gap: '1rem' }}>
+                                <Skeleton type='card' height='100vh' />
+                                <Skeleton type='card' height='100vh' />
+                            </div>
 
-                                    <h4 className={styles.filterGroupTitle}>Course Type</h4>
-                                    <div className={styles.checkboxGroup}>
-                                        <label className={styles.checkboxLabel}>
-                                            <input type="checkbox" /> Featured Courses
-                                        </label>
-                                        <label className={styles.checkboxLabel}>
-                                            <input type="checkbox" /> Approved Courses
-                                        </label>
-                                        <label className={styles.checkboxLabel}>
-                                            <input type="checkbox" /> Discounted Courses
-                                        </label>
-                                    </div>
-                                </div>
-                            </CategoriesBox>
-
-                            {/* Box 2: Category List */}
-                            <CategoriesBox title="All Category">
-                                <ul className={styles.sidebarCategoryList}>
-                                    <li>
-                                        <span>Business</span>
-                                        <div className={styles.badgeWrapper} >
-                                            <span className={styles.badge}>95</span>
-                                            <ChevronRight size={12} />
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <span>Technical</span>
-                                        <div className={styles.badgeWrapper} >
-                                            <span className={styles.badge}>32</span>
-                                            <ChevronRight size={12} />
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <span>Power</span>
-                                        <div className={styles.badgeWrapper} >
-                                            <span className={styles.badge}>32</span>
-                                            <ChevronRight size={12} />
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <span>Management</span>
-                                        <div className={styles.badgeWrapper} >
-                                            <span className={styles.badge}>32</span>
-                                            <ChevronRight size={12} />
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <span>Development</span>
-                                        <div className={styles.badgeWrapper} >
-                                            <span className={styles.badge}>32</span>
-                                            <ChevronRight size={12} />
-                                        </div>
-                                    </li>
-                                </ul>
-                            </CategoriesBox>
-
-                            {/* Box 3: Tags */}
-                            <CategoriesBox title="All Tags">
-                                <div className={styles.sidebarTagsContainer}>
-                                    <span className={styles.tagPill}>Business</span>
-                                    <span className={styles.tagPill}>Graphic Design</span>
-                                    <span className={styles.tagPill}>Technology</span>
-                                    <span className={styles.tagPill}>Business Idea</span>
-                                    <span className={styles.tagPill}>App Development</span>
-                                    <span className={styles.tagPill}>Website Design</span>
-                                    <span className={styles.tagPill}>Marketing</span>
-                                    <span className={styles.tagPill}>Leadership</span>
-                                    <span className={styles.tagPill}>Finance</span>
-                                    <span className={styles.tagPill}>Project Management</span>
-                                </div>
-                            </CategoriesBox>
-                        </div>
-
-                        <div className={styles.details}>
-                            <div className={styles.contentCourse}>
-                                <div className={styles.info}>
-                                    <div className={styles.summaryContent}>
-                                        <div className={styles.left}>
-                                            <div className={styles.top}>
-                                                <div className={styles.title}>
-                                                    <h2>Advanced Diploma in Health Informatics</h2>
-                                                    <p>This comprehensive program equips students with the knowledge and skills to manage and analyze health data effectively.</p>
-                                                </div>
-
-                                                <div className={styles.iconShare}>
-                                                    <span>Share:</span>
-                                                    <div className={styles.icons}>
-                                                        <span><Mail /></span>
-                                                        <span><MessageCircle /></span>
-                                                        <span>
-                                                            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                                <mask id="mask0_560_9573" style={{ maskType: "luminance" }} maskUnits="userSpaceOnUse" x="0" y="0" width="18" height="18">
-                                                                    <path d="M0 0H18V18H0V0Z" fill="white" />
-                                                                </mask>
-                                                                <g mask="url(#mask0_560_9573)">
-                                                                    <path d="M14.175 0.843414H16.9354L10.9054 7.75284L18 17.1566H12.4457L8.09229 11.4544L3.11657 17.1566H0.353571L6.80271 9.7637L0 0.8447H5.69571L9.62486 6.0557L14.175 0.843414ZM13.2043 15.5006H14.7343L4.86 2.41327H3.21943L13.2043 15.5006Z" fill="#4A5565" />
-                                                                </g>
-                                                            </svg>
-                                                        </span>
-                                                        <span><Copy /></span>
-                                                        <span><Printer /></span>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div className={styles.img}>
-                                                <Image
-                                                    src="/asstes/details.jpg"
-                                                    alt="course-details"
-                                                    width={0}
-                                                    height={0}
-                                                    sizes="100vw"
+                        ) : (
+                            <div className={styles.content}>
+                                <div className={styles.filter}>
+                                    {/* Box 1: Filters/Settings */}
+                                    <CategoriesBox title="All Categories" icon={<Filter size={18} />}>
+                                        <div className={styles.sidebarFilterContent}>
+                                            <div className={styles.range}>
+                                                <h4 className={styles.filterGroupTitle}>Price Range</h4>
+                                                <Range
+                                                    min={0}
+                                                    max={2000}
+                                                    step={10}
                                                 />
                                             </div>
-                                        </div>
 
-                                        <div className={styles.right}>
-                                            <div className={styles.priceHeaderMobile}>
-                                                <div className={styles.priceTag}>
-                                                    <span>$555</span>
-                                                    <p>One-time payment</p>
-                                                </div>
-                                                <Link href="/en/register" className={styles.enrollBtnMobile}>
-                                                    Enroll Now
-                                                </Link>
-                                            </div>
-
-                                            <div className={styles.mobileStatsRow}>
-                                                <div className={styles.mobileStatItem}>
-                                                    <div className={styles.statIcon}><Star size={16} fill="#FACC15" color="#FACC15" /></div>
-                                                    <div className={styles.statInfo}>
-                                                        <span className={styles.statValue}>4.5</span>
-                                                        <span className={styles.statLabel}>Rating</span>
-                                                    </div>
-                                                </div>
-                                                <div className={styles.mobileStatItem}>
-                                                    <div className={styles.statIcon}><Users size={16} color="#2F327D" /></div>
-                                                    <div className={styles.statInfo}>
-                                                        <span className={styles.statValue}>8,643</span>
-                                                        <span className={styles.statLabel}>Students</span>
-                                                    </div>
-                                                </div>
-                                                <div className={styles.mobileStatItem}>
-                                                    <div className={styles.statIcon}><Clock size={16} color="#B12E33" /></div>
-                                                    <div className={styles.statInfo}>
-                                                        <span className={styles.statValue}>8 weeks</span>
-                                                        <span className={styles.statLabel}>Duration</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div className={styles.dateInfo}>
-                                           <h3 >$5555</h3>
-                                             <div className={styles.infoContainer}>
-                                                   <h4> <Calendar color="#1E2749" size={20} /> Select Course Date</h4>
-                                                <div className={styles.dates}>
-                                                    <div className={styles.date}>
-                                                        <p>March 15,2026</p>
-                                                        <span>10.00 am</span>
-                                                    </div>
-                                                    <div className={styles.date}>
-                                                        <p>March 15,2026</p>
-                                                        <span>10.00 am</span>
-                                                    </div>
-                                                    <div className={styles.date}>
-                                                        <p>March 15,2026</p>
-                                                        <span>10.00 am</span>
-                                                    </div>
-                                                    <div className={styles.selectDate}>
-                                                        <h4> <Calendar color="#B12E33" size={20} /> Select Course Date</h4>
-                                                        <CustomDatePicker
-                                                            selected={date}
-                                                            onChange={(date) => setDate(date)}
-                                                        />
-                                                    </div>
-                                                </div>
-                                             </div>
-                                            </div>
-
-                                            <div className={styles.register}>
-                                                <Link href="/en/register" className={styles.primaryBtn}>
-                                                    Register Now
-                                                </Link>
-                                                <Link href="/en/register">
-                                                    Request an Internal Course
-                                                </Link>
-                                                <Link href="/en/register">
-                                                    Quick Inquiry
-                                                </Link>
+                                            <h4 className={styles.filterGroupTitle}>Course Type</h4>
+                                            <div className={styles.checkboxGroup}>
+                                                <label className={styles.checkboxLabel}>
+                                                    <input type="checkbox" /> Diploma Courses
+                                                </label>
+                                                <label className={styles.checkboxLabel}>
+                                                    <input type="checkbox" /> Master Courses
+                                                </label>
+                                                <label className={styles.checkboxLabel}>
+                                                    <input type="checkbox" /> Training Courses
+                                                </label>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div className={styles.summaryIcons}>
-                                        <div className={styles.item}>
-                                            <div className={`${styles.icon} ${styles.yellow}`}>
-                                                <Star size={24} color="#D08700" />
-                                            </div>
-                                            <div className={styles.content}>
-                                                <h4>4.9</h4>
-                                                <p>1278 Reviews</p>
-                                            </div>
-                                        </div>
+                                    </CategoriesBox>
 
-                                        <div className={styles.item}>
-                                            <div className={`${styles.icon} ${styles.blue}`}>
-                                                <Users size={24} color="#2F327D" />
-                                            </div>
-                                            <div className={styles.content}>
-                                                <h4>1278</h4>
-                                                <p>Students</p>
-                                            </div>
-                                        </div>
+                                    {/* Box 2: Category List */}
+                                    <CategoriesBox title="All Category">
+                                        <ul className={styles.sidebarCategoryList}>
+                                            {
+                                                categories.map((item, key) => (
+                                                    <li key={key}>
+                                                        <span>{item.name}</span>
+                                                        <div className={styles.badgeWrapper} >
+                                                            <span className={styles.badge}>{item.courses_count}</span>
+                                                            <ChevronRight size={12} />
+                                                        </div>
+                                                    </li>
+                                                ))
+                                            }
 
-                                        <div className={styles.item}>
-                                            <div className={`${styles.icon} ${styles.green}`}>
-                                                <Clock size={24} color="#9810FA" />
-                                            </div>
-                                            <div className={styles.content}>
-                                                <h4>4.9</h4>
-                                                <p>1278 Reviews</p>
-                                            </div>
-                                        </div>
+                                        </ul>
+                                    </CategoriesBox>
 
-                                        {/* <div className={styles.item}>
+                                    {/* Box 3: Tags */}
+                                    <CategoriesBox title="All Tags">
+                                        <div className={styles.sidebarTagsContainer}>
+                                            {
+                                                course?.tags?.map((tag, index) => (
+                                                    <span key={index} className={styles.tagPill}>{tag}</span>
+                                                ))
+                                            }
+
+                                        </div>
+                                    </CategoriesBox>
+                                </div>
+
+                                <div className={styles.details}>
+                                    <div className={styles.contentCourse}>
+                                        <div className={styles.info}>
+                                            <div className={styles.summaryContent}>
+                                                <div className={styles.left}>
+                                                    <div className={styles.top}>
+                                                        <div className={styles.title}>
+                                                            <h2>{course?.name}</h2>
+                                                            <div dangerouslySetInnerHTML={{ __html: course?.details }} />
+                                                        </div>
+
+                                                        <div className={styles.iconShare}>
+                                                            <span>Share:</span>
+                                                            <div className={styles.icons}>
+                                                                <span><Mail /></span>
+                                                                <span><MessageCircle /></span>
+                                                                <span>
+                                                                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                        <mask id="mask0_560_9573" style={{ maskType: "luminance" }} maskUnits="userSpaceOnUse" x="0" y="0" width="18" height="18">
+                                                                            <path d="M0 0H18V18H0V0Z" fill="white" />
+                                                                        </mask>
+                                                                        <g mask="url(#mask0_560_9573)">
+                                                                            <path d="M14.175 0.843414H16.9354L10.9054 7.75284L18 17.1566H12.4457L8.09229 11.4544L3.11657 17.1566H0.353571L6.80271 9.7637L0 0.8447H5.69571L9.62486 6.0557L14.175 0.843414ZM13.2043 15.5006H14.7343L4.86 2.41327H3.21943L13.2043 15.5006Z" fill="#4A5565" />
+                                                                        </g>
+                                                                    </svg>
+                                                                </span>
+                                                                <span><Copy /></span>
+                                                                <span><Printer /></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div className={styles.img}>
+                                                        {
+                                                            course?.image ? (
+                                                                <Image
+                                                                    src={course?.image}
+                                                                    alt="course-details"
+                                                                    width={0}
+                                                                    height={0}
+                                                                    sizes="100vw"
+                                                                />
+                                                            ) : (
+                                                                <Image
+                                                                    src={'/asstes/details.jpg'}
+                                                                    alt="course-details"
+                                                                    width={0}
+                                                                    height={0}
+                                                                    sizes="100vw"
+                                                                />
+                                                            )
+                                                        }
+                                                    </div>
+                                                </div>
+
+                                                <div className={styles.right}>
+                                                    <div className={styles.priceHeaderMobile}>
+                                                        <div className={styles.priceTag}>
+                                                            <span>{course?.price}</span>
+                                                            <p>One-time payment</p>
+                                                        </div>
+                                                        <Link href="/en/register" className={styles.enrollBtnMobile}>
+                                                            Enroll Now
+                                                        </Link>
+                                                    </div>
+
+                                                    <div className={styles.mobileStatsRow}>
+                                                        <div className={styles.mobileStatItem}>
+                                                            <div className={styles.statIcon}><Star size={16} fill="#FACC15" color="#FACC15" /></div>
+                                                            <div className={styles.statInfo}>
+                                                                <span className={styles.statValue}>4.5</span>
+                                                                <span className={styles.statLabel}>Rating</span>
+                                                            </div>
+                                                        </div>
+                                                        <div className={styles.mobileStatItem}>
+                                                            <div className={styles.statIcon}><Users size={16} color="#2F327D" /></div>
+                                                            <div className={styles.statInfo}>
+                                                                <span className={styles.statValue}>8,643</span>
+                                                                <span className={styles.statLabel}>Students</span>
+                                                            </div>
+                                                        </div>
+                                                        <div className={styles.mobileStatItem}>
+                                                            <div className={styles.statIcon}><Clock size={16} color="#B12E33" /></div>
+                                                            <div className={styles.statInfo}>
+                                                                <span className={styles.statValue}>8 weeks</span>
+                                                                <span className={styles.statLabel}>Duration</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div className={styles.dateInfo}>
+                                                        <h3 >{course?.price}</h3>
+                                                        <div className={styles.infoContainer}>
+                                                            <h4> <Calendar color="#1E2749" size={20} /> Select Course Date</h4>
+                                                            <div className={styles.dates}>
+                                                                <div className={styles.date}>
+                                                                    <p>March 15,2026</p>
+                                                                    <span>10.00 am</span>
+                                                                </div>
+                                                                <div className={styles.date}>
+                                                                    <p>March 15,2026</p>
+                                                                    <span>10.00 am</span>
+                                                                </div>
+                                                                <div className={styles.date}>
+                                                                    <p>March 15,2026</p>
+                                                                    <span>10.00 am</span>
+                                                                </div>
+                                                                <div className={styles.selectDate}>
+                                                                    <h4> <Calendar color="#B12E33" size={20} /> Select Course Date</h4>
+                                                                    <CustomDatePicker
+                                                                        selected={date}
+                                                                        onChange={(date) => setDate(date)}
+                                                                    />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div className={styles.register}>
+                                                        <Link href="/en/register" className={styles.primaryBtn}>
+                                                            Register Now
+                                                        </Link>
+                                                        <Link href="/en/register">
+                                                            Request an Internal Course
+                                                        </Link>
+                                                        <Link href="/en/register">
+                                                            Quick Inquiry
+                                                        </Link>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div className={styles.summaryIcons}>
+                                                {
+                                                    course.stats.rating ? (
+
+                                                        <div className={styles.item}>
+                                                            <div className={`${styles.icon} ${styles.yellow}`}>
+                                                                <Star size={24} color="#D08700" />
+                                                            </div>
+                                                            <div className={styles.content}>
+                                                                <h4>{course.stats.rating}</h4>
+                                                                <p>Reviews</p>
+                                                            </div>
+                                                        </div>
+                                                    ) : null
+                                                }
+                                                {
+                                                    course.stats.students ? (
+                                                        <div className={styles.item}>
+                                                            <div className={`${styles.icon} ${styles.blue}`}>
+                                                                <Users size={24} color="#2F327D" />
+                                                            </div>
+                                                            <div className={styles.content}>
+                                                                <h4>{course.stats.students}</h4>
+                                                                <p>Students</p>
+                                                            </div>
+                                                        </div>
+                                                    ) : null
+                                                }
+                                                {
+                                                    course?.stats?.weeks ? (
+
+                                                        <div className={styles.item}>
+                                                            <div className={`${styles.icon} ${styles.green}`}>
+                                                                <Clock size={24} color="#9810FA" />
+                                                            </div>
+                                                            <div className={styles.content}>
+                                                                <h4>{course.stats.weeks}</h4>
+                                                                <p>Duration</p>
+                                                            </div>
+                                                        </div>
+                                                    ) : null
+                                                }
+
+                                                {/* <div className={styles.item}>
                                             <div className={`${styles.icon} ${styles.pink}`}>
                                                 <Award size={24} color="#C41E3A" />
                                             </div>
@@ -412,54 +428,65 @@ const CourseDetails = () => {
                                                 <p>1278 Reviews</p>
                                             </div>
                                         </div> */}
-                                    </div>
+                                            </div>
 
-                                    <div className={styles.tabContainer}>
-                                        <Tabs
-                                            activeTabId={activeTabId}
-                                            onTabChange={setActiveTabId}
-                                            tabs={tabs}
-                                            className={styles.courseTabs}
-                                            tabClassName={styles.courseTabItem}
-                                            activeTabClassName={styles.active}
-                                        />
+                                            <div className={styles.tabContainer}>
+                                                <Tabs
+                                                    activeTabId={activeTabId}
+                                                    onTabChange={setActiveTabId}
+                                                    tabs={course?.tabs}
+                                                    className={styles.courseTabs}
+                                                    tabClassName={styles.courseTabItem}
+                                                    activeTabClassName={styles.active}
+                                                />
 
-                                        <div className={styles.tabContent}>
-                                            <h3>{activeTab.title}</h3>
-                                            <p style={{ whiteSpace: 'pre-line' }}>{activeTab.content}</p>
-                                        </div>
-                                    </div>
+                                                <div className={styles.tabContent}>
+                                                    <h3>{activeTab.title}</h3>
+                                                    <div  dangerouslySetInnerHTML={{ __html: activeTab?.content }} />
+                                                </div>
+                                            </div>
 
-                                    <div className={styles.similarCourses}>
-                                        <div className={styles.top}>
-                                            <h2>Similar Courses</h2>
-                                            <span> see all <ArrowRight size={19} /></span>
+                                            <div className={styles.similarCourses}>
+                                                <div className={styles.top}>
+                                                    <h2>Similar Courses</h2>
+                                                    <Link href={`/${locale}/search_course`} className={styles.seeAll}>
+                                                        see all <ArrowRight size={19} />
+                                                    </Link>
+                                                </div>
+                                                <div className={styles.courses}>
+                                                    {
+                                                        course?.similar_courses?.slice(0, 3).map((course) => {
+                                                            return (
+                                                                <UpcomingCouresCard key={course.id} course={course} />
+                                                            )
+                                                        })
+                                                    }
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div className={styles.courses}>
-                                            {
-                                                upcomingCourses.slice(0, 3).map((course) => {
-                                                    return (
-                                                        <UpcomingCouresCard key={course.id} course={course} />
-                                                    )
-                                                })
-                                            }
-                                        </div>
-                                    </div>
-                                </div>
 
-                                <div className={styles.videos}>
-                                    <div className={styles.top}>
-                                        <span><Play /></span>
-                                        <div className={styles.info}>
-                                            <h2>Course Video</h2>
-                                            <p>Preview what you'll learn in this comprehensive training</p>
-                                        </div>
+                                        {
+                                            course.video && (
+                                                <div className={styles.videos}>
+                                                    <div className={styles.top}>
+                                                        <span><Play /></span>
+                                                        <div className={styles.info}>
+                                                            <h2>Course Video</h2>
+                                                            <p>Preview what you'll learn in this comprehensive training</p>
+                                                        </div>
+                                                    </div>
+                                                    <video src={course.video}></video>
+                                                </div>
+                                            )
+                                        }
                                     </div>
-                                    <video src=""></video>
                                 </div>
                             </div>
-                        </div>
-                    </div>
+
+                        )
+                    }
+
+
                 </div>
             </div>
         </section>

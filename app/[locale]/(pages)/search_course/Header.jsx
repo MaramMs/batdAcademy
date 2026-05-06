@@ -4,7 +4,7 @@ import { ChevronRight, House } from "lucide-react";
 import Filters from "./Filters";
 import SearchCourse from "./Search";
 
-const Header = () => {
+const Header = ({ updateFilter ,categories,specializations,cities}) => {
     return (
         <section className={styles.header}>
             <div className={styleContainer.container}>
@@ -30,8 +30,8 @@ const Header = () => {
                         </div>
 
                         <div className={styles.search}>
-                            <SearchCourse />
-                            <Filters />
+                            <SearchCourse updateFilter={updateFilter} />
+                            <Filters updateFilter={updateFilter} categories={categories} specializations={specializations} cities={cities}/>
                         </div>
                     </div>
                 </div>

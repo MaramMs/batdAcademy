@@ -1,27 +1,46 @@
 "use client";
-
 import * as Dialog from "@radix-ui/react-dialog";
 import { ChevronRight, Filter, Search, X } from "lucide-react";
 import styles from "@/sass/pages/search-course/search.module.scss";
 import CategoriesBox from "@/components/common/CategoriesBox";
 import Range from "@/components/ui/Range";
+import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
-const SearchCourse = ({className}) => {
+const SearchCourse = ({ className, updateFilter }) => {
   const [mounted, setMounted] = useState(false);
+  const searchParams = useSearchParams();
+  const [searchValue, setSearchValue] = useState(searchParams.get('search') || "");
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
+  // Debounce search
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      if (searchValue !== (searchParams.get('search') || "")) {
+        updateFilter('search', searchValue);
+      }
+    }, 500);
+
+    return () => clearTimeout(handler);
+  }, [searchValue, updateFilter, searchParams]);
+
   return (
     <section className={styles.search}>
       <div className={styles.searchContent}>
         <div className={styles.searchContent__left}>
-          <div className={styles.searchContent__left__icon}>
+          <div className={styles.searchContent__left__icon} onClick={()=>updateFilter('search', searchValue)}>
             <Search size={13} color="#99A1AF" />
           </div>
-          <input type="text" placeholder="Search in specific course..." className={styles.input} />
+          <input
+            type="text"
+            placeholder="Search in specific course..."
+            className={styles.input}
+            value={searchValue}
+            onChange={(e) => setSearchValue(e.target.value)}
+          />
         </div>
 
         <Dialog.Root modal={true}>

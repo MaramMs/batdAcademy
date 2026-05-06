@@ -11,9 +11,9 @@ const MainContent = ({ post }) => {
     return (
         <div className={style.mainContent}>
 
-
+{/* className={style.content}  */}
             <Reactions />
-            <div className={style.content} dangerouslySetInnerHTML={{ __html: post?.content }}></div>
+            <div className={style.content}  dangerouslySetInnerHTML={{ __html: post?.content }}></div>
             <div className={style.relatedArticles}>
                 <h2 className={style.relatedArticlesTitle}>Similar Blog</h2>
                 <div className={style.relatedArticlesContent}>
