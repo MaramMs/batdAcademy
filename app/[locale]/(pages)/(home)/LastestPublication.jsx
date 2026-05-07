@@ -104,6 +104,8 @@ const LastestPublication = () => {
                     activeTabId={activeTabId}
                     onTabChange={setActiveTabId}
                     tabs={tabs}
+                    className={styles.publicationTabs}
+                    tabClassName={styles.publicationTab}
                 />
                 {tabContentMap[activeTabId]}
             </div>

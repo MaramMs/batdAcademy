@@ -189,6 +189,64 @@
     }
 }
 
+// ── Tabs ──────────────────────────────────────────────────────────────────
+.publicationTabs {
+    display: flex;
+    justify-content: flex-start;
+    gap: 16px;
+    margin-bottom: 32px;
+    overflow-x: auto;
+    padding-bottom: 8px;
+    
+    &::-webkit-scrollbar {
+        height: 4px;
+    }
+    &::-webkit-scrollbar-thumb {
+        background: $gray-100;
+        border-radius: 4px;
+    }
+
+    @media (max-width: 768px) {
+        gap: 8px;
+        margin-bottom: 24px;
+    }
+}
+
+.publicationTab {
+    --tab-width: auto;
+    --tab-height: 44px;
+    --tab-padding: 0 24px;
+    --tab-radius: 10px;
+    --tab-bg: #{$gray-50};
+    --tab-color: #{$gray-600};
+    --tab-border: 1px solid #{$gray-100};
+    --tab-font-size: 15px;
+    --tab-weight: 500;
+    --tab-gap: 8px;
+    --tab-icon-size: 18px;
+    --tab-icon-color: #{$gray-400};
+
+    // Active state
+    --tab-active-bg: #{$blue-900};
+    --tab-active-color: #{$white};
+    --tab-active-border: #{$blue-900};
+    --tab-active-icon-color: #{$white};
+
+    // Hover state
+    --tab-hover-bg: #{$white};
+    --tab-hover-border: #{$blue-900};
+    --tab-hover-color: #{$blue-900};
+    --tab-hover-icon-color: #{$blue-900};
+
+    transition: all 0.2s ease;
+
+    @media (max-width: 768px) {
+        --tab-mobile-padding: 0 16px;
+        --tab-mobile-font-size: 13px;
+        --tab-height: 38px;
+    }
+}
+
 // ── Generic placeholder for other tabs ─────────────────────────────────────
 .comingSoon {
     display: flex;

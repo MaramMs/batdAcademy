@@ -145,6 +145,7 @@
 
     .btns {
       display: flex;
+      justify-content: space-between;
       gap: 7.46px;
 
       .btnRegister {

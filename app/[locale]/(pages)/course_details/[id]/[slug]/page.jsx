@@ -1,23 +1,23 @@
 'use client'
-import { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
-import Link from "next/link";
-import Image from "next/image";
-import * as Dialog from "@radix-ui/react-dialog";
 import CategoriesBox from "@/components/common/CategoriesBox";
 import CustomDatePicker from "@/components/common/DateInput";
 import Tabs from "@/components/common/Tabs";
 import Range from "@/components/ui/Range";
+import Skeleton from "@/components/ui/Skeleton";
 import UpcomingCouresCard from "@/components/ui/UpcomingCouresCard";
-import { upcomingCourses } from "@/data/upcomingcourse";
 import stylesContainer from "@/sass/components/common/container.module.scss";
 import styles from "@/sass/pages/course-details/course-details.module.scss";
-import { ArrowRight, Calendar, ChevronRight, Clock, Copy, Filter, Mail, MessageCircle, Play, Printer, Star, Users, X } from "lucide-react";
-import Header from "./Header";
-import useCoursesStore from "@/store/useCoursesStore";
-import Skeleton from "@/components/ui/Skeleton";
-import useLanguageStore from "@/store/useLanguageStore";
 import useCategoriesStore from "@/store/useCategoriesStore";
+import useCoursesStore from "@/store/useCoursesStore";
+import useLanguageStore from "@/store/useLanguageStore";
+import * as Dialog from "@radix-ui/react-dialog";
+import { ArrowRight, Calendar, ChevronRight, Clock, Copy, Filter, Mail, MessageCircle, Play, Printer, Star, Users, X } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import { useParams } from "next/navigation";
+import { useEffect, useState } from "react";
+import Header from "./Header";
+import DropdownMenuCustom from "@/components/common/DropdownMenu";
 
 const tabs = [
     {
@@ -219,6 +219,10 @@ const CourseDetails = () => {
                                         <ul className={styles.sidebarCategoryList}>
                                             {
                                                 categories.map((item, key) => (
+                                                    // <DropdownMenuCustom  
+                                                    // options={}
+                                                    
+                                                    // />
                                                     <li key={key}>
                                                         <span>{item.name}</span>
                                                         <div className={styles.badgeWrapper} >
@@ -253,28 +257,29 @@ const CourseDetails = () => {
                                                     <div className={styles.top}>
                                                         <div className={styles.title}>
                                                             <h2>{course?.name}</h2>
-                                                            <div dangerouslySetInnerHTML={{ __html: course?.details }}  />
-                                                        </div>
-
-                                                        <div className={styles.iconShare}>
-                                                            <span>Share:</span>
-                                                            <div className={styles.icons}>
-                                                                <span><Mail /></span>
-                                                                <span><MessageCircle /></span>
-                                                                <span>
-                                                                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                                        <mask id="mask0_560_9573" style={{ maskType: "luminance" }} maskUnits="userSpaceOnUse" x="0" y="0" width="18" height="18">
-                                                                            <path d="M0 0H18V18H0V0Z" fill="white" />
-                                                                        </mask>
-                                                                        <g mask="url(#mask0_560_9573)">
-                                                                            <path d="M14.175 0.843414H16.9354L10.9054 7.75284L18 17.1566H12.4457L8.09229 11.4544L3.11657 17.1566H0.353571L6.80271 9.7637L0 0.8447H5.69571L9.62486 6.0557L14.175 0.843414ZM13.2043 15.5006H14.7343L4.86 2.41327H3.21943L13.2043 15.5006Z" fill="#4A5565" />
-                                                                        </g>
-                                                                    </svg>
-                                                                </span>
-                                                                <span><Copy /></span>
-                                                                <span><Printer /></span>
+                                                            <div className={styles.iconShare}>
+                                                                <span>Share:</span>
+                                                                <div className={styles.icons}>
+                                                                    <span><Mail /></span>
+                                                                    <span><MessageCircle /></span>
+                                                                    <span>
+                                                                        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                            <mask id="mask0_560_9573" style={{ maskType: "luminance" }} maskUnits="userSpaceOnUse" x="0" y="0" width="18" height="18">
+                                                                                <path d="M0 0H18V18H0V0Z" fill="white" />
+                                                                            </mask>
+                                                                            <g mask="url(#mask0_560_9573)">
+                                                                                <path d="M14.175 0.843414H16.9354L10.9054 7.75284L18 17.1566H12.4457L8.09229 11.4544L3.11657 17.1566H0.353571L6.80271 9.7637L0 0.8447H5.69571L9.62486 6.0557L14.175 0.843414ZM13.2043 15.5006H14.7343L4.86 2.41327H3.21943L13.2043 15.5006Z" fill="#4A5565" />
+                                                                            </g>
+                                                                        </svg>
+                                                                    </span>
+                                                                    <span><Copy /></span>
+                                                                    <span><Printer /></span>
+                                                                </div>
                                                             </div>
                                                         </div>
+                                                        <div dangerouslySetInnerHTML={{ __html: course?.details }} />
+
+
                                                     </div>
 
                                                     <div className={styles.img}>
@@ -377,47 +382,38 @@ const CourseDetails = () => {
                                                 </div>
                                             </div>
                                             <div className={styles.summaryIcons}>
-                                                {
-                                                    course.stats.rating ? (
 
-                                                        <div className={styles.item}>
-                                                            <div className={`${styles.icon} ${styles.yellow}`}>
-                                                                <Star size={24} color="#D08700" />
-                                                            </div>
-                                                            <div className={styles.content}>
-                                                                <h4>{course.stats.rating}</h4>
-                                                                <p>Reviews</p>
-                                                            </div>
-                                                        </div>
-                                                    ) : null
-                                                }
-                                                {
-                                                    course.stats.students ? (
-                                                        <div className={styles.item}>
-                                                            <div className={`${styles.icon} ${styles.blue}`}>
-                                                                <Users size={24} color="#2F327D" />
-                                                            </div>
-                                                            <div className={styles.content}>
-                                                                <h4>{course.stats.students}</h4>
-                                                                <p>Students</p>
-                                                            </div>
-                                                        </div>
-                                                    ) : null
-                                                }
-                                                {
-                                                    course?.stats?.weeks ? (
+                                                <div className={styles.item}>
+                                                    <div className={`${styles.icon} ${styles.yellow}`}>
+                                                        <Star size={24} color="#D08700" />
+                                                    </div>
+                                                    <div className={styles.content}>
+                                                        <h4>+600k</h4>
+                                                        <p>Reviews</p>
+                                                    </div>
+                                                </div>
 
-                                                        <div className={styles.item}>
-                                                            <div className={`${styles.icon} ${styles.green}`}>
-                                                                <Clock size={24} color="#9810FA" />
-                                                            </div>
-                                                            <div className={styles.content}>
-                                                                <h4>{course.stats.weeks}</h4>
-                                                                <p>Duration</p>
-                                                            </div>
-                                                        </div>
-                                                    ) : null
-                                                }
+
+                                                <div className={styles.item}>
+                                                    <div className={`${styles.icon} ${styles.blue}`}>
+                                                        <Users size={24} color="#2F327D" />
+                                                    </div>
+                                                    <div className={styles.content}>
+                                                        <h4>+800k</h4>
+                                                        <p>Students</p>
+                                                    </div>
+                                                </div>
+
+                                                <div className={styles.item}>
+                                                    <div className={`${styles.icon} ${styles.green}`}>
+                                                        <Clock size={24} color="#9810FA" />
+                                                    </div>
+                                                    <div className={styles.content}>
+                                                        <h4>1-2 weeks</h4>
+                                                        <p>Duration</p>
+                                                    </div>
+                                                </div>
+
 
                                                 {/* <div className={styles.item}>
                                             <div className={`${styles.icon} ${styles.pink}`}>
@@ -431,18 +427,27 @@ const CourseDetails = () => {
                                             </div>
 
                                             <div className={styles.tabContainer}>
-                                                <Tabs
+                                                {/* <Tabs
                                                     activeTabId={activeTabId}
                                                     onTabChange={setActiveTabId}
                                                     tabs={course?.tabs}
                                                     className={styles.courseTabs}
                                                     tabClassName={styles.courseTabItem}
                                                     activeTabClassName={styles.active}
-                                                />
+                                                /> */}
 
+                                                <Tabs
+                                                    tabs={course?.tabs}
+                                                    activeTabId={activeTabId}
+                                                    onTabChange={setActiveTabId}
+                                                    // We pass the styles, but the nesting in CSS handles the priority
+                                                    className={styles.courseTabs}
+                                                    tabClassName={styles.courseTabItem}
+                                                    activeTabClassName={styles.active}
+                                                />
                                                 <div className={styles.tabContent}>
                                                     <h3>{activeTab.title}</h3>
-                                                    <div  dangerouslySetInnerHTML={{ __html: activeTab?.content }} />
+                                                    <div dangerouslySetInnerHTML={{ __html: activeTab?.content }} />
                                                 </div>
                                             </div>
 
@@ -466,7 +471,7 @@ const CourseDetails = () => {
                                         </div>
 
                                         {
-                                            course.video && (
+                                            course?.video && (
                                                 <div className={styles.videos}>
                                                     <div className={styles.top}>
                                                         <span><Play /></span>
@@ -475,7 +480,7 @@ const CourseDetails = () => {
                                                             <p>Preview what you'll learn in this comprehensive training</p>
                                                         </div>
                                                     </div>
-                                                    <video src={course.video}></video>
+                                                    <video src={course?.video}></video>
                                                 </div>
                                             )
                                         }

@@ -47,9 +47,18 @@ const CourseBySpecial = ({ items }) => {
 const CoursesBySpecial = () => {
     const { categories, handleGetCategories, isLoading } = useCategoriesStore();
     const [activeTabId, setActiveTabId] = useState(null)
+    const [chunkSize, setChunkSize] = useState(6)
 
     useEffect(() => {
         handleGetCategories();
+
+        const handleResize = () => {
+            setChunkSize(window.innerWidth < 1024 ? 2 : 6);
+        };
+
+        handleResize();
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
     }, [])
 
     useEffect(() => {
@@ -61,8 +70,8 @@ const CoursesBySpecial = () => {
     const slides = useMemo(() => {
         const activeCategory = categories?.find((item) => item.id === activeTabId);
         const specializations = activeCategory?.specializations || [];
-        return chunkArray(specializations, 6)
-    }, [categories, activeTabId])
+        return chunkArray(specializations, chunkSize)
+    }, [categories, activeTabId, chunkSize])
 
     const tabsData = useMemo(() => {
         return categories
@@ -93,7 +102,7 @@ const CoursesBySpecial = () => {
                                 tabs={tabsData.slice(0, 4)}
                             />
                             <GenericSlider
-                                key={activeTabId}
+                                key={`${activeTabId}-${chunkSize}`}
                                 navId="coursebyspecial"
                                 items={slides}
                                 renderSlide={(slideItems) => <CourseBySpecial items={slideItems} />}
@@ -101,11 +110,8 @@ const CoursesBySpecial = () => {
                                     320: {
                                         slidesPerView: 0.5,
                                     },
-                                    640: {
-                                        slidesPerView: 0.5,
-                                    },
                                     768: {
-                                        slidesPerView: 0.5,
+                                        slidesPerView: 1,
                                     },
                                     1024: {
                                         slidesPerView: 1,

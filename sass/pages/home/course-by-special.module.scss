@@ -6,7 +6,7 @@
     width: 100%;
 
     @media (max-width: 768px) {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(2, 1fr);
         gap: 12px;
         padding: 20px;
     }
@@ -27,7 +27,6 @@
     @media (max-width: 768px) {
         padding: 16px;
         border-radius: 12px;
-        width: 48%;
     }
 
     .cardImage {
@@ -83,9 +82,6 @@
 
 .specialTabs {
     display: flex;
-    // flex-direction: column;
-    // width: 198px;
-    // height: 100px;
     padding: 0px;
     gap: 13px;
     justify-content: center;
@@ -95,8 +91,48 @@
         flex-direction: column;
         min-width: 198px;
         min-height: 129px;
-        gap: 0px;
-       
+        gap: 8px;
+        
+        // Custom variables for Tab component
+        --tab-bg: #{$white};
+        --tab-color: #101828;
+        --tab-border: 1.5px solid #{$gray-100};
+        --tab-radius: 14px;
+        --tab-font-size: 14px;
+        --tab-weight: 400;
+        --tab-icon-size: 40px;
+        --tab-icon-color: #{$blue-900};
+        
+        // Active state variables
+        --tab-active-bg: #{$blue-900};
+        --tab-active-color: #{$white};
+        --tab-active-border: #{$blue-900};
+        --tab-active-weight: 600;
+        --tab-active-icon-color: #{$white};
+        
+        // Hover state variables
+        --tab-hover-bg: #{$gray-50};
+        --tab-hover-color: #{$blue-900};
+        --tab-hover-border: #{$blue-900};
+        
+        box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+        &:hover:not([class*="active"]) {
+            transform: translateY(-2px);
+            box-shadow: 0px 4px 8px rgba(16, 24, 40, 0.1);
+        }
+
+        &[class*="active"] {
+            box-shadow: 0px 8px 16px rgba(30, 39, 73, 0.2);
+        }
+
+        @media (max-width: 768px) {
+            min-width: 140px;
+            min-height: 100px;
+            --tab-mobile-padding: 12px;
+            --tab-icon-size: 32px;
+        }
     }
 
     @media (max-width: 768px) {
