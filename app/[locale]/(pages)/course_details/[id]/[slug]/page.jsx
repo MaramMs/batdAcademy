@@ -253,7 +253,7 @@ const CourseDetails = () => {
                                                     <div className={styles.top}>
                                                         <div className={styles.title}>
                                                             <h2>{course?.name}</h2>
-                                                            <div dangerouslySetInnerHTML={{ __html: course?.details }} />
+                                                            <div dangerouslySetInnerHTML={{ __html: course?.details }}  />
                                                         </div>
 
                                                         <div className={styles.iconShare}>

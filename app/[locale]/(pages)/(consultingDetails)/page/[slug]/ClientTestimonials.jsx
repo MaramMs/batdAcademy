@@ -1,57 +1,36 @@
 import styles from "@/sass/pages/consulting/consulting-details/client-testimonials.module.scss";
 import { Star } from "lucide-react";
 
-const ClientTestimonials = () => {
+const ClientTestimonials = ({ testimonials }) => {
     return (
         <div className={styles.clientTestimonials}>
             <h2>
-                Client Testimonials
+                {testimonials?.title}
             </h2>
 
             <div className={styles.cards}>
-                <div className={styles.card}>
-                    <div className={styles.stars}>
-                        <Star fill="#F0B100" size={18}/>
-                        <Star fill="#F0B100" size={18}/>
-                        <Star fill="#F0B100" size={18}/>
-                        <Star fill="#F0B100" size={18}/>
-                        <Star fill="#F0B100" size={18}/>
-                    </div>
-                    <p>"Outstanding service! The consultant provided invaluable insights that transformed our business strategy. Highly recommended!"</p>
-                    <span className={styles.name}>
-                        - Sarah Smith, CEO
-                    </span>
+                {
+                    testimonials?.items?.map((item) => {
+                        return (
+                            <div className={styles.card}>
+                                <div className={styles.stars}>
+                                    {Array.from({ length: item?.rating }).map((_, index) => {
+                                        return (
+                                            <Star fill="#F0B100" size={18} key={index} />
+                                        )
+                                    })}
+                                </div>
+                                <p>{item?.quote}</p>
+                                <span className={styles.name}>
+                                    {item?.author}, {item.position}
+                                </span>
 
-                </div>
-
-                 <div className={styles.card}>
-                    <div className={styles.stars}>
-                        <Star fill="#F0B100" size={18}/>
-                        <Star fill="#F0B100" size={18}/>
-                        <Star fill="#F0B100" size={18}/>
-                        <Star fill="#F0B100" size={18}/>
-                        <Star fill="#F0B100" size={18}/>
-                    </div>
-                    <p>"Outstanding service! The consultant provided invaluable insights that transformed our business strategy. Highly recommended!"</p>
-                    <span className={styles.name}>
-                        - Sarah Smith, CEO
-                    </span>
-
-                </div>
-                 <div className={styles.card}>
-                    <div className={styles.stars}>
-                        <Star fill="#F0B100" size={18}/>
-                        <Star fill="#F0B100" size={18}/>
-                        <Star fill="#F0B100" size={18}/>
-                        <Star fill="#F0B100" size={18}/>
-                        <Star fill="#F0B100" size={18}/>
-                    </div>
-                    <p>"Outstanding service! The consultant provided invaluable insights that transformed our business strategy. Highly recommended!"</p>
-                    <span className={styles.name}>
-                        - Sarah Smith, CEO
-                    </span>
-
-                </div>
+                            </div>
+                        )
+                    })
+                }
+            
+              
             </div>
 
         </div>

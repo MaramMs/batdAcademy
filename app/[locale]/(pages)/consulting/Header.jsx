@@ -6,7 +6,7 @@ import { Aperture, ChevronDown } from "lucide-react";
 import { useState } from "react";
 import SearchCourse from "../search_course/Search";
 
-const Header = () => {
+const Header = ({stats}) => {
     const [specialization, setSpecialization] = useState("");
     const [city, setCity] = useState("");
 
@@ -46,17 +46,17 @@ const Header = () => {
             </div>
             <div className={styles.statistics}>
                 <div className={styles.item}>
-                    <h5>42+</h5>
-                    <span>Countries</span>
+                    <h5>{stats?.cities}</h5>
+                    <span>Cities</span>
                 </div>
                 <div className={styles.item}>
-                    <h5>38+</h5>
-                    <span>Cities</span>
+                    <h5>{stats?.training_programs}</h5>
+                    <span>Training Programs</span>
                 </div>
 
                 <div className={styles.item}>
-                    <h5>450+</h5>
-                    <span>Courses</span>
+                    <h5>{stats?.students}</h5>
+                    <span>Students</span>
                 </div>
             </div>
         </div>

@@ -1,94 +1,25 @@
-import Header from "./Header";
-import styles from "@/sass/pages/consulting/consulting.module.scss";
+'use client';
 import stylesContainer from "@/sass/components/common/container.module.scss";
-import ConsultingCard from "./ConsultingCard";
-import { ArrowBigRight, ArrowRight, MoveRight } from "lucide-react";
-import ExpertCard from "./ExpertCard";
+import styles from "@/sass/pages/consulting/consulting.module.scss";
+import useConsultingStore from "@/store/useConsultingStore";
+import { ArrowRight } from "lucide-react";
+import { useEffect, useState } from "react";
 import According from "../page/FQA/according";
-
-
-const consultingData = [
-    {
-        image: '/asstes/const.jpg',
-        title: "Consulting 1",
-        description: "Description 1",
-        slug:'consulting-test-1'
-    },
-    {
-        image: "/asstes/const.jpg",
-        title: "Consulting 2",
-        description: "Description 2",
-         slug:'consulting-test-1'
-
-    },
-    {
-        image: "/asstes/const.jpg",
-        title: "Consulting 3",
-        description: "Description 3",
-         slug:'consulting-test-1'
-
-    },
-    {
-        image: '/asstes/const.jpg',
-        title: "Consulting",
-        description: "Description 1",
-         slug:'consulting-test-1'
-    },
-    {
-        image: "/asstes/const.jpg",
-        title: "Consulting ",
-        description: "Description 2",
-         slug:'consulting-test-1'
-    },
-    {
-        image: "/asstes/const.jpg",
-        title: "Consulting ",
-        description: "Description 3",
-         slug:'consulting-test-1'
-    },
-]
-
-const expertData = [
-   
- {
-          image: '/asstes/expert.jpg',
-        year: "+15 year",
-        name: "Expert 1",
-        course: "Business Planning & Strategy",
-        plan: 'Strategy & Planning',
-        projects:'200',
-    },
-    {
-          image: '/asstes/expert.jpg',
-        year: "+15 year",
-        name: "Expert 1",
-        course: "Business Planning & Strategy",
-        plan: 'Strategy & Planning',
-        projects:'200',
-    },
-    {
-          image: '/asstes/expert.jpg',
-        year: "+15 year",
-        name: "Expert 1",
-        course: "Business Planning & Strategy",
-        plan: 'Strategy & Planning',
-        projects:'200',
-    },
-    {
-          image: '/asstes/expert.jpg',
-        year: "+15 year",
-        name: "Expert 1",
-        course: "Business Planning & Strategy",
-        plan: 'Strategy & Planning',
-        projects:'200',
-        description: "Description 3"
-    },
-]
-
+import ConsultingCard from "./ConsultingCard";
+import ExpertCard from "./ExpertCard";
+import Header from "./Header";
+import Skeleton from "@/components/ui/Skeleton";
 const ConsultingPage = () => {
+    const { data, handleGetConsulting, isLoading } = useConsultingStore();
+    const [visibleCount, setVisibleCount] = useState(6);
+    console.log(data, 'data from consulting')
+    useEffect(() => {
+        handleGetConsulting("?with_meta=true");
+    }, []);
+
     return (
         <div className={styles.consulting}>
-            <Header />
+            <Header stats={data?.stats} />
             <div className={styles.mainContent}>
                 <div className={styles.content}>
                     <div className={stylesContainer.container}>
@@ -100,16 +31,36 @@ const ConsultingPage = () => {
 
                                 </p>
                             </div>
-                            <div className={styles.consultingCard}>
-                                {
-                                    consultingData.map((item, index) => (
-                                        <ConsultingCard key={index} data={item} />
-                                    ))
-                                }
 
+                            {
+                                isLoading ? (
+                                    <div className={styles.consultingCard} >
+                                        {
+                                            [1, 2, 3, 4, 5, 6].map((item, index) => (
+                                                <Skeleton
+                                                    type="card"
+                                                    height={300}
+                                                    width={300}
 
-                            </div>
-                            <button className={styles.viewMoreBtn}>View more <ArrowRight /></button>
+                                                />
+                                            ))
+                                        }
+                                    </div>
+
+                                ) : (
+                                    <div className={styles.consultingCard}>
+                                        {data?.items?.slice(0, visibleCount)?.map((item, index) => (
+                                            <ConsultingCard key={index} data={item} />
+                                        ))}
+                                    </div>
+                                )
+                            }
+                            {
+                                visibleCount < data?.items?.length && data?.has_more && (
+                                    <button className={styles.viewMoreBtn} onClick={() => setVisibleCount(visibleCount + 6)}>View more <ArrowRight /></button>
+                                )
+                            }
+
 
                         </section>
 
@@ -128,9 +79,25 @@ const ConsultingPage = () => {
                         </div>
                         <div className={styles.expertCards}>
                             {
-                                expertData.map((item, index) => (
-                                    <ExpertCard key={index} data={item} />
-                                ))
+                                isLoading ? (
+                                    <div className={styles.expertCards} >
+                                        {
+                                            [1, 2, 3, 4].map((item, index) => (
+                                                <Skeleton
+                                                    type="card"
+                                                    height={300}
+                                                    width={300}
+
+                                                />
+                                            ))
+                                        }
+                                    </div>
+
+                                ) : (
+                                    data?.advisors?.map((item, index) => (
+                                        <ExpertCard key={index} data={item} />
+                                    ))
+                                )
                             }
 
                         </div>
@@ -138,23 +105,40 @@ const ConsultingPage = () => {
                     </section>
 
 
-                      <div className={stylesContainer.container}>
-                    <section className={styles.frequentlyQuestions}>
-                          <div className={styles.heading}>
-                            <h2>Frequently Asked Questions</h2>
-                            <p>Here are answers to some of the most common questions about our consulting services.</p>
-                        </div>
-                        <div className={styles.questions}>
-                            <According variant="popular" />
-                            <According variant="popular" />
-                            <According variant="popular" />
-                            <According variant="popular" />
-                            <According variant="popular" />
-                            <According variant="popular" />
-                        </div>
+                    <div className={stylesContainer.container}>
+                        <section className={styles.frequentlyQuestions}>
+                            <div className={styles.heading}>
+                                <h2>Frequently Asked Questions</h2>
+                                <p>Here are answers to some of the most common questions about our consulting services.</p>
+                            </div>
+                            <div className={styles.questions}>
+                                {
+                                    isLoading ? (
+                                        <div className={styles.questions} >
+                                            {
+                                                [1, 2, 3, 4].map((item, index) => (
+                                                    <Skeleton
+                                                        type="card"
+                                                        height={100}
+                                                        width='100%'
 
-                    </section>
-                      </div>
+                                                    />
+                                                ))
+                                            }
+                                        </div>
+
+                                    ) : (
+
+                                        data?.faqs?.map((item, index) => (
+                                            <According key={index} {...item} />
+                                        ))
+
+                                    )
+                                }
+                            </div>
+
+                        </section>
+                    </div>
 
                 </div>
             </div>

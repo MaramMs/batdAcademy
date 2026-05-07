@@ -1,60 +1,33 @@
 import styles from "@/sass/pages/consulting/consulting-details/process.module.scss";
 
-const Process = () => {
+const Process = ({process}) => {
+    console.log(process?.steps,'process from store')
     return (
         <div className={styles.process}>
             <h2>
-                Our Process
+                {process?.title}
             </h2>
             <div className={styles.content}>
-                <div className={styles.item}>
+                   {
+                       process?.steps?.map((step, index) => {
+                            return (
+                           <div key={index} className={styles.item}>
                     <span>
-                        1
+                        {step?.step}
                     </span>
 
                     <div className={styles.info}>
-                        <h3>Initial Consultation</h3>
-                        <p>We start with a comprehensive discussion to understand your needs, goals, and challenges.</p>
+                        <h3>{step?.title}</h3>
+                        <p>{step?.description}</p>
 
                     </div>
 
                 </div>
-                   <div className={styles.item}>
-                    <span>
-                        2
-                    </span>
-
-                    <div className={styles.info}>
-                        <h3>Initial Consultation</h3>
-                        <p>We start with a comprehensive discussion to understand your needs, goals, and challenges.</p>
-
-                    </div>
-
-                </div>
-                   <div className={styles.item}>
-                    <span>
-                        3
-                    </span>
-
-                    <div className={styles.info}>
-                        <h3>Initial Consultation</h3>
-                        <p>We start with a comprehensive discussion to understand your needs, goals, and challenges.</p>
-
-                    </div>
-
-                </div>
-                   <div className={styles.item}>
-                    <span>
-                        4
-                    </span>
-
-                    <div className={styles.info}>
-                        <h3>Initial Consultation</h3>
-                        <p>We start with a comprehensive discussion to understand your needs, goals, and challenges.</p>
-
-                    </div>
-
-                </div>
+                )
+                    })
+                }
+             
+             
 
             </div>
         </div>
