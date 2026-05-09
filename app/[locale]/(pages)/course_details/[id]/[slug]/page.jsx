@@ -14,37 +14,39 @@ import * as Dialog from "@radix-ui/react-dialog";
 import { ArrowRight, Calendar, ChevronRight, Clock, Copy, Filter, Mail, MessageCircle, Play, Printer, Star, Users, X } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useParams } from "next/navigation";
+import { useParams, usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import Header from "./Header";
-import DropdownMenuCustom from "@/components/common/DropdownMenu";
+import Category from "@/components/ui/Categories";
 
-const tabs = [
-    {
-        id: 1,
-        title: "Course Details",
-        content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium."
-    },
-    {
-        id: 2,
-        title: "What You'll Learn",
-        content: "By the end of this course, you will be able to: \n- Understand the Rijndael algorithm which AES is based on.\n- Perform manual AES encryption and decryption steps.\n- Implement AES-128, AES-192, and AES-256.\n- Identify secure vs insecure uses of AES in real-world software."
-    },
-    {
-        id: 3,
-        title: "Introduction",
-        content: "Welcome to the Advanced Encryption Standard (AES) masterclass. AES is the most widely used symmetric encryption algorithm today, trusted by governments and corporations worldwide. This course is designed for security professionals and developers who want to master the gold standard of data protection."
-    }
-]
 
 const CourseDetails = () => {
     const [activeTabId, setActiveTabId] = useState(1);
     const [date, setDate] = useState();
     const [mounted, setMounted] = useState(false);
     const { handleGetCourseBySlug, course, isLoading } = useCoursesStore();
+    console.log(course, 'course from page details')
     const { categories, handleGetCategories } = useCategoriesStore();
+    const searchParams = useSearchParams();
+    const pathname = usePathname();
+    const router = useRouter();
     const { locale } = useLanguageStore();
     const { slug } = useParams();
+
+    const updateFilter = (key, value) => {
+        console.log(key, value, 'value');
+        const params = new URLSearchParams(searchParams.toString());
+
+        if (value) {
+            params.set(key, value);
+        } else {
+            params.delete(key);
+        }
+
+        params.delete('cursor');
+
+        router.push(`${pathname}?${params.toString()}`, { scroll: false });
+    };
 
     useEffect(() => {
         setMounted(true);
@@ -53,7 +55,8 @@ const CourseDetails = () => {
     }, [slug]);
 
 
-    const activeTab = tabs.find(tab => tab.id === activeTabId) || tabs[0];
+    const courseTabs = course?.tabs;
+    const activeTab = courseTabs?.find(tab => tab.id === activeTabId) || courseTabs?.[0];
 
     return (
         <section>
@@ -96,13 +99,13 @@ const CourseDetails = () => {
                                                     <h4 className={styles.filterGroupTitle}>Course Type</h4>
                                                     <div className={styles.checkboxGroup}>
                                                         <label className={styles.checkboxLabel}>
-                                                            <input type="checkbox" /> Featured Courses
+                                                            <input type="checkbox" /> Master Courses
                                                         </label>
                                                         <label className={styles.checkboxLabel}>
-                                                            <input type="checkbox" /> Approved Courses
+                                                            <input type="checkbox" /> Diploma Courses
                                                         </label>
                                                         <label className={styles.checkboxLabel}>
-                                                            <input type="checkbox" /> Discounted Courses
+                                                            <input type="checkbox" /> Training Courses
                                                         </label>
                                                     </div>
                                                 </div>
@@ -216,20 +219,25 @@ const CourseDetails = () => {
 
                                     {/* Box 2: Category List */}
                                     <CategoriesBox title="All Category">
+
                                         <ul className={styles.sidebarCategoryList}>
+
                                             {
-                                                categories.map((item, key) => (
-                                                    // <DropdownMenuCustom  
-                                                    // options={}
-                                                    
-                                                    // />
-                                                    <li key={key}>
-                                                        <span>{item.name}</span>
-                                                        <div className={styles.badgeWrapper} >
-                                                            <span className={styles.badge}>{item.courses_count}</span>
-                                                            <ChevronRight size={12} />
-                                                        </div>
-                                                    </li>
+                                                categories?.map((category, key) => (
+                                                       <Category
+                                                        key={category.id}
+                                                        category={category}
+                                                        onClick={() => {
+                                                            updateFilter('category_id', category.id);
+                                                            updateFilter('specialization_id', null);
+                                                        }}
+                                                        active={searchParams.get('category_id') === String(category.id)}
+                                                        activeSpecializationId={searchParams.get('specialization_id')}
+                                                        onSpecializationClick={(specId) => {
+                                                            updateFilter('category_id', category.id);
+                                                            updateFilter('specialization_id', specId);
+                                                        }}
+                                                    />
                                                 ))
                                             }
 
@@ -446,7 +454,7 @@ const CourseDetails = () => {
                                                     activeTabClassName={styles.active}
                                                 />
                                                 <div className={styles.tabContent}>
-                                                    <h3>{activeTab.title}</h3>
+                                                    <h3>{activeTab?.title}</h3>
                                                     <div dangerouslySetInnerHTML={{ __html: activeTab?.content }} />
                                                 </div>
                                             </div>

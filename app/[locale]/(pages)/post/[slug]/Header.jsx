@@ -19,19 +19,23 @@ const Header = ({ post, isLoading }) => {
 
                     </div>
                     <div className={styles.contentItem}>
-                        <div className={styles.type}>
-                            {
-                               post?.category?.name && <span>{post?.category?.name}</span>
+                        {(post?.category?.name || post?.is_featured) && (
+                            <div className={styles.type}>
+                                {
+                                    post?.category?.name && <span>{post?.category?.name}</span>
 
-                            }
-                            <span className={styles.featured}>
-                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M8.39034 1.72401C8.14035 1.47394 7.80127 1.33342 7.44767 1.33334H2.66634C2.31272 1.33334 1.97358 1.47382 1.72353 1.72387C1.47348 1.97392 1.33301 2.31305 1.33301 2.66668V7.44801C1.33308 7.8016 1.47361 8.14069 1.72367 8.39068L7.52634 14.1933C7.82935 14.4944 8.23917 14.6634 8.66634 14.6634C9.09351 14.6634 9.50333 14.4944 9.80634 14.1933L14.193 9.80668C14.4941 9.50367 14.6631 9.09385 14.6631 8.66668C14.6631 8.23951 14.4941 7.82969 14.193 7.52668L8.39034 1.72401Z" stroke="white" strokeWidth="1.33333" strokeLinecap="round" strokeLinejoin="round" />
-                                    <path d="M5.00033 5.33332C5.18442 5.33332 5.33366 5.18408 5.33366 4.99999C5.33366 4.81589 5.18442 4.66666 5.00033 4.66666C4.81623 4.66666 4.66699 4.81589 4.66699 4.99999C4.66699 5.18408 4.81623 5.33332 5.00033 5.33332Z" fill="white" stroke="white" strokeWidth="1.33333" strokeLinecap="round" strokeLinejoin="round" />
-                                </svg>
+                                }
+                                {
+                                    post?.is_featured && <span className={styles.featured}>
+                                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M8.39034 1.72401C8.14035 1.47394 7.80127 1.33342 7.44767 1.33334H2.66634C2.31272 1.33334 1.97358 1.47382 1.72353 1.72387C1.47348 1.97392 1.33301 2.31305 1.33301 2.66668V7.44801C1.33308 7.8016 1.47361 8.14069 1.72367 8.39068L7.52634 14.1933C7.82935 14.4944 8.23917 14.6634 8.66634 14.6634C9.09351 14.6634 9.50333 14.4944 9.80634 14.1933L14.193 9.80668C14.4941 9.50367 14.6631 9.09385 14.6631 8.66668C14.6631 8.23951 14.4941 7.82969 14.193 7.52668L8.39034 1.72401Z" stroke="white" strokeWidth="1.33333" strokeLinecap="round" strokeLinejoin="round" />
+                                            <path d="M5.00033 5.33332C5.18442 5.33332 5.33366 5.18408 5.33366 4.99999C5.33366 4.81589 5.18442 4.66666 5.00033 4.66666C4.81623 4.66666 4.66699 4.81589 4.66699 4.99999C4.66699 5.18408 4.81623 5.33332 5.00033 5.33332Z" fill="white" stroke="white" strokeWidth="1.33333" strokeLinecap="round" strokeLinejoin="round" />
+                                        </svg>
 
-                                Featured</span>
-                        </div>
+                                        Featured</span>
+                                }
+                            </div>
+                        )}
                         <h2>
                             {post?.name}
                         </h2>

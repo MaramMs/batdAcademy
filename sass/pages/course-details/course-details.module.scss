@@ -150,45 +150,9 @@
         margin: 0;
         display: flex;
         flex-direction: column;
-        gap: 9px;
+    }
 
-        li {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            font-size: 18.03px;
-            color: #364153;
-            cursor: pointer;
-            transition: $transition-base;
-            padding: 11.77px 18.3px;
 
-            &:hover {
-                color: $blue-900;
-                font-weight: 500;
-            }
-
-            .badgeWrapper {
-                display: flex;
-                align-items: center;
-                gap: 14.67px;
-
-                .badge {
-                    display: flex;
-                    align-items: center;
-                    gap: 6px;
-                    font-size: 12px;
-                    background: #F3F4F6;
-                    padding: 4px 8px;
-                    border-radius: 12px;
-                    color: #6B7280;
-
-                    svg {
-                        color: #9CA3AF;
-                    }
-                }
-            }
-
-        }
     }
 
     .sidebarTagsContainer {
@@ -212,7 +176,7 @@
             }
         }
     }
-}
+
 
 .mainContent {
     display: flex;

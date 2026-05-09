@@ -83,23 +83,26 @@ const CourseByCityDetails = () => {
                                         <label className={styles.checkboxLabel}>
                                             <input
                                                 type="checkbox"
-                                                checked={searchParams.get('is_featured') === '1'}
-                                                onChange={(e) => updateFilter('is_featured', e.target.checked ? '1' : null)}
-                                            /> Featured Courses
+                                                checked={searchParams.get('is_master') === '1'}
+                                                onChange={(e) => updateFilter('is_master', e.target.checked ? '1' : null)}
+                                            />
+                                            Master Courses
                                         </label>
                                         <label className={styles.checkboxLabel}>
                                             <input
                                                 type="checkbox"
-                                                checked={searchParams.get('is_approved') === '1'}
-                                                onChange={(e) => updateFilter('is_approved', e.target.checked ? '1' : null)}
-                                            /> Approved Courses
+                                                checked={searchParams.get('is_diploma') === '1'}
+                                                onChange={(e) => updateFilter('is_diploma', e.target.checked ? '1' : null)}
+                                            />
+                                            Diploma Courses
                                         </label>
                                         <label className={styles.checkboxLabel}>
                                             <input
                                                 type="checkbox"
-                                                checked={searchParams.get('is_discounted') === '1'}
-                                                onChange={(e) => updateFilter('is_discounted', e.target.checked ? '1' : null)}
-                                            /> Discounted Courses
+                                                checked={searchParams.get('is_training') === '1'}
+                                                onChange={(e) => updateFilter('is_training', e.target.checked ? '1' : null)}
+                                            /> 
+                                            Training Courses
                                         </label>
                                     </div>
                                 </div>
@@ -162,4 +165,4 @@ const CourseByCityDetails = () => {
     );
 };
 
-export default CourseByCityDetails;
+export default CourseByCityDetails;

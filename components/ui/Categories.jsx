@@ -1,19 +1,55 @@
-import { ChevronRight } from "lucide-react"
-import styles from "@/sass/pages/search-course/search-course.module.scss"
+"use client";
+import { useState } from "react";
+import { ChevronDown, ChevronRight } from "lucide-react";
+import styles from "@/sass/components/common/category-item.module.scss";
 
-const Category = ({ category, onClick, active }) => {
+const Category = ({ category, onClick, active, onSpecializationClick, activeSpecializationId }) => {
+    const hasSpecializations = category?.specializations?.length > 0;
+    const [isExpanded, setIsExpanded] = useState(active);
+
+    const handleToggle = () => {
+        if (hasSpecializations) {
+            setIsExpanded((prev) => !prev);
+        }
+        onClick?.();
+    };
+
     return (
-        <li
-            className={`${styles.categoryItem} ${active ? styles.active : ''}`}
-            onClick={onClick}
-        >
-            <span>{category.name}</span>
-            <div className={styles.badgeWrapper} >
-                <span className={styles.badge}>{category?.courses_count}</span>
-                <ChevronRight size={12} />
+        <li className={`${styles.categoryItem} ${active ? styles.active : ''}`}>
+            <div className={styles.categoryRow} onClick={handleToggle}>
+                <span className={styles.categoryName}>{category.name}</span>
+                <div className={styles.badgeWrapper}>
+                    <span className={styles.badge}>{category?.courses_count}</span>
+                    {hasSpecializations ? (
+                        <ChevronDown
+                            size={14}
+                            className={`${styles.chevronIcon} ${isExpanded ? styles.chevronOpen : ''}`}
+                        />
+                    ) : (
+                        <ChevronRight size={14} />
+                    )}
+                </div>
             </div>
-        </li>
-    )
-}
 
-export default Category
+            {hasSpecializations && isExpanded && (
+                <ul className={styles.specializationList}>
+                    {category.specializations.map((spec) => (
+                        <li
+                            key={spec.id}
+                            className={`${styles.specializationItem} ${activeSpecializationId === String(spec.id) ? styles.activeSpec : ''}`}
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                onSpecializationClick?.(spec.id);
+                            }}
+                        >
+                            <span>{spec.name}</span>
+                            <span className={styles.specBadge}>{spec.courses_count}</span>
+                        </li>
+                    ))}
+                </ul>
+            )}
+        </li>
+    );
+};
+
+export default Category;

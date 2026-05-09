@@ -119,7 +119,7 @@ const TeamWork = () => {
                         </div>
                     ):
                 <div className={styles.content}>
-                    {teamWork.map((team) => (
+                    {teamWork?.map((team) => (
                         <Card key={team.id} team={team} />
                     ))}
                 </div>

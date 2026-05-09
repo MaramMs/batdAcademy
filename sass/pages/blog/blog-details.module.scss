@@ -90,7 +90,7 @@
                 color: $white;
                 font-size: 24px;
                 font-weight: 600;
-                line-height: 20px;
+                line-height: 27px;
 
                 @media (max-width: 1024px) {
                     font-size: 16px;
@@ -146,7 +146,8 @@
 
                     @media(max-width:1024px) {
                         width: 100%;
-                        justify-content: space-between;
+                        gap: 16px;
+                        justify-content: flex-start;
                     }
 
                     a {

@@ -1,22 +1,21 @@
 "use client";
 import { useState, useEffect } from "react";
-import Link from "next/link";
+
 import Header from "./Header";
 import UpcomingCouresCard from "@/components/ui/UpcomingCouresCard";
 
-import { ArrowRight, ChevronRight, Filter } from "lucide-react";
+import { ArrowRight, Filter } from "lucide-react";
 import CategoriesBox from "@/components/common/CategoriesBox";
 import Range from "@/components/ui/Range";
 import styleContainer from "@/sass/components/common/container.module.scss";
 import styles from "@/sass/pages/search-course/search-course.module.scss";
 import MotionWrapper from "@/components/common/MotionWrapper";
 import useCoursesStore from "@/store/useCoursesStore";
-import useCategoriesStore from "@/store/useCategoriesStore";
 import Category from "@/components/ui/Categories";
-import useLanguageStore from "@/store/useLanguageStore";
 
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import Skeleton from "@/components/ui/Skeleton";
+
 
 const SearchCoursePage = () => {
     const router = useRouter();
@@ -63,7 +62,6 @@ const SearchCoursePage = () => {
             params.delete(key);
         }
 
-        // Reset cursor when filter changes
         params.delete('cursor');
 
         router.push(`${pathname}?${params.toString()}`, { scroll: false });
@@ -115,23 +113,23 @@ const SearchCoursePage = () => {
                                             <label className={styles.checkboxLabel}>
                                                 <input
                                                     type="checkbox"
-                                                    checked={searchParams.get('is_featured') === '1'}
-                                                    onChange={(e) => updateFilter('is_featured', e.target.checked ? '1' : null)}
-                                                /> Featured Courses
+                                                    checked={searchParams.get('is_master') === '2'}
+                                                    onChange={(e) => updateFilter('is_master', e.target.checked ? '2' : null)}
+                                                /> Master Courses
                                             </label>
                                             <label className={styles.checkboxLabel}>
                                                 <input
                                                     type="checkbox"
-                                                    checked={searchParams.get('is_approved') === '1'}
-                                                    onChange={(e) => updateFilter('is_approved', e.target.checked ? '1' : null)}
-                                                /> Approved Courses
+                                                    checked={searchParams.get('is_diploma') === '3'}
+                                                    onChange={(e) => updateFilter('is_diploma', e.target.checked ? '3' : null)}
+                                                /> Diploma Courses
                                             </label>
                                             <label className={styles.checkboxLabel}>
                                                 <input
                                                     type="checkbox"
-                                                    checked={searchParams.get('is_discounted') === '1'}
-                                                    onChange={(e) => updateFilter('is_discounted', e.target.checked ? '1' : null)}
-                                                /> Discounted Courses
+                                                    checked={searchParams.get('is_training') === '1'}
+                                                    onChange={(e) => updateFilter('is_training', e.target.checked ? '1' : null)}
+                                                /> Training Courses
                                             </label>
                                         </div>
                                     </div>
@@ -142,8 +140,16 @@ const SearchCoursePage = () => {
                                             <Category
                                                 key={category.id}
                                                 category={category}
-                                                onClick={() => updateFilter('category_id', category.id)}
+                                                onClick={() => {
+                                                    updateFilter('category_id', category.id);
+                                                    updateFilter('specialization_id', null);
+                                                }}
                                                 active={searchParams.get('category_id') === String(category.id)}
+                                                activeSpecializationId={searchParams.get('specialization_id')}
+                                                onSpecializationClick={(specId) => {
+                                                    updateFilter('category_id', category.id);
+                                                    updateFilter('specialization_id', specId);
+                                                }}
                                             />
                                         ))}
                                     </ul>

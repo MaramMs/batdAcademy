@@ -97,7 +97,7 @@
 
         .expertConsultants {
             background: linear-gradient(135deg, #EFF6FF 0%, #EEF2FF 100%);
-            padding: 64px 182px;
+            padding: 64px 101px;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -139,17 +139,36 @@
             .expertCards {
                 display: grid;
                 grid-template-columns: repeat(4, 1fr);
-                // grid-template-columns: repeat(auto-fill, minmax(315px, 1fr));
                 gap: 24px;
 
-                @media (max-width:992px) {
-                    grid-template-columns: repeat(2, 1fr);
+                @media (max-width: 992px) {
+                    display: flex;
+                    gap: 16px;
+                    overflow-x: auto;
+                    scroll-behavior: smooth;
+                    -webkit-overflow-scrolling: touch;
+                    padding-bottom: 8px;
+
+                    &::-webkit-scrollbar {
+                        display: none;
+                    }
+                    scrollbar-width: none;
+                    -ms-overflow-style: none;
+
+                    & > * {
+                        flex: 0 0 300px;
+                    }
                 }
 
-                @media (max-width:576px) {
+                @media (max-width: 576px) {
+                    display: grid;
                     grid-template-columns: repeat(1, 1fr);
                     padding: 0px;
                     gap: 16px;
+
+                    & > * {
+                        flex: none;
+                    }
                 }
             }
         }

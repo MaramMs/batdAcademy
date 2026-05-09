@@ -76,6 +76,13 @@ const UpcomingCouresCard = ({ course, onModalOpen, onModalClose, slideIndex, swi
                     {course.name}
                 </p>
                 <div className={styles.meta}>
+                    <div className={styles.date}>
+                        <Calendar color="#1E2749" size={14} />
+                        <span className={styles.ceartedAt}>
+                           {course?.created_at?.split('T')[0]}
+                        </span>
+                    </div>
+
                     <div className={styles.time}>
                         <Clock color="#1E2749" size={14} />
                         <span className={styles.time}>
