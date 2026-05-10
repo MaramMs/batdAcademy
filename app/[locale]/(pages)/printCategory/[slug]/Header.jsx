@@ -2,7 +2,7 @@ import { ChevronRight, House } from "lucide-react";
 import container from "@/sass/components/common/container.module.scss";
 import styles from "@/sass/pages/print-category/header.module.scss";
 
-const Header = () => {
+const Header = ({name, summary}) => {
     return (
         <div className={styles.header}>
             <div className={container.container}>
@@ -10,11 +10,11 @@ const Header = () => {
                     <div className={styles.breadcrumb}>
                         <House />
                         <ChevronRight />
-                        <span>Management</span>
+                        <span>{name}</span>
                     </div>
                     <div className={styles.content}>
-                        <h1>Year Plans - Management</h1>
-                        <p>The annual training plan for the courses and programs of the British Academy</p>
+                        <h1>Year Plans - {name}</h1>
+                        <p dangerouslySetInnerHTML={{ __html: summary }} />
                     </div>
                 </div>
             </div>

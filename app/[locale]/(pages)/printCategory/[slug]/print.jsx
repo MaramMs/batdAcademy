@@ -1,12 +1,33 @@
 'use client'
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import DropdownMenuCustom from "@/components/common/DropdownMenu";
 import { ArrowBack, ChevronDown, MoveLeft, Printer, Search } from "lucide-react";
 import Link from "next/link";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import styles from "@/sass/pages/print-category/print.module.scss";
 import container from "@/sass/components/common/container.module.scss";
 const Print = () => {
   const [location, setLocation] = useState('');
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  const [searchTerm, setSearchTerm] = useState(searchParams.get('search') || '');
+
+  useEffect(() => {
+    const delayDebounceFn = setTimeout(() => {
+      const params = new URLSearchParams(searchParams);
+      if (searchTerm) {
+        params.set('search', searchTerm);
+      } else {
+        params.delete('search');
+      }
+      router.push(`${pathname}?${params.toString()}`, { scroll: false });
+    }, 500);
+
+    return () => clearTimeout(delayDebounceFn);
+  }, [searchTerm, pathname, router, searchParams]);
+
   return (
     <div className={styles.print}>
       <div className={container.container}>
@@ -28,7 +49,13 @@ const Print = () => {
                   <Search size={13} color="#99A1AF" />
 
                 </div>
-                <input type="text" placeholder="Search articles, topics, or authors..." className={styles.input} />
+                <input 
+                  type="text" 
+                  placeholder="Search articles, topics, or authors..." 
+                  className={styles.input} 
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                />
               </div>
             </div>
             <button className={styles.printBtn}><Printer /> Print</button>

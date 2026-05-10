@@ -1,3 +1,4 @@
+'use client'
 import Title from "@/components/common/Title"
 import styles from '@/sass/pages/home/what-is.module.scss'
 import Image from "next/image"
@@ -5,6 +6,7 @@ import whatis from '@/public/asstes/whatis.png'
 import containerStyle from '@/sass/components/common/container.module.scss'
 import { ArrowRight } from "lucide-react"
 import Link from "next/link"
+import useLanguageStore from "@/store/useLanguageStore"
 const items = [
     {
         img: '/asstes/icons/computer.svg',
@@ -33,6 +35,8 @@ const items = [
     },
 ]
 const WhatIs = () => {
+    const {locale} = useLanguageStore();
+  
     return (
         <section className={styles.whatIs}>
             <div className={containerStyle.container}>
@@ -49,10 +53,10 @@ const WhatIs = () => {
                                     <p>Courses & Programs</p>
 
                                 </div>
-                                <button className={styles.planBtn}>
+                                <Link href={`/${locale}/year_plan`} className={styles.planBtn}>
                                     Go to plan
                                     <ArrowRight size={19} />
-                                </button>
+                                </Link>
                             </div>
                         </div>
 
