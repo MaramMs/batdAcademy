@@ -93,7 +93,6 @@
         min-height: 129px;
         gap: 8px;
         
-        // Custom variables for Tab component
         --tab-bg: #{$white};
         --tab-color: #101828;
         --tab-border: 1.5px solid #{$gray-100};
@@ -103,7 +102,6 @@
         --tab-icon-size: 40px;
         --tab-icon-color: #{$blue-900};
         
-        // Active state variables
         --tab-active-bg: #{$blue-900};
         --tab-active-color: #{$white};
         --tab-active-border: #{$blue-900};
@@ -141,6 +139,7 @@
         height: 90px;
         padding: 14px 16px;
         border-radius: 12px;
+        justify-content: flex-start;
 
     }
 }

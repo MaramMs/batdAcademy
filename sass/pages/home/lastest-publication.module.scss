@@ -48,8 +48,9 @@
     max-width: 55%;
 
     @media (max-width: 768px) {
-        padding: 24px 20px;
+        // padding: 24px 20px;
         max-width: 100%;
+        transform: translate(16px, -7%);
     }
 }
 
@@ -77,9 +78,9 @@
         font-size: 12px;
         margin-bottom: 12px;
         display: -webkit-box;
-        -webkit-line-clamp: 3;
+        -webkit-line-clamp: 4;
         -webkit-box-orient: vertical;
-        overflow: hidden;
+        line-height: normal;
     }
 }
 
