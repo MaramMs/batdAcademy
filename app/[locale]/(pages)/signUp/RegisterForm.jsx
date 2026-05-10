@@ -4,30 +4,38 @@ import { useForm } from "react-hook-form";
 import Link from "next/link";
 import { User, Mail, Phone, Building2, Briefcase, Lock, Eye, EyeOff, ArrowRight } from "lucide-react";
 import styles from "@/sass/pages/sign-up/register.module.scss";
-
-
-const countries = [
-    "Saudi Arabia", "United Arab Emirates", "Kuwait", "Qatar", "Bahrain", "Oman",
-    "Egypt", "Jordan", "Lebanon", "Iraq", "Syria", "Libya", "Tunisia", "Morocco",
-    "United Kingdom", "United States", "Canada", "Australia", "Germany", "France",
-    "Turkey", "India", "Pakistan", "Other",
-];
+import useLanguageStore from "@/store/useLanguageStore";
+import { useRouter } from "next/navigation";
+import useAuthStore from "@/store/useAuthStore";
+import useCitiesStore from "@/store/useCitiesStore";
+import { useEffect } from "react";
 
 const RegisterForm = () => {
     const [showPassword, setShowPassword] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const {cities , handleGetCities} = useCitiesStore();
+    console.log(cities , 'cities')
+    const router = useRouter();
+    const { locale } = useLanguageStore();
+    const { signup, isLoading } = useAuthStore();
 
-    const {
-        register,
-        handleSubmit,
-        formState: { errors },
-    } = useForm();
+    const { register, handleSubmit, formState: { errors } } = useForm();
 
-    const onSubmit = async (data) => {
-        setIsSubmitting(true);
-        await new Promise((r) => setTimeout(r, 1200));
-        console.log(data);
-        setIsSubmitting(false);
+    useEffect(() => {
+        handleGetCities();
+    }, [handleGetCities]);
+
+    const onSubmit = async (formData) => {
+        // We call the store method, which calls the server action
+        const result = await signup(formData, locale);
+        console.log(result , 'result')
+
+        // if (result.success) {
+        //     // toast.success("Account created successfully!");
+        //     router.push("/"); // Redirect on success
+        // } else {
+        //     // toast.error(result.error || "Something went wrong");
+        // }
     };
 
     return (
@@ -51,7 +59,7 @@ const RegisterForm = () => {
                             id="fullName"
                             type="text"
                             placeholder="John"
-                            {...register("fullName", { required: "Full name is required" })}
+                            {...register("full_name", { required: "Full name is required" })}
                         />
                     </div>
                     {errors.fullName && <span className={styles.error}>{errors.fullName.message}</span>}
@@ -104,13 +112,13 @@ const RegisterForm = () => {
                     </label>
                     <div className={`${styles.inputWrapper} ${styles.noIcon} ${errors.country ? styles.hasError : ""}`}>
                         <select
-                            id="country"
+                            id="country_id"
                             defaultValue=""
-                            {...register("country", { required: "Please select your country" })}
+                            {...register("country_id", { required: "Please select your country" })}
                         >
                             <option value="" disabled>Select your country</option>
-                            {countries.map((c) => (
-                                <option key={c} value={c}>{c}</option>
+                            {cities?.map((c) => (
+                                <option key={c.id} value={282}>{c.name}</option>
                             ))}
                         </select>
                     </div>
@@ -194,14 +202,16 @@ const RegisterForm = () => {
                     <p className={styles.termsError}>You must agree to the terms to continue</p>
                 )}
 
+             
+
                 <button
-                    type="submit"
-                    className={styles.submitBtn}
-                    disabled={isSubmitting}
-                >
-                    {isSubmitting ? "Creating account..." : "Sign Up"}
-                    {!isSubmitting && <ArrowRight size={16} />}
-                </button>
+                type="submit"
+                className={styles.submitBtn}
+                disabled={isLoading} // Use store loading state
+            >
+                {isLoading ? "Creating account..." : "Sign Up"}
+                {!isLoading && <ArrowRight size={16} />}
+            </button>
             </form>
 
             <p className={styles.alreadyHave}>

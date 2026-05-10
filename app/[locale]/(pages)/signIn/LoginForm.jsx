@@ -4,10 +4,13 @@ import { useForm } from "react-hook-form";
 import Link from "next/link";
 import { Mail, Lock, Eye, EyeOff, ArrowRight } from "lucide-react";
 import styles from "@/sass/pages/sign-In/login.module.scss";
+import useAuthStore from "@/store/useAuthStore";
+import useLanguageStore from "@/store/useLanguageStore";
 
 const LoginForm = () => {
     const [showPassword, setShowPassword] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const {locale} = useLanguageStore();
 
     const {
         register,
@@ -16,10 +19,19 @@ const LoginForm = () => {
     } = useForm();
 
     const onSubmit = async (data) => {
-        setIsSubmitting(true);
-        await new Promise((r) => setTimeout(r, 1200));
-        console.log(data);
-        setIsSubmitting(false);
+        console.log(data , 'data')
+        try {
+            setIsSubmitting(true);
+            const result = await useAuthStore.getState().login(locale, data);
+            if (result.success) {
+                router.push("/registerCourse");
+            }
+            setIsSubmitting(false);
+        } catch (error) {
+            console.log(error);
+        }
+
+
     };
 
     return (
