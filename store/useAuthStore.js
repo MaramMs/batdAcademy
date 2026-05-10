@@ -1,8 +1,8 @@
 import { create } from "zustand";
-import { signInAction, signUpAction, signOutAction, getSession } from "@/action/auth";
+import { signInAction, signUpAction, signOutAction, getSession, forgetPasswordAction, resetPasswordAction } from "@/action/auth";
 
 const useAuthStore = create((set) => ({
-  user: null,
+  member: null,
   isAuthenticated: false,
   isLoading: false,
   error: null,
@@ -27,17 +27,17 @@ const useAuthStore = create((set) => ({
   /**
    * Handle Sign In
    */
-  login: async (language,credentials) => {
+  login: async (formData, language) => {
     set({ isLoading: true, error: null });
-    const result = await signInAction(language,credentials);
+    const result = await signInAction(formData, language);
     
     if (result.success) {
       set({ 
-        user: result.data, 
+        member: result?.data?.member, 
         isAuthenticated: true, 
         isLoading: false 
       });
-      return { success: true };
+      return result;
     } else {
       set({ error: result.error, isLoading: false });
       return { success: false, error: result.error };
@@ -47,35 +47,31 @@ const useAuthStore = create((set) => ({
   /**
    * Handle Sign Up
    */
-//  signup: async (formData, locale) => {
-//   set({ isLoading: true, error: null });
-  
-//   // Call the server action from the store
-//   const result = await signUpAction(formData, locale);
-  
-//   if (result.success) {
-//     set({ 
-//       user: result.data, 
-//       isAuthenticated: true, 
-//       isLoading: false 
-//     });
-//     return { success: true };
-//   } else {
-//     set({ error: result.error, isLoading: false });
-//     return { success: false, error: result.error };
-//   }
-// },
-
-
-
 signup: async (formData, locale) => {
     set({ isLoading: true, error: null });
     
-    // Pass both arguments clearly
     const result = await signUpAction(formData, locale);
+    console.log(result , 'result');
+    
     
     if (result.success) {
-      set({ user: result.data, isAuthenticated: true, isLoading: false });
+      set({ member: result.member, isAuthenticated: true, isLoading: false });
+      return result;
+    } else {
+      set({ error: result.error, isLoading: false });
+      return result;
+    }
+},
+
+forgetPassword: async (formData, locale) => {
+    set({ isLoading: true, error: null });
+    
+    const result = await forgetPasswordAction(formData, locale);
+    console.log(result , 'result');
+    
+    
+    if (result.success) {
+      set({ isLoading: false });
       return result;
     } else {
       set({ error: result.error, isLoading: false });
@@ -84,7 +80,21 @@ signup: async (formData, locale) => {
 },
 
 
-
+resetPassword: async (formData, locale) => {
+    set({ isLoading: true, error: null });
+    
+    const result = await resetPasswordAction(formData, locale);
+    console.log(result , 'result');
+    
+    
+    if (result.success) {
+      set({ isLoading: false });
+      return result;
+    } else {
+      set({ error: result.error, isLoading: false });
+      return result;
+    }
+},
   /**
    * Handle Logout
    */

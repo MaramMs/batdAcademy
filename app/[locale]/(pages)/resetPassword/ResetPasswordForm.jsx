@@ -1,7 +1,6 @@
 "use client";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import Link from "next/link";
 import { Mail, Lock, Eye, EyeOff, ArrowRight } from "lucide-react";
 import styles from "@/sass/pages/sign-In/login.module.scss";
 import useAuthStore from "@/store/useAuthStore";
@@ -11,6 +10,7 @@ import { useRouter } from "next/navigation";
 
 const LoginForm = () => {
     const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false)
     const { locale } = useLanguageStore();
     const router = useRouter();
 
@@ -18,11 +18,20 @@ const LoginForm = () => {
         register,
         handleSubmit,
         formState: { errors },
+        watch,
+        trigger
     } = useForm();
 
     const {
         login, isLoading
     } = useAuthStore();
+    const password = watch("password");
+
+    const handlePasswordChange = () => {
+        if (errors.password_confirmation) {
+            trigger("password_confirmation");
+        }
+    };
 
     const onSubmit = async (data) => {
 
@@ -44,8 +53,8 @@ const LoginForm = () => {
     return (
         <div className={styles.formCard}>
             <div className={styles.formHeader}>
-                <h1>Welcome Back</h1>
-                <p>Sign in to continue your learning journey</p>
+                <h1>Reset Your Password</h1>
+                <p>Enter the email address associated with your account</p>
             </div>
 
             <form onSubmit={handleSubmit(onSubmit)} noValidate>
@@ -85,6 +94,7 @@ const LoginForm = () => {
                             placeholder="Enter your password"
                             {...register("password", {
                                 required: "Password is required",
+                                onChange: handlePasswordChange
                             })}
                         />
                         <button
@@ -96,20 +106,38 @@ const LoginForm = () => {
                             {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
                         </button>
                     </div>
-                    {errors.password && (
-                        <span className={styles.error}>{errors.password.message}</span>
+                    {errors.password && <span className={styles.error}>{errors.password.message}</span>}
+                </div>
+
+                <div className={styles.field}>
+                    <label htmlFor="password_confirmation">
+                        Password Confirmation <span className={styles.required}>*</span>
+                    </label>
+                    <div className={`${styles.inputWrapper} ${errors.password_confirmation ? styles.hasError : ""}`}>
+                        <Lock size={16} className={styles.inputIcon} />
+                        <input
+                            id="password_confirmation"
+                            type={showConfirmPassword ? "text" : "password"}
+                            placeholder="Confirm your password"
+                            {...register("password_confirmation", {
+                                required: "Please confirm your password",
+                                validate: (value) => value === password || "The passwords do not match"
+                            })}
+                        />
+                        <button
+                            type="button"
+                            className={styles.eyeBtn}
+                            onClick={() => setShowConfirmPassword((prev) => !prev)}
+                            aria-label={showConfirmPassword ? "Hide password" : "Show password"}
+                        >
+                            {showConfirmPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                        </button>
+                    </div>
+                    {errors.password_confirmation && (
+                        <span className={styles.error}>{errors.password_confirmation.message}</span>
                     )}
                 </div>
 
-                <div className={styles.formOptions}>
-                    <label className={styles.rememberMe}>
-                        <input type="checkbox" {...register("rememberMe")} />
-                        <span>Remember me</span>
-                    </label>
-                    <Link href="/forgot-password" className={styles.forgotLink}>
-                        Forgot Password?
-                    </Link>
-                </div>
 
                 <button
                     type="submit"
@@ -121,13 +149,6 @@ const LoginForm = () => {
                 </button>
             </form>
 
-            <div className={styles.divider}>
-                <span>New to British Academy?</span>
-            </div>
-
-            <Link href={`/${locale}/signUp`} className={styles.signUpBtn}>
-                Sign Up
-            </Link>
         </div>
     );
 };

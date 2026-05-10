@@ -9,33 +9,42 @@ import { useRouter } from "next/navigation";
 import useAuthStore from "@/store/useAuthStore";
 import useCitiesStore from "@/store/useCitiesStore";
 import { useEffect } from "react";
+import { toast } from "sonner";
 
 const RegisterForm = () => {
-    const [showPassword, setShowPassword] = useState(false);
-    const [isSubmitting, setIsSubmitting] = useState(false);
-    const {cities , handleGetCities} = useCitiesStore();
-    console.log(cities , 'cities')
     const router = useRouter();
     const { locale } = useLanguageStore();
     const { signup, isLoading } = useAuthStore();
+    const { cities, handleGetCities } = useCitiesStore();
+    const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-    const { register, handleSubmit, formState: { errors } } = useForm();
+    const { register, handleSubmit, formState: { errors }, watch, getValues, trigger } = useForm();
+
+    const password = watch("password");
+
+    const handlePasswordChange = () => {
+        if (errors.password_confirmation) {
+            trigger("password_confirmation");
+        }
+    };
 
     useEffect(() => {
         handleGetCities();
     }, [handleGetCities]);
 
     const onSubmit = async (formData) => {
-        // We call the store method, which calls the server action
         const result = await signup(formData, locale);
-        console.log(result , 'result')
+        console.log(result, "result")
 
-        // if (result.success) {
-        //     // toast.success("Account created successfully!");
-        //     router.push("/"); // Redirect on success
-        // } else {
-        //     // toast.error(result.error || "Something went wrong");
-        // }
+        if (result?.success && result?.member) {
+            toast.success("Account created successfully!");
+            setTimeout(() => {
+                router.push(`/${locale}/myProfile`);
+            }, 500);
+        } else {
+            toast.error(result?.error || "Something went wrong");
+        }
     };
 
     return (
@@ -166,7 +175,7 @@ const RegisterForm = () => {
                             placeholder="Enter your password"
                             {...register("password", {
                                 required: "Password is required",
-                                minLength: { value: 8, message: "Minimum 8 characters" },
+                                onChange: handlePasswordChange
                             })}
                         />
                         <button
@@ -179,6 +188,35 @@ const RegisterForm = () => {
                         </button>
                     </div>
                     {errors.password && <span className={styles.error}>{errors.password.message}</span>}
+                </div>
+
+                <div className={styles.field}>
+                    <label htmlFor="password_confirmation">
+                        Password Confirmation <span className={styles.required}>*</span>
+                    </label>
+                    <div className={`${styles.inputWrapper} ${errors.password_confirmation ? styles.hasError : ""}`}>
+                        <Lock size={16} className={styles.inputIcon} />
+                        <input
+                            id="password_confirmation"
+                            type={showConfirmPassword ? "text" : "password"}
+                            placeholder="Confirm your password"
+                            {...register("password_confirmation", {
+                                required: "Please confirm your password",
+                                validate: (value) => value === password || "The passwords do not match"
+                            })}
+                        />
+                        <button
+                            type="button"
+                            className={styles.eyeBtn}
+                            onClick={() => setShowConfirmPassword((prev) => !prev)}
+                            aria-label={showConfirmPassword ? "Hide password" : "Show password"}
+                        >
+                            {showConfirmPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                        </button>
+                    </div>
+                    {errors.password_confirmation && (
+                        <span className={styles.error}>{errors.password_confirmation.message}</span>
+                    )}
                 </div>
 
                 {/* Terms */}
@@ -202,21 +240,21 @@ const RegisterForm = () => {
                     <p className={styles.termsError}>You must agree to the terms to continue</p>
                 )}
 
-             
+
 
                 <button
-                type="submit"
-                className={styles.submitBtn}
-                disabled={isLoading} // Use store loading state
-            >
-                {isLoading ? "Creating account..." : "Sign Up"}
-                {!isLoading && <ArrowRight size={16} />}
-            </button>
+                    type="submit"
+                    className={styles.submitBtn}
+                    disabled={isLoading}
+                >
+                    {isLoading ? "Creating account..." : "Sign Up"}
+                    {!isLoading && <ArrowRight size={16} />}
+                </button>
             </form>
 
             <p className={styles.alreadyHave}>
                 Already have an account?
-                <Link href="/login">Sign In</Link>
+                <Link href={`/${locale}/signIn`}>Sign In</Link>
             </p>
         </div>
     );
