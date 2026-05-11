@@ -17,8 +17,8 @@ export async function getPlans(language, queryParams = "") {
 }
 
 
-export async function getPlanBySlug(language, slug, queryParams = "") {
-  const response = await fetch(`${API_KEY}/year-plans/${slug}${queryParams}`, {
+export async function getPlanById(language, id, queryParams = "") {
+  const response = await fetch(`${API_KEY}/year-plans/${id}${queryParams}`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",

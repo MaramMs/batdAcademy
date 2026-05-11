@@ -12,7 +12,6 @@ export async function getConsulting(language, queryParams = "") {
   });
 
   let data = await response.json();
-  console.log(data , 'data from acton')
   return data;
 }
 
@@ -37,6 +36,20 @@ export async function getConsultingDetailsBySlug(language, slug,queryParams = ""
       "Content-Type": "application/json",
       "Accept-Language": language ?? "en",
     },
+  });
+
+  let data = await response.json();
+  return data;
+}
+
+
+export async function bookingConsultation(language , formData ) {
+  const response = await fetch(`${API_KEY}/consultation-request`, {
+    method: "POST",
+    headers: {
+      "Accept-Language": language ?? "en",
+    },
+    body: formData,
   });
 
   let data = await response.json();

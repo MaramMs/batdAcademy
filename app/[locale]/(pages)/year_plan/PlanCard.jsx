@@ -23,7 +23,7 @@ const PlanCard = ({ plan }) => {
 
                 </div>
 
-                <Link href={`/${locale}/printCategory/${plan?.id}`} className={styles.link}>
+                <Link href={`/${locale}/printCategory/${plan?.id}`} className={styles.link} slug={plan?.slug}>
                     View Year Plans <ArrowRight />
                 </Link>
             </div>

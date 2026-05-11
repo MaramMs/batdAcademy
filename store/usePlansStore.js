@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { getPlanBySlug, getPlans } from "@/action/plans";
+import { getPlanById, getPlanBySlug, getPlans } from "@/action/plans";
 import useLanguageStore from "./useLanguageStore";
 
 const usePlansStore = create((set) => ({
@@ -11,7 +11,7 @@ const usePlansStore = create((set) => ({
         try {
             const locale = useLanguageStore.getState().locale;
             const data = await  getPlans(locale, queryParams);
-            console.log(data, 'data from store')
+            console.log(data, 'data from store plans')
             set((state) => {
                 if (append && state.data?.items) {
                     return {
@@ -31,12 +31,11 @@ const usePlansStore = create((set) => ({
     },
 
 
-    handleGetPlanBySlug: async (slug, queryParams = "") => {
+    handleGetPlanById: async (id, queryParams = "") => {
         set({ plan: null, isLoading: true });
         try {
             const locale = useLanguageStore.getState().locale;
-            const data = await getPlanBySlug(locale, slug, queryParams);
-            console.log(data, 'data post from store plan')
+            const data = await getPlanById(locale, id, queryParams);
             set({ plan: data?.data || data, isLoading: false });
         } catch (error) {
             set({ isLoading: false });
