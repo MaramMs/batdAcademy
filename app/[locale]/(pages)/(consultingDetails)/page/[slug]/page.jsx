@@ -41,7 +41,7 @@ const ConsultingDetails = () => {
                                     <ClientTestimonials testimonials={consultingDetails?.testimonials} />
                                 </div>
                                 <div className={styles.right}>
-                                    <BookConsultation bookPackage={consultingDetails?.package} />
+                                    <BookConsultation bookPackage={consultingDetails?.package} consultingServiceId={consultingDetails?.id}/>
                                     <div className={styles.chooseUs}>
                                         <h3>{consultingDetails?.why_choose_us?.title}</h3>
                                         <ul>
