@@ -6,6 +6,7 @@ import styles from '@/sass/pages/home/hero.module.scss';
 import { Building2, Search, Users } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import stylesConteiner from '@/sass/components/common/container.module.scss'
+import heroImage from '@/public/asstes/heroImage.jpg';
 
 export default function Hero() {
     const t = useTranslations('Hero');
@@ -113,7 +114,7 @@ export default function Hero() {
                         transition={{ duration: 0.8, ease: "easeOut", delay: 0.4 }}
                     >
                         <Image
-                            src="/asstes/heroImage.jpg"
+                            src={heroImage}
                             alt={t('searchPlaceholder')}
                             className={styles.heroImage}
                             width={600}

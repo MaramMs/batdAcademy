@@ -7,29 +7,38 @@ import containerStyle from '@/sass/components/common/container.module.scss'
 import { ArrowRight } from "lucide-react"
 import Link from "next/link"
 import useLanguageStore from "@/store/useLanguageStore"
+import computer from '@/public/asstes/icons/computer.svg';
+import gameDevelopment from '@/public/asstes/icons/game-development.svg';
+import promotion from '@/public/asstes/icons/promotion.svg';
+import uxInterface from '@/public/asstes/icons/ux-interface.svg';
 const items = [
     {
-        img: '/asstes/icons/computer.svg',
+        params: {query: {discounted: 22}},
+        img: computer,
         title: 'Courses with discount',
         desc: 'We provide the latest international courses at suitable prices.'
     },
     {
-        img: '/asstes/icons/game-development.svg',
+         params: {query: {has_approval: 1}},
+        img: gameDevelopment,
         title: 'Approvide Courses',
         desc: 'Our courses offer participants many services and features.'
     },
     {
-        img: '/asstes/icons/promotion.svg',
+         params: {query: {featured: 1}},
+        img: promotion,
         title: 'Featured Courses',
         desc: 'Constantly updated course lists to meet labor market needs.'
     },
     {
-        img: '/asstes/icons/ux-interface.svg',
+         params: {query: {specialization_id: 22}},
+        img: uxInterface,
         title: 'Courses by specialization',
         desc: 'More than 20 specializations in many fields'
     },
     {
-        img: '/asstes/icons/computer.svg',
+        //  params: {query: {city_id: 22}},
+        img: computer,
         title: 'Courses by city',
         desc: ' Our favorite cities with attractive attractions'
     },
@@ -74,7 +83,10 @@ const WhatIs = () => {
                                             <h3>{item.title}</h3>
                                             <p>{item.desc}</p>
                                           </div>
-                                            <Link href='/' className={styles.itemContentLink}>
+                                            <Link 
+                                            href={item.params?.query ? `/${locale}/search_course?${new URLSearchParams(item.params?.query).toString()}` : `/${locale}/search_course`}
+                                            
+                                             className={styles.itemContentLink}>
                                             View details
                                             
                                             </Link>

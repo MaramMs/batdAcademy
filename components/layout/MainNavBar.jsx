@@ -7,26 +7,27 @@ import { ChevronDown, Menu, X, Search } from 'lucide-react';
 import styles from '@/sass/components/layout/main-navbar.module.scss';
 import { useTranslations } from 'next-intl';
 import { useLanguageSwitcher } from '@/hooks/useLanguageSwitcher';
+import logo from '@/public/asstes/logo.png'
 
 const MainNavBar = () => {
   const t = useTranslations('Navbar');
   const { oppositeLang, toggle } = useLanguageSwitcher();
 
   const [trainingOpen, setTrainingOpen] = useState(false);
-  const [mobileOpen, setMobileOpen]     = useState(false);
-  const dropdownRef   = useRef(null);
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const dropdownRef = useRef(null);
   const mobileMenuRef = useRef(null);
 
   const TRAINING_ITEMS = [
     { label: t('programs.master'), href: '/search_course?type=2' },
     { label: t('programs.diploma'), href: '/search_course?type=3' },
-    { label: t('programs.trainingCourses'),  href: '/search_course?type=1' },
+    { label: t('programs.trainingCourses'), href: '/search_course?type=1' },
   ];
 
   useEffect(() => {
     const handleOutside = (e) => {
       const insideDesktop = dropdownRef.current?.contains(e.target);
-      const insideMobile  = mobileMenuRef.current?.contains(e.target);
+      const insideMobile = mobileMenuRef.current?.contains(e.target);
       if (!insideDesktop && !insideMobile) {
         setTrainingOpen(false);
       }
@@ -41,7 +42,7 @@ const MainNavBar = () => {
 
         <Link href="/" className={styles.logo}>
           <Image
-            src="/asstes/logo.png"
+            src={logo}
             alt="British Academy for Training & Development"
             width={106}
             height={83}
@@ -87,13 +88,13 @@ const MainNavBar = () => {
             )}
           </div>
           <Link href={'/show_cities'} className={styles.navLink} >Cities</Link>
-          <Link href="/consulting"  className={styles.navLink}>{t('consulting')}</Link>
-          <Link href="/blog"       className={styles.navLink}>{t('blog')}</Link>
-          <Link href="/contact_us"     className={styles.navLink}>{t('contactUs')}</Link>
+          <Link href="/consulting" className={styles.navLink}>{t('consulting')}</Link>
+          <Link href="/blog" className={styles.navLink}>{t('blog')}</Link>
+          <Link href="/contact_us" className={styles.navLink}>{t('contactUs')}</Link>
         </nav>
 
         <div className={styles.actions}>
-          <Link href="/signIn"    className={styles.btnSignIn}>{t('signIn')}</Link>
+          <Link href="/signIn" className={styles.btnSignIn}>{t('signIn')}</Link>
           <Link href="/signUp" className={styles.btnSignUp}>{t('signUp')}</Link>
         </div>
 
@@ -125,7 +126,7 @@ const MainNavBar = () => {
 
       {mobileOpen && (
         <div className={styles.mobileMenu} ref={mobileMenuRef}>
-          <Link href="/"           className={styles.mobileLink} onClick={() => setMobileOpen(false)}>{t('home')}</Link>
+          <Link href="/" className={styles.mobileLink} onClick={() => setMobileOpen(false)}>{t('home')}</Link>
 
           <div className={styles.mobileDropdown}>
             <button
@@ -161,13 +162,13 @@ const MainNavBar = () => {
               </ul>
             )}
           </div>
-                    <Link href={'/show_cities'} className={styles.mobileLink} >Cities</Link>
+          <Link href={'/show_cities'} className={styles.mobileLink} >Cities</Link>
 
           <Link href="/consulting" className={styles.mobileLink} onClick={() => setMobileOpen(false)}>{t('consulting')}</Link>
-          <Link href="/blog"      className={styles.mobileLink} onClick={() => setMobileOpen(false)}>{t('blog')}</Link>
-          <Link href="/contact"    className={styles.mobileLink} onClick={() => setMobileOpen(false)}>{t('contactUs')}</Link>
+          <Link href="/blog" className={styles.mobileLink} onClick={() => setMobileOpen(false)}>{t('blog')}</Link>
+          <Link href="/contact" className={styles.mobileLink} onClick={() => setMobileOpen(false)}>{t('contactUs')}</Link>
           <div className={styles.mobileActions}>
-            <Link href="/signIn"    className={styles.btnSignIn} onClick={() => setMobileOpen(false)}>{t('signIn')}</Link>
+            <Link href="/signIn" className={styles.btnSignIn} onClick={() => setMobileOpen(false)}>{t('signIn')}</Link>
             <Link href="/signUp" className={styles.btnSignUp} onClick={() => setMobileOpen(false)}>{t('signUp')}</Link>
           </div>
         </div>
