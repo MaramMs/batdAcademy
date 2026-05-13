@@ -63,6 +63,7 @@ const NAV_COLUMNS = [
       { label: 'Year Plans', href: '#' },
       { label: 'Professional Path', href: '#' },
       { label: 'Work Environment', href: '#' },
+      {label:'Category',href:'/page/category'}
     ],
   },
   {

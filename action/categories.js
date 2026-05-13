@@ -2,7 +2,7 @@
 const API_KEY = process.env.NEXT_PUBLIC_API_KEY;
 
 export async function getCategories(language) {
-  const response = await fetch(`${API_KEY}/categories?with_specializations=true`, {
+  const response = await fetch(`${API_KEY}/categories`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",

@@ -1,3 +1,5 @@
+"use client";
+
 import Header from "./Header";
 import styles from "@/sass/pages/category-details/category-details.module.scss";
 import stylesContainer from "@/sass/components/common/container.module.scss";
@@ -8,52 +10,20 @@ import UpcomingCouresCard from "@/components/ui/UpcomingCouresCard";
 import { upcomingCourses } from "@/data/upcomingcourse";
 import CategoriesBox from "@/components/common/CategoriesBox";
 import Range from "@/components/ui/Range";
-const categories = [
-    {
-        icon: <User />,
-        id: 1,
-        name: "Management and Administrative Skills",
-        count: '5 courses',
-    },
-    {
-        icon: <User />,
-        id: 1,
-        name: "Management and Administrative Skills",
-        count: '5 courses',
-    },
-    {
-        icon: <User />,
-        id: 1,
-        name: "Management and Administrative Skills",
-        count: '5 courses',
-    },
-    {
-        icon: <User />,
-        id: 1,
-        name: "Management and Administrative Skills",
-        count: '5 courses',
-    },
-    {
-        icon: <User />,
-        id: 1,
-        name: "Management and Administrative Skills",
-        count: '5 courses',
-    },
-    {
-        icon: <User />,
-        id: 1,
-        name: "Management and Administrative Skills",
-        count: '5 courses',
-    },
-    {
-        icon: <User />,
-        id: 1,
-        name: "Management and Administrative Skills",
-        count: '5 courses',
-    },
+import useCategoriesStore from "@/store/useCategoriesStore";
+import useCoursesStore from "@/store/useCoursesStore";
+import React, { useEffect, use } from "react";
+import Skeleton from "@/components/ui/Skeleton";
 
-]
-const CategoryDetailsPage = () => {
+const CategoryDetailsPage = ({ params }) => {
+    const { id } = use(params);
+    const { categories, handleGetCategories } = useCategoriesStore();
+    const { data, handleGetCourses, isLoading } = useCoursesStore();
+
+    useEffect(() => {
+        handleGetCategories();
+        handleGetCourses(`?category_id=${id}`);
+    }, [id]);
     return (
         <div className={styles.categoryDetails}>
             <Header />
@@ -62,7 +32,7 @@ const CategoryDetailsPage = () => {
                 <div className={stylesContainer.container}>
 
                     <div className={styles.contentWrapper}>
-                        <div className={styles.description}>
+                        {/* <div className={styles.description}>
                             <h1>
                                 About Management
                             </h1>
@@ -95,7 +65,7 @@ const CategoryDetailsPage = () => {
                                 }
 
                             </div>
-                        </div>
+                        </div> */}
 
                       <div className={styles.content}>
                             <div className={styles.filter}>
@@ -129,41 +99,25 @@ const CategoryDetailsPage = () => {
                             {/* Box 2: Category List */}
                             <CategoriesBox title="All Category">
                                 <ul className={styles.sidebarCategoryList}>
-                                    <li>
-                                        <span>Business</span>
-                                        <div className={styles.badgeWrapper} >
-                                            <span className={styles.badge}>95</span>
-                                            <ChevronRight size={12} />
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <span>Technical</span>
-                                        <div className={styles.badgeWrapper} >
-                                            <span className={styles.badge}>32</span>
-                                            <ChevronRight size={12} />
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <span>Power</span>
-                                        <div className={styles.badgeWrapper} >
-                                            <span className={styles.badge}>32</span>
-                                            <ChevronRight size={12} />
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <span>Management</span>
-                                        <div className={styles.badgeWrapper} >
-                                            <span className={styles.badge}>32</span>
-                                            <ChevronRight size={12} />
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <span>Development</span>
-                                        <div className={styles.badgeWrapper} >
-                                            <span className={styles.badge}>32</span>
-                                            <ChevronRight size={12} />
-                                        </div>
-                                    </li>
+
+                                    {
+                                        categories.length > 0 ? (
+                                            categories.map((category) => (
+                                                <li key={category.id}>
+                                                    <Link href={`/category/${category.id}/${category.slug}`}>
+                                                        <span>{category.name}</span>
+                                                        <div className={styles.badgeWrapper} >
+                                                            <span className={styles.badge}>{category.count}</span>
+                                                            <ChevronRight size={12} />
+                                                        </div>
+                                                    </Link>
+                                                </li>
+                                            ))
+                                        ) : (
+                                            <li>No categories found</li>
+                                        )
+                                    }
+                                 
                                 </ul>
                             </CategoriesBox>
 
@@ -186,9 +140,19 @@ const CategoryDetailsPage = () => {
 
 
                     <div className={styles.rightContent}>
-                        {upcomingCourses.slice(0, 6).map((course) => (
-                           <UpcomingCouresCard key={course.id} course={course} />
-                        ))}
+                        {isLoading ? (
+                            Array.from({ length: 6 }).map((_, i) => (
+                                <Skeleton key={i} type="card" height="400px" />
+                            ))
+                        ) : data?.courses?.length > 0 ? (
+                            data.courses.map((course, index) => (
+                                <UpcomingCouresCard key={index} course={course} />
+                            ))
+                        ) : (
+                            <div className={styles.noCourses}>
+                                <h3>No courses found in this category</h3>
+                            </div>
+                        )}
                     </div>
                     </div>
                     </div>
