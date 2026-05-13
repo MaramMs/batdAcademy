@@ -1,51 +1,61 @@
-'use client'
-import { useEffect } from "react";
-import ArticleParts from "./ArticleParts";
-import Header from "./Header";
-import MainContent from "./MainContent";
-import styleContainer from "@/sass/components/common/container.module.scss";
-import styles from "@/sass/pages/blog/blog-details.module.scss";
-import usePostsStore from "@/store/usePostsStore";
-import { useParams } from "next/navigation";
-import Skeleton from "@/components/ui/Skeleton";
+import { getPostBySlug } from "@/action/posts";
+import BlogDetails from "./BlogDetails";
 
-const BlogDetailsPage = () => {
-    const { handleGetPostBySlug, post, isLoading } = usePostsStore();
-    const { slug } = useParams();
-    useEffect(() => {
-        handleGetPostBySlug(slug);
-    }, [slug]);
+export async function generateMetadata({ params }) {
+    const { locale, slug } = await params;
 
-    return (
+    const niceName = slug
+        ? decodeURIComponent(slug).replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase())
+        : "Article";
 
-        <div className={styles.blogDetailsPage}>
-            {
-                isLoading ? (
-                    <div className={styleContainer.container}>
-                        <div className={styles.content}>
-                            {
-                                ['1', '2'].map(() => (<Skeleton type="Card" height='100vh' />))
-                            }
-                        </div>
-                    </div>
-                ) : (
-                    <>
-                        <Header post={post} />
-                        <div className={styleContainer.container}>
-                            <div className={styles.content}>
-                                <ArticleParts post={post}/>
-                                <MainContent post={post} />
+    const fallback = {
+        title: `${niceName} | British Academy for Training & Development`,
+        description: `Read this article from the British Academy for Training & Development blog.`,
+    };
 
-                            </div>
-                        </div>
-                    </>
-                )
+    try {
+        const response = await getPostBySlug(locale, slug);
+        const res = response?.data;
+        if (!res) return fallback;
+
+        const meta = res.meta || {};
+        const title = meta.title || res.name || fallback.title;
+        const description = meta.description?.replace(/<[^>]*>?/gm, '') || res.description || fallback.description;
+        
+        let keywords = meta.keyword;
+        if (keywords && typeof keywords === 'string' && keywords.startsWith("[")) {
+            try {
+                const parsed = JSON.parse(keywords);
+                keywords = parsed.map(k => k.value).join(", ");
+            } catch (e) {
+                console.error("Error parsing keywords:", e);
             }
+        }
 
-        </div>
+        return {
+            title,
+            description,
+            keywords: keywords || undefined,
+            openGraph: {
+                title,
+                description,
+                type: "article",
+                ...(res.image ? { images: [res.image] } : {}),
+            },
+            twitter: {
+                card: "summary_large_image",
+                title,
+                description,
+                ...(res.image ? { images: [res.image] } : {}),
+            }
+        };
+    } catch (error) {
+        console.error("Metadata error:", error);
+        return { ...fallback, openGraph: { ...fallback, type: "article" } };
+    }
+}
 
 
-    );
-};
-
-export default BlogDetailsPage;
+export default function BlogDetailsPage() {
+    return <BlogDetails />;
+}

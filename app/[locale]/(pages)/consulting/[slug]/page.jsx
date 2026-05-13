@@ -1,76 +1,61 @@
-'use client'
-import styles from "@/sass/pages/consulting/consulting-category/consulting-category.module.scss";
-import Header from "./Header";
-import ConsultingCategoryCard from "./ConsultingCategoryCard";
-import Skeleton from "@/components/ui/Skeleton";
-import useConsultingStore from "@/store/useConsultingStore";
-import { useEffect } from "react";
-import { useParams, usePathname, useRouter, useSearchParams } from "next/navigation";
+import { getConsultantWithService } from "@/action/consulting";
+import ConsultingService from "./ConsultingService";
 
+export async function generateMetadata({ params }) {
+    const { locale, slug } = await params;
 
-const ConsultingCategory = () => {
-    const {isLoading , handleGetConsultantWithService ,consulting} = useConsultingStore();
-    const searchParams = useSearchParams();
-        const router = useRouter();
-        const pathname = usePathname();
-        
-    
-    const {slug} = useParams();
-      const updateFilter = (key, value) => {
-        const params = new URLSearchParams(searchParams.toString());
+    const niceName = slug
+        ? decodeURIComponent(slug).replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase())
+        : "Consulting";
 
-        if (value) {
-            params.set(key, value);
-        } else {
-            params.delete(key);
-        }
-        router.push(`${pathname}?${params.toString()}`, { scroll: false });
+   const fallback = {
+        title: `${niceName} | British Academy for Training & Development`,
+        description: `Learn more about ${niceName} consulting services offered by the British Academy for Training & Development.`,
     };
 
-    useEffect(() => {
-        const paramsString = searchParams.toString();
-        const queryString = paramsString ? `?${paramsString}` : "";
-    handleGetConsultantWithService(slug,queryString);
-  }, [slug,searchParams]);
+    try {
+        const response = await getConsultantWithService(locale, slug);
+        const res = response?.data;
+        if (!res) return fallback;
+
+        const meta = res.meta || {};
+        const title = meta.title || res.name || fallback.title;
+        const description = meta.description?.replace(/<[^>]*>?/gm, '') || res.description || fallback.description;
+        
+        let keywords = meta.keyword;
+        if (keywords && typeof keywords === 'string' && keywords.startsWith("[")) {
+            try {
+                const parsed = JSON.parse(keywords);
+                keywords = parsed.map(k => k.value).join(", ");
+            } catch (e) {
+                console.error("Error parsing keywords:", e);
+            }
+        }
+
+        return {
+            title,
+            description,
+            keywords: keywords || undefined,
+            openGraph: {
+                title,
+                description,
+                type: "article",
+                ...(res.image ? { images: [res.image] } : {}),
+            },
+            twitter: {
+                card: "summary_large_image",
+                title,
+                description,
+                ...(res.image ? { images: [res.image] } : {}),
+            }
+        };
+    } catch (error) {
+        console.error("Metadata error:", error);
+        return { ...fallback, openGraph: { ...fallback, type: "article" } };
+    }
+}
 
 
-    return (
-        <div className={styles.consultingCategory}>
-            <Header consultantName={consulting?.name} updateFilter={updateFilter} />
-
-            <div className={styles.mainContent}>
-                <div className={styles.title}>
-                    <h1>Our Consulting Services</h1>
-                    <p>Data-driven insights and strategic planning to guide your journey from planning to market entry.</p>
-                </div>
-
-                {
-                    isLoading ? (
-                        <div className={styles.contentCards}>
-                            {[1, 2, 3, 4, 5, 6].map((item, index) => (
-                                <Skeleton key={index} type="card" height={400} width="100%" />
-                            ))}
-                        </div>
-                    ) : (
-                        <div className={styles.contentCards}>
-                            {
-                         consulting?.services?.length === 0  ? (
-                            <p>No Consulting Services Found</p>
-                         ) : (
-                             consulting?.services?.map((service,index)=> (
-                                <ConsultingCategoryCard key={index} service={service} />
-                            ))
-                         )
-                            }
-
-                        </div>
-                    )
-                }
-
-
-            </div>
-        </div>
-    );
-};
-
-export default ConsultingCategory;
+export default function ConsultingServicePage() {
+    return <ConsultingService />;
+}

@@ -1,65 +1,62 @@
-'use client'
-import Header from "./Header";
-import styles from "@/sass/pages/consulting/consulting-details/consulting-details.module.scss";
-import stylesContainer from "@/sass/components/common/container.module.scss";
-import Overview from "./Overview";
-import Process from "./Process";
-import ClientTestimonials from "./ClientTestimonials";
-import BookConsultation from "./BookConsultation";
-import { Check } from "lucide-react";
-import NavgationBar from "./NavgationBar";
-import { useEffect } from "react";
-import { useParams } from "next/navigation";
-import useConsultingStore from "@/store/useConsultingStore";
-import Skeleton from "@/components/ui/Skeleton";
+import { getConsultingDetailsBySlug } from "@/action/consulting";
+import ConsultingDetails from "./CousltingDetails";
 
-const ConsultingDetails = () => {
-    const { slug } = useParams();
-    const { handleGetConsultingDetailsBySlug, consultingDetails, isLoading } = useConsultingStore();
-    useEffect(() => {
-        handleGetConsultingDetailsBySlug(slug)
-    }, [slug]);
+export async function generateMetadata({ params }) {
+    const { locale, slug } = await params;
 
-    return (
-        <>
-            {isLoading ? (
-                <div className={styles.left}>
-                    <Skeleton type="card" height={300} />
-                    <Skeleton type="card" height={300} />
-                    <Skeleton type="card" height={300} />
-                </div>
-            ) : (
-                <>
-                    <NavgationBar breadcrumb={consultingDetails?.breadcrumb} />
-                    <Header />
-                    <div className={styles.mainContent}>
-                        <div className={stylesContainer.container}>
-                            <div className={styles.wrapper}>
-                                <div className={styles.left}>
-                                    <Overview overview={consultingDetails?.overview} />
-                                    <Process process={consultingDetails?.process} />
-                                    <ClientTestimonials testimonials={consultingDetails?.testimonials} />
-                                </div>
-                                <div className={styles.right}>
-                                    <BookConsultation bookPackage={consultingDetails?.package} consultingServiceId={consultingDetails?.id}/>
-                                    <div className={styles.chooseUs}>
-                                        <h3>{consultingDetails?.why_choose_us?.title}</h3>
-                                        <ul>
-                                            {consultingDetails?.why_choose_us?.items?.map((item, index) => (
-                                                <li key={index}>
-                                                    <Check size={16} color="#009966" /> {item}
-                                                </li>
-                                            ))}
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </>
-            )}
-        </>
-    );
-};
+    const niceName = slug
+        ? decodeURIComponent(slug).replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase())
+        : "Consulting Service";
 
-export default ConsultingDetails;
+    const fallback = {
+        title: `${niceName} | British Academy for Training & Development`,
+        description: `Learn about the ${niceName} consulting service offered by the British Academy for Training & Development.`,
+    };
+
+
+    try {
+        const response = await getConsultingDetailsBySlug(locale, slug);
+        const res = response?.data;
+        if (!res) return fallback;
+
+        const meta = res.meta || {};
+        const title = meta.title || res.name || fallback.title;
+        const description = meta.description?.replace(/<[^>]*>?/gm, '') || res.description || fallback.description;
+        
+        let keywords = meta.keyword;
+        if (keywords && typeof keywords === 'string' && keywords.startsWith("[")) {
+            try {
+                const parsed = JSON.parse(keywords);
+                keywords = parsed.map(k => k.value).join(", ");
+            } catch (e) {
+                console.error("Error parsing keywords:", e);
+            }
+        }
+
+        return {
+            title,
+            description,
+            keywords: keywords || undefined,
+            openGraph: {
+                title,
+                description,
+                type: "article",
+                ...(res.image ? { images: [res.image] } : {}),
+            },
+            twitter: {
+                card: "summary_large_image",
+                title,
+                description,
+                ...(res.image ? { images: [res.image] } : {}),
+            }
+        };
+    } catch (error) {
+        console.error("Metadata error:", error);
+        return { ...fallback, openGraph: { ...fallback, type: "article" } };
+    }
+}
+
+
+export default function ConsultingDetailsPage() {
+    return <ConsultingDetails />;
+}

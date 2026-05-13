@@ -1,68 +1,57 @@
-'use client';
-import styleContainer from "@/sass/components/common/container.module.scss";
-import styles from "@/sass/pages/print-category/print-category.module.scss";
-import usePlansStore from "@/store/usePlansStore";
-import { useEffect } from "react";
-import Header from "./Header";
-import Print from "./print";
-import PrintCard from "./PrintCard";
-import { useParams, useSearchParams } from "next/navigation";
-import Skeleton from "@/components/ui/Skeleton";
+import PrintCategory from "./PlanDetails";
+import { getPlanById } from "@/action/plans";
 
-const PrintCategory = () => {
-    const searchParams = useSearchParams();
-    const {id} =useParams()
-    const search = searchParams.get('search') || '';
-
-    const { handleGetPlanById, plan, isLoading } = usePlansStore();
-
-    const items = plan?.courses?.items || [];
-    useEffect(() => {
-        const query = search ? `?search=${search}` : '';
-        handleGetPlanById(id, query);
-    }, [search,id]);
+export async function generateMetadata({ params }) {
+    const { locale, id } = await params;
+    const fallback = {
+        title: `Print Category${id ? ` #${id}` : ""}  | British Academy for Training & Development`,
+        description: "Printable category view from the British Academy for Training & Development.",
+    };
 
 
-    return (
-        <>
-            {
-                isLoading ? (
-                    <div className={styles.list}>
-                        {
-                            [1, 2, 3, 4, 5].map(i => (
-                                <Skeleton key={i} type="card" height='100px' />
-                            ))
-                        }
+    try {
+        const response = await getPlanById(locale, id);
+        const res = response?.data;
+        if (!res) return fallback;
 
-                    </div>
-
-                ) : (
-                    <section className={styles.printCategory}>
-                        <Header name={plan?.name} summary={plan?.summary} />
-                        <Print />
-
-                        <div className={styles.mainContent}>
-
-                            <div className={styleContainer.container}>
-                                <div className={styles.list}>
-                                    {
-                                        items?.map((item) => (
-                                            <PrintCard key={item.id} item={item} />
-                                        ))
-                                    }
-
-                                </div>
-
-                            </div>
-
-
-                        </div>
-
-                    </section>
-                )
+        const meta = res.meta || {};
+        const title = meta.title || res.name || fallback.title;
+        const description = meta.description?.replace(/<[^>]*>?/gm, '') || res.description || fallback.description;
+        
+        let keywords = meta.keyword;
+        if (keywords && typeof keywords === 'string' && keywords.startsWith("[")) {
+            try {
+                const parsed = JSON.parse(keywords);
+                keywords = parsed.map(k => k.value).join(", ");
+            } catch (e) {
+                console.error("Error parsing keywords:", e);
             }
-        </>
-    )
+        }
+
+        return {
+            title,
+            description,
+            keywords: keywords || undefined,
+            openGraph: {
+                title,
+                description,
+                type: "article",
+                ...(res.image ? { images: [res.image] } : {}),
+            },
+            twitter: {
+                card: "summary_large_image",
+                title,
+                description,
+                ...(res.image ? { images: [res.image] } : {}),
+            }
+        };
+    } catch (error) {
+        console.error("Metadata error:", error);
+        return { ...fallback, openGraph: { ...fallback, type: "article" } };
+    }
 }
 
-export default PrintCategory
+
+export default function PrintCategoryDetailsPage() {
+    return <PrintCategory />;
+}
