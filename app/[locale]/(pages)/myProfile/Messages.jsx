@@ -1,7 +1,8 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Inbox, Mail, Calendar, Clock, CheckCheck } from "lucide-react";
 import styles from "@/sass/pages/my-profile/my-profile.module.scss";
+import useUserProfileStore from "@/store/useUserProfileStore";
 
 const initialMessages = [
     {
@@ -31,12 +32,17 @@ const initialMessages = [
 ];
 
 const Messages = () => {
-    const [messages, setMessages] = useState(initialMessages);
+    const { userMessages, handleGetUserMessages, unreadNumberMessage, handleUnreadNumberMessage } = useUserProfileStore();
+    console.log(unreadNumberMessage, 'unreadNumberMessage');
+    console.log(userMessages, 'userMessages');
+
+    useEffect(() => {
+        handleGetUserMessages();
+        handleUnreadNumberMessage();
+    }, []);
 
     const markAsRead = (id) => {
-        setMessages((prev) =>
-            prev.map((m) => (m.id === id ? { ...m, isRead: true } : m))
-        );
+        // You should probably call the store's markAsRead here
     };
 
     return (
@@ -45,18 +51,18 @@ const Messages = () => {
                 <h2>Messages</h2>
                 <div className={styles.msgCount}>
                     <Mail size={14} />
-                    <span>{messages.length} Message(s)</span>
+                    <span>{userMessages?.length || 0} Message(s)</span>
                 </div>
             </div>
 
-            {messages.length === 0 ? (
+            {(!userMessages || userMessages.length === 0) ? (
                 <div className={styles.noMsgs}>
                     <Inbox size={40} />
                     <span>No messages yet</span>
                 </div>
             ) : (
                 <div className={styles.msgList}>
-                    {messages.map((msg) => (
+                    {userMessages.map((msg) => (
                         <div
                             key={msg.id}
                             className={`${styles.msgCard} ${!msg.isRead ? styles.unread : ""}`}

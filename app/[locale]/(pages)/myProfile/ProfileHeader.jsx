@@ -1,7 +1,23 @@
+import { useEffect, useMemo } from "react";
 import { MapPin, Pencil } from "lucide-react";
 import styles from "@/sass/pages/my-profile/my-profile.module.scss";
+import useCitiesStore from "@/store/useCitiesStore";
 
 const ProfileHeader = ({ user }) => {
+    const { cities, handleGetCities } = useCitiesStore();
+
+    useEffect(() => {
+        if (cities.length === 0) {
+            handleGetCities();
+        }
+    }, [cities.length, handleGetCities]);
+
+    const countryName = useMemo(() => {
+        if (!user?.country_id) return user?.country || "Not specified";
+        const found = cities.find(c => c.id === user.country_id);
+        return found ? found.name : (user?.country || "Not specified");
+    }, [cities, user?.country_id, user?.country]);
+
     return (
         <div className={styles.headerCard}>
             <div className={styles.banner} />
@@ -9,23 +25,23 @@ const ProfileHeader = ({ user }) => {
             <div className={styles.profileInfoRow}>
                 <div className={styles.avatarWrapper}>
                     <div className={styles.avatar}>
-                        {user.avatarUrl ? (
-                            <img src={user.avatarUrl} alt={user.name} />
+                        {user?.image ? (
+                            <img src={user?.image} alt={user?.full_name} />
                         ) : (
-                            user.initials
+                            user?.initials
                         )}
                     </div>
-                    {user.isOnline && <span className={styles.onlineIndicator} />}
+                    {user?.isOnline && <span className={styles.onlineIndicator} />}
                 </div>
 
                 <div className={styles.userInfo}>
-                    <h2>{user.name}</h2>
+                    <h2>{user?.full_name}</h2>
                     <p className={styles.jobText}>
-                        {user.jobTitle} at {user.company}
+                        {user?.jobTitle} at {user?.company_name}
                     </p>
                     <span className={styles.locationText}>
                         <MapPin size={12} />
-                        {user.country}
+                        {countryName}
                     </span>
                 </div>
 
@@ -38,7 +54,7 @@ const ProfileHeader = ({ user }) => {
             <div className={styles.statsDivider} />
 
             <div className={styles.statsRow}>
-                {user.stats.map((stat) => (
+                {user?.stats?.map((stat) => (
                     <div key={stat.label} className={styles.statItem}>
                         <strong>{stat.value}</strong>
                         <span>{stat.label}</span>

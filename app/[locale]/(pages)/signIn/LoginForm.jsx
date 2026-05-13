@@ -21,14 +21,12 @@ const LoginForm = () => {
     } = useForm();
 
     const {
-        login, isLoading
+        handleLogin, isLoading
     } = useAuthStore();
 
     const onSubmit = async (data) => {
 
-        const result = await login(data, locale);
-
-        console.log(result, "result")
+        const result = await handleLogin(data, locale);
 
         if (result?.success && result?.data?.member) {
             toast.success("Login successfully!");

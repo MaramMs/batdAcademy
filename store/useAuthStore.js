@@ -1,112 +1,114 @@
 import { create } from "zustand";
-import { signInAction, signUpAction, signOutAction, getSession, forgetPasswordAction, resetPasswordAction } from "@/action/auth";
+import { persist } from "zustand/middleware";
+import {
+    signInAction,
+    signUpAction,
+    signOutAction,
+    forgetPasswordAction,
+    resetPasswordAction,
+} from "@/action/auth";
 
-const useAuthStore = create((set) => ({
-  member: null,
-  isAuthenticated: false,
-  isLoading: false,
-  error: null,
+const useAuthStore = create(
+    persist(
+        (set) => ({
+            member: null,
+            isAuthenticated: false,
+            isLoading: false,
+            error: null,
 
-  /**
-   * Initialize auth state from server session
-   */
-  initAuth: async () => {
-    set({ isLoading: true });
-    try {
-      const user = await getSession();
-      if (user) {
-        set({ user, isAuthenticated: true, isLoading: false });
-      } else {
-        set({ user: null, isAuthenticated: false, isLoading: false });
-      }
-    } catch (error) {
-      set({ user: null, isAuthenticated: false, isLoading: false });
-    }
-  },
+            handleLogin: async (formData, locale) => {
+                set({ isLoading: true, error: null });
+                try {
+                    const result = await signInAction(formData, locale);
+                    if (!result?.success) {
+                        set({ error: result?.message || "Failed to sign in", isLoading: false });
+                        return result;
+                    }
+                    set({
+                        member: result?.data?.member ?? null,
+                        isAuthenticated: true,
+                        isLoading: false,
+                    });
+                    return result;
+                } catch (error) {
+                    console.error("[useAuthStore] handleLogin", error);
+                    set({ error: "Failed to sign in", isLoading: false });
+                }
+            },
 
-  /**
-   * Handle Sign In
-   */
-  login: async (formData, language) => {
-    set({ isLoading: true, error: null });
-    const result = await signInAction(formData, language);
-    
-    if (result.success) {
-      set({ 
-        member: result?.data?.member, 
-        isAuthenticated: true, 
-        isLoading: false 
-      });
-      return result;
-    } else {
-      set({ error: result.error, isLoading: false });
-      return { success: false, error: result.error };
-    }
-  },
+            handleSignup: async (formData, locale) => {
+                set({ isLoading: true, error: null });
+                try {
+                    const result = await signUpAction(formData, locale);
+                    if (!result?.success) {
+                        set({ error: result?.message || "Failed to sign up", isLoading: false });
+                        return result;
+                    }
+                    set({
+                        member: result?.data?.member ?? null,
+                        isAuthenticated: true,
+                        isLoading: false,
+                    });
+                    return result;
+                } catch (error) {
+                    console.error("[useAuthStore] handleSignup", error);
+                    set({ error: "Failed to sign up", isLoading: false });
+                }
+            },
 
-  /**
-   * Handle Sign Up
-   */
-signup: async (formData, locale) => {
-    set({ isLoading: true, error: null });
-    
-    const result = await signUpAction(formData, locale);
-    console.log(result , 'result');
-    
-    
-    if (result.success) {
-      set({ member: result.member, isAuthenticated: true, isLoading: false });
-      return result;
-    } else {
-      set({ error: result.error, isLoading: false });
-      return result;
-    }
-},
+            handleForgetPassword: async (formData, locale) => {
+                set({ isLoading: true, error: null });
+                try {
+                    const result = await forgetPasswordAction(formData, locale);
+                    if (!result?.success) {
+                        set({ error: result?.message || "Failed to send reset email", isLoading: false });
+                        return result;
+                    }
+                    set({ isLoading: false });
+                    return result;
+                } catch (error) {
+                    console.error("[useAuthStore] handleForgetPassword", error);
+                    set({ error: "Failed to send reset email", isLoading: false });
+                }
+            },
 
-forgetPassword: async (formData, locale) => {
-    set({ isLoading: true, error: null });
-    
-    const result = await forgetPasswordAction(formData, locale);
-    console.log(result , 'result');
-    
-    
-    if (result.success) {
-      set({ isLoading: false });
-      return result;
-    } else {
-      set({ error: result.error, isLoading: false });
-      return result;
-    }
-},
+            handleResetPassword: async (formData, locale) => {
+                set({ isLoading: true, error: null });
+                try {
+                    const result = await resetPasswordAction(formData, locale);
+                    if (!result?.success) {
+                        set({ error: result?.message || "Failed to reset password", isLoading: false });
+                        return result;
+                    }
+                    set({ isLoading: false });
+                    return result;
+                } catch (error) {
+                    console.error("[useAuthStore] handleResetPassword", error);
+                    set({ error: "Failed to reset password", isLoading: false });
+                }
+            },
 
+            handleLogout: async () => {
+                set({ isLoading: true, error: null });
+                try {
+                    await signOutAction();
+                    set({ member: null, isAuthenticated: false, isLoading: false });
+                } catch (error) {
+                    console.error("[useAuthStore] handleLogout", error);
+                    set({ error: "Failed to sign out", isLoading: false });
+                }
+            },
 
-resetPassword: async (formData, locale) => {
-    set({ isLoading: true, error: null });
-    
-    const result = await resetPasswordAction(formData, locale);
-    console.log(result , 'result');
-    
-    
-    if (result.success) {
-      set({ isLoading: false });
-      return result;
-    } else {
-      set({ error: result.error, isLoading: false });
-      return result;
-    }
-},
-  /**
-   * Handle Logout
-   */
-  logout: async () => {
-    await signOutAction();
-    set({ user: null, isAuthenticated: false });
-  },
-
-  /**
-   * Clear error state
-   */
-  clearError: () => set({ error: null }),
-}));
+            clearError: () => set({ error: null }),
+        }),
+        {
+            name: "auth-storage",
+            partialize: (state) => ({
+                member: state.member,
+                isAuthenticated: state.isAuthenticated,
+            }),
+        }
+    )
+);
 
 export default useAuthStore;

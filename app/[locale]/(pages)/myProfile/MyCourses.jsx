@@ -1,8 +1,9 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { TrendingUp, Calendar, Clock, CheckCircle, PlayCircle, ImageIcon } from "lucide-react";
 import CourseDetailsModal from "./CourseDetailsModal";
 import styles from "@/sass/pages/my-profile/my-profile.module.scss";
+import useUserProfileStore from "@/store/useUserProfileStore";
 
 const courses = [
     {
@@ -52,6 +53,12 @@ const courses = [
 const MyCourses = () => {
     const [selectedCourse, setSelectedCourse] = useState(null);
     const activeCount = courses.filter((c) => c.status === "inProgress").length;
+    const {userCourses , handleGetUserCourses} = useUserProfileStore();
+    console.log(userCourses , 'userCourses');
+
+    useEffect(() => {
+        handleGetUserCourses();
+    }, []);
 
     return (
         <div>

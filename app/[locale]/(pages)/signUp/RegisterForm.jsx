@@ -14,7 +14,7 @@ import { toast } from "sonner";
 const RegisterForm = () => {
     const router = useRouter();
     const { locale } = useLanguageStore();
-    const { signup, isLoading } = useAuthStore();
+    const { handleSignup, isLoading } = useAuthStore();
     const { cities, handleGetCities } = useCitiesStore();
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -34,7 +34,7 @@ const RegisterForm = () => {
     }, [handleGetCities]);
 
     const onSubmit = async (formData) => {
-        const result = await signup(formData, locale);
+        const result = await handleSignup(formData, locale);
         console.log(result, "result")
 
         if (result?.success && result?.member) {

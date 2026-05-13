@@ -14,8 +14,9 @@ const tabs = [
     { id: "messages",      label: "Messages",             icon: Mail     },
 ];
 
-const ProfileTabs = () => {
+const ProfileTabs = ({user}) => {
     const [activeTab, setActiveTab] = useState("personal");
+    
 
     return (
         <div>
@@ -33,7 +34,7 @@ const ProfileTabs = () => {
             </nav>
 
             <div className={styles.contentCard}>
-                {activeTab === "personal"     && <PersonalInfo />}
+                {activeTab === "personal"     && <PersonalInfo user={user} />}
                 {activeTab === "courses"      && <MyCourses />}
                 {activeTab === "certificates" && <Certificates />}
                 {activeTab === "messages"     && <Messages />}
