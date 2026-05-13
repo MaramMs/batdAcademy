@@ -15,9 +15,9 @@
         gap: clamp(24px, 5vw, 60px);
     }
 
-    @media (max-width: $tablet) {
+    @media (max-width: 1024px) {
         flex-direction: column;
-        gap: clamp(60px, 12vw, 100px);
+        gap: 24px;
         padding-top: 0px;
     }
 }
@@ -30,8 +30,8 @@
     gap: clamp(80px, 10vw, 110px);
     width: 100%;
 
-    @media (max-width: $tablet) {
-        gap: clamp(60px, 8vw, 80px);
+    @media (max-width: 576px) {
+        gap: 44px;
     }
 
     .imgContainer {
@@ -56,9 +56,9 @@
             @include card-base($white, $shadow-lg, $radius-md, clamp(16px, 3vw, 31px));
             border: 1.24px solid rgba($blue-800, 0.1);
 
-            @media (max-width: $mobile) {
+            @media (max-width: 576px) {
                 padding: 16px;
-                bottom: -35px;
+                bottom: -20px;
                 gap: 12px;
                 left: 12px;
                 right: 12px;
@@ -77,6 +77,9 @@
                     @media (min-width:1920px) {
                         font-size: 17.37px;
                     }
+                       @media (max-width:576px){
+                        font-size: 12px;
+                    }
                 }
 
                 p {
@@ -87,6 +90,9 @@
 
                     @media (min-width:1920px) {
                         font-size: 19.95px;
+                    }
+                    @media (max-width:576px){
+                        font-size: 14px;
                     }
                 }
             }
@@ -115,10 +121,10 @@
                     font-size: 16px;
                 }
 
-                @media (max-width: $mobile) {
+                @media (max-width: 576px) {
                     height: 40px;
-                    padding-inline: 16px;
-                    font-size: 14px;
+                    padding-inline: 12px;
+                    font-size: 12px;
                 }
             }
         }
@@ -136,8 +142,8 @@
             font-size: 22px;
         }
 
-        @media (max-width: $tablet) {
-            font-size: 18px;
+        @media (max-width: 576px) {
+            font-size: 16px;
         }
     }
 }

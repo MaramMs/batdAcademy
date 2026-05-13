@@ -196,8 +196,23 @@
     grid-template-columns: repeat(auto-fit, minmax(353px, 1fr));
     row-gap: 24px;
     column-gap: 16px;
+       @media (min-width: 768px) and (max-width:1024px) {
+        display: flex;
+        flex-direction: column;
+        overflow-x: scroll;
+        scrollbar-width: none;
+        max-height: 369px;
+        padding-bottom: 4px;
+        
+        &::-webkit-scrollbar {
+            display: none;
+        }
+        scroll-snap-type: x;  
+        -webkit-overflow-scrolling: touch;
+        gap: 10px;
+    }
 
-    @media (max-width: 576px) {
+    @media (max-width: 768px) {
         display: flex;
         flex-direction: column;
         overflow-y: scroll;
@@ -300,21 +315,30 @@
         display: grid;
         grid-template-columns: 1fr 3fr;
         gap: 24px;
+    @media (max-width: 1024px) {
+            grid-template-columns: 1fr ;
+        }
 
-        @media (max-width: 576px) {
+        @media (max-width: 768px) {
             grid-template-columns: 1fr;
         }
 
         .filter {
-            @media (max-width: 576px) {
+            @media (max-width: 1024px) {
                 display: none;
             }
         }
 
         .rightContent {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(363px, 1fr));
+            grid-template-columns: repeat(2,1fr);
             gap: 26px;
+               @media (max-width: 1024px) {
+            grid-template-columns: 1fr 1fr;
+        }
+                 @media (max-width: 768px) {
+            grid-template-columns: 1fr ;
+        }
         }
     }
 

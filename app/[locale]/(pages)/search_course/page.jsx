@@ -27,16 +27,9 @@ const SearchCoursePage = () => {
     useEffect(() => {
         const paramsString = searchParams.toString();
         const queryString = paramsString ? `?${paramsString}` : "";
-        console.log(queryString, 'queryString');
         handleGetCourses(queryString);
     }, [searchParams]);
-
-    console.log(data, 'coures');
-    console.log(data?.categories, 'categories');
-
     const firstCourseId = data?.courses?.[0]?.id;
-
-
     useEffect(() => {
         setVisibleCount(6);
     }, [firstCourseId]);
@@ -53,7 +46,6 @@ const SearchCoursePage = () => {
     };
 
     const updateFilter = (key, value) => {
-        console.log(key, value, 'value');
         const params = new URLSearchParams(searchParams.toString());
 
         if (value) {
@@ -69,9 +61,7 @@ const SearchCoursePage = () => {
 
     return (
         <section className={styles.searchCourse}>
-
             <Header updateFilter={updateFilter} categories={data?.categories} specializations={data?.specializations} cities={data?.cities}/>
-
             <div className={styles.mainContent}>
                 <div className={styleContainer.container}>
                     {!data ? (

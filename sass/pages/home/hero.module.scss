@@ -27,18 +27,21 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    // padding-block: clamp(40px, 8vw, 80px);
-    // padding-inline-end: clamp(16px, 4vw, 60px);
-
-    @media (max-width: $tablet) {
-        padding: clamp(24px, 6vw, 48px) clamp(16px, 5vw, 32px);
+ 
+    @media (max-width: 1024px) {
+        padding:0px;
         width: 100%;
         text-align: center;
         align-items: center;
-        justify-content: flex-start;
+        justify-content: center;
+    }
+   @media(min-width :822px) and (max-width: 920px)  {
+    flex: auto;
+    padding: 0px;
+   
     }
 
-    @media (max-width: $mobile) {
+    @media (max-width: 576px) {
         .title {
             order: 1;
         }
@@ -60,12 +63,7 @@
         }
     }
 
-    // @media (min-width: $small-desktop) {
-    //     // padding-block: 0px;
-    //     // margin: 40px 0px;
-        
-    // }
-
+ 
     .title {
         font-size: clamp(24px, 4vw, 29.77px);
         font-weight: 500;
@@ -166,8 +164,9 @@
         margin-bottom: clamp(32px, 8vw, 60.59px);
         width: 100%;
 
-        @media (max-width: $tablet) {
+        @media (max-width: 1024px) {
             justify-content: center;
+            align-items: center;
         }
 
         @media (max-width: $mobile) {
@@ -227,8 +226,9 @@
         flex-wrap: nowrap;
         width: 100%;
 
-        @media (max-width: $tablet) {
+        @media (max-width: 1024px) {
             justify-content: center;
+            align-items: center;
         }
 
         @media (max-width: $mobile) {
@@ -298,7 +298,7 @@
         height: clamp(300px, 50vh, 500px);
     }
 
-    @media (max-width: $mobile) {
+    @media (max-width: 920px) {
         display: none;
     }
 

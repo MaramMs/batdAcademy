@@ -13,6 +13,10 @@
     .container {
         padding: 0px 101px;
 
+        @media(min-width:1021px) and (max-width:1440px) {
+            padding: 0px 60px;
+        }
+
     }
 
     @media (max-width: 1024px) {
@@ -28,9 +32,9 @@
         flex-direction: column;
         gap: 64px;
 
-        @media (max-width: 1024px) {
+        @media(min-width:1021px) and (max-width:1440px) {
             gap: 16px;
-            padding: 16px 20px;
+            padding: 16px 60px;
         }
 
         .back {
@@ -146,7 +150,7 @@
 
                     @media(max-width:1024px) {
                         width: 100%;
-                        gap: 16px;
+                        gap: 8px;
                         justify-content: flex-start;
                     }
 

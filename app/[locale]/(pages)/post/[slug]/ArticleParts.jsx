@@ -4,9 +4,9 @@ import React, { useState } from "react";
 import { BookOpen, ChevronRight } from "lucide-react";
 import styles from "@/sass/pages/blog/article-parts.module.scss";
 import Skeleton from "@/components/ui/Skeleton";
+import NoData from "@/components/common/NoData";
 
-const ArticleParts = ({ post, isLoading }) => {
-  console.log(isLoading, 'loading from  art')
+const ArticleParts = ({ post }) => {
   const [activeId, setActiveId] = useState(null);
 
   const tableOfContents = post?.table_of_contents || [];
@@ -39,7 +39,7 @@ const ArticleParts = ({ post, isLoading }) => {
   // if tableOfContents is empty, minLevel might be Infinity, so handle it safely.
   const minLevel = tableOfContents.length > 0 ? Math.min(...tableOfContents.map(item => item.level)) : 0;
 
-  if (tableOfContents.length === 0) return null;
+  // if (tableOfContents.length === 0) return null;
 
   return (
     <div className={styles.tocContainer}>
@@ -84,12 +84,11 @@ const ArticleParts = ({ post, isLoading }) => {
           )}
         </>
       ) : (
-        <div>
-          <p>No data available</p>
-        </div>
+       <NoData message='No heading in this article'/>
       )}
     </div>
   );
+
 };
 
 export default ArticleParts;

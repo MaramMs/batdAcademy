@@ -166,7 +166,7 @@ const MainNavBar = () => {
 
           <Link href="/consulting" className={styles.mobileLink} onClick={() => setMobileOpen(false)}>{t('consulting')}</Link>
           <Link href="/blog" className={styles.mobileLink} onClick={() => setMobileOpen(false)}>{t('blog')}</Link>
-          <Link href="/contact" className={styles.mobileLink} onClick={() => setMobileOpen(false)}>{t('contactUs')}</Link>
+          <Link href="/contact_us" className={styles.mobileLink} onClick={() => setMobileOpen(false)}>{t('contactUs')}</Link>
           <div className={styles.mobileActions}>
             <Link href="/signIn" className={styles.btnSignIn} onClick={() => setMobileOpen(false)}>{t('signIn')}</Link>
             <Link href="/signUp" className={styles.btnSignUp} onClick={() => setMobileOpen(false)}>{t('signUp')}</Link>

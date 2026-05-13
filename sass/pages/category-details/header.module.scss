@@ -177,6 +177,13 @@
 
                 @media (max-width:576px) {
                     display: block;
+                    padding: 16px;
+                    border-radius: 10px;
+                    cursor: pointer;
+                    svg{
+                        width: 12px;
+                        height: 12px;
+                    }
                 }
             }
 

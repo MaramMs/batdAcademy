@@ -6,7 +6,6 @@
     }
 }
 
-// ── Video Card ──────────────────────────────────────────────────────────────
 .videoCard {
     position: relative;
     width: 100%;
@@ -22,7 +21,6 @@
         border-radius: 12px;
     }
 
-    // dark gradient overlay
     &::after {
         content: '';
         position: absolute;
@@ -47,8 +45,12 @@
     height: 100%;
     max-width: 55%;
 
+    @media(min-width :822px) and (max-width: 920px) {
+        max-width: 85%;
+
+    }
+
     @media (max-width: 768px) {
-        // padding: 24px 20px;
         max-width: 100%;
         transform: translate(16px, -7%);
     }
@@ -134,9 +136,11 @@
     box-shadow: 0px 8.73px 10.92px -6.55px #0000001A;
     box-shadow: 0px 21.83px 27.29px -5.46px #0000001A;
     transition: background-color 0.2s ease;
+
     &:hover {
         background-color: darken($blue-900, 8%);
     }
+
     svg {
         width: 16px;
         height: 16px;
@@ -190,18 +194,18 @@
     }
 }
 
-// ── Tabs ──────────────────────────────────────────────────────────────────
 .publicationTabs {
     display: flex;
-    justify-content: flex-start;
+    justify-content: center;
     gap: 16px;
     margin-bottom: 32px;
     overflow-x: auto;
     padding-bottom: 8px;
-    
+
     &::-webkit-scrollbar {
         height: 4px;
     }
+
     &::-webkit-scrollbar-thumb {
         background: $gray-100;
         border-radius: 4px;
@@ -210,6 +214,7 @@
     @media (max-width: 768px) {
         gap: 8px;
         margin-bottom: 24px;
+        justify-content: flex-start;
     }
 }
 
@@ -227,13 +232,11 @@
     --tab-icon-size: 18px;
     --tab-icon-color: #{$gray-400};
 
-    // Active state
     --tab-active-bg: #{$blue-900};
     --tab-active-color: #{$white};
     --tab-active-border: #{$blue-900};
     --tab-active-icon-color: #{$white};
 
-    // Hover state
     --tab-hover-bg: #{$white};
     --tab-hover-border: #{$blue-900};
     --tab-hover-color: #{$blue-900};
@@ -248,7 +251,6 @@
     }
 }
 
-// ── Generic placeholder for other tabs ─────────────────────────────────────
 .comingSoon {
     display: flex;
     flex-direction: column;

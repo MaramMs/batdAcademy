@@ -13,10 +13,16 @@
 .container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 10px clamp(16px, 8vw, 101px);
+    padding: 10px 101px;
     display: flex;
     align-items: center;
     gap: 12px;
+       @media(min-width:1021px) and (max-width:1440px){
+            padding: 10px 60px;
+        }
+@media(max-width:768px){
+            padding: 10px 16px;
+        }
 }
 
 // ─── Left ───────────────────────────────────────

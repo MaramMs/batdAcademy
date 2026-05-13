@@ -7,13 +7,13 @@ $container-padding-mobile: 16px;
 
 @mixin container {
   width: 100%;
-//   max-width: $container-max-width;
-//   margin-inline: auto;
   padding-inline: $container-padding;
   @include bp.respond('small-desktop') {
     padding-inline: $container-padding-tablet;
   }
-
+ @media (min-width:1021px) and (max-width:1440px){
+    padding: 0px 60px;
+    }
   @include bp.respond('tablet') {
     padding-inline: $container-padding-mobile;
   }

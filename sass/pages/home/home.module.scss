@@ -3,16 +3,19 @@
   flex-direction: column;
   position: relative;
   background-color: $home_color;
-  @media (max-width: $tablet) {
-      gap: clamp(60.52px, 12vw, 60.52px); 
+  @media (max-width: 1024px) {
+    gap: 60px;
   }
   .mainContent {
     display: flex;
-      padding :100px 0px;
+    padding: 100px 0px;
     flex-direction: column;
-    gap: clamp(50px, 8vw, 100px);
-  @media (max-width: $tablet) {
-    padding :0px;
-  }
+    gap: 50px;
+   @media (min-width:1021px) and (max-width:1440px){
+    padding: 50px 0px;
+    }
+    @media (max-width: 1024px) {
+      padding: 0px;
+    }
   }
 }

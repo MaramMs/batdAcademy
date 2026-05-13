@@ -4,9 +4,8 @@ import { ArrowLeft, Calendar, Clock, Eye, Heart, User } from "lucide-react";
 import styles from "@/sass/pages/blog/blog-details.module.scss";
 import useLanguageStore from "@/store/useLanguageStore";
 
-const Header = ({ post, isLoading }) => {
+const Header = ({ post}) => {
     const locale = useLanguageStore((state) => state.locale);
-    console.log(post, 'header')
     return (
         <div className={styles.header}>
             <div className={styles.container}>
