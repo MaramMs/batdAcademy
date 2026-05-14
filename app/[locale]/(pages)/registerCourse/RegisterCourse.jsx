@@ -13,7 +13,6 @@ import styles from '@/sass/pages/register-course/register-course.module.scss';
 import stylesContainer from '@/sass/components/common/container.module.scss';
 import useRegisterCourseStore from '@/store/useRegisterCourseStore';
 import { useSearchParams } from 'next/navigation';
-import useCoursesStore from '@/store/useCoursesStore';
 import { toast } from 'sonner';
 
 const RegisterCourse = () => {
@@ -22,11 +21,10 @@ const RegisterCourse = () => {
     const [currentStep, setCurrentStep] = useState(1);
     const [regType, setRegType] = useState('individual');
     const { register, handleSubmit, control, watch, setValue, formState: { errors } } = useForm();
-    const { handlePostRegisterCourse, isLoading, handleGetRegisterData, registerData } = useRegisterCourseStore();
-    // const { courseDetails, handleGetCourseDetails } = useCoursesStore();
+    const { handlePostRegisterCourse, isLoading, handleGetRegisterData, registerData ,handleGetCourseByIdData , course} = useRegisterCourseStore();
     useEffect(() => {
         handleGetRegisterData();
-        // handleGetCourseDetails(course_id);
+        handleGetCourseByIdData(course_id)
     }, []);
 
 
@@ -131,7 +129,7 @@ const onSubmit = async (data) => {
                                     <SuccessPage />
                                 )}
                         </div>
-                        {currentStep <= 3 && <CourseSummaryCard />}
+                        {currentStep <= 3 && <CourseSummaryCard course={course}/>}
                     </div>
                 </div>
             </div>

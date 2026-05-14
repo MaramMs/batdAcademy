@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { useForm, Controller } from 'react-hook-form';
 import {
@@ -22,6 +22,7 @@ import styles from '@/sass/pages/home/request-coures.module.scss';
 import containerStyles from '@/sass/components/common/container.module.scss';
 import DropdownMenuCustom from "@/components/common/DropdownMenu";
 import ReCAPTCHA from 'react-google-recaptcha';
+import useCoursesStore from '@/store/useCoursesStore';
 
 // --- CONSTANTS ---
 
@@ -38,21 +39,6 @@ const BENEFITS_DATA = [
   "Industry-recognized certificates",
 ];
 
-const POPULAR_COURSES = [
-  "Web Development",
-  "UI/UX Design",
-  "Data Science",
-  "Digital Marketing",
-];
-
-const ALL_COURSES = [
-  "Web Development",
-  "Data Science",
-  "UI/UX Design",
-  "Mobile Development",
-  "Cloud Computing",
-  "Cybersecurity",
-];
 
 // --- SUB-COMPONENTS ---
 
@@ -114,6 +100,26 @@ const FormField = ({
 const RequestCoures = () => {
   const router = useRouter();
   const { locale } = useParams();
+  const { data: coursesData, handleGetCourses } = useCoursesStore();
+
+  useEffect(() => {
+    handleGetCourses();
+  }, []);
+
+  const courseOptions = useMemo(
+    () =>
+      (coursesData?.courses || []).map((c) => ({
+        label: c.name,
+        value: c.id,
+      })),
+    [coursesData]
+  );
+
+  const popularCourses = useMemo(
+    () => courseOptions.slice(0, 4),
+    [courseOptions]
+  );
+
   const {
     register,
     control,
@@ -132,16 +138,18 @@ const RequestCoures = () => {
 
   const selectedCourse = watch("course");
 
-  const handleTagClick = (course) => {
-    setValue("course", course, { shouldValidate: true, shouldDirty: true });
+  const handleTagClick = (courseId) => {
+    setValue("course", courseId, { shouldValidate: true, shouldDirty: true });
   };
 
   const onSubmit = async (data) => {
+    const selected = courseOptions.find((o) => o.value === data.course);
     const params = new URLSearchParams({
       name: data.name,
       email: data.email,
       mobile: data.mobile,
-      course: data.course
+      course_id: String(data.course ?? ""),
+      course_name: selected?.label ?? "",
     });
 
     router.push(`/${locale}/registerInternalCourse?${params.toString()}`);
@@ -186,12 +194,12 @@ const RequestCoures = () => {
                 Popular choices:
               </h2>
               <div className={styles['request-courses__tags']}>
-                {POPULAR_COURSES.map((course) => (
+                {popularCourses.map((c) => (
                   <CourseTag
-                    key={course}
-                    name={course}
-                    isSelected={selectedCourse === course}
-                    onClick={handleTagClick}
+                    key={c.value}
+                    name={c.label}
+                    isSelected={selectedCourse === c.value}
+                    onClick={() => handleTagClick(c.value)}
                   />
                 ))}
               </div>
@@ -257,12 +265,12 @@ const RequestCoures = () => {
                   render={({ field }) => (
                     <DropdownMenuCustom
                       label="Select your course"
-                      options={ALL_COURSES}
+                      options={courseOptions}
                       value={field.value}
                       onChange={field.onChange}
                       triggerClassName={`
-                        ${styles['request-courses__input']} 
-                        ${styles['request-courses__select']} 
+                        ${styles['request-courses__input']}
+                        ${styles['request-courses__select']}
                         ${!selectedCourse ? styles.placeholder : ""}
                       `}
                       icon={<ChevronDown size={20} className={styles['request-courses__select-arrow']} />}

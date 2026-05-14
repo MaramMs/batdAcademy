@@ -2,19 +2,20 @@
 import React from 'react';
 import { Clock, Award, Check, Mail, Phone } from 'lucide-react';
 import styles from '@/sass/pages/register-course/register-course.module.scss';
+import course from '/public/asstes/course1.jpg'
 
-const CourseSummaryCard = () => {
+const CourseSummaryCard = ({course}) => {
   return (
     <aside className={styles.sidebar}>
       <div className={styles.summaryCard}>
         <img 
-          src="/asstes/course1.jpg" 
-          alt="Course" 
+          src={course?.image || course}
+          alt={course?.name || course}
           className={styles.courseImg}
           onError={(e) => { e.target.src = 'https://via.placeholder.com/400x200?text=Course+Image'; }}
         />
         <div className={styles.summaryContent}>
-          <h3>Advanced Digital Marketing Masterclass</h3>
+          <h3>{course?.name}</h3>
           
           <div className={styles.instructor}>
             <div className={styles.avatar}>
@@ -45,7 +46,7 @@ const CourseSummaryCard = () => {
           <div className={styles.priceSection}>
             <div className={styles.label}>Course Price</div>
             <div className={styles.priceContainer}>
-              <span className={styles.oldPrice}>$899</span>
+              <span className={styles.oldPrice}>{course?.price}</span>
               <span className={styles.newPrice}>$599</span>
             </div>
           </div>

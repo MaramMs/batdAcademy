@@ -21,16 +21,23 @@ const RegisterInternalCourse = () => {
     const [regType, setRegType] = useState('individual');
     const { handlePostRegisterCourse, isLoading, handleGetRegisterData, registerData } = useRegisterCourseStore();
     console.log(registerData , 'reg data')
-    const lang =[
-        {
-            lable:'English',
-            value:1
-        },
-        {
-            lable:'Arabic',
-            value:0
-        }
-    ]
+    const lang = [
+        { label: 'English', value: 1 },
+        { label: 'Arabic', value: 0 },
+    ];
+
+    const FALLBACK_DURATIONS = [
+        { label: '1 Day', value: 1 },
+        { label: '2 Days', value: 2 },
+        { label: '3 Days', value: 3 },
+        { label: '5 Days', value: 5 },
+        { label: '1 Week', value: 7 },
+        { label: '2 Weeks', value: 14 },
+    ];
+
+    const durationOptions = registerData?.durations?.length
+        ? registerData.durations.map((item) => ({ label: item.name, value: item.id }))
+        : FALLBACK_DURATIONS;
 
 
     const { register, handleSubmit, control, formState: { errors }, watch, setValue, reset } = useForm({
@@ -48,23 +55,28 @@ const RegisterInternalCourse = () => {
         const name = searchParams.get('name');
         const email = searchParams.get('email');
         const mobile = searchParams.get('mobile');
-        const courseName = searchParams.get('course');
+        const courseId = searchParams.get('course_id');
+        const courseName = searchParams.get('course_name');
 
-        if (name) setValue('full_name', name);
+        if (name) setValue('fullName', name);
         if (email) setValue('email', email);
         if (mobile) setValue('phone', mobile);
 
-        if (courseName && registerData?.courses) {
-            const matchedCourse = registerData.courses.find(c => 
-                c.name.toLowerCase() === courseName.toLowerCase()
-            );
-            if (matchedCourse) {
-                setValue('course_id', matchedCourse.value);
-            } else {
-                setValue('specific_course', courseName);
-            }
+        if (courseId) {
+            const numericId = Number(courseId);
+            setValue('course_id', Number.isNaN(numericId) ? courseId : numericId);
         }
-    }, [searchParams, registerData, setValue]);
+        if (courseName) {
+            setValue('specific_course', courseName);
+        }
+    }, [searchParams, setValue]);
+
+    const onInvalid = (validationErrors) => {
+        console.log('Form validation errors:', validationErrors);
+        const firstKey = Object.keys(validationErrors)[0];
+        const firstMsg = validationErrors[firstKey]?.message || `Please fill the "${firstKey}" field`;
+        toast.error(firstMsg);
+    };
 
     const onSubmit = async (data) => {
         try {
@@ -74,22 +86,22 @@ const RegisterInternalCourse = () => {
                 full_name: data.fullName,
                 email: data.email,
                 phone: data.phone,
-                country_id: data.country || 282,
+                country_id: data.country,
                 course_id: data.course_id,
-                category_id: data.category_id,
-                specialisation_id: data.specialisation_id,
-                lang: data.lang || 1,
+                lang: data.lang,
                 course_date: data.date instanceof Date
                     ? data.date.toISOString().split('T')[0]
                     : data.date,
-                duration_id: data.duration_id || 2,
-                city_id: data.city_id || 65,
-                attendees: data.attendees,
-                specific_course: data.specific_course
+                city_id: data.city_id,
+                specific_course: data.specific_course,
             };
 
+            if (data.duration_id) {
+                payload.duration_id = data.duration_id;
+            }
+
             if (regType === 'company') {
-                payload.company_name = data.fullName;
+                payload.company_name = data.companyName;
                 payload.participants = data.participants?.map(p => ({
                     full_name: p.fullName,
                     email: p.email,
@@ -99,12 +111,21 @@ const RegisterInternalCourse = () => {
                 }));
             }
 
+            console.log('register payload →', payload);
             const res = await handlePostRegisterCourse(payload);
+            console.log('register response →', res);
             if (res?.success) {
                 toast.success(res?.message || 'Registration successful!');
-                setTimeout(() => setCurrentStep(4), 2000);
+                reset();
             } else {
-                toast.error(res?.message || 'Registration failed. Please try again.');
+                const errorMessages = res?.errors
+                    ? Object.values(res.errors).flat()
+                    : [];
+                if (errorMessages.length) {
+                    errorMessages.forEach((msg) => toast.error(msg));
+                } else {
+                    toast.error(res?.message || 'Registration failed. Please try again.');
+                }
             }
         } catch (error) {
             toast.error(error?.response?.data?.message || error?.message || 'Something went wrong!');
@@ -141,12 +162,12 @@ const RegisterInternalCourse = () => {
                                     />
                                 </div>
 
-                                <form onSubmit={handleSubmit(onSubmit)}>
-                                    {/* <div className={formStyles.sectionTitle}>
+                                <form onSubmit={handleSubmit(onSubmit, onInvalid)}>
+                                    <div className={formStyles.sectionTitle}>
                                         <Users color='#C9302C' size={20} /> Contact Information *
                                     </div>
                                     <div className={pageStyles.formGrid} style={{ marginBottom: '20px' }}>
-                                        <div className={formStyles.inputGroup}>
+                                        <div className={formStyles.inputGroup} style={{ marginBottom: '24px' }}>
                                             <label>Full Name <span>*</span></label>
                                             <div className={formStyles.inputWrapper}>
                                                 <input
@@ -158,6 +179,20 @@ const RegisterInternalCourse = () => {
                                             {errors.fullName && <span style={{ color: '#EF4444', fontSize: '12px' }}>{errors.fullName.message}</span>}
                                         </div>
 
+                                        {regType === 'company' && (
+                                            <div className={formStyles.inputGroup} style={{ marginBottom: '24px' }}>
+                                                <label>Company Name <span>*</span></label>
+                                                <div className={formStyles.inputWrapper}>
+                                                    <input
+                                                        type="text"
+                                                        placeholder="Enter your company name"
+                                                        {...register("companyName", { required: "Company name is required" })}
+                                                    />
+                                                </div>
+                                                {errors.companyName && <span style={{ color: '#EF4444', fontSize: '12px' }}>{errors.companyName.message}</span>}
+                                            </div>
+                                        )}
+
                                         <div className={formStyles.special}>
                                             <div className={formStyles.inputGroup}>
                                                 <label>Email Address <span>*</span></label>
@@ -165,7 +200,7 @@ const RegisterInternalCourse = () => {
                                                     <input
                                                         type="email"
                                                         placeholder="email@example.com"
-                                                        {...register("email", { 
+                                                        {...register("email", {
                                                             required: "Email is required",
                                                             pattern: { value: /^\S+@\S+\.\S+$/, message: "Invalid email" }
                                                         })}
@@ -185,13 +220,13 @@ const RegisterInternalCourse = () => {
                                                 {errors.phone && <span style={{ color: '#EF4444', fontSize: '12px' }}>{errors.phone.message}</span>}
                                             </div>
                                         </div>
-                                    </div> */}
+                                    </div>
 
                                     {/* <div className={formStyles.sectionTitle} style={{ marginTop: '20px' }}>
                                         <Users color='#C9302C' size={20} /> Course Details *
                                     </div> */}
                                     <div className={pageStyles.formGrid}>
-                                        <div className={formStyles.inputGroup} style={{ marginBottom: '24px' }}>
+                                        {/* <div className={formStyles.inputGroup} style={{ marginBottom: '24px' }}>
                                             <label>Category <span>*</span></label>
                                             <div className={formStyles.inputWrapper}>
 
@@ -217,9 +252,9 @@ const RegisterInternalCourse = () => {
 
                                             </div>
                                             {errors.category && <span style={{ color: '#EF4444', fontSize: '12px', marginTop: '4px' }}>This field is required</span>}
-                                        </div>
+                                        </div> */}
 
-                                        <div className={formStyles.special}>
+                                        {/* <div className={formStyles.special}>
                                             <div className={formStyles.inputGroup}>
                                                 <label>Specialisation <span>*</span></label>
                                                 <div className={formStyles.inputWrapper}>
@@ -267,9 +302,31 @@ const RegisterInternalCourse = () => {
                                                     />
                                                 </div>
                                             </div>
-                                        </div>
+                                        </div> */}
 
                                         <div className={formStyles.special}>
+                                            <div className={formStyles.inputGroup}>
+                                                <label>Country <span>*</span></label>
+                                                <div className={formStyles.inputWrapper}>
+                                                    <Controller
+                                                        name="country"
+                                                        control={control}
+                                                        rules={{ required: true }}
+                                                        render={({ field }) => (
+                                                            <DropdownMenuCustom
+                                                                label="Please Selected from the list"
+                                                                options={registerData?.countries?.map((item) => ({
+                                                                    label: item.name,
+                                                                    value: item.id,
+                                                                }))}
+                                                                value={field.value}
+                                                                onChange={field.onChange}
+                                                                icon={<ChevronDown size={14} />}
+                                                            />
+                                                        )}
+                                                    />
+                                                </div>
+                                            </div>
                                             <div className={formStyles.inputGroup}>
                                                 <label>City <span>*</span></label>
                                                 <div className={formStyles.inputWrapper}>
@@ -283,33 +340,8 @@ const RegisterInternalCourse = () => {
                                                                 label="Please Selected from the list"
                                                                 options={registerData?.cities?.map((item) => (
                                                                     {
-                                                                        lable: item.name,
-                                                                        value: item.value
-                                                                    }
-                                                                ))}
-                                                                value={field.value}
-                                                                onChange={field.onChange}
-                                                                icon={<ChevronDown size={14} />}
-                                                            />
-                                                        )}
-                                                    />
-                                                </div>
-                                            </div>
-                                            <div className={formStyles.inputGroup}>
-                                                <label>Language <span>*</span></label>
-                                                <div className={formStyles.inputWrapper}>
-
-                                                    <Controller
-                                                        name="lang"
-                                                        control={control}
-                                                        rules={{ required: true }}
-                                                        render={({ field }) => (
-                                                            <DropdownMenuCustom
-                                                                label="Please Selected from the list"
-                                                                options={lang?.map((item) => (
-                                                                    {
-                                                                        lable: item.name,
-                                                                        value: item.value
+                                                                        label: item.name,
+                                                                        value: item.id,
                                                                     }
                                                                 ))}
                                                                 value={field.value}
@@ -323,13 +355,32 @@ const RegisterInternalCourse = () => {
                                         </div>
 
                                         <div className={formStyles.inputGroup} style={{ marginBottom: '24px' }}>
+                                            <label>Language <span>*</span></label>
+                                            <div className={formStyles.inputWrapper}>
+                                                <Controller
+                                                    name="lang"
+                                                    control={control}
+                                                    rules={{ required: true }}
+                                                    render={({ field }) => (
+                                                        <DropdownMenuCustom
+                                                            label="Please Selected from the list"
+                                                            options={lang}
+                                                            value={field.value}
+                                                            onChange={field.onChange}
+                                                            icon={<ChevronDown size={14} />}
+                                                        />
+                                                    )}
+                                                />
+                                            </div>
+                                        </div>
+
+                                        <div className={formStyles.inputGroup} style={{ marginBottom: '24px' }}>
                                             <label>Number Of Attendees <span>*</span></label>
                                             <div className={formStyles.inputWrapper}>
 
                                                 <Controller
                                                     name="attendees"
                                                     control={control}
-                                                    rules={{ required: true }}
                                                     render={({ field }) => (
                                                         <DropdownMenuCustom
                                                             label="Please Selected from the list"
@@ -351,11 +402,10 @@ const RegisterInternalCourse = () => {
                                                     <Controller
                                                         name="duration_id"
                                                         control={control}
-                                                        rules={{ required: true }}
                                                         render={({ field }) => (
                                                             <DropdownMenuCustom
                                                                 label="Please Selected from the list"
-                                                                options={['1 Day', '2 Days', '3 Days']}
+                                                                options={durationOptions}
                                                                 value={field.value}
                                                                 onChange={field.onChange}
                                                                 icon={<ChevronDown size={14} />}

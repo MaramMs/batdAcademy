@@ -22,6 +22,20 @@ export async function PostRegisterCourse(body, language) {
     throw new Error(`Server returned ${response.status}: ${text.substring(0, 100)}...`);
   }
 }
+export async function getCourseById(language,id) {
+  const response = await fetch(`${API_KEY}/course-details/${id}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      "Accept": "application/json",
+      "Accept-Language": language ?? "en",
+    },
+  });
+
+  return await response.json();
+}
+
+
 
 export async function getRegisterData(language) {
   const response = await fetch(`${API_KEY}/registration-data`, {
