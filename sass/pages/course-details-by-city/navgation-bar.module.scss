@@ -18,6 +18,10 @@
         overflow: hidden;
 
         @media (max-width: 768px) {
+            gap: 6px;
+        }
+
+        @media (max-width: 480px) {
             gap: 4px;
         }
 
@@ -25,25 +29,41 @@
             display: flex;
             gap: 5.4px;
             align-items: center;
-             @media (max-width: 768px) {
-                gap: 0px;
+            flex-shrink: 0;
+
+            @media (max-width: 768px) {
+                gap: 2px;
             }
 
-            span , a {
+            span,
+            a {
                 color: #2F327D;
                 font-weight: 500;
                 font-size: 18px;
+                white-space: nowrap;
+
                 @media (max-width: 768px) {
+                    font-size: 13px;
+                }
+
+                @media (max-width: 480px) {
                     font-size: 12px;
                 }
             }
         }
 
-        span,a {
+        span,
+        a {
             font-size: 18px;
             color: #D1D5DC;
             font-weight: 400;
-             @media (max-width: 768px) {
+            white-space: nowrap;
+
+            @media (max-width: 768px) {
+                font-size: 13px;
+            }
+
+            @media (max-width: 480px) {
                 font-size: 12px;
             }
 
@@ -54,12 +74,31 @@
             &:nth-child(7) {
                 color: #2F327D;
                 font-weight: 500;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+
                 @media (max-width: 768px) {
-                    white-space: nowrap;
-                    overflow: hidden;
-                    text-overflow: ellipsis;
                     max-width: 120px;
                 }
+
+                @media (max-width: 480px) {
+                    max-width: 80px;
+                }
+            }
+        }
+
+        svg {
+            flex-shrink: 0;
+
+            @media (max-width: 768px) {
+                width: 14px;
+                height: 14px;
+            }
+
+            @media (max-width: 480px) {
+                width: 12px;
+                height: 12px;
             }
         }
     }
