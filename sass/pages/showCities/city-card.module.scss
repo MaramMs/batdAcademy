@@ -2,14 +2,11 @@
     height: 100%;
     display: flex;
     flex-direction: column;
-    background-color: $white ;
+    background-color: $white;
     border-radius: 16px;
     transition: all 0.3s ease;
     cursor: pointer;
-    box-shadow: 0px 1px 2px -1px #0000001A;
-
     box-shadow: 0px 1px 3px 0px #0000001A;
-
 
     &:hover {
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -17,7 +14,6 @@
     }
 
     .imageContainer {
-
         position: relative;
 
         .imagePlaceholder {
@@ -29,6 +25,14 @@
             display: flex;
             align-items: center;
             justify-content: center;
+
+            @media (max-width: 768px) {
+                height: 200px;
+            }
+
+            @media (max-width: 480px) {
+                height: 180px;
+            }
 
             svg {
                 opacity: 0.3;
@@ -53,7 +57,8 @@
             border-start-start-radius: 16px;
             border-start-end-radius: 16px;
         }
-        .location{
+
+        .location {
             display: flex;
             gap: 4px;
             flex-direction: column;
@@ -62,20 +67,28 @@
             bottom: 20px;
             inset-inline-start: 20px;
             z-index: 2;
-            span{
+
+            @media (max-width: 480px) {
+                bottom: 12px;
+                inset-inline-start: 12px;
+            }
+
+            span {
                 display: flex;
                 gap: 8px;
                 align-items: center;
                 color: $white;
                 font-size: 12px;
                 font-weight: 400;
-                svg{
+
+                svg {
                     width: 18px;
                     height: 18px;
                     flex-shrink: 0;
                 }
             }
-            h5{
+
+            h5 {
                 font-weight: 600;
                 font-size: 24px;
                 color: $white;
@@ -85,10 +98,19 @@
                 -webkit-line-clamp: 1;
                 -webkit-box-orient: vertical;
                 overflow: hidden;
+
+                @media (max-width: 768px) {
+                    font-size: 20px;
+                    line-height: 26px;
+                }
+
+                @media (max-width: 480px) {
+                    font-size: 18px;
+                    line-height: 24px;
+                }
             }
         }
     }
-
 
     .content {
         display: flex;
@@ -96,6 +118,16 @@
         flex: 1;
         gap: 16px;
         padding: 20px;
+
+        @media (max-width: 768px) {
+            padding: 16px;
+            gap: 14px;
+        }
+
+        @media (max-width: 480px) {
+            padding: 14px;
+            gap: 12px;
+        }
 
         .top {
             display: flex;
@@ -114,12 +146,25 @@
                     font-weight: 700;
                     color: $blue-900;
                     font-size: 24px;
+
+                    @media (max-width: 768px) {
+                        font-size: 20px;
+                    }
+
+                    @media (max-width: 480px) {
+                        font-size: 18px;
+                    }
                 }
 
                 span {
                     font-weight: 400;
                     font-size: 12px;
                     color: #4A5565;
+                    text-align: center;
+
+                    @media (max-width: 480px) {
+                        font-size: 11px;
+                    }
                 }
 
                 &:nth-child(2) {
@@ -132,8 +177,6 @@
         .link {
             margin-top: auto;
             background: $blue-900;
-            box-shadow: 0px 2px 4px -2px #0000001A;
-
             box-shadow: 0px 4px 6px -1px #0000001A;
             border-radius: 10px;
             display: flex;
@@ -144,7 +187,16 @@
             font-weight: 500;
             color: $white;
             line-height: 24px;
+            transition: $transition-base;
 
+            @media (max-width: 480px) {
+                height: 42px;
+                font-size: 14px;
+            }
+
+            &:hover {
+                opacity: 0.9;
+            }
         }
     }
 }

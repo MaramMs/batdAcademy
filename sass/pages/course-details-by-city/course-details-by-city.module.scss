@@ -2,7 +2,6 @@
     display: flex;
     flex-direction: column !important;
 
-
     .filterGroupTitle {
         font-size: 15.77px;
         font-weight: 600;
@@ -11,7 +10,6 @@
 
         &:first-child {
             margin-top: 0;
-
         }
     }
 
@@ -44,7 +42,6 @@
                 }
             }
         }
-
     }
 
     .sidebarCategoryList {
@@ -90,7 +87,6 @@
                     }
                 }
             }
-
         }
     }
 
@@ -109,6 +105,11 @@
             cursor: pointer;
             transition: $transition-base;
 
+            &.active {
+                background: $blue-900;
+                color: $white;
+            }
+
             &:hover {
                 background: $blue-900;
                 color: $white;
@@ -120,8 +121,12 @@
 .mainContent {
     padding: 42px 0px 100px 0px;
 
-    @media (max-width:768px) {
-        padding: 16px 0px 60px 0px;
+    @media (max-width: 768px) {
+        padding: 24px 0px 60px 0px;
+    }
+
+    @media (max-width: 480px) {
+        padding: 16px 0px 40px 0px;
     }
 
     .content {
@@ -130,10 +135,6 @@
         gap: 24px;
 
         @media (max-width: 1024px) {
-            grid-template-columns: 1fr;
-        }
-
-        @media (max-width: 576px) {
             grid-template-columns: 1fr;
         }
 
@@ -150,23 +151,30 @@
 
             .cards {
                 display: grid;
-                grid-template-columns: repeat(auto-fit, minmax(363px, 1fr));
+                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
                 gap: 26px;
 
                 @media (max-width: 1024px) and (min-width: 768px) {
                     grid-template-columns: repeat(2, 1fr);
+                    gap: 20px;
                 }
 
                 @media (max-width: 767px) {
-                    grid-template-columns: repeat(1, 1fr);
+                    grid-template-columns: repeat(2, 1fr);
+                    gap: 16px;
                 }
 
+                @media (max-width: 540px) {
+                    grid-template-columns: 1fr;
+                    gap: 16px;
+                }
             }
 
             .showMoreBtn {
                 display: flex;
                 justify-content: center;
                 align-items: center;
+                gap: 8px;
                 margin: 50px auto 0px auto;
                 width: 200px;
                 height: 48px;
@@ -177,17 +185,22 @@
                 border-radius: 10px;
                 border: 1px solid $blue-900;
                 cursor: pointer;
+                transition: $transition-base;
 
                 @media (max-width: 992px) {
                     margin: 30px auto 0px auto;
-
                 }
 
+                @media (max-width: 480px) {
+                    width: 100%;
+                    margin: 20px 0 0 0;
+                }
+
+                &:hover {
+                    background-color: $blue-900;
+                    color: $white;
+                }
             }
         }
-
-
-
-
     }
 }
