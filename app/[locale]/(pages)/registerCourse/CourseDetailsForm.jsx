@@ -1,5 +1,5 @@
 "use client";
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Calendar, Clock, MapPin, Globe, ArrowLeft, ArrowRight, CircleCheck, ChevronDown } from 'lucide-react';
 import { Controller, useWatch } from 'react-hook-form';
 import Image from 'next/image';
@@ -9,11 +9,11 @@ import "react-datepicker/dist/react-datepicker.css";
 import ReCAPTCHA from 'react-google-recaptcha';
 import styles from '@/sass/pages/register-course/course-details-form.module.scss';
 
-const CourseDetailsForm = ({ register, control, setValue, errors, handleBack, onSubmit, handleSubmit }) => {
+const CourseDetailsForm = ({cities,durations,dates,isLoading,register, control, setValue, errors, handleBack, onSubmit, handleSubmit }) => {
   const [mounted, setMounted] = useState(false);
   const [recaptchaToken, setRecaptchaToken] = useState(null);
-
-  React.useEffect(() => {
+console.log(durations , 'dura')
+useEffect(() => {
     setMounted(true);
   }, []);
 
@@ -24,27 +24,22 @@ const CourseDetailsForm = ({ register, control, setValue, errors, handleBack, on
     { date: 'Oct 15, 2024', duration: '8 weeks duration' },
   ];
 
-  const durations = [
-    { title: '2 Weeks - Intensive', price: '$599' },
-    { title: '4 Weeks - Standard', price: '$799' },
-    { title: '8 Weeks - Comprehensive', price: '$999' },
-    { title: '12 Weeks - Extended', price: '$1299' },
-  ];
+ 
+  const { course_date, duration_id, city_id, language = "english" } = useWatch({ control });
 
-  // Watch form values for live confirmation
-  const { selectedDate, customDate, duration, location, language = "english" } = useWatch({ control });
-
-  // Format date for display
   const getDisplayDate = () => {
-    if (customDate) {
-      return customDate instanceof Date
-        ? customDate.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })
-        : customDate;
+    if (course_date) {
+      return course_date instanceof Date
+        ? course_date.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })
+        : course_date;
     }
-    return selectedDate || 'Not selected';
+    return 'Not selected';
   };
 
-  const isFormComplete = (selectedDate || customDate) && duration && location;
+  const isFormComplete = course_date && duration_id && city_id;
+
+  const selectedDuration = durations?.find(d => d.id == duration_id)?.name;
+  const selectedCity = cities?.find(c => c.id == city_id)?.name;
 
   if (!mounted) return null;
 
@@ -68,11 +63,7 @@ const CourseDetailsForm = ({ register, control, setValue, errors, handleBack, on
                 <input
                   type="radio"
                   value={item.date}
-                  {...register("selectedDate", {
-                    onChange: () => {
-                      setValue("customDate", null);
-                    }
-                  })}
+                  {...register("course_date")}
                 />
                 <div className={styles.cardContent}>
                   <div className={styles.iconBox}>
@@ -97,15 +88,14 @@ const CourseDetailsForm = ({ register, control, setValue, errors, handleBack, on
           <div className={styles.inputWrapper}>
             <Controller
               control={control}
-              name="customDate"
+              name="course_date"
               render={({ field }) => (
                 <DatePicker
                   placeholderText="DD / MM / YYYY"
                   onChange={(date) => {
                     field.onChange(date);
-                    setValue("selectedDate", null);
                   }}
-                  selected={field.value}
+                  selected={field.value instanceof Date ? field.value : null}
                   className={styles.datePickerInput}
                   dateFormat="dd / MM / yyyy"
                   isClearable
@@ -126,13 +116,13 @@ const CourseDetailsForm = ({ register, control, setValue, errors, handleBack, on
           <div className={styles.durationGrid}>
             {durations.map((item, index) => (
               <label key={index} className={styles.durationCard}>
-                <input type="radio" name="duration" value={item.title} {...register("duration", { required: true })} />
+                <input type="radio" name="duration_id" value={item.id} {...register("duration_id", { required: true })} />
                 <div className={styles.cardContent}>
                   <div className={styles.iconBox}>
                     <Clock size={20} />
                   </div>
                   <div className={styles.info}>
-                    <span className={styles.titleText}>{item.title}</span>
+                    <span className={styles.titleText}>{item.name}</span>
                     <span className={styles.priceText}>{item.price}</span>
                   </div>
                 </div>
@@ -149,17 +139,16 @@ const CourseDetailsForm = ({ register, control, setValue, errors, handleBack, on
           </div>
           <div className={styles.selectWrapper}>
             <Controller
-              name="location"
+              name="city_id"
               control={control}
               rules={{ required: true }}
               render={({ field }) => (
                 <DropdownMenuCustom
                   label="Select training location..."
-                  options={[
-                    { value: "online", label: "Online" },
-                    { value: "riyadh", label: "Riyadh, Saudi Arabia" },
-                    { value: "dubai", label: "Dubai, UAE" }
-                  ]}
+                  options={cities?.map(city => ({
+                    value: city.id,
+                    label: city.name
+                  }))}
                   value={field.value}
                   onChange={field.onChange}
                   icon={<ChevronDown size={14} />}
@@ -217,7 +206,7 @@ const CourseDetailsForm = ({ register, control, setValue, errors, handleBack, on
                   <span className={styles.icon}><Clock size={18} color="#1E293B" /></span>
                   <div className={styles.info}>
                     <span className={styles.label}>Duration</span>
-                    <span className={styles.value}>{duration || 'Not selected'}</span>
+                    <span className={styles.value}>{selectedDuration || 'Not selected'}</span>
 
                   </div>
 
@@ -227,7 +216,7 @@ const CourseDetailsForm = ({ register, control, setValue, errors, handleBack, on
                   <span className={styles.icon}><MapPin size={18} color="#1E293B" /></span>
                   <div className={styles.info}>
                     <span className={styles.label}>Location</span>
-                    <span className={styles.value}>{location || 'Not selected'}</span>
+                    <span className={styles.value}>{selectedCity || 'Not selected'}</span>
 
                   </div>
 
@@ -269,7 +258,9 @@ const CourseDetailsForm = ({ register, control, setValue, errors, handleBack, on
             <ArrowLeft size={18} /> Previous Step
           </button>
           <button type="submit" className={styles.btnContinue}>
-            Continue <ArrowRight size={18} />
+            {
+              isLoading ? 'is loading ....' : 'Continue'
+            } <ArrowRight size={18} />
           </button>
         </div>
       </form>

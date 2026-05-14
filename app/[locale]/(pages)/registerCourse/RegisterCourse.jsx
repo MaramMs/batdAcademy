@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import Stepper from '@/components/common/Stepper';
 import CourseSummaryCard from './CourseSummaryCard';
@@ -11,30 +11,69 @@ import NavigationBar from '@/components/common/NavigationBar';
 import MobileCourseHeader from './MobileCourseHeader';
 import styles from '@/sass/pages/register-course/register-course.module.scss';
 import stylesContainer from '@/sass/components/common/container.module.scss';
+import useRegisterCourseStore from '@/store/useRegisterCourseStore';
+import { useSearchParams } from 'next/navigation';
+import useCoursesStore from '@/store/useCoursesStore';
+import { toast } from 'sonner';
 
 const RegisterCourse = () => {
+    const searchParams = useSearchParams();
+    const course_id = searchParams.get('course_id');
     const [currentStep, setCurrentStep] = useState(1);
     const [regType, setRegType] = useState('individual');
     const { register, handleSubmit, control, watch, setValue, formState: { errors } } = useForm();
+    const { handlePostRegisterCourse, isLoading, handleGetRegisterData, registerData } = useRegisterCourseStore();
+    // const { courseDetails, handleGetCourseDetails } = useCoursesStore();
+    useEffect(() => {
+        handleGetRegisterData();
+        // handleGetCourseDetails(course_id);
+    }, []);
 
 
-    const onSubmit = (data) => {
-          if (!recaptchaToken) {
-        alert('يرجى إتمام التحقق من أنك لست روبوتاً');
-        return;
+
+const onSubmit = async (data) => {
+  try {
+    if (currentStep === 1) {
+      setCurrentStep(2);
+    } else if (currentStep === 2) {
+      const payload = {
+        is_company: regType === 'company' ? 1 : 0,
+        full_name: data.fullName,
+        email: data.email,
+        phone: data.phone,
+        country_id: data.country || 282,
+        course_id,
+        lang: 1,
+        course_date: data.course_date instanceof Date
+          ? data.course_date.toISOString().split('T')[0]
+          : data.course_date,
+        duration_id: data.duration_id || 2,
+        city_id: data.city_id || 65
+      };
+
+      if (regType === 'company') {
+        payload.company_name = data.fullName;
+        payload.participants = data.participants?.map(p => ({
+          full_name: p.fullName,
+          email: p.email,
+          job_title: p.jobTitle,
+          phone: p.phone,
+          mobile: p.mobile
+        }));
+      }
+
+      const res = await handlePostRegisterCourse(payload);
+      if (res?.success) {
+        toast.success(res?.message || 'Registration successful!');
+        setTimeout(() => setCurrentStep(4), 2000);
+      } else {
+        toast.error(res?.message|| 'Registration failed. Please try again.');
+      }
     }
-        if (currentStep === 1) {
-            console.log('Step 1 data:', { ...data, registrationType: regType });
-            setCurrentStep(2);
-        } else if (currentStep === 2) {
-            console.log('Step 2 data:', data);
-            setCurrentStep(4);
-        }
-        // } else if (currentStep === 3) {
-        //     console.log('Step 3 data (Payment):', data);
-        //     setCurrentStep(4);
-        // }
-    };
+  } catch (error) {
+    toast.error(error?.response?.data?.message || error?.message || 'Something went wrong!');
+  }
+};
 
     const handleBack = () => {
         setCurrentStep((prev) => Math.max(1, prev - 1));
@@ -59,6 +98,8 @@ const RegisterCourse = () => {
                                     control={control}
                                     setRegType={setRegType}
                                     regType={regType}
+                                    countries={registerData?.countries}
+                                    isLoading={isLoading}
                                 />
                             ) : currentStep === 2 ? (
                                 <CourseDetailsForm
@@ -70,6 +111,10 @@ const RegisterCourse = () => {
                                     setValue={setValue}
                                     errors={errors}
                                     handleBack={handleBack}
+                                    isLoading={isLoading}
+                                    cities={registerData?.cities}
+                                    durations={registerData?.durations}
+                                    dates={registerData?.dates}
                                 />
                             )
                                 // ) : currentStep === 3 ? (

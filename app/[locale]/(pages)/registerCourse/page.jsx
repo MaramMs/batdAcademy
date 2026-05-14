@@ -40,8 +40,14 @@ export async function generateMetadata({ params }) {
 }
 
 
+import { Suspense } from 'react';
+
 const RegisterCoursePage = () => {
-    return <RegisterCourse />;
+    return (
+        <Suspense fallback={<div>Loading...</div>}>
+            <RegisterCourse />
+        </Suspense>
+    );
 };
 
 export default RegisterCoursePage;

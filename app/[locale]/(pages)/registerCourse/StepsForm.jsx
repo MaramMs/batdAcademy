@@ -6,7 +6,7 @@ import styles from '@/sass/pages/register-course/steps-form.module.scss';
 import DropdownMenuCustom from '@/components/common/DropdownMenu';
 import ReCAPTCHA from 'react-google-recaptcha';
 
-const StepsForm = ({ handleSubmit, onSubmit, errors, register, control, setRegType, regType }) => {
+const StepsForm = ({ handleSubmit, onSubmit, errors, register, control, setRegType, regType,countries }) => {
   const { fields, append, remove } = useFieldArray({
     control,
     name: "participants"
@@ -18,6 +18,10 @@ const StepsForm = ({ handleSubmit, onSubmit, errors, register, control, setRegTy
     }
   }, [regType, fields.length, append]);
 
+  const countryOptions = countries?.map(country => ({
+    value: country.id,
+    label: country.name
+  }));
   return (
     <div className={styles.formContent}>
       <div className={styles.formCard}>
@@ -65,7 +69,6 @@ const StepsForm = ({ handleSubmit, onSubmit, errors, register, control, setRegTy
               </div>
               {errors.email && <span className={styles.errorText}>Please enter a valid email</span>}
             </div>
-
             <div className={styles.inputGroup}>
               <label>Phone Number <span>*</span></label>
               <div className={styles.inputWrapper}>
@@ -78,13 +81,9 @@ const StepsForm = ({ handleSubmit, onSubmit, errors, register, control, setRegTy
               </div>
               {errors.phone && <span className={styles.errorText}>This field is required</span>}
             </div>
-
             <div className={styles.inputGroup}>
               <label>Country <span>*</span></label>
               <div className={styles.inputWrapper}>
-
-
-
                 <Controller
                   name="country"
                   control={control}
@@ -92,11 +91,7 @@ const StepsForm = ({ handleSubmit, onSubmit, errors, register, control, setRegTy
                   render={({ field }) => (
                     <DropdownMenuCustom
                       label="Select your country"
-                      options={[
-                        { value: "US", label: "United States" },
-                        { value: "UK", label: "United Kingdom" },
-                        { value: "CA", label: "Canada" },
-                      ]}
+                      options={countryOptions}
                       value={field.value}
                       onChange={field.onChange}
                       icon={<ChevronDown size={14} />}
@@ -119,7 +114,7 @@ const StepsForm = ({ handleSubmit, onSubmit, errors, register, control, setRegTy
                     <input
                       type="text"
                       placeholder="Your Company"
-                      {...register("companyName")}
+                      {...register("company_name")}
                     />
                   </div>
                 </div>
