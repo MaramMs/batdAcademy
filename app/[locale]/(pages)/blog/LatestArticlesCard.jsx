@@ -4,12 +4,19 @@ import Image from "next/image";
 import styles from "@/sass/pages/blog/lastest-articles-card.module.scss";
 import { ArrowRight, Clock, Eye, Heart} from "lucide-react";
 import Link from "next/link";
-
+import img1 from "/public/asstes/default-1.jpeg";
+import img2 from "/public/asstes/course1.jpg";
+import img3 from "/public/asstes/default-2.webp";
+// https://batdacademy.com/uploads/placeholder_image.webp
 // Temporary placeholder images
+   
+   
+
 const placeholderImages = [
-    "https://batdacademy.com/uploads/placeholder_image.webp",
-    "/asstes/default-1.jpeg",
-    "/asstes/course1.jpg",
+    'https://batdacademy.com/uploads/placeholder_image.webp',
+    img2,
+    img1,
+    img3,
 ];
 const LatestArticlesCard = ({ article, view }) => {
     const randomImageIndex = article?.id ? article.id % 3 : Math.floor(Math.random() * 3);
