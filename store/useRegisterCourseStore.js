@@ -4,7 +4,7 @@ import useLanguageStore from "./useLanguageStore";
 
 const useRegisterCourseStore = create((set) => ({
     registerCourse: [],
-    isLoading: true,
+    isLoading: false,
     registerData: [],
     handleGetRegisterData: async () => {
         set({ isLoading: true });

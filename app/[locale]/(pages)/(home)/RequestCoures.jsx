@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useMemo, useState } from 'react';
+import { useRouter, useParams } from 'next/navigation';
 import { useForm, Controller } from 'react-hook-form';
 import {
   Award,
@@ -111,6 +112,8 @@ const FormField = ({
 );
 
 const RequestCoures = () => {
+  const router = useRouter();
+  const { locale } = useParams();
   const {
     register,
     control,
@@ -134,7 +137,14 @@ const RequestCoures = () => {
   };
 
   const onSubmit = async (data) => {
+    const params = new URLSearchParams({
+      name: data.name,
+      email: data.email,
+      mobile: data.mobile,
+      course: data.course
+    });
 
+    router.push(`/${locale}/registerInternalCourse?${params.toString()}`);
   };
   const [recaptchaToken, setRecaptchaToken] = useState(null);
 
