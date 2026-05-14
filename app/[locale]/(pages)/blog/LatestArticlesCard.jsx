@@ -7,8 +7,7 @@ import Link from "next/link";
 import img1 from "/public/asstes/default-1.jpeg";
 import img2 from "/public/asstes/course1.jpg";
 import img3 from "/public/asstes/default-2.webp";
-// https://batdacademy.com/uploads/placeholder_image.webp
-// Temporary placeholder images
+
    
    
 

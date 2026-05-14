@@ -8,7 +8,17 @@ import { Calendar, Clock, MapPin, Star } from "lucide-react";
 import DatePopUp from "./DatePopUp";
 import styles from "@/sass/components/ui/Upcoming-Coures-Card.module.scss";
 import useLanguageStore from "@/store/useLanguageStore";
-const UpcomingCouresCard = ({ course, onModalOpen, onModalClose, slideIndex, swiperRef}) => {
+import img1 from "/public/asstes/default-1.jpeg";
+import img2 from "/public/asstes/course1.jpg";
+import img3 from "/public/asstes/default-2.webp";
+
+const placeholderImages = [
+    'https://batdacademy.com/uploads/placeholder_image.webp',
+    img2,
+    img1,
+    img3,
+];
+const UpcomingCouresCard = ({ course, onModalOpen, onModalClose, slideIndex, swiperRef }) => {
 
     const [isOpen, setIsOpen] = useState(false);
     const locale = useLanguageStore((state) => state.locale);
@@ -28,17 +38,13 @@ const UpcomingCouresCard = ({ course, onModalOpen, onModalClose, slideIndex, swi
     const handleSelect = (session) => {
         console.log('Selected session:', session);
     };
-    const placeholderImages = [
-    "https://batdacademy.com/uploads/placeholder_image.webp",
-    "/asstes/default-1.jpeg",
-    "/asstes/course1.jpg",
-];
-      const randomImageIndex = course?.id ? course?.id % 3 : Math.floor(Math.random() * 3);
+
+    const randomImageIndex = course?.id ? course?.id % 3 : Math.floor(Math.random() * 3);
     const randomImage = placeholderImages[randomImageIndex];
-    console.log(course,'course');
+    console.log(course, 'course');
     return (
-      
-        <motion.div 
+
+        <motion.div
             className={styles.card}
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -79,7 +85,7 @@ const UpcomingCouresCard = ({ course, onModalOpen, onModalClose, slideIndex, swi
                     <div className={styles.date}>
                         <Calendar color="#1E2749" size={14} />
                         <span className={styles.ceartedAt}>
-                           {course?.created_at?.split('T')[0]}
+                            {course?.created_at?.split('T')[0]}
                         </span>
                     </div>
 
@@ -116,7 +122,7 @@ const UpcomingCouresCard = ({ course, onModalOpen, onModalClose, slideIndex, swi
                 </div>
             </div>
         </motion.div>
-           
+
     );
 };
 

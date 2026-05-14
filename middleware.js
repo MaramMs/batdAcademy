@@ -7,7 +7,8 @@ const intlMiddleware = createMiddleware(routing);
 
 // 2. Define Protected and Public Routes
 // Note: These match the folder names in your app/[locale]/(pages) directory
-const protectedRoutes = ['/myProfile', '/editMyProfile', '/registerCourse', '/registerInternalCourse'];
+//  '/registerCourse', '/registerInternalCourse'
+const protectedRoutes = ['/myProfile', '/editMyProfile'];
 const publicOnlyRoutes = ['/signIn', '/signUp'];
 
 export default async function middleware(request) {

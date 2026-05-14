@@ -270,7 +270,7 @@ const RequestCoures = () => {
                   )}
                 />
               </FormField>
-
+{/* 
               <div style={{ marginTop: '24px' }}>
 
                 <ReCAPTCHA
@@ -282,7 +282,7 @@ const RequestCoures = () => {
                 {!recaptchaToken && errors.recaptcha && (
                   <span style={{ color: '#EF4444', fontSize: '12px' }}>يرجى إتمام التحقق</span>
                 )}
-              </div>
+              </div> */}
               <button
                 type="submit"
                 className={styles['request-courses__submit']}
