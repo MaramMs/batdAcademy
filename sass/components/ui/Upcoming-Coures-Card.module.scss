@@ -152,32 +152,42 @@
     .btns {
       margin-top: auto;
       display: flex;
-      justify-content: space-between;
-      gap: 7.46px;
+      gap: 8px;
 
       .btnRegister {
-        width: 209.08px;
-        height: 48px;
+        flex: 2;
+        min-width: 0;
+        height: 44px;
         background: $blue-900;
         color: $white;
-        font-size: 16px;
+        font-size: 15px;
         font-weight: 500;
         border-radius: 10px;
-        padding: 4px 30px;
         @include flex-center;
+        transition: $transition-base;
+
+        &:hover {
+          opacity: 0.9;
+        }
       }
 
       .btnDetails {
-        width: 98.05px;
-        height: 48px;
+        flex: 1;
+        min-width: 0;
+        height: 44px;
         background: transparent;
         color: $blue-900;
-        font-size: 16px;
+        font-size: 15px;
         font-weight: 500;
         border: 1px solid $blue-900;
         border-radius: 10px;
-        text-align: center;
-        padding: 11px 22px;
+        @include flex-center;
+        transition: $transition-base;
+
+        &:hover {
+          background: $blue-900;
+          color: $white;
+        }
       }
     }
   }

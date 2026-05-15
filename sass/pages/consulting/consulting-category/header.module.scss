@@ -7,8 +7,18 @@
     gap: 40px;
     padding: 60px 0px 55px 0px;
 
-    @media (max-width:768px) {
-        padding: 56px 20px;
+    @media (max-width: 992px) {
+        padding: 48px 20px 40px;
+        gap: 28px;
+    }
+
+    @media (max-width: 768px) {
+        padding: 40px 16px 32px;
+        gap: 20px;
+    }
+
+    @media (max-width: 480px) {
+        padding: 32px 16px 24px;
         gap: 16px;
     }
 
@@ -16,9 +26,15 @@
         display: flex;
         flex-direction: column;
         gap: 33.36px;
+        width: 100%;
+        max-width: 860px;
 
-        @media (max-width:768px) {
+        @media (max-width: 992px) {
             gap: 24px;
+        }
+
+        @media (max-width: 480px) {
+            gap: 16px;
         }
 
         .title {
@@ -28,7 +44,11 @@
             justify-content: center;
             align-items: center;
 
-            @media (max-width:768px) {
+            @media (max-width: 768px) {
+                gap: 10px;
+            }
+
+            @media (max-width: 480px) {
                 gap: 8px;
             }
 
@@ -45,10 +65,15 @@
                 font-size: 13.18px;
                 padding: 13px 23px;
 
-                @media (max-width:768px) {
+                @media (max-width: 768px) {
                     font-size: 12px;
+                    padding: 10px 18px;
                 }
 
+                @media (max-width: 480px) {
+                    font-size: 11px;
+                    padding: 8px 14px;
+                }
             }
 
             h1 {
@@ -58,9 +83,19 @@
                 line-height: 58px;
                 text-align: center;
 
-                @media (max-width:768px) {
-                    font-size: 16px;
-                    line-height: normal;
+                @media (max-width: 992px) {
+                    font-size: 36px;
+                    line-height: 44px;
+                }
+
+                @media (max-width: 768px) {
+                    font-size: 28px;
+                    line-height: 36px;
+                }
+
+                @media (max-width: 480px) {
+                    font-size: 22px;
+                    line-height: 30px;
                 }
             }
 
@@ -68,10 +103,18 @@
                 color: #D1D5DC;
                 font-weight: 400;
                 font-size: 18.83px;
+                text-align: center;
 
-                @media (max-width:768px) {
+                @media (max-width: 992px) {
+                    font-size: 15px;
+                }
+
+                @media (max-width: 768px) {
+                    font-size: 13px;
+                }
+
+                @media (max-width: 480px) {
                     font-size: 12px;
-                    text-align: center;
                 }
             }
         }
@@ -86,11 +129,15 @@
             }
         }
 
-
         .locationSelect {
             display: flex;
             gap: 15px;
             width: 100%;
+
+            @media (max-width: 480px) {
+                flex-direction: column;
+                gap: 10px;
+            }
         }
 
         .dropdownTrigger {
@@ -105,7 +152,7 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            border-right: none !important; // Override default DropdownMenu trigger style
+            border-right: none !important;
 
             &:hover {
                 border-color: $blue-600;
@@ -127,8 +174,15 @@
     .statistics {
         display: flex;
         gap: 30px;
-        @media (max-width:768px) {
-            gap: 10px;
+        width: 100%;
+        justify-content: center;
+
+        @media (max-width: 768px) {
+            gap: 12px;
+        }
+
+        @media (max-width: 480px) {
+            gap: 8px;
         }
 
         .item {
@@ -144,8 +198,23 @@
             background: #FFFFFF0D;
             border-radius: 15.6px;
 
-            @media (max-width:768px) {
-                width: 102px;
+            @media (max-width: 992px) {
+                width: 150px;
+                height: 96px;
+            }
+
+            @media (max-width: 768px) {
+                width: 110px;
+                height: 82px;
+                padding: 10px 8px;
+                border-radius: 10px;
+            }
+
+            @media (max-width: 480px) {
+                flex: 1;
+                width: auto;
+                height: 72px;
+                padding: 8px 6px;
             }
 
             h5 {
@@ -153,7 +222,15 @@
                 font-weight: 700;
                 font-size: 39px;
 
-                @media (max-width:768px) {
+                @media (max-width: 992px) {
+                    font-size: 26px;
+                }
+
+                @media (max-width: 768px) {
+                    font-size: 20px;
+                }
+
+                @media (max-width: 480px) {
                     font-size: 16px;
                 }
             }
@@ -162,12 +239,16 @@
                 font-weight: 500;
                 font-size: 13px;
                 color: #D1D5DC;
+                text-align: center;
 
-                @media (max-width:768px) {
-                    font-size: 12px;
+                @media (max-width: 768px) {
+                    font-size: 11px;
+                }
+
+                @media (max-width: 480px) {
+                    font-size: 10px;
                 }
             }
         }
-
     }
 }

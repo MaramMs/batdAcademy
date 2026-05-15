@@ -3,6 +3,7 @@
         opacity: 0;
         transform: translateY(-6px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -12,13 +13,34 @@
 .mainContent {
     padding: 42.55px 0px 100px 0px;
 
+    @media (max-width: 992px) {
+        padding: 32px 0px 80px 0px;
+    }
+
+    @media (max-width: 768px) {
+        padding: 24px 0px 60px 0px;
+    }
+
+    @media (max-width: 480px) {
+        padding: 16px 0px 40px 0px;
+    }
+
     .wrapper {
         display: grid;
         grid-template-columns: 1fr 2fr;
         gap: 67px;
 
-        @media (max-width:992px) {
+        @media (max-width: 1200px) {
+            gap: 40px;
+        }
+
+        @media (max-width: 992px) {
             grid-template-columns: 1fr;
+            gap: 24px;
+        }
+
+        @media (max-width: 480px) {
+            gap: 16px;
         }
 
         .filter {
@@ -33,7 +55,6 @@
 
                 &:first-child {
                     margin-top: 0;
-
                 }
             }
 
@@ -66,7 +87,6 @@
                         }
                     }
                 }
-
             }
 
             .sidebarCategoryList {
@@ -76,7 +96,6 @@
                 display: flex;
                 flex-direction: column;
             }
-
 
             .sidebarTagsContainer {
                 display: flex;
@@ -101,8 +120,7 @@
                 }
             }
 
-
-            @media (max-width:992px) {
+            @media (max-width: 992px) {
                 display: none;
             }
         }
@@ -112,25 +130,36 @@
             flex-direction: column;
             gap: 26px;
 
+            @media (max-width: 768px) {
+                gap: 20px;
+            }
+
+            @media (max-width: 480px) {
+                gap: 16px;
+            }
+
             .courses {
                 display: grid;
                 grid-template-columns: repeat(2, 1fr);
                 gap: 26px;
 
-                @media (min-width:1600px) {
+                @media (min-width: 1600px) {
                     grid-template-columns: repeat(3, 1fr);
                 }
 
-                @media (max-width:1200px) {
+                @media (max-width: 1200px) {
                     grid-template-columns: repeat(1, 1fr);
+                    gap: 20px;
                 }
 
-                @media (min-width:768px)and (max-width:992px) {
+                @media (min-width: 768px) and (max-width: 992px) {
                     grid-template-columns: repeat(2, 1fr);
-                    gap: 8px;
+                    gap: 16px;
                 }
-                 @media (max-width:767px) {
+
+                @media (max-width: 767px) {
                     grid-template-columns: repeat(1, 1fr);
+                    gap: 16px;
                 }
             }
 
@@ -152,7 +181,13 @@
                 font-weight: 500;
                 line-height: 20px;
                 text-decoration: none;
-                margin:0px auto;
+                margin: 0px auto;
+
+                @media (max-width: 480px) {
+                    width: 100%;
+                    font-size: 14px;
+                    padding: 4px 20px;
+                }
 
                 &:hover {
                     background: transparent;

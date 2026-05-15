@@ -63,11 +63,8 @@
 
     .filter {
         display: flex !important;
+        flex-direction: column !important;
         padding: 0;
-
-        @media (max-width: 992px) {
-            display: flex !important;
-        }
     }
 }
 
@@ -91,28 +88,22 @@
     }
 }
 
-
-
 .search {
     .searchContent {
-
         display: flex;
         align-items: center;
         justify-content: space-between;
         gap: 16px;
 
-        @media (max-width:992px) {
+        @media (max-width: 992px) {
             gap: 8px;
         }
 
+        @media (max-width: 480px) {
+            gap: 6px;
+        }
+
         .searchContent__left {
-            // width: 750px;
-
-            @media (min-width:1920px) {
-                width: 883px;
-            }
-
-
             height: 48px;
             display: flex;
             align-items: center;
@@ -123,19 +114,36 @@
             border-radius: 10px;
             flex: 1;
 
+            @media (min-width: 1920px) {
+                width: 883px;
+            }
+
             @media (max-width: 992px) {
-                width: 100%;
                 height: 45px;
-                padding: 8px;
+                padding: 8px 12px;
+                gap: 8px;
+            }
+
+            @media (max-width: 480px) {
+                height: 42px;
+                padding: 8px 10px;
+                gap: 6px;
             }
 
             .searchContent__left__icon {
                 width: 24px;
                 height: 24px;
+                flex-shrink: 0;
+                cursor: pointer;
 
                 svg {
                     width: 24px;
                     height: 24px;
+
+                    @media (max-width: 480px) {
+                        width: 18px;
+                        height: 18px;
+                    }
                 }
             }
 
@@ -150,9 +158,17 @@
                 line-height: 20px;
                 color: #101828;
 
-                @media(max-width:992px) {
+                @media (max-width: 992px) {
+                    font-size: 14px;
+                }
+
+                @media (max-width: 480px) {
                     font-size: 12px;
                     line-height: 16px;
+                }
+
+                &::placeholder {
+                    color: #99A1AF;
                 }
             }
         }
@@ -160,10 +176,10 @@
         .funnel {
             display: none;
 
-            @media(max-width:1024px) {
-                width: 40px;
-                height: 40px;
-                padding: 8px;
+            @media (max-width: 992px) {
+                width: 45px;
+                height: 45px;
+                padding: 10px;
                 display: flex;
                 align-items: center;
                 justify-content: center;
@@ -171,12 +187,25 @@
                 border-radius: 8px;
                 cursor: pointer;
                 border: 1px solid #E5E7EB;
+                flex-shrink: 0;
+                transition: $transition-base;
+
+                &:hover {
+                    border-color: $blue-900;
+                    background-color: #f8fafc;
+                }
 
                 svg {
                     width: 20px;
                     height: 20px;
                     color: $blue-900;
                 }
+            }
+
+            @media (max-width: 480px) {
+                width: 42px;
+                height: 42px;
+                padding: 8px;
             }
         }
 
@@ -187,12 +216,13 @@
                 color: $blue-900;
                 border: none;
                 cursor: pointer;
-                padding: 12px;
+                padding: 12px 20px;
                 border-radius: 10px;
                 transition: $transition-base;
                 font-size: 16px;
                 font-weight: 500;
                 line-height: 20px;
+                white-space: nowrap;
 
                 &:hover {
                     background: $white;
@@ -201,11 +231,16 @@
                     transform: translateY(-2px);
                 }
 
-                @media (max-width:992px) {
+                @media (max-width: 992px) {
                     height: 45px;
-                    padding: 5px;
+                    padding: 5px 14px;
+                    font-size: 13px;
+                }
+
+                @media (max-width: 480px) {
+                    height: 42px;
+                    padding: 5px 10px;
                     font-size: 12px;
-                    line-height: 16px;
                 }
             }
         }
@@ -216,7 +251,6 @@
     display: flex;
     flex-direction: column !important;
 
-
     .filterGroupTitle {
         font-size: 15.77px;
         font-weight: 600;
@@ -225,7 +259,6 @@
 
         &:first-child {
             margin-top: 0;
-
         }
     }
 
@@ -258,7 +291,6 @@
                 }
             }
         }
-
     }
 
     .sidebarCategoryList {
@@ -304,7 +336,6 @@
                     }
                 }
             }
-
         }
     }
 
@@ -328,10 +359,5 @@
                 color: $white;
             }
         }
-    }
-
-
-    @media (max-width:992px) {
-        display: none;
     }
 }

@@ -178,10 +178,17 @@
     flex-direction: column;
     gap: 39px;
     padding: 25.93px 0px 100px 0px;
+    max-width: 100%;
+    overflow-x: hidden;
+
+    @media (max-width: 768px) {
+        gap: 20px;
+        padding: 16px 0px 60px 0px;
+    }
 
     @media (max-width: 576px) {
-        gap: 10px;
-        padding-top: 4px;
+        gap: 12px;
+        padding: 12px 0px 40px 0px;
     }
 
     .mainTitle {
@@ -189,24 +196,35 @@
         justify-content: space-between;
         align-items: center;
         width: 100%;
+        gap: 12px;
 
         h1 {
             color: #333333;
             font-weight: 500;
             font-size: 24px;
             margin: 0;
+            flex: 1;
+            min-width: 0;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
 
             span {
                 color: #B12E33;
             }
 
+            @media (max-width: 768px) {
+                font-size: 18px;
+            }
+
             @media (max-width: 576px) {
-                font-size: 16px;
+                font-size: 15px;
             }
         }
 
         .filterBtn {
-            display: none; 
+            display: none;
+            flex-shrink: 0;
 
             @media (max-width: 1290px) {
                 display: flex;
@@ -219,6 +237,11 @@
                 border-radius: 8px;
                 border: none;
                 cursor: pointer;
+                transition: $transition-base;
+
+                &:hover {
+                    opacity: 0.85;
+                }
             }
         }
     }
@@ -229,30 +252,45 @@
         display: grid;
         grid-template-columns: 1fr 3fr;
         gap: 67px;
-          @media (min-width:992px) and (max-width:1290px) {
-                      grid-template-columns: 1fr;
 
-            }
+        @media (max-width: 1400px) {
+            gap: 40px;
+        }
+
+        @media (min-width: 992px) and (max-width: 1290px) {
+            grid-template-columns: 1fr;
+        }
 
         .filter {
             display: flex;
-            flex-direction: column ;
+            flex-direction: column;
+
             @media (max-width: 1290px) {
                 display: none;
             }
-
         }
-
-
 
         @media (max-width: 992px) {
             grid-template-columns: 1fr;
+            gap: 24px;
+        }
+
+        @media (max-width: 576px) {
+            gap: 16px;
         }
 
         .details {
             display: flex;
             flex-direction: column;
             gap: 60px;
+
+            @media (max-width: 768px) {
+                gap: 36px;
+            }
+
+            @media (max-width: 576px) {
+                gap: 24px;
+            }
 
             .contentCourse {
                 display: flex;
@@ -263,6 +301,34 @@
                     display: flex;
                     flex-direction: column;
                     gap: 32px;
+                    overflow-wrap: break-word;
+                    word-break: break-word;
+                    max-width: 100%;
+
+                    @media (max-width: 768px) {
+                        gap: 20px;
+                    }
+
+                    @media (max-width: 480px) {
+                        gap: 16px;
+                    }
+
+                    // Prevent HTML content from overflowing
+                    img {
+                        max-width: 100%;
+                        height: auto;
+                    }
+
+                    table {
+                        max-width: 100%;
+                        display: block;
+                        overflow-x: auto;
+                    }
+
+                    pre, code {
+                        white-space: pre-wrap;
+                        word-break: break-all;
+                    }
 
                     .summaryContent {
                         display: grid;
@@ -272,8 +338,11 @@
                         @media (max-width: 991px) {
                             display: flex;
                             flex-direction: column;
-                            position: relative;
-                            gap: 0;
+                            gap: 16px;
+                        }
+
+                        @media (max-width: 480px) {
+                            gap: 12px;
                         }
 
                         .left {
@@ -294,13 +363,20 @@
                                 padding: 24px;
                                 box-shadow: 0px 1px 2px -1px #0000001A, 0px 1px 3px 0px #0000001A;
                                 justify-content: space-between;
+                                overflow-wrap: break-word;
+                                word-break: break-word;
 
                                 @media (max-width: 991px) {
                                     order: 3;
                                     flex-direction: column;
-                                    padding: 20px;
-                                    margin-top: 180px; // Space for the floating price box
-                                    border-radius: 20px;
+                                    padding: 16px;
+                                    margin-top: 0;
+                                    border-radius: 14px;
+                                }
+
+                                @media (max-width: 480px) {
+                                    padding: 14px;
+                                    border-radius: 12px;
                                 }
 
                                 .title {
@@ -389,8 +465,17 @@
 
                                 @media (max-width: 991px) {
                                     order: 1;
-                                    height: 250px;
-                                    border-radius: 20px;
+                                    height: 240px;
+                                    border-radius: 16px;
+                                }
+
+                                @media (max-width: 576px) {
+                                    height: 210px;
+                                }
+
+                                @media (max-width: 400px) {
+                                    height: 185px;
+                                    border-radius: 12px;
                                 }
 
                                 img {
@@ -426,17 +511,18 @@
 
                             @media (max-width: 991px) {
                                 order: 2;
-                                position: absolute;
-                                top: 220px;
-                                left: 2.5%;
-                                width: 95%;
-                                z-index: 10;
-                                flex-direction: column;
-                                align-items: flex-start;
-                                padding: 20px;
-                                box-shadow: 0px 8px 30px rgba(0, 0, 0, 0.08);
+                                position: relative;
+                                width: 100%;
+                                padding: 16px;
                                 border: 1.5px solid #3B82F6;
+                                border-radius: 16px;
+                                box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.08);
                                 background-color: #FFFFFF;
+                            }
+
+                            @media (max-width: 480px) {
+                                padding: 14px;
+                                border-radius: 12px;
                             }
 
                             .priceHeaderMobile {
@@ -449,6 +535,8 @@
                                     width: 100%;
                                     padding-bottom: 12px;
                                     border-bottom: 1px solid #F3F4F6;
+                                    flex-wrap: wrap;
+                                    gap: 10px;
                                 }
 
                                 .priceTag {
@@ -457,9 +545,13 @@
                                     gap: 4px;
 
                                     span {
-                                        font-size: 24px;
+                                        font-size: 22px;
                                         font-weight: 700;
                                         color: #1E2749;
+
+                                        @media (max-width: 480px) {
+                                            font-size: 18px;
+                                        }
                                     }
 
                                     p {
@@ -472,11 +564,18 @@
                                 .enrollBtnMobile {
                                     background-color: #1E2749;
                                     color: white;
-                                    padding: 10px 24px;
+                                    padding: 10px 20px;
                                     border-radius: 8px;
                                     font-size: 14px;
                                     font-weight: 600;
                                     box-shadow: 0px 4px 10px rgba(30, 39, 73, 0.2);
+                                    white-space: nowrap;
+                                    flex-shrink: 0;
+
+                                    @media (max-width: 360px) {
+                                        padding: 8px 14px;
+                                        font-size: 13px;
+                                    }
                                 }
                             }
 
@@ -487,7 +586,11 @@
                                     display: flex;
                                     justify-content: space-between;
                                     width: 100%;
-                                    padding-top: 16px;
+                                    padding-top: 12px;
+                                    gap: 8px;
+                                }
+
+                                @media (max-width: 360px) {
                                     gap: 4px;
                                 }
 
@@ -496,29 +599,38 @@
                                     align-items: center;
                                     gap: 6px;
                                     flex: 1;
+                                    min-width: 0;
 
                                     .statIcon {
-                                        width: 36px;
-                                        height: 36px;
+                                        width: 34px;
+                                        height: 34px;
                                         background-color: #F8FAFC;
                                         border: 1px solid #F1F5F9;
-                                        border-radius: 10px;
+                                        border-radius: 8px;
                                         display: flex;
                                         align-items: center;
                                         justify-content: center;
                                         flex-shrink: 0;
+
+                                        @media (max-width: 360px) {
+                                            width: 28px;
+                                            height: 28px;
+                                        }
                                     }
 
                                     .statInfo {
                                         display: flex;
                                         flex-direction: column;
                                         line-height: 1.2;
+                                        min-width: 0;
 
                                         .statValue {
-                                            font-size: 13px;
+                                            font-size: 12px;
                                             font-weight: 700;
                                             color: #1E2749;
                                             white-space: nowrap;
+                                            overflow: hidden;
+                                            text-overflow: ellipsis;
                                         }
 
                                         .statLabel {
@@ -676,17 +788,12 @@
                         grid-template-columns: repeat(3, 1fr);
                         gap: 19.91px;
 
-                        @media (max-width: 1200px) {
-                            grid-template-columns: repeat(3, 1fr);
-                        }
-
                         @media (max-width: 991px) {
-                            grid-template-columns: repeat(3, 1fr);
                             gap: 12px;
                         }
 
                         @media (max-width: 576px) {
-                            display: none;
+                            gap: 8px;
                         }
 
                         .item {
@@ -698,8 +805,22 @@
                             padding: 21.16px;
                             box-shadow: 0px 4.98px 7.47px -4.98px #0000001A, 0px 12.45px 18.67px -3.73px #0000001A;
 
-                            @media (max-width: 576px) {
+                            @media (max-width: 991px) {
                                 padding: 16px;
+                            }
+
+                            @media (max-width: 640px) {
+                                flex-direction: column;
+                                align-items: center;
+                                text-align: center;
+                                padding: 14px 8px;
+                                gap: 8px;
+                                border-radius: 10px;
+                            }
+
+                            @media (max-width: 480px) {
+                                padding: 12px 6px;
+                                gap: 6px;
                             }
 
                             .icon {
@@ -711,7 +832,7 @@
                                 justify-content: center;
                                 align-items: center;
 
-                                @media (max-width: 992px) {
+                                @media (max-width: 991px) {
                                     width: 40px;
                                     height: 40px;
                                     min-width: 40px;
@@ -722,35 +843,57 @@
                                     }
                                 }
 
-                                &.yellow {
-                                    background-color: #FEF9C2;
+                                @media (max-width: 640px) {
+                                    width: 36px;
+                                    height: 36px;
+                                    min-width: 36px;
+                                    border-radius: 10px;
+
+                                    svg {
+                                        width: 18px;
+                                        height: 18px;
+                                    }
                                 }
 
-                                &.blue {
-                                    background-color: #DBEAFE;
+                                @media (max-width: 480px) {
+                                    width: 32px;
+                                    height: 32px;
+                                    min-width: 32px;
+
+                                    svg {
+                                        width: 16px;
+                                        height: 16px;
+                                    }
                                 }
 
-                                &.green {
-                                    background-color: #F3E8FF;
-                                }
-
-                                &.pink {
-                                    background-color: #FFE2E2;
-                                }
+                                &.yellow { background-color: #FEF9C2; }
+                                &.blue   { background-color: #DBEAFE; }
+                                &.green  { background-color: #F3E8FF; }
+                                &.pink   { background-color: #FFE2E2; }
                             }
 
                             .content {
                                 display: flex;
                                 flex-direction: column;
                                 gap: 0px;
+                                min-width: 0;
 
                                 h4 {
                                     font-weight: 500;
                                     font-size: 24px;
                                     color: $text-blue;
+                                    white-space: nowrap;
 
-                                    @media (max-width: 576px) {
+                                    @media (max-width: 991px) {
                                         font-size: 20px;
+                                    }
+
+                                    @media (max-width: 640px) {
+                                        font-size: 15px;
+                                    }
+
+                                    @media (max-width: 480px) {
+                                        font-size: 13px;
                                     }
                                 }
 
@@ -759,8 +902,12 @@
                                     font-size: 14.93px;
                                     color: #4A5565;
 
-                                    @media (max-width: 576px) {
-                                        font-size: 13px;
+                                    @media (max-width: 640px) {
+                                        font-size: 11px;
+                                    }
+
+                                    @media (max-width: 480px) {
+                                        font-size: 10px;
                                     }
                                 }
                             }
@@ -772,6 +919,10 @@
                         flex-direction: column;
                         gap: 24px;
 
+                        @media (max-width: 576px) {
+                            gap: 16px;
+                        }
+
                         .tabContent {
                             background: #FFFFFF;
                             border-radius: 10px;
@@ -779,8 +930,38 @@
                             display: flex;
                             flex-direction: column;
                             gap: 16px;
-                            box-shadow: 0px 1px 2px -1px #0000001A;
                             box-shadow: 0px 1px 3px 0px #0000001A;
+                            overflow: hidden;
+                            overflow-wrap: break-word;
+                            word-break: break-word;
+
+                            // Constrain HTML content images and tables
+                            img {
+                                max-width: 100%;
+                                height: auto;
+                            }
+
+                            table {
+                                width: 100%;
+                                display: block;
+                                overflow-x: auto;
+                            }
+
+                            pre, code {
+                                white-space: pre-wrap;
+                                word-break: break-all;
+                                overflow-x: auto;
+                            }
+
+                            @media (max-width: 768px) {
+                                padding: 20px;
+                                gap: 12px;
+                            }
+
+                            @media (max-width: 480px) {
+                                padding: 14px;
+                                border-radius: 8px;
+                            }
 
                             h3 {
                                 font-size: 24.89px;
@@ -788,10 +969,13 @@
                                 color: $text-blue;
                                 margin: 0;
 
+                                @media (max-width: 768px) {
+                                    font-size: 18px;
+                                }
+
                                 @media (max-width: 576px) {
                                     font-size: 16px;
                                 }
-
                             }
 
                             p {
@@ -801,9 +985,14 @@
                                 margin: 0;
                                 white-space: pre-line;
 
+                                @media (max-width: 768px) {
+                                    font-size: 15px;
+                                    line-height: 24px;
+                                }
+
                                 @media (max-width: 576px) {
-                                    font-size: 12px;
-                                    line-height: 18px;
+                                    font-size: 13px;
+                                    line-height: 20px;
                                 }
                             }
                         }
@@ -814,15 +1003,28 @@
                         flex-direction: column;
                         gap: 20px;
 
+                        @media (max-width: 576px) {
+                            gap: 14px;
+                        }
+
                         .top {
                             display: flex;
                             align-items: center;
                             justify-content: space-between;
+                            gap: 8px;
 
                             h2 {
                                 font-size: 24px;
                                 font-weight: 500;
                                 color: $blue-900;
+
+                                @media (max-width: 768px) {
+                                    font-size: 18px;
+                                }
+
+                                @media (max-width: 576px) {
+                                    font-size: 16px;
+                                }
                             }
 
                             span,
@@ -831,9 +1033,16 @@
                                 font-size: 16px;
                                 display: flex;
                                 align-items: center;
+                                gap: 4px;
                                 color: #B12E33;
                                 cursor: pointer;
                                 transition: $transition-base;
+                                white-space: nowrap;
+                                flex-shrink: 0;
+
+                                @media (max-width: 576px) {
+                                    font-size: 13px;
+                                }
 
                                 &:hover {
                                     color: $blue-900;
@@ -843,8 +1052,18 @@
 
                         .courses {
                             display: grid;
-                            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
                             gap: 20px;
+
+                            @media (max-width: 768px) {
+                                grid-template-columns: repeat(2, 1fr);
+                                gap: 14px;
+                            }
+
+                            @media (max-width: 540px) {
+                                grid-template-columns: 1fr;
+                                gap: 14px;
+                            }
                         }
                     }
                 }
@@ -854,6 +1073,25 @@
                     flex-direction: column;
                     gap: 24.8px;
 
+                    @media (max-width: 576px) {
+                        gap: 16px;
+                    }
+
+                    video {
+                        width: 100%;
+                        max-width: 100%;
+                        border-radius: 12px;
+                        display: block;
+                        height: auto;
+                        max-height: 500px;
+                        object-fit: cover;
+
+                        @media (max-width: 576px) {
+                            border-radius: 8px;
+                            max-height: 240px;
+                        }
+                    }
+
                     .top {
                         display: flex;
                         align-items: center;
@@ -862,6 +1100,7 @@
                         span {
                             width: 63.4px;
                             height: 63.4px;
+                            min-width: 63.4px;
                             font-weight: 500;
                             font-size: 27px;
                             display: flex;
@@ -873,8 +1112,16 @@
                             background: linear-gradient(180deg, #2F327D 0%, #3B5AC7 100%);
                             transition: $transition-base;
 
+                            @media (max-width: 576px) {
+                                width: 48px;
+                                height: 48px;
+                                min-width: 48px;
+                                font-size: 20px;
+                                border-radius: 12px;
+                            }
+
                             &:hover {
-                                color: $blue-900;
+                                opacity: 0.85;
                             }
                         }
 
@@ -887,12 +1134,24 @@
                                 font-size: 24px;
                                 font-weight: 500;
                                 color: $blue-900;
+
+                                @media (max-width: 768px) {
+                                    font-size: 18px;
+                                }
+
+                                @media (max-width: 576px) {
+                                    font-size: 15px;
+                                }
                             }
 
                             p {
                                 color: #4A5565;
                                 font-size: 14px;
                                 font-weight: 400;
+
+                                @media (max-width: 576px) {
+                                    font-size: 12px;
+                                }
                             }
                         }
                     }
@@ -949,14 +1208,25 @@
     justify-content: flex-start;
     gap: 12px;
     margin-bottom: 0;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding-bottom: 4px;
 
-    // Target the tab component specifically when it's inside courseTabs
+    &::-webkit-scrollbar {
+        display: none;
+    }
+
+    @media (max-width: 768px) {
+        gap: 8px;
+    }
+
     .courseTabItem {
         --tab-width: auto;
         --tab-bg: transparent;
         --tab-text-color: #{$blue-900};
-        // width: auto;
         min-width: 140px;
+        flex-shrink: 0;
         height: 44px;
         padding: 0 20px;
         border-radius: 10px;
@@ -964,8 +1234,6 @@
         --tab-font-size: 16px;
         --tab-font-weight: 500;
 
-
-        // Reset the child title if needed
         .tabTitle {
             color: inherit;
             font-size: inherit;
@@ -986,8 +1254,17 @@
 
         @media (max-width: 992px) {
             min-width: 100px;
+            height: 40px;
             padding: 0 15px;
             font-size: 13px;
+        }
+
+        @media (max-width: 576px) {
+            min-width: 80px;
+            height: 36px;
+            padding: 0 12px;
+            font-size: 12px;
+            border-radius: 8px;
         }
     }
 }

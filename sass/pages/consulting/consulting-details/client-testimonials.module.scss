@@ -1,8 +1,7 @@
 .clientTestimonials {
     padding: 38px;
     border-radius: 16px;
-    box-shadow: 0px 4.62px 6.94px -4.62px #0000001A;
-    box-shadow: 0px 11.56px 17.34px -3.47px #0000001A;
+    box-shadow: 0px 4.62px 6.94px -4.62px #0000001A, 0px 11.56px 17.34px -3.47px #0000001A;
     background-color: $white;
     border: 1px solid #F3F4F6;
     display: flex;
@@ -11,6 +10,13 @@
 
     @media (max-width: 768px) {
         padding: 20px 16px;
+        gap: 20px;
+        border-radius: 12px;
+    }
+
+    @media (max-width: 480px) {
+        padding: 16px;
+        gap: 14px;
     }
 
     h2 {
@@ -19,6 +25,10 @@
         font-size: 27px;
 
         @media (max-width: 768px) {
+            font-size: 18px;
+        }
+
+        @media (max-width: 480px) {
             font-size: 16px;
         }
     }
@@ -26,10 +36,13 @@
     .cards {
         display: flex;
         flex-direction: column;
-        gap: 27px;
+        gap: 20px;
+
+        @media (max-width: 480px) {
+            gap: 14px;
+        }
 
         .card {
-            height: 191px;
             display: flex;
             flex-direction: column;
             gap: 13px;
@@ -39,8 +52,13 @@
             padding: 28px;
 
             @media (max-width: 768px) {
-                padding: 8px;
-                height: 100%;
+                padding: 16px;
+                gap: 10px;
+                border-radius: 8px;
+            }
+
+            @media (max-width: 480px) {
+                padding: 14px;
                 gap: 8px;
             }
 
@@ -51,6 +69,11 @@
                 svg {
                     fill: #F0B100;
                     stroke: #F0B100;
+
+                    @media (max-width: 480px) {
+                        width: 16px;
+                        height: 16px;
+                    }
                 }
             }
 
@@ -59,10 +82,15 @@
                 font-style: italic;
                 font-weight: 400;
                 font-size: 18px;
-                line-height: 27px;
+                line-height: 1.6;
 
                 @media (max-width: 768px) {
                     font-size: 14px;
+                    line-height: 1.5;
+                }
+
+                @media (max-width: 480px) {
+                    font-size: 13px;
                 }
             }
 
@@ -72,6 +100,10 @@
                 font-size: 18px;
 
                 @media (max-width: 768px) {
+                    font-size: 13px;
+                }
+
+                @media (max-width: 480px) {
                     font-size: 12px;
                 }
             }
