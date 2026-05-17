@@ -1,9 +1,11 @@
 import { getMeta } from "@/action/meta";
 import Consulting from "./Consulting";
-const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+
+const baseUrl = "https://batd-academy.vercel.app";
+
 export async function generateMetadata({ params }) {
     const { locale } = await params;
-    const slug = 'our-consulting-and-management-services-british-academy-for-training-development'
+    const slug = 'our-consulting-and-management-services-british-academy-for-training-development';
 
     const fallback = {
         title: "Consulting Services | British Academy for Training & Development",
@@ -12,6 +14,21 @@ export async function generateMetadata({ params }) {
             icon: "/favicon.ico",
             shortcut: "/favicon.ico",
             apple: "/favicon.ico",
+        },
+        openGraph: {
+            title: "Consulting Services | British Academy for Training & Development",
+            description: "Discover professional consulting services offered by the British Academy for Training & Development.",
+            type: "website",
+            url: `${baseUrl}/en/consulting`,
+            siteName: "British Academy for Training & Development",
+            images: [
+                {
+                    url: `${baseUrl}/og-image.png`,
+                    width: 1200,
+                    height: 630,
+                    alt: "Consulting Services | British Academy",
+                },
+            ],
         },
     };
 
@@ -40,39 +57,40 @@ export async function generateMetadata({ params }) {
                 shortcut: "/favicon.ico",
                 apple: "/favicon.ico",
             },
+
+            // ✅ covers Facebook, Instagram, WhatsApp
             openGraph: {
                 title,
                 description,
                 type: "website",
+                url: `${baseUrl}/${locale}/consulting`,
+                siteName: "British Academy for Training & Development",
                 images: [
                     {
-                        url: `${baseUrl}/en/og-image.png`,
-                        width: 1200,
+                        url: `${baseUrl}/og-image.png`,   // must be absolute URL
+                        width: 1200,                       // recommended size
                         height: 630,
                         alt: title,
                     },
                 ],
             },
+
+            // ✅ covers Twitter/X only
             twitter: {
                 card: "summary_large_image",
                 title,
                 description,
-                images: [`${baseUrl}/en/og-image.png`],
+                images: [`${baseUrl}/og-image.png`],
             },
-        }
+        };
     } catch (error) {
         console.error("Metadata error:", error);
-        return {
-            ...fallback,
-            openGraph: { ...fallback, type: "website" },
-        };
+        return fallback;
     }
 }
 
 const ConsultingPage = () => {
-    return (
-        <Consulting />
-    );
+    return <Consulting />;
 };
 
 export default ConsultingPage;
