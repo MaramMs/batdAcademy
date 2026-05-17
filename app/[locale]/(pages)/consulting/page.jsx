@@ -46,33 +46,33 @@ export async function generateMetadata({ params }) {
                 type: "website",
                 images: [
                     {
-                        url: `${baseUrl}/logo.png`,  
+                        url: `${baseUrl}/og-image.png`,
                         width: 1200,
                         height: 630,
                         alt: title,
                     },
                 ],
             },
-              twitter: {
-        card: "summary_large_image",
-        title,
-        description,
-        images: [`${baseUrl}/logo.png`],
-    },
+            twitter: {
+                card: "summary_large_image",
+                title,
+                description,
+                images: [`${baseUrl}/og-image.png`],
+            },
         }
     } catch (error) {
-            console.error("Metadata error:", error);
-            return {
-                ...fallback,
-                openGraph: { ...fallback, type: "website" },
-            };
-        }
+        console.error("Metadata error:", error);
+        return {
+            ...fallback,
+            openGraph: { ...fallback, type: "website" },
+        };
     }
+}
 
 const ConsultingPage = () => {
-        return (
-            <Consulting />
-        );
-    };
+    return (
+        <Consulting />
+    );
+};
 
-    export default ConsultingPage;
+export default ConsultingPage;
