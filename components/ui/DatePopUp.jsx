@@ -5,13 +5,13 @@ import { createPortal } from 'react-dom';
 import { X, Calendar } from 'lucide-react';
 import styles from '@/sass/components/ui/Date-pop-up.module.scss';
 
-const SESSIONS = [
-  { id: 1, date: 'Jun 5, 2023', label: 'Next available session', featured: true },
-  { id: 2, date: 'Aug 14, 2023', label: 'Available', featured: false },
-  { id: 3, date: 'Oct 9, 2023', label: 'Available', featured: false },
-];
+// const SESSIONS = [
+//   { id: 1, date: 'Jun 5, 2023', label: 'Next available session', featured: true },
+//   { id: 2, date: 'Aug 14, 2023', label: 'Available', featured: false },
+//   { id: 3, date: 'Oct 9, 2023', label: 'Available', featured: false },
+// ];
 
-const DatePopUp = ({ isOpen, onClose, onSelect, courseName }) => {
+const DatePopUp = ({ isOpen, onClose, onSelect, courseName,dates }) => {
   const overlayRef = useRef(null);
 
   // Close on Escape key
@@ -74,10 +74,10 @@ const DatePopUp = ({ isOpen, onClose, onSelect, courseName }) => {
 
         {/* Session List */}
         <div className={styles.body}>
-          {SESSIONS.map((session) => (
+          {dates?.map((session) => (
             <div
-              key={session.id}
-              className={`${styles.sessionRow} ${session.featured ? styles.featured : ''}`}
+              key={session?.id}
+              className={`${styles.sessionRow} ${session?.featured ? styles.featured : ''}`}
             >
               <div className={styles.sessionIcon}>
                 <Calendar size={18} aria-hidden="true" />

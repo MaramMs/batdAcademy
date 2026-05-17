@@ -5,9 +5,9 @@ const Tab = ({ tab, isActive, onClick, className, activeClassName }) => {
     return (
         <div className={`${styles.tab} ${className || ''} ${isActive ? `${styles.active} ${activeClassName || ''}` : ''}`}
             onClick={onClick}>
-            <span className={styles.tabIcon}>
+            {/* <span className={styles.tabIcon}>
                 {tab.icon}
-            </span>
+            </span> */}
             <span className={styles.tabTitle}>
                 {tab.title}
             </span>

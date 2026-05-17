@@ -19,6 +19,7 @@ const placeholderImages = [
     img3,
 ];
 const UpcomingCouresCard = ({ course, onModalOpen, onModalClose, slideIndex, swiperRef }) => {
+    console.log(course,'course from card');
 
     const [isOpen, setIsOpen] = useState(false);
     const locale = useLanguageStore((state) => state.locale);
@@ -31,12 +32,14 @@ const UpcomingCouresCard = ({ course, onModalOpen, onModalClose, slideIndex, swi
     };
 
     const handleClose = () => {
+       setTimeout(() => {
         setIsOpen(false);
+       }, 1500);
         onModalClose?.();
     };
 
     const handleSelect = (session) => {
-        console.log('Selected session:', session);
+      console.log('Selected session:', session);
     };
 
     const randomImageIndex = course?.id ? course?.id % 3 : Math.floor(Math.random() * 3);
@@ -114,6 +117,7 @@ const UpcomingCouresCard = ({ course, onModalOpen, onModalClose, slideIndex, swi
                         onClose={handleClose}
                         onSelect={handleSelect}
                         courseName={course.title}
+                        dates={course?.dates}
                     />
                 </div>
                 <div className={styles.btns}>

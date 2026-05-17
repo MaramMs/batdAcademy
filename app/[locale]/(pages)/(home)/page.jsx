@@ -18,6 +18,11 @@ export async function generateMetadata({ params }) {
     const fallback = {
         title: "British Academy for Training & Development",
         description: "British Academy for Training & Development website",
+       icons: {
+                icon: "/favicon.ico",
+                shortcut: "/favicon.ico",
+                apple: "/favicon.ico",
+            },
     };
 
     try {
@@ -27,7 +32,7 @@ export async function generateMetadata({ params }) {
 
         const title = meta?.title || fallback.title;
         const description = meta?.description?.replace(/<[^>]*>?/gm, '') || fallback.description;
-        
+
         let keywords = meta?.keyword;
         if (keywords && typeof keywords === 'string' && keywords.startsWith("[")) {
             try {
@@ -42,7 +47,15 @@ export async function generateMetadata({ params }) {
             title,
             description,
             keywords: keywords || undefined,
-            openGraph: { title, description, type: "website" },
+            icons: {
+                icon: "/favicon.ico",
+                shortcut: "/favicon.ico",
+                apple: "/favicon.ico",
+            },
+            openGraph: {
+                title, description, type: "website",
+
+            },
         };
     } catch (error) {
         console.error("Metadata error:", error);
@@ -50,21 +63,21 @@ export async function generateMetadata({ params }) {
     }
 }
 
-const Home = () =>{
+const Home = () => {
     return (
         <div className={styles.home}>
             <Hero />
             <ChatAi />
-           <div className={styles.mainContent}>
-             <MotionWrapper><UpcomingCourses /></MotionWrapper>
-             <MotionWrapper><CoursesBySpecial /></MotionWrapper>
-             <MotionWrapper><RequestCoures /></MotionWrapper>
-             <MotionWrapper><WhatIs /></MotionWrapper>
-             <MotionWrapper><CourseByCity /></MotionWrapper>
-             <MotionWrapper><LastestPublication /></MotionWrapper>
-             <MotionWrapper><TeamWork /></MotionWrapper>
-             <MotionWrapper><Customers /></MotionWrapper>
-           </div>
+            <div className={styles.mainContent}>
+                <MotionWrapper><UpcomingCourses /></MotionWrapper>
+                <MotionWrapper><CoursesBySpecial /></MotionWrapper>
+                <MotionWrapper><RequestCoures /></MotionWrapper>
+                <MotionWrapper><WhatIs /></MotionWrapper>
+                <MotionWrapper><CourseByCity /></MotionWrapper>
+                <MotionWrapper><LastestPublication /></MotionWrapper>
+                <MotionWrapper><TeamWork /></MotionWrapper>
+                <MotionWrapper><Customers /></MotionWrapper>
+            </div>
         </div>
     )
 }

@@ -8,6 +8,11 @@ export async function generateMetadata({ params }) {
         title: "Year Plan | British Academy for Training & Development",
         description: "Browse the British Academy for Training & Development year training plan and explore upcoming courses.",
         keywords: undefined,
+          icons: {
+                icon: "/favicon.ico",
+                shortcut: "/favicon.ico",
+                apple: "/favicon.ico",
+            },
     };
 
     try {
@@ -32,6 +37,11 @@ export async function generateMetadata({ params }) {
             title,
             description,
             keywords: keywords || undefined,
+              icons: {
+                icon: "/favicon.ico",
+                shortcut: "/favicon.ico",
+                apple: "/favicon.ico",
+            },
             openGraph: { title, description, type: "website" },
         };
     } catch (error) {

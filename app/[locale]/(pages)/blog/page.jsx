@@ -7,6 +7,11 @@ export async function generateMetadata({ params }) {
     const fallback = {
         title: "Blog | British Academy for Training & Development",
         description: "Read the latest articles, news, and insights from the British Academy for Training & Development.",
+          icons: {
+                icon: "/favicon.ico",
+                shortcut: "/favicon.ico",
+                apple: "/favicon.ico",
+            },
     };
 
     try {
@@ -29,6 +34,11 @@ export async function generateMetadata({ params }) {
             title,
             description,
             keywords: keywords || undefined,
+                icons: {
+                icon: "/favicon.ico",
+                shortcut: "/favicon.ico",
+                apple: "/favicon.ico",
+            },
             openGraph: { title, description, type: "website" },
         };
     } catch (error) {
