@@ -53,5 +53,5 @@ export const config = {
   // - API routes (/api)
   // - Static files (_next/static, _next/image, favicon.ico)
   // - Metadata files (robots.txt, sitemap.xml)
-  matcher: ['/((?!api|_next/static|_next/image|favicon.ico|robots.txt|sitemap.xml).*)']
+  matcher: ['/((?!api|_next/static|_next/image|.*\\.(?:png|jpg|jpeg|svg|webp|gif|ico)$|robots.txt|sitemap.xml).*)']
 };
