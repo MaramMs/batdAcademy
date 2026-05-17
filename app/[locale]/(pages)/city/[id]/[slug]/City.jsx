@@ -1,18 +1,16 @@
 "use client";
-import Header from "./Header";
-import NavgationBar from "./NavgationBar";
-import CategoriesBox from "@/components/common/CategoriesBox";
-import Range from "@/components/ui/Range";
-import { ChevronRight, Filter, ArrowRight } from "lucide-react";
-import styles from "@/sass/pages/course-details-by-city/course-details-by-city.module.scss";
-import stylesContainer from "@/sass/components/common/container.module.scss";
-import UpcomingCouresCard from "@/components/ui/UpcomingCouresCard";
 import { useEffect, useState } from "react";
 import { useParams, useSearchParams, useRouter, usePathname } from "next/navigation";
+import {ArrowRight } from "lucide-react";
+import Header from "./Header";
+import NavgationBar from "./NavgationBar";
+import UpcomingCouresCard from "@/components/ui/UpcomingCouresCard";
 import useCoursesStore from "@/store/useCoursesStore";
 import Skeleton from "@/components/ui/Skeleton";
-import Category from "@/components/ui/Categories";
-import MotionWrapper from "@/components/common/MotionWrapper";
+import SidebarFilter from "@/components/common/SidebarFilter";
+import NoData from "@/components/common/NoData";
+import stylesContainer from "@/sass/components/common/container.module.scss";
+import styles from "@/sass/pages/course-details-by-city/course-details-by-city.module.scss";
 
 const CourseByCityDetails = () => {
     const { id } = useParams();
@@ -24,6 +22,10 @@ const CourseByCityDetails = () => {
 
     useEffect(() => {
         const params = new URLSearchParams(searchParams.toString());
+        if (params.has('type')) {
+            params.set('taxonomy', params.get('type'));
+            params.delete('type');
+        }
         params.set("city_id", id);
         const queryString = `?${params.toString()}`;
         handleGetCourses(queryString);
@@ -46,6 +48,10 @@ const CourseByCityDetails = () => {
         } else if (data?.has_more) {
             setVisibleCount(prev => prev + 6);
             const params = new URLSearchParams(searchParams.toString());
+            if (params.has('type')) {
+                params.set('taxonomy', params.get('type'));
+                params.delete('type');
+            }
             params.set("city_id", id);
             params.set('cursor', data.next_cursor);
             handleGetCourses(`?${params.toString()}`, true);
@@ -60,82 +66,7 @@ const CourseByCityDetails = () => {
             <div className={styles.mainContent}>
                 <div className={stylesContainer.container}>
                     <div className={styles.content}>
-                        <div className={styles.filter}>
-                            <CategoriesBox title="All Categories" icon={<Filter size={18} />}>
-                                <div className={styles.sidebarFilterContent}>
-                                    {data?.price_range && (
-                                        <div className={styles.range}>
-                                            <h4 className={styles.filterGroupTitle}>Price Range</h4>
-                                            <Range
-                                                min={data.price_range.min}
-                                                max={data.price_range.max}
-                                                step={10}
-                                                onChange={({ min, max }) => {
-                                                    updateFilter('min_price', min);
-                                                    updateFilter('max_price', max);
-                                                }}
-                                            />
-                                        </div>
-                                    )}
-
-                                    <h4 className={styles.filterGroupTitle}>Course Type</h4>
-                                    <div className={styles.checkboxGroup}>
-                                        <label className={styles.checkboxLabel}>
-                                            <input
-                                                type="checkbox"
-                                                checked={searchParams.get('is_master') === '1'}
-                                                onChange={(e) => updateFilter('is_master', e.target.checked ? '1' : null)}
-                                            />
-                                            Master Courses
-                                        </label>
-                                        <label className={styles.checkboxLabel}>
-                                            <input
-                                                type="checkbox"
-                                                checked={searchParams.get('is_diploma') === '1'}
-                                                onChange={(e) => updateFilter('is_diploma', e.target.checked ? '1' : null)}
-                                            />
-                                            Diploma Courses
-                                        </label>
-                                        <label className={styles.checkboxLabel}>
-                                            <input
-                                                type="checkbox"
-                                                checked={searchParams.get('is_training') === '1'}
-                                                onChange={(e) => updateFilter('is_training', e.target.checked ? '1' : null)}
-                                            /> 
-                                            Training Courses
-                                        </label>
-                                    </div>
-                                </div>
-                            </CategoriesBox>
-
-                            <CategoriesBox title="All Category">
-                                <ul className={styles.sidebarCategoryList}>
-                                    {data?.categories?.map(category => (
-                                        <Category
-                                            key={category.id}
-                                            category={category}
-                                            onClick={() => updateFilter('category_id', category.id)}
-                                            active={searchParams.get('category_id') === String(category.id)}
-                                        />
-                                    ))}
-                                </ul>
-                            </CategoriesBox>
-
-                            <CategoriesBox title="All Tags">
-                                <div className={styles.sidebarTagsContainer}>
-                                    {data?.tags?.map((tag, index) => (
-                                        <span
-                                            key={index}
-                                            className={`${styles.tagPill} ${searchParams.get('tag_id') === String(tag) ? styles.active : ''}`}
-                                            onClick={() => updateFilter('tag_id', tag)}
-                                        >
-                                            {tag}
-                                        </span>
-                                    ))}
-                                </div>
-                            </CategoriesBox>
-                        </div>
-
+                        <SidebarFilter updateFilter={updateFilter} data={data} />
                         <div className={styles.rightContent}>
                             {isLoading && !data?.courses ? (
                                 <div className={styles.cards}>
@@ -146,9 +77,16 @@ const CourseByCityDetails = () => {
                             ) : (
                                 <>
                                     <div className={styles.cards}>
-                                        {data?.courses?.slice(0, visibleCount)?.map((course, index) => (
-                                            <UpcomingCouresCard key={index} course={course} />
-                                        ))}
+                                        {
+                                        data?.courses?.length === 0 ? (
+                                            <div className={styles.noDataFound}> 
+                                              <NoData message='No Courses Found' />
+                                             </div>
+                                        ) : (
+                                            data?.courses?.slice(0, visibleCount)?.map((course, index) => (
+                                                <UpcomingCouresCard key={index} course={course} />
+                                            ))
+                                        )}
                                     </div>
                                     {(visibleCount < (data?.courses?.length || 0) || data?.has_more) && (
                                         <button className={styles.showMoreBtn} onClick={handleViewMore}>

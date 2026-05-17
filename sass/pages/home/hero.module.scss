@@ -15,7 +15,7 @@
   
 
     @media (max-width: $tablet) {
-         padding: 32px 0px 0px 0px;
+         padding: 32px 0px 27px 0px;
         flex-direction: column;
         min-height: auto;
     }
@@ -253,6 +253,9 @@
         @media (max-width: $mobile) {
             width: 50% !important;
             padding-inline: 12px;
+        }
+          @media (max-width: 450px) {
+            width: 100% !important;
         }
     }
 

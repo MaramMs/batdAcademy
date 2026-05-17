@@ -1,20 +1,17 @@
 "use client";
 import { useState, useEffect } from "react";
-
+import { useSearchParams, useRouter, usePathname } from "next/navigation";
+import { ArrowRight } from "lucide-react";
 import Header from "./Header";
 import UpcomingCouresCard from "@/components/ui/UpcomingCouresCard";
-
-import { ArrowRight, Filter } from "lucide-react";
-import CategoriesBox from "@/components/common/CategoriesBox";
-import Range from "@/components/ui/Range";
 import styleContainer from "@/sass/components/common/container.module.scss";
 import styles from "@/sass/pages/search-course/search-course.module.scss";
 import MotionWrapper from "@/components/common/MotionWrapper";
 import useCoursesStore from "@/store/useCoursesStore";
-import Category from "@/components/ui/Categories";
-
-import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import Skeleton from "@/components/ui/Skeleton";
+import SidebarFilter from "@/components/common/SidebarFilter";
+import Image from "next/image";
+import NoData from "@/components/common/NoData";
 
 
 const CoursesPage = () => {
@@ -25,7 +22,16 @@ const CoursesPage = () => {
     const { data, handleGetCourses, isLoading } = useCoursesStore();
 
     useEffect(() => {
-        const paramsString = searchParams.toString();
+        const params = new URLSearchParams(searchParams.toString());
+        
+        if (params.has('type')) {
+            params.set('taxonomy', params.get('type'));
+            params.delete('type');
+        }
+
+        const paramsString = params.toString();
+        console.log(paramsString, "parmsStringparmsStringparmsString");
+        
         const queryString = paramsString ? `?${paramsString}` : "";
         handleGetCourses(queryString);
     }, [searchParams]);
@@ -40,6 +46,10 @@ const CoursesPage = () => {
         } else if (data?.has_more) {
             setVisibleCount(prev => prev + 6);
             const params = new URLSearchParams(window.location.search);
+            if (params.has('type')) {
+                params.set('taxonomy', params.get('type'));
+                params.delete('type');
+            }
             params.set('cursor', data.next_cursor);
             handleGetCourses(`?${params.toString()}`, true);
         }
@@ -61,7 +71,7 @@ const CoursesPage = () => {
 
     return (
         <section className={styles.searchCourse}>
-            <Header updateFilter={updateFilter} categories={data?.categories} specializations={data?.specializations} cities={data?.cities}/>
+            <Header updateFilter={updateFilter} categories={data?.categories} specializations={data?.specializations} cities={data?.cities} />
             <div className={styles.mainContent}>
                 <div className={styleContainer.container}>
                     {!data ? (
@@ -80,84 +90,7 @@ const CoursesPage = () => {
                         </div>
                     ) : (
                         <div className={styles.wrapper}>
-                            <MotionWrapper className={styles.filter}>
-                                <CategoriesBox title="All Categories" icon={<Filter size={18} />}>
-                                    <div className={styles.sidebarFilterContent}>
-                                        {data?.price_range && (
-                                            <div className={styles.range}>
-                                                <h4 className={styles.filterGroupTitle}>Price Range</h4>
-                                                <Range
-                                                    min={data.price_range.min}
-                                                    max={data.price_range.max}
-                                                    step={10}
-                                                    onChange={({ min, max }) => {
-                                                        updateFilter('min_price', min);
-                                                        updateFilter('max_price', max);
-                                                    }}
-                                                />
-                                            </div>
-                                        )}
-
-                                        <h4 className={styles.filterGroupTitle}>Course Type</h4>
-                                        <div className={styles.checkboxGroup}>
-                                            <label className={styles.checkboxLabel}>
-                                                <input
-                                                    type="checkbox"
-                                                    checked={searchParams.get('is_master') === '2'}
-                                                    onChange={(e) => updateFilter('is_master', e.target.checked ? '2' : null)}
-                                                /> Master Courses
-                                            </label>
-                                            <label className={styles.checkboxLabel}>
-                                                <input
-                                                    type="checkbox"
-                                                    checked={searchParams.get('is_diploma') === '3'}
-                                                    onChange={(e) => updateFilter('is_diploma', e.target.checked ? '3' : null)}
-                                                /> Diploma Courses
-                                            </label>
-                                            <label className={styles.checkboxLabel}>
-                                                <input
-                                                    type="checkbox"
-                                                    checked={searchParams.get('is_training') === '1'}
-                                                    onChange={(e) => updateFilter('is_training', e.target.checked ? '1' : null)}
-                                                /> Training Courses
-                                            </label>
-                                        </div>
-                                    </div>
-                                </CategoriesBox>
-                                <CategoriesBox title="All Category">
-                                    <ul className={styles.sidebarCategoryList}>
-                                        {data?.categories?.map(category => (
-                                            <Category
-                                                key={category.id}
-                                                category={category}
-                                                onClick={() => {
-                                                    updateFilter('category_id', category.id);
-                                                    updateFilter('specialization_id', null);
-                                                }}
-                                                active={searchParams.get('category_id') === String(category.id)}
-                                                activeSpecializationId={searchParams.get('specialization_id')}
-                                                onSpecializationClick={(specId) => {
-                                                    updateFilter('category_id', category.id);
-                                                    updateFilter('specialization_id', specId);
-                                                }}
-                                            />
-                                        ))}
-                                    </ul>
-                                </CategoriesBox>
-                                <CategoriesBox title="All Tags">
-                                    <div className={styles.sidebarTagsContainer}>
-                                        {data?.tags?.map((tag, index) => (
-                                            <span
-                                                key={index}
-                                                className={`${styles.tagPill} ${searchParams.get('tag_id') === String(tag) ? styles.active : ''}`}
-                                                onClick={() => updateFilter('tag_id', tag)}
-                                            >
-                                                {tag}
-                                            </span>
-                                        ))}
-                                    </div>
-                                </CategoriesBox>
-                            </MotionWrapper>
+                            <SidebarFilter updateFilter={updateFilter} data={data} />
 
                             <MotionWrapper className={styles.coursesWrapper}>
                                 {isLoading ? (
@@ -169,9 +102,18 @@ const CoursesPage = () => {
                                 ) : (
                                     <>
                                         <div className={styles.courses}>
-                                            {data?.courses?.slice(0, visibleCount)?.map((course, index) => (
-                                                <UpcomingCouresCard key={index} course={course} />
-                                            ))}
+                                            {
+                                                data?.courses?.length === 0 ? (
+                                                   <div className={styles.noDataFound}> 
+                                                     <NoData message='No Courses Found' />
+                                                    </div>
+                                                ) : (
+                                                    data?.courses?.slice(0, visibleCount)?.map((course, index) => (
+                                                        <UpcomingCouresCard key={index} course={course} />
+                                                    ))
+                                                )
+
+                                            }
                                         </div>
 
                                         {(visibleCount < (data?.courses?.length || 0) || data?.has_more) && (

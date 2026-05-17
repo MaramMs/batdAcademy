@@ -50,20 +50,21 @@ const NAV_COLUMNS = [
   {
     title: 'About',
     links: [
-      { label: 'About Us', href: '#' },
-      { label: 'Consultations', href: '#' },
-      { label: 'Blog', href: '#' },
-      { label: 'FAQ', href: '/en/page/FQA' },
+      { label: 'Consultations', href: '/consulting' },
+      { label: 'Blog', href: '/blog' },
+      { label: 'FAQ', href: '/page/FQA' },
+      { label: 'Privacy', href: '/privacy' },
     ],
   },
   {
     title: 'Quick Links',
     links: [
       { label: 'Courses by City', href: '#' },
-      { label: 'Year Plans', href: '#' },
+      { label: 'Year Plans', href: '/year_plan' },
       { label: 'Professional Path', href: '#' },
       { label: 'Work Environment', href: '#' },
-      {label:'Category',href:'/page/category'}
+      {label:'Categories',href:'/search_course'},
+      {label:'Specialization',href:'/search_course'}
     ],
   },
   {
@@ -71,7 +72,7 @@ const NAV_COLUMNS = [
     links: [
       { label: 'Support Center', href: '#' },
       { label: 'Account', href: '#' },
-      { label: 'Contact', href: '#' },
+      { label: 'Contact', href: '/contact_us' },
       { label: 'Feedback', href: '#' },
     ],
   },

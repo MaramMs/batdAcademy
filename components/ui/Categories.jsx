@@ -39,7 +39,7 @@ const Category = ({ category, onClick, active, onSpecializationClick, activeSpec
                             className={`${styles.specializationItem} ${activeSpecializationId === String(spec.id) ? styles.activeSpec : ''}`}
                             onClick={(e) => {
                                 e.stopPropagation();
-                                onSpecializationClick?.(spec.id);
+                                onSpecializationClick?.(spec.id, spec.slug);
                             }}
                         >
                             <span>{spec.name}</span>

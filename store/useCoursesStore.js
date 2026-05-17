@@ -3,9 +3,9 @@ import { create } from "zustand";
 import useLanguageStore from "./useLanguageStore";
 
 const useCoursesStore = create((set) => ({
-    data: null,
-    course: null,
-    isLoading: true,
+    data: [],
+    course: {},
+    isLoading: false,
     handleGetCourses: async (queryParams = '', append = false) => {
         set({ isLoading: !append });
         try {
@@ -36,7 +36,7 @@ const useCoursesStore = create((set) => ({
         try {
             const locale = useLanguageStore.getState().locale;
             const data = await getCourseBySlug(locale, slug);
-            console.log(data, 'data post from store')
+            console.log(data, 'data post from store details')
             set({ course: data?.data || data, isLoading: false });
         } catch (error) {
             set({ isLoading: false });

@@ -3,6 +3,7 @@
     overflow-x: auto;
     gap: 15.22px;
     scroll-behavior: smooth;
+
     &::-webkit-scrollbar {
         display: none;
     }
@@ -13,6 +14,9 @@
         gap: 15.22px;
     }
 
+    @media (max-width: 768px) {
+        padding: 20px 0px;
+    }
 }
 
 

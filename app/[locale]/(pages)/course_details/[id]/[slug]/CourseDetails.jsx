@@ -5,26 +5,26 @@ import Image from "next/image";
 import { useParams, usePathname, useRouter, useSearchParams } from "next/navigation";
 import * as Dialog from "@radix-ui/react-dialog";
 import { ArrowRight, Calendar, ChevronRight, Clock, Copy, Filter, Mail, MessageCircle, Play, Printer, Star, Users, X } from "lucide-react";
-import CategoriesBox from "@/components/common/CategoriesBox";
 import CustomDatePicker from "@/components/common/DateInput";
 import Tabs from "@/components/common/Tabs";
-import Range from "@/components/ui/Range";
 import Skeleton from "@/components/ui/Skeleton";
 import UpcomingCouresCard from "@/components/ui/UpcomingCouresCard";
 import useCategoriesStore from "@/store/useCategoriesStore";
 import useCoursesStore from "@/store/useCoursesStore";
 import useLanguageStore from "@/store/useLanguageStore";
 import Header from "./Header";
-import Category from "@/components/ui/Categories";
 import stylesContainer from "@/sass/components/common/container.module.scss";
 import styles from "@/sass/pages/course-details/course-details.module.scss";
+import SidebarFilter from "@/components/common/SidebarFilter";
 
 
 const CourseDetails = () => {
      const [activeTabId, setActiveTabId] = useState(1);
      const [date, setDate] = useState();
      const [mounted, setMounted] = useState(false);
-     const { handleGetCourseBySlug, course, isLoading } = useCoursesStore();
+     const { handleGetCourseBySlug, handleGetCourses, course, isLoading, data } = useCoursesStore();
+     console.log(course, "coursecoursecoursecoursecourse");
+     console.log(data, "coursecoursecoursecoursecourse data");
      const { categories, handleGetCategories } = useCategoriesStore();
      const searchParams = useSearchParams();
      const pathname = usePathname();
@@ -51,7 +51,15 @@ const CourseDetails = () => {
           setMounted(true);
           handleGetCourseBySlug(slug)
           handleGetCategories();
-     }, [slug]);
+
+          const params = new URLSearchParams(searchParams.toString());
+          if (params.has('type')) {
+              params.set('taxonomy', params.get('type'));
+              params.delete('type');
+          }
+          const queryString = params.toString() ? `?${params.toString()}` : "";
+          handleGetCourses(queryString);
+     }, [slug, searchParams]);
 
 
      const courseTabs = course?.tabs;
@@ -80,95 +88,7 @@ const CourseDetails = () => {
                                                             <X size={20} />
                                                        </Dialog.Close>
                                                   </div>
-                                                  <div className={styles.filter}>
-
-                                                       {/* Box 1: Filters/Settings */}
-                                                       <CategoriesBox title="All Categories" icon={<Filter size={18} />}>
-                                                            <div className={styles.sidebarFilterContent}>
-                                                                 <div className={styles.range}>
-                                                                      <h4 className={styles.filterGroupTitle}>Price Range</h4>
-                                                                      <Range
-                                                                           min={0}
-                                                                           max={2000}
-                                                                           step={10}
-                                                                      //   onChange={({ min, max }) => console.log(min, max)}
-                                                                      />
-                                                                 </div>
-
-                                                                 <h4 className={styles.filterGroupTitle}>Course Type</h4>
-                                                                 <div className={styles.checkboxGroup}>
-                                                                      <label className={styles.checkboxLabel}>
-                                                                           <input type="checkbox" /> Master Courses
-                                                                      </label>
-                                                                      <label className={styles.checkboxLabel}>
-                                                                           <input type="checkbox" /> Diploma Courses
-                                                                      </label>
-                                                                      <label className={styles.checkboxLabel}>
-                                                                           <input type="checkbox" /> Training Courses
-                                                                      </label>
-                                                                 </div>
-                                                            </div>
-                                                       </CategoriesBox>
-
-                                                       {/* Box 2: Category List */}
-                                                       <CategoriesBox title="All Category">
-                                                            <ul className={styles.sidebarCategoryList}>
-                                                                 <li>
-                                                                      <span>Business</span>
-                                                                      <div className={styles.badgeWrapper} >
-                                                                           <span className={styles.badge}>95</span>
-                                                                           <ChevronRight size={12} />
-                                                                      </div>
-
-                                                                 </li>
-                                                                 <li>
-                                                                      <span>Technical</span>
-                                                                      <div className={styles.badgeWrapper} >
-                                                                           <span className={styles.badge}>32</span>
-                                                                           <ChevronRight size={12} />
-                                                                      </div>
-                                                                 </li>
-                                                                 <li>
-                                                                      <span>Power</span>
-                                                                      <div className={styles.badgeWrapper} >
-                                                                           <span className={styles.badge}>32</span>
-                                                                           <ChevronRight size={12} />
-                                                                      </div>
-                                                                 </li>
-                                                                 <li>
-                                                                      <span>Management</span>
-                                                                      <div className={styles.badgeWrapper} >
-                                                                           <span className={styles.badge}>32</span>
-                                                                           <ChevronRight size={12} />
-                                                                      </div>
-                                                                 </li>
-                                                                 <li>
-                                                                      <span>Development</span>
-                                                                      <div className={styles.badgeWrapper} >
-                                                                           <span className={styles.badge}>32</span>
-                                                                           <ChevronRight size={12} />
-                                                                      </div>
-                                                                 </li>
-                                                            </ul>
-                                                       </CategoriesBox>
-
-                                                       {/* Box 3: Tags */}
-                                                       <CategoriesBox title="All Tags">
-                                                            <div className={styles.sidebarTagsContainer}>
-                                                                 <span className={styles.tagPill}>Business</span>
-                                                                 <span className={styles.tagPill}>Graphic Design</span>
-                                                                 <span className={styles.tagPill}>Technology</span>
-                                                                 <span className={styles.tagPill}>Business Idea</span>
-                                                                 <span className={styles.tagPill}>App Development</span>
-                                                                 <span className={styles.tagPill}>Website Design</span>
-                                                                 <span className={styles.tagPill}>Marketing</span>
-                                                                 <span className={styles.tagPill}>Leadership</span>
-                                                                 <span className={styles.tagPill}>Finance</span>
-                                                                 <span className={styles.tagPill}>Project Management</span>
-                                                            </div>
-                                                       </CategoriesBox>
-
-                                                  </div>
+                                                 <SidebarFilter  data={data} updateFilter={updateFilter} />
 
 
                                              </Dialog.Content>
@@ -188,73 +108,7 @@ const CourseDetails = () => {
 
                               ) : (
                                    <div className={styles.content}>
-                                        <div className={styles.filter}>
-                                             {/* Box 1: Filters/Settings */}
-                                             <CategoriesBox title="All Categories" icon={<Filter size={18} />}>
-                                                  <div className={styles.sidebarFilterContent}>
-                                                       <div className={styles.range}>
-                                                            <h4 className={styles.filterGroupTitle}>Price Range</h4>
-                                                            <Range
-                                                                 min={0}
-                                                                 max={2000}
-                                                                 step={10}
-                                                            />
-                                                       </div>
-
-                                                       <h4 className={styles.filterGroupTitle}>Course Type</h4>
-                                                       <div className={styles.checkboxGroup}>
-                                                            <label className={styles.checkboxLabel}>
-                                                                 <input type="checkbox" /> Diploma Courses
-                                                            </label>
-                                                            <label className={styles.checkboxLabel}>
-                                                                 <input type="checkbox" /> Master Courses
-                                                            </label>
-                                                            <label className={styles.checkboxLabel}>
-                                                                 <input type="checkbox" /> Training Courses
-                                                            </label>
-                                                       </div>
-                                                  </div>
-                                             </CategoriesBox>
-
-                                             {/* Box 2: Category List */}
-                                             <CategoriesBox title="All Category">
-
-                                                  <ul className={styles.sidebarCategoryList}>
-
-                                                       {
-                                                            categories?.map((category, key) => (
-                                                                 <Category
-                                                                      key={category.id}
-                                                                      category={category}
-                                                                      onClick={() => {
-                                                                           updateFilter('category_id', category.id);
-                                                                           updateFilter('specialization_id', null);
-                                                                      }}
-                                                                      active={searchParams.get('category_id') === String(category.id)}
-                                                                      activeSpecializationId={searchParams.get('specialization_id')}
-                                                                      onSpecializationClick={(specId) => {
-                                                                           updateFilter('category_id', category.id);
-                                                                           updateFilter('specialization_id', specId);
-                                                                      }}
-                                                                 />
-                                                            ))
-                                                       }
-
-                                                  </ul>
-                                             </CategoriesBox>
-
-                                             {/* Box 3: Tags */}
-                                             <CategoriesBox title="All Tags">
-                                                  <div className={styles.sidebarTagsContainer}>
-                                                       {
-                                                            course?.tags?.map((tag, index) => (
-                                                                 <span key={index} className={styles.tagPill}>{tag}</span>
-                                                            ))
-                                                       }
-
-                                                  </div>
-                                             </CategoriesBox>
-                                        </div>
+                                    <SidebarFilter  data={data} updateFilter={updateFilter} />
 
                                         <div className={styles.details}>
                                              <div className={styles.contentCourse}>
