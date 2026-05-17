@@ -46,7 +46,7 @@ export async function generateMetadata({ params }) {
                 type: "website",
                 images: [
                     {
-                        url: `${baseUrl}/og-image.png`,
+                        url: `${baseUrl}/en/og-image.png`,
                         width: 1200,
                         height: 630,
                         alt: title,
@@ -57,7 +57,7 @@ export async function generateMetadata({ params }) {
                 card: "summary_large_image",
                 title,
                 description,
-                images: [`${baseUrl}/og-image.png`],
+                images: [`${baseUrl}/en/og-image.png`],
             },
         }
     } catch (error) {
