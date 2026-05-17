@@ -47,11 +47,8 @@ export default async function middleware(request) {
   // 5. Let next-intl handle the rest (locales, etc.)
   return intlMiddleware(request);
 }
-
 export const config = {
-  // Match all pathnames except for
-  // - API routes (/api)
-  // - Static files (_next/static, _next/image, favicon.ico)
-  // - Metadata files (robots.txt, sitemap.xml)
-  matcher: ['/((?!api|_next/static|_next/image|.*\\.(?:png|jpg|jpeg|svg|webp|gif|ico)$|robots.txt|sitemap.xml).*)']
+  matcher: [
+    '/((?!api|_next|_vercel|.*\\..*).*)'
+  ]
 };
