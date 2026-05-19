@@ -36,17 +36,33 @@ export async function generateMetadata({ params }) {
             title,
             description,
             keywords: keywords || undefined,
-            openGraph: {
+          openGraph: {
                 title,
                 description,
                 type: "article",
-                ...(res.image ? { images: [res.image] } : {}),
+                ...(res?.image ? { images: [res.image] } : {
+                    images: [{
+                        url: '/og-image.png',
+                        width: 1200,
+                        height: 630,
+                        alt: title,
+                    }],
+                }),
             },
             twitter: {
                 card: "summary_large_image",
                 title,
                 description,
-                ...(res.image ? { images: [res.image] } : {}),
+                ...(res?.image ? { images: [res.image] } : {
+                    images: [
+                        {
+                            url: '/og-image.png',
+                            width: 1200,
+                            height: 630,
+                            alt: title,
+                        },
+                    ],
+                }),
             }
         };
     } catch (error) {

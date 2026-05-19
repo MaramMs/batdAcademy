@@ -33,7 +33,7 @@ const usePostsStore = create((set) => ({
         try {
             const locale = useLanguageStore.getState().locale;
             const data = await getPostBySlug(locale, slug);
-            console.log(data?.data,'data post from store')
+            console.log(data?.data,'data post from store post')
             set({ post: data?.data, isLoading: false });
         } catch (error) {
             set({ isLoading: false });

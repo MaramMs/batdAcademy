@@ -14,4 +14,17 @@ export async function getCities(language, queryParams = '') {
   return data;
 }
 
+export async function getCoursesByCity(language, slug) {
+  const response = await fetch(`${API_KEY}/cities/${slug}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      "Accept-Language": language ?? "en",
+    },
+  });
+
+  let data = await response.json();
+  return data;
+}
+
 
