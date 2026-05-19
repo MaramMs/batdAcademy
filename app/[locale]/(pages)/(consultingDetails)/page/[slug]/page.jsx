@@ -9,17 +9,20 @@ export async function generateMetadata({ params }) {
         ? decodeURIComponent(slug).replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase())
         : "Consulting Service";
 
+    const fallbackTitle = `${niceName} | British Academy for Training & Development`;
+    const fallbackDescription = `Learn about the ${niceName} consulting service offered by the British Academy for Training & Development.`;
+
     const fallback = {
-        title: `${niceName} | British Academy for Training & Development`,
-        description: `Learn about the ${niceName} consulting service offered by the British Academy for Training & Development.`,
+        title: fallbackTitle,
+        description: fallbackDescription,
         icons: {
             icon: "/favicon.ico",
             shortcut: "/favicon.ico",
             apple: "/favicon.ico",
         },
         openGraph: {
-            title,
-            description,
+            title: fallbackTitle,
+            description: fallbackDescription,
             type: "website",
             siteName: "British Academy for Training & Development",
             images: [
@@ -27,15 +30,15 @@ export async function generateMetadata({ params }) {
                     url: '/og-image.png',
                     width: 1200,
                     height: 630,
-                    alt: title,
+                    alt: fallbackTitle,
                 },
             ],
         },
 
         twitter: {
             card: "summary_large_image",
-            title,
-            description,
+            title: fallbackTitle,
+            description: fallbackDescription,
             images: [{ url: '/og-image.png', width: 1200, height: 630 }],
         },
     };
