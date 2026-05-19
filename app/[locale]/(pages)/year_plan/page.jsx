@@ -4,15 +4,15 @@ export async function generateMetadata({ params }) {
     const { locale } = await params;
     const slug = "the-annual-training-plan-for-the-courses-and-programs-of-the-british-academy";
 
- const fallback = {
+    const fallback = {
         title: "Year Plan | British Academy for Training & Development",
         description: "Browse the British Academy for Training & Development year training plan and explore upcoming courses.",
         keywords: undefined,
-          icons: {
-                icon: "/favicon.ico",
-                shortcut: "/favicon.ico",
-                apple: "/favicon.ico",
-            },
+        icons: {
+            icon: "/favicon.ico",
+            shortcut: "/favicon.ico",
+            apple: "/favicon.ico",
+        },
     };
 
     try {
@@ -22,7 +22,7 @@ export async function generateMetadata({ params }) {
 
         const title = meta?.title || fallback.title;
         const description = meta?.description?.replace(/<[^>]*>?/gm, '') || fallback.description;
-        
+
         let keywords = meta?.keyword;
         if (keywords && typeof keywords === 'string' && keywords.startsWith("[")) {
             try {
@@ -37,12 +37,12 @@ export async function generateMetadata({ params }) {
             title,
             description,
             keywords: keywords || undefined,
-              icons: {
+            icons: {
                 icon: "/favicon.ico",
                 shortcut: "/favicon.ico",
                 apple: "/favicon.ico",
             },
-   openGraph: {
+            openGraph: {
                 title,
                 description,
                 type: "website",
@@ -62,8 +62,8 @@ export async function generateMetadata({ params }) {
                 title,
                 description,
                 images: [{ url: '/og-image.png', width: 1200, height: 630 }],
-            },       
-              };
+            },
+        };
     } catch (error) {
         console.error("Metadata error:", error);
         return fallback;
