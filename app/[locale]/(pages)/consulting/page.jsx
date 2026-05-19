@@ -62,7 +62,6 @@ export async function generateMetadata({ params }) {
                 title,
                 description,
                 type: "website",
-                // url: `${baseUrl}/${locale}/consulting`,
                 siteName: "British Academy for Training & Development",
                 images: [
                     {

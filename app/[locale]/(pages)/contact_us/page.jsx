@@ -11,11 +11,11 @@ export async function generateMetadata({ params }) {
     const fallback = {
         title: "Contact Us | British Academy for Training & Development",
         description: "Contact the British Academy for Training & Development for inquiries, support, or partnership opportunities.",
-          icons: {
-                icon: "/favicon.ico",
-                shortcut: "/favicon.ico",
-                apple: "/favicon.ico",
-            },
+        icons: {
+            icon: "/favicon.ico",
+            shortcut: "/favicon.ico",
+            apple: "/favicon.ico",
+        },
     };
 
     try {
@@ -25,7 +25,7 @@ export async function generateMetadata({ params }) {
 
         const title = meta?.title || fallback.title;
         const description = meta?.description?.replace(/<[^>]*>?/gm, '') || fallback.description;
-        
+
         let keywords = meta?.keyword;
         if (keywords && typeof keywords === 'string' && keywords.startsWith("[")) {
             try {
@@ -40,12 +40,32 @@ export async function generateMetadata({ params }) {
             title,
             description,
             keywords: keywords || undefined,
-              icons: {
+            icons: {
                 icon: "/favicon.ico",
                 shortcut: "/favicon.ico",
                 apple: "/favicon.ico",
             },
-            openGraph: { title, description, type: "website" },
+            openGraph: {
+                title,
+                description,
+                type: "website",
+                siteName: "British Academy for Training & Development",
+                images: [
+                    {
+                        url: '/og-image.png',
+                        width: 1200,
+                        height: 630,
+                        alt: title,
+                    },
+                ],
+            },
+
+            twitter: {
+                card: "summary_large_image",
+                title,
+                description,
+                images: [{ url: '/og-image.png', width: 1200, height: 630 }],
+            },
         };
     } catch (error) {
         console.error("Metadata error:", error);

@@ -39,8 +39,27 @@ export async function generateMetadata({ params }) {
                 shortcut: "/favicon.ico",
                 apple: "/favicon.ico",
             },
-            openGraph: { title, description, type: "website" },
-        };
+   openGraph: {
+                title,
+                description,
+                type: "website",
+                siteName: "British Academy for Training & Development",
+                images: [
+                    {
+                        url: '/og-image.png',
+                        width: 1200,
+                        height: 630,
+                        alt: title,
+                    },
+                ],
+            },
+
+            twitter: {
+                card: "summary_large_image",
+                title,
+                description,
+                images: [{ url: '/og-image.png', width: 1200, height: 630 }],
+            },        };
     } catch (error) {
         console.error("Metadata error:", error);
         return {
