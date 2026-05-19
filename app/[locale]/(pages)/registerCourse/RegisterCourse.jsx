@@ -18,9 +18,20 @@ import { toast } from 'sonner';
 const RegisterCourse = () => {
     const searchParams = useSearchParams();
     const course_id = searchParams.get('course_id');
+    const preselectedDate = searchParams.get('date');
+    const preselectedCityId = searchParams.get('city_id');
+    const preselectedDurationId = searchParams.get('duration_id');
+    const preselectedLanguage = searchParams.get('language');
     const [currentStep, setCurrentStep] = useState(1);
     const [regType, setRegType] = useState('individual');
-    const { register, handleSubmit, control, watch, setValue, formState: { errors } } = useForm();
+    const { register, handleSubmit, control, watch, setValue, formState: { errors } } = useForm({
+        defaultValues: {
+            course_date: preselectedDate || '',
+            city_id: preselectedCityId ? Number(preselectedCityId) : '',
+            duration_id: preselectedDurationId || '',
+            language: preselectedLanguage?.toLowerCase() || 'english',
+        }
+    });
     const { handlePostRegisterCourse, isLoading, handleGetRegisterData, registerData ,handleGetCourseByIdData , course} = useRegisterCourseStore();
     useEffect(() => {
         handleGetRegisterData();
@@ -112,7 +123,7 @@ const onSubmit = async (data) => {
                                     isLoading={isLoading}
                                     cities={registerData?.cities}
                                     durations={registerData?.durations}
-                                    dates={registerData?.dates}
+                                    dates={course?.dates}
                                 />
                             )
                                 // ) : currentStep === 3 ? (
@@ -129,7 +140,7 @@ const onSubmit = async (data) => {
                                     <SuccessPage />
                                 )}
                         </div>
-                        {currentStep <= 3 && <CourseSummaryCard course={course}/>}
+                        {/* {currentStep <= 3 && <CourseSummaryCard course={course}/>} */}
                     </div>
                 </div>
             </div>

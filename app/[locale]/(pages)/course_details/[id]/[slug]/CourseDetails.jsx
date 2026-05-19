@@ -1,5 +1,5 @@
 'use client'
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useParams, usePathname, useRouter, useSearchParams } from "next/navigation";
@@ -30,7 +30,20 @@ const CourseDetails = () => {
      const pathname = usePathname();
      const router = useRouter();
      const { locale } = useLanguageStore();
-     const { slug } = useParams();
+     const { slug, id } = useParams();
+
+     // Build registration URL with selected date
+     const registerUrl = useMemo(() => {
+         const params = new URLSearchParams();
+         params.set('course_id', id);
+         if (date) {
+             const formattedDate = date instanceof Date
+                 ? date.toISOString().split('T')[0]
+                 : date;
+             params.set('date', formattedDate);
+         }
+         return `/${locale}/registerCourse?${params.toString()}`;
+     }, [locale, id, date]);
 
      const updateFilter = (key, value) => {
           console.log(key, value, 'value');
@@ -172,7 +185,7 @@ const CourseDetails = () => {
                                                                            <span>{course?.price}</span>
                                                                            <p>One-time payment</p>
                                                                       </div>
-                                                                      <Link href="/en/register" className={styles.enrollBtnMobile}>
+                                                                      <Link href={registerUrl} className={styles.enrollBtnMobile}>
                                                                            Enroll Now
                                                                       </Link>
                                                                  </div>
@@ -230,13 +243,13 @@ const CourseDetails = () => {
                                                                  </div>
 
                                                                  <div className={styles.register}>
-                                                                      <Link href="/en/register" className={styles.primaryBtn}>
+                                                                      <Link href={registerUrl} className={styles.primaryBtn}>
                                                                            Register Now
                                                                       </Link>
-                                                                      <Link href="/en/register">
+                                                                      <Link href={`/${locale}/registerInternalCourse?course_id=${id}`}>
                                                                            Request an Internal Course
                                                                       </Link>
-                                                                      <Link href="/en/register">
+                                                                      <Link href={`/${locale}/contact_us?course_id=${id}`}>
                                                                            Quick Inquiry
                                                                       </Link>
                                                                  </div>

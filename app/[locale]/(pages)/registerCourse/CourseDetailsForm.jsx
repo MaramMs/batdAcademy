@@ -12,19 +12,13 @@ import styles from '@/sass/pages/register-course/course-details-form.module.scss
 const CourseDetailsForm = ({cities,durations,dates,isLoading,register, control, setValue, errors, handleBack, onSubmit, handleSubmit }) => {
   const [mounted, setMounted] = useState(false);
   const [recaptchaToken, setRecaptchaToken] = useState(null);
+  console.log(dates , 'dates' )
 console.log(durations , 'dura')
 useEffect(() => {
     setMounted(true);
   }, []);
 
-  const availableDates = [
-    { date: 'May 17, 2024', duration: '8 weeks duration' },
-    { date: 'Jun 28, 2024', duration: '8 weeks duration' },
-    { date: 'Sep 11, 2024', duration: '8 weeks duration' },
-    { date: 'Oct 15, 2024', duration: '8 weeks duration' },
-  ];
 
- 
   const { course_date, duration_id, city_id, language = "english" } = useWatch({ control });
 
   const getDisplayDate = () => {
@@ -58,24 +52,27 @@ useEffect(() => {
             <span>Available Dates *</span>
           </div>
           <div className={styles.dateGrid}>
-            {availableDates.map((item, index) => (
-              <label key={index} className={styles.dateCard}>
-                <input
-                  type="radio"
-                  value={item.date}
-                  {...register("course_date")}
-                />
-                <div className={styles.cardContent}>
-                  <div className={styles.iconBox}>
-                    <Calendar size={20} />
+            {dates && dates.length > 0 ? (
+              dates.map((item, index) => (
+                <label key={index} className={styles.dateCard}>
+                  <input
+                    type="radio"
+                    value={item.date}
+                    {...register("course_date")}
+                  />
+                  <div className={styles.cardContent}>
+                    <div className={styles.iconBox}>
+                      <Calendar size={20} />
+                    </div>
+                    <div className={styles.info}>
+                      <span className={styles.dateText}>{item.date}</span>
+                    </div>
                   </div>
-                  <div className={styles.info}>
-                    <span className={styles.dateText}>{item.date}</span>
-                    <span className={styles.durationText}>{item.duration}</span>
-                  </div>
-                </div>
-              </label>
-            ))}
+                </label>
+              ))
+            ) : (
+              <p style={{ color: '#64748b', fontSize: '14px', marginTop: '10px' }}>No available dates found for this course.</p>
+            )}
           </div>
         </div>
 
@@ -166,7 +163,7 @@ useEffect(() => {
           </div>
           <div className={styles.languageToggle}>
             <label className={styles.langOption}>
-              <input type="radio" name="language" value="english" {...register("language")} defaultChecked />
+              <input type="radio" name="language" value="english" {...register("language")} />
               <div className={styles.langContent}>
                 <Image src="/asstes/en.png" alt="English" width={30} height={30} />
 

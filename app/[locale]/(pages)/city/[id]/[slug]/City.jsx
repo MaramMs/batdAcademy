@@ -84,7 +84,7 @@ const CourseByCityDetails = () => {
                                              </div>
                                         ) : (
                                             data?.courses?.slice(0, visibleCount)?.map((course, index) => (
-                                                <UpcomingCouresCard key={index} course={course} />
+                                                <UpcomingCouresCard key={index} course={course} cityId={id} />
                                             ))
                                         )}
                                     </div>

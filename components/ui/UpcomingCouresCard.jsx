@@ -1,5 +1,5 @@
 'use client';
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { motion } from "framer-motion";
 
 import Link from "next/link";
@@ -18,10 +18,11 @@ const placeholderImages = [
     img1,
     img3,
 ];
-const UpcomingCouresCard = ({ course, onModalOpen, onModalClose, slideIndex, swiperRef }) => {
+const UpcomingCouresCard = ({ course, onModalOpen, onModalClose, slideIndex, swiperRef, cityId, filterLanguage }) => {
     console.log(course,'course from card');
 
     const [isOpen, setIsOpen] = useState(false);
+    const [selectedDate, setSelectedDate] = useState(null);
     const locale = useLanguageStore((state) => state.locale);
     const handleOpen = () => {
         if (swiperRef?.current) {
@@ -39,8 +40,19 @@ const UpcomingCouresCard = ({ course, onModalOpen, onModalClose, slideIndex, swi
     };
 
     const handleSelect = (session) => {
-      console.log('Selected session:', session);
+      setSelectedDate(session.date);
     };
+
+    // Build registration URL with all available query params
+    const registerUrl = useMemo(() => {
+        const params = new URLSearchParams();
+        if (course?.id) params.set('course_id', course.id);
+        if (selectedDate) params.set('date', selectedDate);
+        if (cityId) params.set('city_id', cityId);
+        const lang = course?.language || filterLanguage;
+        if (lang) params.set('language', lang);
+        return `/${locale}/registerCourse?${params.toString()}`;
+    }, [locale, course?.id, selectedDate, cityId, course?.language, filterLanguage]);
 
     const randomImageIndex = course?.id ? course?.id % 3 : Math.floor(Math.random() * 3);
     const randomImage = placeholderImages[randomImageIndex];
@@ -121,7 +133,7 @@ const UpcomingCouresCard = ({ course, onModalOpen, onModalClose, slideIndex, swi
                     />
                 </div>
                 <div className={styles.btns}>
-                    <Link href={`/${locale}/registerCourse?course_id=${course?.id}`} className={styles.btnRegister}>Register </Link>
+                    <Link href={registerUrl} className={styles.btnRegister}>Register </Link>
                     <Link href={`/${locale}/course_details/${course?.id}/${course?.slug}`} className={styles.btnDetails}> Details</Link>
                 </div>
             </div>
