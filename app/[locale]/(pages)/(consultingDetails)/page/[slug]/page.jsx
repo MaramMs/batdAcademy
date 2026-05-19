@@ -1,4 +1,3 @@
-'use server';
 import { getConsultingDetailsBySlug } from "@/action/consulting";
 import ConsultingDetails from "./CousltingDetails";
 
