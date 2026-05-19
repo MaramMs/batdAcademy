@@ -72,7 +72,7 @@ export async function generateMetadata({ params }) {
                 title,
                 description,
                 type: "article",
-                ...(meta?.image ? { images: [meta.image] } : {
+                ...(res?.image ? { images: [res.image] } : {
                     images: [{
                         url: '/og-image.png',
                         width: 1200,
@@ -85,7 +85,7 @@ export async function generateMetadata({ params }) {
                 card: "summary_large_image",
                 title,
                 description,
-                ...(meta?.image ? { images: [meta.image] } : {
+                ...(res?.image ? { images: [res.image] } : {
                     images: [
                         {
                             url: '/og-image.png',

@@ -1,12 +1,12 @@
 'use client';
 import { motion } from 'framer-motion';
 
-import Image from 'next/image';
+import heroImage from '@/public/asstes/heroImage.jpeg';
+import stylesConteiner from '@/sass/components/common/container.module.scss';
 import styles from '@/sass/pages/home/hero.module.scss';
 import { Building2, Search, Users } from 'lucide-react';
 import { useTranslations } from 'next-intl';
-import stylesConteiner from '@/sass/components/common/container.module.scss'
-import heroImage from '@/public/asstes/heroImage.jpg';
+import Image from 'next/image';
 
 export default function Hero() {
     const t = useTranslations('Hero');
@@ -44,7 +44,7 @@ export default function Hero() {
     return (
         <section className={styles.hero}>
             <div className={stylesConteiner.container}>
-                <motion.div 
+                <motion.div
                     className={styles.content}
                     variants={containerVariants}
                     initial="hidden"
@@ -77,14 +77,14 @@ export default function Hero() {
                         </motion.p>
 
                         <motion.div className={styles.cta} variants={itemVariants}>
-                            <motion.button 
+                            <motion.button
                                 whileHover={{ scale: 1.05 }}
                                 whileTap={{ scale: 0.95 }}
                                 className={styles.btnPrimary}
                             >
                                 {t('viewCourses')}
                             </motion.button>
-                            <motion.button 
+                            <motion.button
                                 whileHover={{ scale: 1.05 }}
                                 whileTap={{ scale: 0.95 }}
                                 className={styles.btnSecondary}
@@ -107,11 +107,11 @@ export default function Hero() {
                     </div>
 
                     {/* ── RIGHT ── */}
-                    <motion.div 
+                    <motion.div
                         className={styles.right}
-                        initial={{ opacity: 0, scale: 0.8 }}
+                        initial={{ opacity: 0, scale: 0.95 }}
                         animate={{ opacity: 1, scale: 1 }}
-                        transition={{ duration: 0.8, ease: "easeOut", delay: 0.4 }}
+                        transition={{ duration: 0.4, ease: "easeOut" }}
                     >
                         <Image
                             src={heroImage}
@@ -119,6 +119,7 @@ export default function Hero() {
                             className={styles.heroImage}
                             width={600}
                             height={400}
+                            priority
                         />
                     </motion.div>
                 </motion.div>
