@@ -13,10 +13,16 @@ const poppins = Poppins({ subsets: ['latin'], weight: ['400', '600', '700'] });
 const cairo = Cairo({ subsets: ['arabic'], weight: ['400', '600', '700'] });
 
 export const metadata = {
+  metadataBase: new URL('https://batd-academy.vercel.app'),
   title: "British Academy for Training & Development",
   description: "British Academy for Training & Development website",
+  openGraph: {
+    type: 'website',
+    title: "British Academy for Training & Development",
+    description: "British Academy for Training & Development website",
+    images: [{ url: '/og-image.png', width: 1200, height: 630 }],
+  },
 };
-
 export const viewport = {
   width: 'device-width',
   initialScale: 1,

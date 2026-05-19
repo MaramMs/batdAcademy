@@ -19,11 +19,11 @@ export async function generateMetadata({ params }) {
             title: "Consulting Services | British Academy for Training & Development",
             description: "Discover professional consulting services offered by the British Academy for Training & Development.",
             type: "website",
-            url: `${baseUrl}/en/consulting`,
+            // url: `${baseUrl}/en/consulting`,
             siteName: "British Academy for Training & Development",
             images: [
                 {
-                    url: `${baseUrl}/og-image.png`,
+                    url: '/og-image.png',
                     width: 1200,
                     height: 630,
                     alt: "Consulting Services | British Academy",
@@ -58,29 +58,27 @@ export async function generateMetadata({ params }) {
                 apple: "/favicon.ico",
             },
 
-            // ✅ covers Facebook, Instagram, WhatsApp
             openGraph: {
                 title,
                 description,
                 type: "website",
-                url: `${baseUrl}/${locale}/consulting`,
+                // url: `${baseUrl}/${locale}/consulting`,
                 siteName: "British Academy for Training & Development",
                 images: [
                     {
-                        url: `${baseUrl}/og-image.png`,   // must be absolute URL
-                        width: 1200,                       // recommended size
+                        url: '/og-image.png',
+                        width: 1200,
                         height: 630,
                         alt: title,
                     },
                 ],
             },
 
-            // ✅ covers Twitter/X only
             twitter: {
                 card: "summary_large_image",
                 title,
                 description,
-                images: [`${baseUrl}/og-image.png`],
+                images: [{ url: '/og-image.png', width: 1200, height: 630 }],
             },
         };
     } catch (error) {
