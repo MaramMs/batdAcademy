@@ -12,8 +12,7 @@ import styles from '@/sass/pages/register-course/course-details-form.module.scss
 const CourseDetailsForm = ({cities,durations,dates,isLoading,register, control, setValue, errors, handleBack, onSubmit, handleSubmit }) => {
   const [mounted, setMounted] = useState(false);
   const [recaptchaToken, setRecaptchaToken] = useState(null);
-  console.log(dates , 'dates' )
-console.log(durations , 'dura')
+
 useEffect(() => {
     setMounted(true);
   }, []);

@@ -14,7 +14,6 @@ const FeaturedArticle = ({ postFeatured }) => {
     const randomImageIndex = postFeatured?.id ? postFeatured.id % 3 : Math.floor(Math.random() * 3);
     const randomImage = placeholderImages[randomImageIndex];
 
-    console.log(postFeatured, 'postFeatured')
     return (
         <section className={styles.featuredArticle}>
             <h2> <Star fill="#C41E3A" size={18} color="#C41E3A" /> Featured Article</h2>

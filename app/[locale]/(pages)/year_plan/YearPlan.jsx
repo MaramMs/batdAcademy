@@ -11,10 +11,8 @@ import Skeleton from "@/components/ui/Skeleton";
 
 const YearPlan = () => {
     const { data, handleGetPlans, isLoading } = usePlansStore();
-    console.log(data , 'data from store years')
     const [visibleCount, setVisibleCount] = useState(10);
     const items = data?.data?.items || [];
-    console.log(items, 'items from years')
     useEffect(() => {
         handleGetPlans();
     }, []);

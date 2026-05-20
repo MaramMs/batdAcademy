@@ -10,7 +10,6 @@ import styles from "@/sass/pages/home/customers.module.scss";
 import Skeleton from "@/components/ui/Skeleton";
 
 const Customer = ({ client }) => {
-    console.log(client.logo, 'client')
     return (
         <div className={styles.customer}>
             <div className={styles.customer__image}>
@@ -22,7 +21,6 @@ const Customer = ({ client }) => {
 
 const Customers = () => {
     const { clients, handleGetClients, isLoading } = useClientsStore();
-    console.log(clients, 'clients')
     useEffect(() => {
         handleGetClients();
     }, []);

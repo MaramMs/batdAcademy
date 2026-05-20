@@ -19,7 +19,6 @@ const placeholderImages = [
     img3,
 ];
 const UpcomingCouresCard = ({ course, onModalOpen, onModalClose, slideIndex, swiperRef, cityId, filterLanguage }) => {
-    console.log(course,'course from card');
 
     const [isOpen, setIsOpen] = useState(false);
     const [selectedDate, setSelectedDate] = useState(null);
@@ -56,7 +55,6 @@ const UpcomingCouresCard = ({ course, onModalOpen, onModalClose, slideIndex, swi
 
     const randomImageIndex = course?.id ? course?.id % 3 : Math.floor(Math.random() * 3);
     const randomImage = placeholderImages[randomImageIndex];
-    console.log(course, 'course');
     return (
 
         <motion.div

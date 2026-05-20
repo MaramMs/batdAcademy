@@ -1,7 +1,6 @@
 import styles from "@/sass/pages/consulting/consulting-details/process.module.scss";
 
 const Process = ({process}) => {
-    console.log(process?.steps,'process from store')
     return (
         <div className={styles.process}>
             <h2>

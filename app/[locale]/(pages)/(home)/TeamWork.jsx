@@ -101,7 +101,6 @@ const Card = ({ team }) => {
 }
 const TeamWork = () => {
     const {teamWork,handleGetTeamWork,isLoading} = useTeamWorkStore();
-    console.log(teamWork , 'team work')
     useEffect(() => {
         handleGetTeamWork();
     }, []);

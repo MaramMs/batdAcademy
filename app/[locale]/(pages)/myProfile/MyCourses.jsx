@@ -55,7 +55,6 @@ const MyCourses = () => {
     const [selectedCourse, setSelectedCourse] = useState(null);
     const activeCount = courses.filter((c) => c.status === "inProgress").length;
     const {userCourses , handleGetUserCourses} = useUserProfileStore();
-    console.log(userCourses , 'userCourses');
 
     useEffect(() => {
         handleGetUserCourses();

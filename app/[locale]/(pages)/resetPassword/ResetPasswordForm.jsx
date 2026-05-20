@@ -36,9 +36,6 @@ const LoginForm = () => {
     const onSubmit = async (data) => {
 
         const result = await login(data, locale);
-
-        console.log(result, "result")
-
         if (result?.success && result?.data?.member) {
             toast.success("Login successfully!");
             setTimeout(() => {

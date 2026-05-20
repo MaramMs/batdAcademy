@@ -21,9 +21,6 @@ const ForgetPasswordForm = () => {
     const onSubmit = async (data) => {
 
         const result = await forgetPassword(data, locale);
-
-        console.log(result, "result from forget password")
-
         if (result?.success) {
             toast.success(result?.data?.message);
         } else {

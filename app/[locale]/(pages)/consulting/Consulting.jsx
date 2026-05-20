@@ -12,7 +12,6 @@ import Skeleton from "@/components/ui/Skeleton";
 const Consulting = () => {
     const { data, handleGetConsulting, isLoading } = useConsultingStore();
     const [visibleCount, setVisibleCount] = useState(6);
-    console.log(data, 'data from consulting')
     useEffect(() => {
         handleGetConsulting("?with_meta=true");
     }, []);

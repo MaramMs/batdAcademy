@@ -25,7 +25,6 @@ export async function signUpAction(formData, language = "en") {
       body: serverData,
     });
 
-    console.log("Response Status:", response.status);
     
     const contentType = response.headers.get("content-type");
     let data;

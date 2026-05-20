@@ -30,7 +30,6 @@ const CoursesPage = () => {
         }
 
         const paramsString = params.toString();
-        console.log(paramsString, "parmsStringparmsStringparmsString");
         
         const queryString = paramsString ? `?${paramsString}` : "";
         handleGetCourses(queryString);

@@ -1,7 +1,6 @@
 import styles from "@/sass/components/ui/display-type.module.scss";
 import { Grid3x3, List } from "lucide-react";
 const DisplayType = ({view,onChange}) => {
-    console.log(view ,'view in the display type')
     return (
         <div className={styles.displayType}>
             <button className={`${styles.btn} ${view === "grid" ? styles.active : ""}`} onClick={() => onChange("grid")}>

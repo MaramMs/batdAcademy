@@ -20,7 +20,7 @@ const RegisterInternalCourse = () => {
     const searchParams = useSearchParams();
     const [regType, setRegType] = useState('individual');
     const { handlePostRegisterCourse, isLoading, handleGetRegisterData, registerData } = useRegisterCourseStore();
-    console.log(registerData , 'reg data')
+   
     const lang = [
         { label: 'English', value: 1 },
         { label: 'Arabic', value: 0 },
@@ -72,7 +72,6 @@ const RegisterInternalCourse = () => {
     }, [searchParams, setValue]);
 
     const onInvalid = (validationErrors) => {
-        console.log('Form validation errors:', validationErrors);
         const firstKey = Object.keys(validationErrors)[0];
         const firstMsg = validationErrors[firstKey]?.message || `Please fill the "${firstKey}" field`;
         toast.error(firstMsg);
@@ -111,9 +110,7 @@ const RegisterInternalCourse = () => {
                 }));
             }
 
-            console.log('register payload →', payload);
             const res = await handlePostRegisterCourse(payload);
-            console.log('register response →', res);
             if (res?.success) {
                 toast.success(res?.message || 'Registration successful!');
                 reset();

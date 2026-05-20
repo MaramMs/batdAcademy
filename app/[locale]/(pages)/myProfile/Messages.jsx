@@ -33,9 +33,7 @@ const initialMessages = [
 
 const Messages = () => {
     const { userMessages, handleGetUserMessages, unreadNumberMessage, handleUnreadNumberMessage } = useUserProfileStore();
-    console.log(unreadNumberMessage, 'unreadNumberMessage');
-    console.log(userMessages, 'userMessages');
-
+  
     useEffect(() => {
         handleGetUserMessages();
         handleUnreadNumberMessage();

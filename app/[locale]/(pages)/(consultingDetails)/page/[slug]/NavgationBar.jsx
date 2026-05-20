@@ -3,7 +3,6 @@ import { ArrowLeft, ArrowRight, House } from "lucide-react";
 import stylesContainer from "@/sass/components/common/container.module.scss";
 import styles from "@/sass/pages/course-details-by-city/navgation-bar.module.scss";
 const NavgationBar = ({ breadcrumb }) => {
-    console.log(breadcrumb, 'breadcrumb')
     return (
         <section className={styles.navgationBar}>
             <div className={stylesContainer.container}>

@@ -74,7 +74,6 @@ const useUserProfileStore = create((set) => ({
         try {
             const locale = useLanguageStore.getState().locale;
             const data = await getUserMessages(locale);
-            console.log(data, 'data')
             if (!data?.success) {
                 set({ error: data?.message || "Failed to load enrolled courses", isLoading: false });
                 return;
@@ -93,7 +92,6 @@ const useUserProfileStore = create((set) => ({
         try {
             const locale = useLanguageStore.getState().locale;
             const data = await getUnreadNumberMessage(locale);
-            console.log(data, 'data')
             if (!data?.success) {
                 set({ error: data?.message || "Failed to load enrolled courses", isLoading: false });
                 return;

@@ -60,7 +60,6 @@ const CourseDetails = ({ initialCourse }) => {
   }, [locale, id, date]);
 
   const updateFilter = (key, value) => {
-    console.log(key, value, "value");
     const params = new URLSearchParams(searchParams.toString());
 
     if (value) {

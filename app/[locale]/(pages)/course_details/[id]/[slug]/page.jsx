@@ -45,7 +45,6 @@ export async function generateMetadata({ params }) {
     try {
         const res = await getCourseBySlug(locale, slug)
         const data = res?.data || {};
-        console.log(data , 'data from id')
         const m = data.meta || {};
         const title = data.meta_title || m.meta_title || m.title || data.name || fallback.title;
         const description = data.meta_description || m.meta_description || m.description || data.details || fallback.description;
