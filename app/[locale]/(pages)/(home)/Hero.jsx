@@ -1,7 +1,7 @@
 'use client';
 import { motion } from 'framer-motion';
 
-import heroImage from '@/public/asstes/heroImage.jpeg';
+import heroImage from '@/public/asstes/heroImage.webp';
 import stylesConteiner from '@/sass/components/common/container.module.scss';
 import styles from '@/sass/pages/home/hero.module.scss';
 import { Building2, Search, Users } from 'lucide-react';

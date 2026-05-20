@@ -1,6 +1,6 @@
 import styles from '@/sass/components/layout/footer.module.scss';
 import Image from 'next/image';
-import footerLogo from '@/public/asstes/footerlogo.png';
+import footerLogo from '@/public/asstes/footerlogo.webp';
 
 // ─── SVG Icons ────────────────────────────────────────────────
 const IconYoutube = () => (

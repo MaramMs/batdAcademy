@@ -122,13 +122,9 @@ export async function generateMetadata({ params }) {
 
 export default async function ConsultingDetailsPage({ params }) {
   const { locale, slug } = await params;
-  let consultingData = {};
-  try {
-    const res = await getConsultingDetailsBySlug(locale, slug);
+     let consultingData = {};
+      const res = await getConsultingDetailsBySlug(locale, slug);
     consultingData = res?.data || {};
-  } catch (error) {
-    console.error("Failed to fetch consulting details:", error);
-  }
   return (
     <>
       {consultingData?.slug_en && consultingData?.slug_ar && (

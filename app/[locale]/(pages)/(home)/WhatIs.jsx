@@ -1,16 +1,16 @@
 'use client'
-import Title from "@/components/common/Title"
-import styles from '@/sass/pages/home/what-is.module.scss'
-import Image from "next/image"
-import whatis from '@/public/asstes/whatis.png'
-import containerStyle from '@/sass/components/common/container.module.scss'
-import { ArrowRight } from "lucide-react"
 import Link from "next/link"
+import Image from "next/image"
+import { ArrowRight } from "lucide-react"
+import Title from "@/components/common/Title"
+import whatis from '@/public/asstes/whatis.webp'
 import useLanguageStore from "@/store/useLanguageStore"
 import computer from '@/public/asstes/icons/computer.svg';
 import gameDevelopment from '@/public/asstes/icons/game-development.svg';
 import promotion from '@/public/asstes/icons/promotion.svg';
 import uxInterface from '@/public/asstes/icons/ux-interface.svg';
+import containerStyle from '@/sass/components/common/container.module.scss'
+import styles from '@/sass/pages/home/what-is.module.scss'
 const items = [
     {
         params: {query: {discounted: 22}},
