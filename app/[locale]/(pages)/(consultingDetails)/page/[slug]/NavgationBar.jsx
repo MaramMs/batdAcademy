@@ -1,7 +1,7 @@
-import styles from "@/sass/pages/course-details-by-city/navgation-bar.module.scss";
-import stylesContainer from "@/sass/components/common/container.module.scss";
-import { ArrowLeft, ArrowRight, House } from "lucide-react";
 import Link from "next/link";
+import { ArrowLeft, ArrowRight, House } from "lucide-react";
+import stylesContainer from "@/sass/components/common/container.module.scss";
+import styles from "@/sass/pages/course-details-by-city/navgation-bar.module.scss";
 const NavgationBar = ({ breadcrumb }) => {
     console.log(breadcrumb, 'breadcrumb')
     return (

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 import styles from '@/sass/pages/register-course/register-course.module.scss';
+import Image from 'next/image';
 
 const MobileCourseHeader = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -9,10 +10,13 @@ const MobileCourseHeader = () => {
     <div className={styles.mobileHeader}>
       <div className={styles.headerTrigger} onClick={() => setIsOpen(!isOpen)}>
         <div className={styles.courseMiniInfo}>
-          <img 
+          <Image
             src="/asstes/course1.jpg" 
             alt="Course" 
             onError={(e) => { e.target.src = 'https://via.placeholder.com/40px?text=C'; }}
+            width={400}
+            height={400}
+            unoptimized
           />
           <h3>Advanced Digital Marketing Masterclass</h3>
         </div>

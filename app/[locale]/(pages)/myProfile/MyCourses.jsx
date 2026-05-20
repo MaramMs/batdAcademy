@@ -4,6 +4,7 @@ import { TrendingUp, Calendar, Clock, CheckCircle, PlayCircle, ImageIcon } from 
 import CourseDetailsModal from "./CourseDetailsModal";
 import styles from "@/sass/pages/my-profile/my-profile.module.scss";
 import useUserProfileStore from "@/store/useUserProfileStore";
+import Image from "next/image";
 
 const courses = [
     {
@@ -77,7 +78,7 @@ const MyCourses = () => {
                         <div key={course.id} className={styles.courseCard}>
                             <div className={styles.courseImage}>
                                 {course.image ? (
-                                    <img src={course.image} alt={course.title} />
+                                    <Image src={course.image} alt={course.title} width={100} height={100} unoptimized/>
                                 ) : (
                                     <div className={styles.imagePlaceholder}>
                                         <ImageIcon size={32} color="#ffffff" />

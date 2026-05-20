@@ -2,6 +2,7 @@
 
 import { Camera, Upload, ShieldCheck } from "lucide-react";
 import styles from "@/sass/pages/edit-my-profile/edit-my-profile.module.scss";
+import Image from "next/image";
 
 const mockUser = {
     name: "Ahmed Johnson",
@@ -26,7 +27,7 @@ const ProfilePicture = () => {
                     <div className={styles.avatarWrapper}>
                         <div className={styles.avatar}>
                             {mockUser.avatarUrl ? (
-                                <img src={mockUser.avatarUrl} alt={mockUser.name} />
+                                <Image src={mockUser.avatarUrl} alt={mockUser.name} width={400} height={400}/>
                             ) : (
                                 mockUser.initials
                             )}

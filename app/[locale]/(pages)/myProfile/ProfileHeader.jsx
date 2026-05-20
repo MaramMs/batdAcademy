@@ -2,6 +2,7 @@ import { useEffect, useMemo } from "react";
 import { MapPin, Pencil } from "lucide-react";
 import styles from "@/sass/pages/my-profile/my-profile.module.scss";
 import useCitiesStore from "@/store/useCitiesStore";
+import Image from "next/image";
 
 const ProfileHeader = ({ user }) => {
     const { cities, handleGetCities } = useCitiesStore();
@@ -26,7 +27,7 @@ const ProfileHeader = ({ user }) => {
                 <div className={styles.avatarWrapper}>
                     <div className={styles.avatar}>
                         {user?.image ? (
-                            <img src={user?.image} alt={user?.full_name} />
+                            <Image src={user?.image} alt={user?.full_name} width={400} height={400} unoptimized />
                         ) : (
                             user?.initials
                         )}

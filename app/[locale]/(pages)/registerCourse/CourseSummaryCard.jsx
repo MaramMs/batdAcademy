@@ -3,16 +3,19 @@ import React from 'react';
 import { Clock, Award, Check, Mail, Phone } from 'lucide-react';
 import styles from '@/sass/pages/register-course/register-course.module.scss';
 import course from '/public/asstes/course1.jpg'
+import Image from 'next/image';
 
 const CourseSummaryCard = ({course}) => {
   return (
     <aside className={styles.sidebar}>
       <div className={styles.summaryCard}>
-        <img 
+        <Image
           src={course?.image || course}
           alt={course?.name || course}
           className={styles.courseImg}
           onError={(e) => { e.target.src = 'https://via.placeholder.com/400x200?text=Course+Image'; }}
+          width={400}
+          height={400}
         />
         <div className={styles.summaryContent}>
           <h3>{course?.name}</h3>

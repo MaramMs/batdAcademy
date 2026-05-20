@@ -5,6 +5,7 @@ import {
     BarChart2, BookOpen, Award, ImageIcon,
 } from "lucide-react";
 import styles from "@/sass/pages/my-profile/my-profile.module.scss";
+import Image from "next/image";
 
 const CourseDetailsModal = ({ course, onClose }) => {
     const isCompleted = course.status === "completed";
@@ -22,7 +23,7 @@ const CourseDetailsModal = ({ course, onClose }) => {
                 {/* Image banner */}
                 <div className={styles.modalImageArea}>
                     {course.image ? (
-                        <img src={course.image} alt={course.title} />
+                        <Image src={course.image} alt={course.title} width={400} height={400}/>
                     ) : (
                         <div className={styles.modalImagePlaceholder}>
                             <ImageIcon size={48} color="#ffffff" />

@@ -27,6 +27,9 @@ const nextConfig = {
       },
     ],
   },
+    experimental: {
+    browsersListQuery: 'chrome >= 87, firefox >= 78, safari >= 14, edge >= 88'
+  }
 };
 
 export default withNextIntl(nextConfig);

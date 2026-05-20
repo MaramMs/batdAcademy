@@ -52,10 +52,10 @@
             }
         }
 
-        span,
+        
         a {
             font-size: 18px;
-            color: #D1D5DC;
+            color: #4A5565 !important;
             font-weight: 400;
             white-space: nowrap;
 
@@ -67,9 +67,9 @@
                 font-size: 12px;
             }
 
-            &:nth-child(4) {
-                color: #4A5565;
-            }
+            // &:nth-child(5) {
+            //     color: #4A5565;
+            // }
 
             &:nth-child(7) {
                 color: #2F327D;

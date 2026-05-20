@@ -1,5 +1,6 @@
 import { Award, Calendar, Download, ImageIcon } from "lucide-react";
 import styles from "@/sass/pages/my-profile/my-profile.module.scss";
+import Image from "next/image";
 
 const certificates = [
     {
@@ -33,7 +34,7 @@ const Certificates = () => {
                         <div key={cert.id} className={styles.certCard}>
                             <div className={styles.certImageArea}>
                                 {cert.image ? (
-                                    <img src={cert.image} alt={cert.title} />
+                                    <Image src={cert.image} alt={cert.title} width={400} height={400}/>
                                 ) : (
                                     <div className={styles.certImagePlaceholder}>
                                         <ImageIcon size={40} color="#ffffff" />

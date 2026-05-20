@@ -6,11 +6,12 @@ import Title from "@/components/common/Title"
 import styleContainer from '@/sass/components/common/container.module.scss'
 import styles from '@/sass/pages/home/team-work.module.scss'
 import Skeleton from "@/components/ui/Skeleton"
+import Image from "next/image"
 const Card = ({ team }) => {
     return (
         <div className={styles.card}>
             <div className={styles.image}>
-                <img src={team.image} alt={team.name} />
+                <Image src={team.image} alt={team.name} width={300} height={400} />
             </div>
 
             <div className={styles.cardInfo}>
