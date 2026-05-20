@@ -136,7 +136,7 @@ const MainNavBar = () => {
           <button
             className={styles.langToggleMobile}
             onClick={toggle}
-            aria-label={`Switch to ${oppositeLang.label}`}
+            aria-label={`${oppositeLang.code.toUpperCase()} — Switch to ${oppositeLang.label}`}
           >
             {oppositeLang.code.toUpperCase()}
           </button>

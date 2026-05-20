@@ -21,8 +21,10 @@ import Title from "@/components/common/Title";
 import styles from '@/sass/pages/home/request-coures.module.scss';
 import containerStyles from '@/sass/components/common/container.module.scss';
 import DropdownMenuCustom from "@/components/common/DropdownMenu";
-import ReCAPTCHA from 'react-google-recaptcha';
 import useCoursesStore from '@/store/useCoursesStore';
+import dynamic from 'next/dynamic';
+const ReCAPTCHA = dynamic(() => import('react-google-recaptcha'), { ssr: false });
+
 
 // --- CONSTANTS ---
 
@@ -278,19 +280,18 @@ const RequestCoures = () => {
                   )}
                 />
               </FormField>
-{/* 
-              <div style={{ marginTop: '24px' }}>
-
-                <ReCAPTCHA
-
-                  sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}
-                  onChange={(token) => setRecaptchaToken(token)}
-                  onExpired={() => setRecaptchaToken(null)}
-                />
+        <div style={{ marginTop: '24px', minHeight: 78 }}>
+                {enableCaptcha && (
+                  <ReCAPTCHA
+                    sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}
+                    onChange={(token) => setRecaptchaToken(token)}
+                    onExpired={() => setRecaptchaToken(null)}
+                  />
+                )}
                 {!recaptchaToken && errors.recaptcha && (
                   <span style={{ color: '#EF4444', fontSize: '12px' }}>يرجى إتمام التحقق</span>
                 )}
-              </div> */}
+              </div>
               <button
                 type="submit"
                 className={styles['request-courses__submit']}

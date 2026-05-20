@@ -211,18 +211,19 @@
 
 .copyright {
   font-size: 15.5px;
-  color: #FFFFFF99;
+  color: #FFFFFFCC;
   font-weight: 500;
   margin: 0;
   text-align: center;
 
   a {
-    color: #C9302C;
-    text-decoration: none;
-    font-weight: 500;
+    color: #FFB4B0;
+    text-decoration: underline;
+    font-weight: 600;
 
     &:hover {
       text-decoration: underline;
+      color: #FFFFFF;
     }
   }
 }

@@ -45,8 +45,8 @@ const swiperRef = externalRef ?? internalRef;
         {
             !hidden && (
                 <>
-                <button data-prev={navId} className={styles.sliderPrev}>
-                <svg width="28" height="28" viewBox="0 0 9 15" fill="none">
+                <button data-prev={navId} className={styles.sliderPrev} aria-label="Previous slide" type="button">
+                <svg width="28" height="28" viewBox="0 0 9 15" fill="none" aria-hidden="true" focusable="false">
                     <path d="M8 1L1 7.5L8 14" stroke="currentColor" strokeWidth="1.8"
                         strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
@@ -78,8 +78,8 @@ const swiperRef = externalRef ?? internalRef;
 {
     !hidden && (
         <>
-        <button data-next={navId} className={styles.sliderNext}>
-                <svg width="28" height="28" viewBox="0 0 9 15" fill="none">
+        <button data-next={navId} className={styles.sliderNext} aria-label="Next slide" type="button">
+                <svg width="28" height="28" viewBox="0 0 9 15" fill="none" aria-hidden="true" focusable="false">
                     <path d="M1 1L8 7.5L1 14" stroke="currentColor" strokeWidth="1.8"
                         strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
