@@ -8,19 +8,21 @@ import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const SearchCourse = ({ className, updateFilter }) => {
-  const [mounted, setMounted] = useState(false);
+  // const [mounted, setMounted] = useState(false);
   const searchParams = useSearchParams();
-  const [searchValue, setSearchValue] = useState(searchParams.get('search') || "");
+  const [searchValue, setSearchValue] = useState(
+    searchParams.get("search") || "",
+  );
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  // useEffect(() => {
+  //   setMounted(true);
+  // }, []);
 
   // Debounce search
   useEffect(() => {
     const handler = setTimeout(() => {
-      if (searchValue !== (searchParams.get('search') || "")) {
-        updateFilter('search', searchValue);
+      if (searchValue !== (searchParams.get("search") || "")) {
+        updateFilter("search", searchValue);
       }
     }, 500);
 
@@ -31,7 +33,10 @@ const SearchCourse = ({ className, updateFilter }) => {
     <section className={styles.search}>
       <div className={styles.searchContent}>
         <div className={styles.searchContent__left}>
-          <div className={styles.searchContent__left__icon} onClick={()=>updateFilter('search', searchValue)}>
+          <div
+            className={styles.searchContent__left__icon}
+            onClick={() => updateFilter("search", searchValue)}
+          >
             <Search size={13} color="#99A1AF" />
           </div>
           <input
@@ -45,25 +50,35 @@ const SearchCourse = ({ className, updateFilter }) => {
 
         <Dialog.Root modal={true}>
           <Dialog.Trigger asChild>
-            <button className={`${styles.funnel} ${className}`}>
-              <Filter />
+            <button
+              className={`${styles.funnel} ${className}`}
+              type="button"
+              aria-label="Open search filters"
+            >
+              <Filter aria-hidden="true" />
             </button>
           </Dialog.Trigger>
 
-          {mounted && (
-            <Dialog.Portal>
+        <Dialog.Portal>
               <Dialog.Overlay className={styles.drawerOverlay} />
               <Dialog.Content className={styles.drawerContent}>
                 <div className={styles.drawerHeader}>
-                  <Dialog.Title className={styles.drawerTitle}>Filters</Dialog.Title>
-                  <Dialog.Close className={styles.drawerClose}>
-                    <X size={20} />
+                  <Dialog.Title className={styles.drawerTitle}>
+                    Filters
+                  </Dialog.Title>
+                  <Dialog.Close
+                    className={styles.drawerClose}
+                    aria-label="Close filters"
+                  >
+                    <X size={20} aria-hidden="true" />
                   </Dialog.Close>
                 </div>
                 <div className={styles.filter}>
-
                   {/* Box 1: Filters/Settings */}
-                  <CategoriesBox title="All Categories" icon={<Filter size={18} />}>
+                  <CategoriesBox
+                    title="All Categories"
+                    icon={<Filter size={18} />}
+                  >
                     <div className={styles.sidebarFilterContent}>
                       <div className={styles.range}>
                         <h4 className={styles.filterGroupTitle}>Price Range</h4>
@@ -71,7 +86,7 @@ const SearchCourse = ({ className, updateFilter }) => {
                           min={0}
                           max={2000}
                           step={10}
-                        //   onChange={({ min, max }) => console.log(min, max)}
+                          //   onChange={({ min, max }) => console.log(min, max)}
                         />
                       </div>
 
@@ -95,36 +110,35 @@ const SearchCourse = ({ className, updateFilter }) => {
                     <ul className={styles.sidebarCategoryList}>
                       <li>
                         <span>Business</span>
-                        <div className={styles.badgeWrapper} >
+                        <div className={styles.badgeWrapper}>
                           <span className={styles.badge}>95</span>
                           <ChevronRight size={12} />
                         </div>
-
                       </li>
                       <li>
                         <span>Technical</span>
-                        <div className={styles.badgeWrapper} >
+                        <div className={styles.badgeWrapper}>
                           <span className={styles.badge}>32</span>
                           <ChevronRight size={12} />
                         </div>
                       </li>
                       <li>
                         <span>Power</span>
-                        <div className={styles.badgeWrapper} >
+                        <div className={styles.badgeWrapper}>
                           <span className={styles.badge}>32</span>
                           <ChevronRight size={12} />
                         </div>
                       </li>
                       <li>
                         <span>Management</span>
-                        <div className={styles.badgeWrapper} >
+                        <div className={styles.badgeWrapper}>
                           <span className={styles.badge}>32</span>
                           <ChevronRight size={12} />
                         </div>
                       </li>
                       <li>
                         <span>Development</span>
-                        <div className={styles.badgeWrapper} >
+                        <div className={styles.badgeWrapper}>
                           <span className={styles.badge}>32</span>
                           <ChevronRight size={12} />
                         </div>
@@ -147,22 +161,17 @@ const SearchCourse = ({ className, updateFilter }) => {
                       <span className={styles.tagPill}>Project Management</span>
                     </div>
                   </CategoriesBox>
-
                 </div>
-
-
               </Dialog.Content>
             </Dialog.Portal>
-          )}
         </Dialog.Root>
 
         <div className={styles.searchContent__right}>
-          <button>Search</button>
+          <button type="button">Search</button>
         </div>
       </div>
     </section>
   );
 };
-
 
 export default SearchCourse;
