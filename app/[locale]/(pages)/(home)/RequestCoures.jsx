@@ -139,6 +139,7 @@ const RequestCoures = () => {
   });
 
   const selectedCourse = watch("course");
+  const enableCaptcha = !!process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY;
 
   const handleTagClick = (courseId) => {
     setValue("course", courseId, { shouldValidate: true, shouldDirty: true });
