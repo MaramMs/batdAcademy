@@ -1,3 +1,4 @@
+'use client';
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowLeft, Calendar, Clock, Eye, Heart, User } from "lucide-react";

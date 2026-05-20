@@ -1,5 +1,6 @@
 import { getCoursesByCity } from "@/action/cities";
 import CourseByCityDetails from "./City";
+import AlternatePathsSetter from "@/components/common/AlternatePathsSetter";
 export async function generateMetadata({ params }) {
     const { locale, slug } = await params;
     const name = slug
@@ -67,6 +68,27 @@ export async function generateMetadata({ params }) {
      }
 }
 
-export default function CourseByCityPage() {
-    return <CourseByCityDetails />;
+export default async function CourseByCityPage({params}) {
+          const { locale, slug } = await params;    
+          let cityData = {};
+          try {
+              const res = await getCoursesByCity(locale, slug);
+              cityData = res?.data || {};
+          } catch (error) {
+            console.error("Failed to fetch city details:", error);
+          }
+          
+        return (
+            <>
+              {cityData?.slug_en && cityData?.slug_ar && (
+                        <AlternatePathsSetter
+                        enPath={`/city/${cityData.id}/${cityData.slug_en}`}
+                        arPath={`/city/${cityData.id}/${cityData.slug_ar}`}
+                        />
+                    )}
+            <CourseByCityDetails  />
+            
+            </>
+            
+            );
 }

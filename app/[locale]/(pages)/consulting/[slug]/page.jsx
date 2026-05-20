@@ -1,5 +1,6 @@
 import { getConsultantWithService } from "@/action/consulting";
 import ConsultingService from "./ConsultingService";
+import AlternatePathsSetter from "@/components/common/AlternatePathsSetter";
 
 export async function generateMetadata({ params }) {
     const { locale, slug } = await params;
@@ -56,6 +57,29 @@ export async function generateMetadata({ params }) {
 }
 
 
-export default function ConsultingServicePage() {
-    return <ConsultingService />;
+export default async function ConsultingServicePage({ params, searchParams }) {
+      const { locale, slug } = await params;
+      const resolvedSearchParams = await searchParams;
+            const paramsString = new URLSearchParams(resolvedSearchParams).toString();
+      const queryString = paramsString ? `?${paramsString}` : "";
+
+      let serviceData = {};
+      try {
+          const res = await getConsultantWithService(locale, slug, queryString);
+          serviceData = res?.data || {};
+          console.log(serviceData, "params in consulting details page");
+      } catch (error) {
+        console.error("Failed to fetch consulting details:", error);
+      }
+    return (
+      <>
+        {serviceData?.slug_en && serviceData?.slug_ar && (
+          <AlternatePathsSetter
+            enPath={`/consulting/${serviceData.slug_en}`}
+            arPath={`/consulting/${serviceData.slug_ar}`}
+          />
+        )}
+        <ConsultingService serviceData={serviceData}/>
+      </>
+    );
 }

@@ -3,21 +3,16 @@ import { useLocale } from 'next-intl';
 import { useRouter, usePathname } from '@/i18n/routing';
 import useLanguageStore, { LANGUAGES } from '@/store/useLanguageStore';
 
-/**
- * Thin bridge between next-intl and the Zustand language store.
- *
- * - Syncs next-intl's active locale → store on every render.
- * - Exposes the same API as before so existing components need no changes.
- */
 export { LANGUAGES };
 
 export const useLanguageSwitcher = () => {
-  const locale   = useLocale();
-  const router   = useRouter();
+  const locale = useLocale();
+  const router = useRouter();
   const pathname = usePathname();
+  
   const setLocale = useLanguageStore((s) => s.setLocale);
+  const alternatePaths = useLanguageStore((s) => s.alternatePaths); 
 
-  // Keep the store in sync with next-intl's locale (URL-driven).
   useEffect(() => {
     setLocale(locale);
   }, [locale, setLocale]);
@@ -26,8 +21,14 @@ export const useLanguageSwitcher = () => {
   const oppositeLang = LANGUAGES.find((l) => l.code !== locale) ?? LANGUAGES[0];
 
   const switchTo = (langCode) => {
-    setLocale(langCode);                          // update store immediately
-    router.replace(pathname, { locale: langCode }); // navigate
+    setLocale(langCode); 
+    
+    // --- NEW CODE: Use the localized slug path if it exists, otherwise fallback to the current path ---
+    if (alternatePaths && alternatePaths[langCode]) {
+      router.replace(alternatePaths[langCode], { locale: langCode });
+    } else {
+      router.replace(pathname, { locale: langCode }); 
+    }
   };
 
   const toggle = () => switchTo(oppositeLang.code);

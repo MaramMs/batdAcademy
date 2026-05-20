@@ -1,128 +1,103 @@
-"use client";
+import AlternatePathsSetter from "@/components/common/AlternatePathsSetter";
+import { getSpecializationBySlug } from "@/action/categories";
+import SpecializationDetails from "./SpecializationDetails";
+export async function generateMetadata({ params }) {
+  const { locale, slug } = await params;
+  const name = slug
+    ? decodeURIComponent(slug)
+        .replace(/-/g, " ")
+        .replace(/\b\w/g, (c) => c.toUpperCase())
+    : "Category";
+  const fallback = {
+    title: `Training Courses in ${name} | British Academy for Training & Development`,
+    description: `Explore training courses available in ${name} from the British Academy for Training & Development.`,
+  };
+  try {
+    const response = await getSpecializationBySlug(locale, slug);
+    const res = response?.data;
+    if (!res) return fallback;
 
-import Header from "./Header";
-import styles from "@/sass/pages/category-details/category-details.module.scss";
-import stylesContainer from "@/sass/components/common/container.module.scss";
-import Link from "next/link";
-import { ChevronRight, Filter } from "lucide-react";
-import UpcomingCouresCard from "@/components/ui/UpcomingCouresCard";
-import CategoriesBox from "@/components/common/CategoriesBox";
-import Range from "@/components/ui/Range";
-import useCategoriesStore from "@/store/useCategoriesStore";
-import useCoursesStore from "@/store/useCoursesStore";
-import React, { useEffect, use } from "react";
-import Skeleton from "@/components/ui/Skeleton";
+    const meta = res.meta || {};
+    const title = meta.title || res.name || fallback.title;
+    const description =
+      meta.description?.replace(/<[^>]*>?/gm, "") ||
+      res.description ||
+      fallback.description;
 
-const SpecializationDetailsPage = ({ params }) => {
-    const { id } = use(params);
-    const { categories, handleGetCategories } = useCategoriesStore();
-    const { data, handleGetCourses, isLoading } = useCoursesStore();
+    let keywords = meta.keyword;
+    if (keywords && typeof keywords === "string" && keywords.startsWith("[")) {
+      try {
+        const parsed = JSON.parse(keywords);
+        keywords = parsed.map((k) => k.value).join(", ");
+      } catch (e) {
+        console.error("Error parsing keywords:", e);
+      }
+    }
 
-    useEffect(() => {
-        handleGetCategories();
-        handleGetCourses(`?specialization_id=${id}`);
-    }, [id]);
+    return {
+      title,
+      description,
+      keywords: keywords || undefined,
+      openGraph: {
+        title,
+        description,
+        type: "article",
+        ...(res?.image
+          ? { images: [res.image] }
+          : {
+              images: [
+                {
+                  url: "/og-image.png",
+                  width: 1200,
+                  height: 630,
+                  alt: title,
+                },
+              ],
+            }),
+      },
+      twitter: {
+        card: "summary_large_image",
+        title,
+        description,
+        ...(res?.image
+          ? { images: [res.image] }
+          : {
+              images: [
+                {
+                  url: "/og-image.png",
+                  width: 1200,
+                  height: 630,
+                  alt: title,
+                },
+              ],
+            }),
+      },
+    };
+  } catch (error) {
+    console.error("Metadata error:", error);
+    return { ...fallback, openGraph: { ...fallback, type: "article" } };
+  }
+}
 
-    return (
-        <div className={styles.categoryDetails}>
-            <Header />
+export default async function CourseByCityPage({ params }) {
+  const { locale, slug } = await params;
+  let specialData = {};
+  try {
+    const res = await getSpecializationBySlug(locale, slug);
+    specialData = res?.data || {};
+  } catch (error) {
+    console.error("Failed to fetch city details:", error);
+  }
 
-            <div className={styles.mainContent}>
-                <div className={stylesContainer.container}>
-
-                    <div className={styles.contentWrapper}>
-                        <div className={styles.content}>
-                            <div className={styles.filter}>
-                                {/* Box 1: Filters/Settings */}
-                                <CategoriesBox title="All Categories" icon={<Filter size={18} />}>
-                                    <div className={styles.sidebarFilterContent}>
-                                        <div className={styles.range}>
-                                            <h4 className={styles.filterGroupTitle}>Price Range</h4>
-                                            <Range
-                                                min={0}
-                                                max={2000}
-                                                step={10}
-                                            />
-                                        </div>
-
-                                        <h4 className={styles.filterGroupTitle}>Course Type</h4>
-                                        <div className={styles.checkboxGroup}>
-                                            <label className={styles.checkboxLabel}>
-                                                <input type="checkbox" /> Featured Courses
-                                            </label>
-                                            <label className={styles.checkboxLabel}>
-                                                <input type="checkbox" /> Approved Courses
-                                            </label>
-                                            <label className={styles.checkboxLabel}>
-                                                <input type="checkbox" /> Discounted Courses
-                                            </label>
-                                        </div>
-                                    </div>
-                                </CategoriesBox>
-
-                                {/* Box 2: Category List */}
-                                <CategoriesBox title="All Category">
-                                    <ul className={styles.sidebarCategoryList}>
-                                        {
-                                            categories.length > 0 ? (
-                                                categories.map((category) => (
-                                                    <li key={category.id}>
-                                                        <Link href={`/category/${category.id}/${category.slug}`}>
-                                                            <span>{category.name}</span>
-                                                            <div className={styles.badgeWrapper} >
-                                                                <span className={styles.badge}>{category.count || category.courses_count}</span>
-                                                                <ChevronRight size={12} />
-                                                            </div>
-                                                        </Link>
-                                                    </li>
-                                                ))
-                                            ) : (
-                                                <li>No categories found</li>
-                                            )
-                                        }
-                                    </ul>
-                                </CategoriesBox>
-
-                                {/* Box 3: Tags */}
-                                <CategoriesBox title="All Tags">
-                                    <div className={styles.sidebarTagsContainer}>
-                                        <span className={styles.tagPill}>Business</span>
-                                        <span className={styles.tagPill}>Graphic Design</span>
-                                        <span className={styles.tagPill}>Technology</span>
-                                        <span className={styles.tagPill}>Business Idea</span>
-                                        <span className={styles.tagPill}>App Development</span>
-                                        <span className={styles.tagPill}>Website Design</span>
-                                        <span className={styles.tagPill}>Marketing</span>
-                                        <span className={styles.tagPill}>Leadership</span>
-                                        <span className={styles.tagPill}>Finance</span>
-                                        <span className={styles.tagPill}>Project Management</span>
-                                    </div>
-                                </CategoriesBox>
-                            </div>
-
-
-                            <div className={styles.rightContent}>
-                                {isLoading ? (
-                                    Array.from({ length: 6 }).map((_, i) => (
-                                        <Skeleton key={i} type="card" height="400px" />
-                                    ))
-                                ) : data?.courses?.length > 0 ? (
-                                    data.courses.map((course, index) => (
-                                        <UpcomingCouresCard key={index} course={course} />
-                                    ))
-                                ) : (
-                                    <div className={styles.noCourses}>
-                                        <h3>No courses found in this specialization</h3>
-                                    </div>
-                                )}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    );
-};
-
-export default SpecializationDetailsPage;
+  return (
+    <>
+      {specialData?.slug_en && specialData?.slug_ar && (
+        <AlternatePathsSetter
+          enPath={`/course_traning/${specialData.id}/${specialData.slug_en}`}
+          arPath={`/course_traning/${specialData.id}/${specialData.slug_ar}`}
+        />
+      )}
+      <SpecializationDetails params={params} />
+    </>
+  );
+}

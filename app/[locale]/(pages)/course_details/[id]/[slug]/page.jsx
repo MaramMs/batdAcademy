@@ -1,5 +1,6 @@
 import { getCourseBySlug } from "@/action/courses";
 import CourseDetails from "./CourseDetails";
+import AlternatePathsSetter from "@/components/common/AlternatePathsSetter";
 
 export async function generateMetadata({ params }) {
     const { locale, slug } = await params;
@@ -87,6 +88,24 @@ export async function generateMetadata({ params }) {
     }
 }
 
-export default function CourseDetailsPage() {
-    return <CourseDetails />;
+export default async function CourseDetailsPage({ params }) {
+    const { locale, id, slug } = await params;
+        let courseData = {};
+    try {
+        const res = await getCourseBySlug(locale, slug);
+        courseData = res?.data || {};
+    } catch (error) {
+        console.error("Failed to fetch course details:", error);
+    }
+    return (
+        <>
+            {courseData?.slug_en && courseData?.slug_ar && (
+                <AlternatePathsSetter 
+                    enPath={`/course_details/${id}/${courseData.slug_en}`} 
+                    arPath={`/course_details/${id}/${courseData.slug_ar}`} 
+                />
+            )}
+            <CourseDetails initialCourse={courseData} />
+        </>
+    );
 }
