@@ -62,12 +62,14 @@
 
         span {
             font-size: 18px;
-            color: #D1D5DC;
+            color: black !important;
             font-weight: 400;
             white-space: nowrap;
 
             @media (max-width: 768px) {
                 font-size: 14px;
+        ;
+
             }
 
             @media (max-width: 576px) {
@@ -77,6 +79,11 @@
             &:nth-child(4) {
                 color: #4A5565;
             }
+               &:nth-child(3) {
+                color: #4A5565;
+            }
+
+
 
             &:nth-child(7) {
                 color: #2F327D;

@@ -41,13 +41,13 @@ const CourseDetails = ({ initialCourse }) => {
   const [mounted, setMounted] = useState(false);
   const { handleGetCourses, data } = useCoursesStore();
 
-  const {handleGetCategories } = useCategoriesStore();
+  const { handleGetCategories } = useCategoriesStore();
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const router = useRouter();
   const { locale } = useLanguageStore();
   const { id } = useParams();
-  const course = initialCourse; 
+  const course = initialCourse;
   const registerUrl = useMemo(() => {
     const params = new URLSearchParams();
     params.set("course_id", id);
@@ -98,8 +98,12 @@ const CourseDetails = ({ initialCourse }) => {
             </h1>{" "}
             <Dialog.Root modal={true}>
               <Dialog.Trigger asChild>
-                <button className={styles.filterBtn}>
-                  <Filter size={20} />
+                <button
+                  className={styles.filterBtn}
+                  type="button"
+                  aria-label="Open filters"
+                >
+                  <Filter size={20} aria-hidden="true" />
                 </button>
               </Dialog.Trigger>
 
@@ -112,7 +116,7 @@ const CourseDetails = ({ initialCourse }) => {
                         Filters
                       </Dialog.Title>
                       <Dialog.Close className={styles.drawerClose}>
-                        <X size={20} />
+                        <X size={20} aria-hidden="true" />
                       </Dialog.Close>
                     </div>
                     <SidebarFilter data={data} updateFilter={updateFilter} />
@@ -136,12 +140,18 @@ const CourseDetails = ({ initialCourse }) => {
                           <div className={styles.iconShare}>
                             <span>Share:</span>
                             <div className={styles.icons}>
-                              <span>
-                                <Mail />
-                              </span>
-                              <span>
-                                <MessageCircle />
-                              </span>
+                              <button
+                                type="button"
+                                aria-label="Share via email"
+                              >
+                                <Mail size={18} aria-hidden="true" />
+                              </button>
+                              <button
+                                type="button"
+                                aria-label="Share via message"
+                              >
+                                <MessageCircle size={18} aria-hidden="true" />
+                              </button>
                               <span>
                                 <svg
                                   width="18"
@@ -169,12 +179,12 @@ const CourseDetails = ({ initialCourse }) => {
                                   </g>
                                 </svg>
                               </span>
-                              <span>
-                                <Copy />
-                              </span>
-                              <span>
-                                <Printer />
-                              </span>
+                              <button type="button" aria-label="Copy link">
+                                <Copy size={18} aria-hidden="true" />
+                              </button>
+                              <button type="button" aria-label="Print">
+                                <Printer size={18} aria-hidden="true" />
+                              </button>
                             </div>
                           </div>
                         </div>
@@ -305,7 +315,7 @@ const CourseDetails = ({ initialCourse }) => {
                         <Star size={24} color="#D08700" />
                       </div>
                       <div className={styles.content}>
-                        <h4>+600k</h4>
+                        <p className={styles.statNumber}>+600k</p>
                         <p>Reviews</p>
                       </div>
                     </div>
@@ -315,7 +325,7 @@ const CourseDetails = ({ initialCourse }) => {
                         <Users size={24} color="#2F327D" />
                       </div>
                       <div className={styles.content}>
-                        <h4>+800k</h4>
+                        <p className={styles.statNumber}>+800k</p>
                         <p>Students</p>
                       </div>
                     </div>
@@ -325,7 +335,7 @@ const CourseDetails = ({ initialCourse }) => {
                         <Clock size={24} color="#9810FA" />
                       </div>
                       <div className={styles.content}>
-                        <h4>1-2 weeks</h4>
+                        <p className={styles.statNumber}>1-2 weeks</p>
                         <p>Duration</p>
                       </div>
                     </div>

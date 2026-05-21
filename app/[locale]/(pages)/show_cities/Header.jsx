@@ -66,15 +66,15 @@ const Header = ({ updateFilter }) => {
 
             <div className={styles.statistics}>
                 <div className={styles.item}>
-                    <h5>{stats?.cities ? `${stats.cities}+` : "..."}</h5>
+                    <h2>{stats?.cities ? `${stats.cities}+` : "..."}</h2>
                     <span>Global Cities</span>
                 </div>
                 <div className={styles.item}>
-                    <h5>{stats?.training_programs ? `${formatStat(stats.training_programs)}+` : "..."}</h5>
+                    <h2>{stats?.training_programs ? `${formatStat(stats.training_programs)}+` : "..."}</h2>
                     <span>Training Programs</span>
                 </div>
                 <div className={styles.item}>
-                    <h5>{stats?.total_students !== undefined ? `${formatStat(stats.total_students)}+` : "..."}</h5>
+                    <h2>{stats?.total_students !== undefined ? `${formatStat(stats.total_students)}+` : "..."}</h2>
                     <span>Happy Students</span>
                 </div>
             </div>

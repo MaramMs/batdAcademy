@@ -1,14 +1,11 @@
-import styles from "@/sass/components/common/categories-box.module.scss";
-
-const CategoriesBox = ({ title, icon, children }) => {
+const CategoriesBox = ({ title, icon, children, as: Tag = "h3" }) => {
     return (
         <section className={styles.categoriesBox}>
             <div className={styles.wrapper}>
                 <div className={styles.top}>
                     {icon && <span className={styles.icon}>{icon}</span>}
-                    <h3 className={styles.titleText}>{title}</h3>
+                    <Tag className={styles.titleText}>{title}</Tag>
                 </div>
-
                 <div className={styles.content}>
                     {children}
                 </div>
@@ -16,5 +13,3 @@ const CategoriesBox = ({ title, icon, children }) => {
         </section>
     );
 };
-
-export default CategoriesBox;
