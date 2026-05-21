@@ -1,6 +1,6 @@
 import { getPostBySlug } from "@/action/posts";
 import AlternatePathsSetter from "@/components/common/AlternatePathsSetter";
-import { SITE_URL } from "@/lib/seoMeta";
+import { buildAlternates, SITE_URL } from "@/lib/seoMeta";
 import styleContainer from "@/sass/components/common/container.module.scss";
 import styles from "@/sass/pages/blog/blog-details.module.scss";
 import ArticleParts from "./ArticleParts";
@@ -57,8 +57,7 @@ export async function generateMetadata({ params }) {
         title,
         description,
         type: "article",
-        locale: locale === "ar" ? "ar_AR" : "en_US",
-        alternateLocale: locale === "ar" ? ["en_US"] : ["ar_AR"],
+       
         ...(res?.image
           ? { images: [res.image] }
           : {

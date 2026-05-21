@@ -60,7 +60,7 @@ const LatestArticlesCard = ({ article, view }) => {
                     </div>
                 </div>
 
-                <Link className={styles.readMore} href={`/en/post/${article.slug}`} aria-label={`Read more about ${post.title}`}>
+                <Link className={styles.readMore} href={`/en/post/${article.slug}`} aria-label={`Read more about ${article?.name}`}>
                     Read More
                     <ArrowRight size={14} color="#fff" />
                 </Link>
