@@ -35,10 +35,10 @@ const LatestArticlesCard = ({ article, view }) => {
     >
       <div className={styles.image}>
         <Image
-          alt={post?.name || "Post thumbnail"}
+          alt={article?.name || "Post thumbnail"}
           width={100}
           height={100}
-          src={post?.image || randomImage}
+          src={article?.image || randomImage}
           style={{ objectFit: "cover", borderRadius: "8px" }}
         />
       </div>
@@ -74,7 +74,7 @@ const LatestArticlesCard = ({ article, view }) => {
 
         <Link
           className={styles.readMore}
-          href={`/${locale}/post/${article.slug}`}
+          href={`/post/${article.slug}`}
         >
           Read More
           <span className="sr-only"> about {article?.name}</span>
