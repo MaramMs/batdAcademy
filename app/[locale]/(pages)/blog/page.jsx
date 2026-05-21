@@ -30,11 +30,15 @@ export async function generateMetadata({ params }) {
         title,
         description,
         keywords,
-        alternates: { canonical: `/${locale}/blog`, ...buildAlternates("/blog") },
+          alternates: { 
+    canonical: `${SITE_URL}/${locale}/blog`,      
+    ...buildAlternates("/blog")               
+  },
         openGraph: {
             title,
             description,
             type: "website",
+              url: `${SITE_URL}/${locale}/blog`,  
              locale: locale === 'ar' ? 'ar_AR' : 'en_US',
                 alternateLocale: locale === 'ar' ? ['en_US'] : ['ar_AR'],
             images: [{ url: "/og-image.png", width: 1200, height: 630, alt: title }],
