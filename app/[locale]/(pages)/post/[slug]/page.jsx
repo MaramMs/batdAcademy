@@ -1,10 +1,11 @@
 import { getPostBySlug } from "@/action/posts";
+import AlternatePathsSetter from "@/components/common/AlternatePathsSetter";
+import { SITE_URL } from "@/lib/seoMeta";
+import styleContainer from "@/sass/components/common/container.module.scss";
+import styles from "@/sass/pages/blog/blog-details.module.scss";
 import ArticleParts from "./ArticleParts";
 import Header from "./Header";
 import MainContent from "./MainContent";
-import styleContainer from "@/sass/components/common/container.module.scss";
-import styles from "@/sass/pages/blog/blog-details.module.scss";
-import AlternatePathsSetter from "@/components/common/AlternatePathsSetter";
 
 export async function generateMetadata({ params }) {
   const { locale, slug } = await params;
@@ -43,13 +44,24 @@ export async function generateMetadata({ params }) {
     }
 
     return {
+      metadataBase: new URL(SITE_URL),
       title,
       description,
       keywords: keywords || undefined,
+      alternates: {
+        canonical: `/${locale}/post/${slug}`,
+        languages: {
+          en: `${SITE_URL}/en/post/${slug}`,
+          ar: `${SITE_URL}/ar/post/${slug}`,
+          "x-default": `${SITE_URL}/en/post/${slug}`,
+        },
+      },
       openGraph: {
         title,
         description,
         type: "article",
+        locale: locale === "ar" ? "ar_AR" : "en_US",
+        alternateLocale: locale === "ar" ? ["en_US"] : ["ar_AR"],
         ...(res?.image
           ? { images: [res.image] }
           : {
@@ -105,14 +117,14 @@ export default async function BlogDetailsPage({ params }) {
         />
       )}
       <div className={styles.blogDetailsPage}>
-      <Header post={blogData} />
-      <div className={styleContainer.container}>
-        <div className={styles.content}>
-          <ArticleParts post={blogData} />
-          <MainContent post={blogData} />
+        <Header post={blogData} />
+        <div className={styleContainer.container}>
+          <div className={styles.content}>
+            <ArticleParts post={blogData} />
+            <MainContent post={blogData} />
+          </div>
         </div>
       </div>
-    </div>
     </>
   );
 }

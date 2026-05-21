@@ -8,7 +8,7 @@ export async function generateMetadata({ params }) {
     const slug = 'our-consulting-and-management-services-british-academy-for-training-development';
 
     const fallback = {
-        title: "Consulting Services | British Academy for Training & Development",
+        title: "Consulting Services",
         description: "Discover professional consulting services offered by the British Academy for Training & Development.",
         icons: {
             icon: "/favicon.ico",
@@ -16,7 +16,7 @@ export async function generateMetadata({ params }) {
             apple: "/favicon.ico",
         },
         openGraph: {
-            title: "Consulting Services | British Academy for Training & Development",
+            title: "Consulting Services",
             description: "Discover professional consulting services offered by the British Academy for Training & Development.",
             type: "website",
             // url: `${baseUrl}/en/consulting`,
@@ -85,7 +85,6 @@ export async function generateMetadata({ params }) {
         return fallback;
     }
 }
-
 const ConsultingPage = () => {
     return <Consulting />;
 };

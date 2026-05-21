@@ -1,5 +1,6 @@
 import { getMeta } from "@/action/meta";
 import YearPlan from "./YearPlan";
+import { SITE_URL} from "@/lib/seoMeta";
 export async function generateMetadata({ params }) {
     const { locale } = await params;
     const slug = "the-annual-training-plan-for-the-courses-and-programs-of-the-british-academy";
@@ -34,6 +35,7 @@ export async function generateMetadata({ params }) {
         }
 
         return {
+             metadataBase: new URL(SITE_URL),
             title,
             description,
             keywords: keywords || undefined,
@@ -42,10 +44,16 @@ export async function generateMetadata({ params }) {
                 shortcut: "/favicon.ico",
                 apple: "/favicon.ico",
             },
+              alternates: {
+                    canonical: `/${locale}`,
+
+                  },
             openGraph: {
                 title,
                 description,
                 type: "website",
+                   locale: locale === "ar" ? "ar_AR" : "en_US",
+        alternateLocale: locale === "ar" ? ["en_US"] : ["ar_AR"],
                 siteName: "British Academy for Training & Development",
                 images: [
                     {

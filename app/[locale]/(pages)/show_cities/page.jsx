@@ -1,5 +1,6 @@
 import { getMeta } from "@/action/meta";
 import ShowCities from "./Cities";
+import { SITE_URL } from "@/lib/seoMeta";
 export async function generateMetadata({ params }) {
     const { locale } = await params;
     const slug = "all-training-cities-british-academy-for-training-development";
@@ -33,6 +34,7 @@ export async function generateMetadata({ params }) {
         }
 
         return {
+             metadataBase: new URL(SITE_URL),
             title,
             description,
             keywords: keywords || undefined,
@@ -41,10 +43,20 @@ export async function generateMetadata({ params }) {
                 shortcut: "/favicon.ico",
                 apple: "/favicon.ico",
             },
+              alternates: {
+                    canonical: `/${locale}/post/${slug}`,
+                    languages: {
+                      en: `${SITE_URL}/en/post/${slug}`,
+                      ar: `${SITE_URL}/ar/post/${slug}`,
+                      "x-default": `${SITE_URL}/en/post/${slug}`,
+                    },
+                  },
    openGraph: {
                 title,
                 description,
                 type: "website",
+                     locale: locale === "ar" ? "ar_AR" : "en_US",
+        alternateLocale: locale === "ar" ? ["en_US"] : ["ar_AR"],
                 siteName: "British Academy for Training & Development",
                 images: [
                     {

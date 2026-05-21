@@ -1,6 +1,22 @@
 "use server";
 
+import { cleanMeta } from "@/lib/seoMeta";
+
 const API_KEY = process.env.NEXT_PUBLIC_API_KEY;
+
+function sanitizeMeta(payload) {
+  if (!payload || typeof payload !== "object") return payload;
+  const meta = payload.meta;
+  if (!meta || typeof meta !== "object") return payload;
+  return {
+    ...payload,
+    meta: {
+      ...meta,
+      title: cleanMeta(meta.title, { maxLength: 65 }),
+      description: cleanMeta(meta.description, { maxLength: 160 }),
+    },
+  };
+}
 
 export async function getMeta(language, slug) {
   try {
@@ -15,7 +31,7 @@ export async function getMeta(language, slug) {
     if (!response.ok) return null;
 
     const data = await response.json();
-    return data.success ? data.data : null;
+    return data.success ? sanitizeMeta(data.data) : null;
   } catch (error) {
     console.error("Error fetching meta:", error);
     return null;

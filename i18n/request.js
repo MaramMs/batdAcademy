@@ -18,12 +18,16 @@ export default getRequestConfig(async ({ requestLocale }) => {
   const heroMessages = (
     await import(`../messages/(pages)/home/${locale}/hero.json`)
   ).default;
+  const metaMessages = (
+    await import(`../messages/layout/${locale}/meta.json`)
+  ).default;
   return {
     locale,
     messages: {
       ...mainNavMessages,
       ...topNavMessages,
       ...heroMessages,
+      ...metaMessages,
     },
   };
 });

@@ -1,102 +1,91 @@
-import Hero from "./Hero"
-import RequestCoures from "./RequestCoures"
-import UpcomingCourses from "./UpcomingCourses"
-import styles from '@/sass/pages/home/home.module.scss'
-import WhatIs from "./WhatIs"
-import CourseByCity from "./CourseByCity"
-import Customers from "./Customers"
-import CoursesBySpecial from "./CoursesBySpecial"
-import LastestPublication from "./LastestPublication"
-import TeamWork from "./TeamWork"
-import ChatAi from "./ChatAi"
-import MotionWrapper from "@/components/common/MotionWrapper";
 import { getMeta } from "@/action/meta";
+import MotionWrapper from "@/components/common/MotionWrapper";
+import { cleanMeta, parseKeywords, buildAlternates } from "@/lib/seoMeta";
+import styles from "@/sass/pages/home/home.module.scss";
+import ChatAi from "./ChatAi";
+import CourseByCity from "./CourseByCity";
+import CoursesBySpecial from "./CoursesBySpecial";
+import Customers from "./Customers";
+import Hero from "./Hero";
+import LastestPublication from "./LastestPublication";
+import RequestCoures from "./RequestCoures";
+import TeamWork from "./TeamWork";
+import UpcomingCourses from "./UpcomingCourses";
+import WhatIs from "./WhatIs";
 
 export async function generateMetadata({ params }) {
     const { locale } = await params;
 
-    const fallback = {
-        title: "British Academy for Training & Development",
-        description: "British Academy for Training & Development website",
-       icons: {
-                icon: "/favicon.ico",
-                shortcut: "/favicon.ico",
-                apple: "/favicon.ico",
-            },
-    };
+    let title;
+    let description;
+    let keywords;
 
     try {
         const res = await getMeta(locale, "home");
         const meta = res?.meta;
-        if (!meta) return fallback;
-
-        const title = meta?.title || fallback.title;
-        const description = meta?.description?.replace(/<[^>]*>?/gm, '') || fallback.description;
-
-        let keywords = meta?.keyword;
-        if (keywords && typeof keywords === 'string' && keywords.startsWith("[")) {
-            try {
-                const parsed = JSON.parse(keywords);
-                keywords = parsed.map(k => k.value).join(", ");
-            } catch (e) {
-                console.error("Error parsing keywords:", e);
-            }
+        if (meta) {
+            title = cleanMeta(meta.title, { maxLength: 60 });
+            description = cleanMeta(meta.description, { maxLength: 160 });
+            keywords = parseKeywords(meta.keyword);
         }
-
-        return {
-            title,
-            description,
-            keywords: keywords || undefined,
-            icons: {
-                icon: "/favicon.ico",
-                shortcut: "/favicon.ico",
-                apple: "/favicon.ico",
-            },
-           openGraph: {
-                title,
-                description,
-                type: "website",
-                siteName: "British Academy for Training & Development",
-                images: [
-                    {
-                        url: '/og-image.png',
-                        width: 1200,
-                        height: 630,
-                        alt: title,
-                    },
-                ],
-            },
-
-            twitter: {
-                card: "summary_large_image",
-                title,
-                description,
-                images: [{ url: '/og-image.png', width: 1200, height: 630 }],
-            },
-        };
     } catch (error) {
-        console.error("Metadata error:", error);
-        return fallback;
+        console.error("Home metadata error:", error);
     }
+
+    return {
+        ...(title ? { title: { absolute: title } } : {}),
+        ...(description ? { description } : {}),
+        keywords,
+        alternates: { canonical: `/${locale}`, ...buildAlternates("/") },
+        openGraph: {
+            type: "website",
+            ...(title ? { title } : {}),
+            ...(description ? { description } : {}),
+            images: [{ url: "/og-image.png", width: 1200, height: 630, alt: title || "British Academy for Training & Development" }],
+        },
+        twitter: {
+            card: "summary_large_image",
+            ...(title ? { title } : {}),
+            ...(description ? { description } : {}),
+            images: ["/og-image.png"],
+        },
+    };
 }
+
 
 const Home = () => {
-    return (
-        <div className={styles.home}>
-            <Hero />
-            <ChatAi />
-            <div className={styles.mainContent}>
-                <MotionWrapper><UpcomingCourses /></MotionWrapper>
-                <MotionWrapper><CoursesBySpecial /></MotionWrapper>
-                <MotionWrapper><RequestCoures /></MotionWrapper>
-                <MotionWrapper><WhatIs /></MotionWrapper>
-                <MotionWrapper><CourseByCity /></MotionWrapper>
-                <MotionWrapper><LastestPublication /></MotionWrapper>
-                <MotionWrapper><TeamWork /></MotionWrapper>
-                <MotionWrapper><Customers /></MotionWrapper>
-            </div>
-        </div>
-    )
-}
+  return (
+    <div className={styles.home}>
+      <Hero />
+      <ChatAi />
+      <div className={styles.mainContent}>
+        <MotionWrapper>
+          <UpcomingCourses />
+        </MotionWrapper>
+        <MotionWrapper>
+          <CoursesBySpecial />
+        </MotionWrapper>
+        <MotionWrapper>
+          <RequestCoures />
+        </MotionWrapper>
+        <MotionWrapper>
+          <WhatIs />
+        </MotionWrapper>
+        <MotionWrapper>
+          <CourseByCity />
+        </MotionWrapper>
+        <MotionWrapper>
+          <LastestPublication />
+        </MotionWrapper>
+        <MotionWrapper>
+          <TeamWork />
+        </MotionWrapper>
+        <MotionWrapper>
+          <Customers />
+        </MotionWrapper>
+      </div>
+    </div>
+  );
+};
 
-export default Home
+export default Home;

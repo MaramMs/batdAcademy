@@ -1,7 +1,7 @@
 import AlternatePathsSetter from "@/components/common/AlternatePathsSetter";
 import PrintCategory from "./PlanDetails";
 import { getPlanById } from "@/action/plans";
-
+import { SITE_URL } from "@/lib/seoMeta";
 export async function generateMetadata({ params }) {
   const { locale, id } = await params;
   const fallback = {
@@ -33,13 +33,24 @@ export async function generateMetadata({ params }) {
     }
 
     return {
+        metadataBase: new URL(SITE_URL),
       title,
       description,
       keywords: keywords || undefined,
+       alternates: {
+              canonical: `/${locale}/post/${slug}`,
+              languages: {
+                en: `${SITE_URL}/en/post/${slug}`,
+                ar: `${SITE_URL}/ar/post/${slug}`,
+                "x-default": `${SITE_URL}/en/post/${slug}`,
+              },
+            },
       openGraph: {
         title,
         description,
         type: "article",
+         locale: locale === "ar" ? "ar_AR" : "en_US",
+        alternateLocale: locale === "ar" ? ["en_US"] : ["ar_AR"],
         ...(res?.image
           ? { images: [res.image] }
           : {

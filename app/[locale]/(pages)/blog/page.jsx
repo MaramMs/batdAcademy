@@ -1,76 +1,52 @@
-import Blog from "./Blog";
 import { getMeta } from "@/action/meta";
+import Blog from "./Blog";
+import {SITE_URL, cleanMeta, parseKeywords, buildAlternates } from "@/lib/seoMeta";
+
+const FALLBACK_TITLE = "Blog";
+const FALLBACK_DESC = "Read the latest articles, news, and insights from the British Academy for Training & Development.";
+
 
 export async function generateMetadata({ params }) {
     const { locale } = await params;
 
-    const fallback = {
-        title: "Blog | British Academy for Training & Development",
-        description: "Read the latest articles, news, and insights from the British Academy for Training & Development.",
-          icons: {
-                icon: "/favicon.ico",
-                shortcut: "/favicon.ico",
-                apple: "/favicon.ico",
-            },
-    };
+    let title = FALLBACK_TITLE;
+    let description = FALLBACK_DESC;
+    let keywords;
 
     try {
         const res = await getMeta(locale, "blog");
         const meta = res?.meta;
-        const title = meta?.title || fallback.title;
-        const description = meta?.description?.replace(/<[^>]*>?/gm, '') || fallback.description;
-        
-        let keywords = meta?.keyword;
-        if (keywords && typeof keywords === 'string' && keywords.startsWith("[")) {
-            try {
-                const parsed = JSON.parse(keywords);
-                keywords = parsed.map(k => k.value).join(", ");
-            } catch (e) {
-                console.error("Error parsing keywords:", e);
-            }
+        if (meta) {
+            title = cleanMeta(meta.title, { maxLength: 60 }) || FALLBACK_TITLE;
+            description = cleanMeta(meta.description, { maxLength: 160 }) || FALLBACK_DESC;
+            keywords = parseKeywords(meta.keyword);
         }
+    } catch (error) {
+        console.error("Blog metadata error:", error);
+    }
 
-        return {
+    return {
+          metadataBase: new URL(SITE_URL),
+        title,
+        description,
+        keywords,
+        alternates: { canonical: `/${locale}/blog`, ...buildAlternates("/blog") },
+        openGraph: {
             title,
             description,
-            keywords: keywords || undefined,
-                icons: {
-                icon: "/favicon.ico",
-                shortcut: "/favicon.ico",
-                apple: "/favicon.ico",
-            },
-   openGraph: {
-                title,
-                description,
-                type: "website",
-                siteName: "British Academy for Training & Development",
-                images: [
-                    {
-                        url: '/og-image.png',
-                        width: 1200,
-                        height: 630,
-                        alt: title,
-                    },
-                ],
-            },
-
-            twitter: {
-                card: "summary_large_image",
-                title,
-                description,
-                images: [{ url: '/og-image.png', width: 1200, height: 630 }],
-            },        };
-    } catch (error) {
-        console.error("Metadata error:", error);
-        return {
-            ...fallback,
-            openGraph: { ...fallback, type: "website" },
-        };
-    }
+            type: "website",
+             locale: locale === 'ar' ? 'ar_AR' : 'en_US',
+                alternateLocale: locale === 'ar' ? ['en_US'] : ['ar_AR'],
+            images: [{ url: "/og-image.png", width: 1200, height: 630, alt: title }],
+        },
+        twitter: {
+            card: "summary_large_image",
+            title,
+            description,
+            images: ["/og-image.png"],
+        },
+    };
 }
-
 export default async function BlogPage() {
-    return (
-        <Blog />
-    );
+  return <Blog />;
 }

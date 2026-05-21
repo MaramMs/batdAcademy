@@ -5,72 +5,48 @@ import OurOffices from "./OurOffices";
 import styles from "@/sass/pages/contact/contact.module.scss";
 import container from "@/sass/components/common/container.module.scss";
 
+import { cleanMeta, parseKeywords, buildAlternates } from "@/lib/seoMeta";
+
+const FALLBACK_TITLE = "Contact Us";
+const FALLBACK_DESC = "Contact the British Academy for Training & Development for inquiries, support, or partnership opportunities.";
+
 export async function generateMetadata({ params }) {
     const { locale } = await params;
 
-    const fallback = {
-        title: "Contact Us | British Academy for Training & Development",
-        description: "Contact the British Academy for Training & Development for inquiries, support, or partnership opportunities.",
-        icons: {
-            icon: "/favicon.ico",
-            shortcut: "/favicon.ico",
-            apple: "/favicon.ico",
-        },
-    };
+    let title = FALLBACK_TITLE;
+    let description = FALLBACK_DESC;
+    let keywords;
 
     try {
         const res = await getMeta(locale, "contact-us");
         const meta = res?.meta;
-        if (!meta) return fallback;
-
-        const title = meta?.title || fallback.title;
-        const description = meta?.description?.replace(/<[^>]*>?/gm, '') || fallback.description;
-
-        let keywords = meta?.keyword;
-        if (keywords && typeof keywords === 'string' && keywords.startsWith("[")) {
-            try {
-                const parsed = JSON.parse(keywords);
-                keywords = parsed.map(k => k.value).join(", ");
-            } catch (e) {
-                console.error("Error parsing keywords:", e);
-            }
+        if (meta) {
+            title = cleanMeta(meta.title, { maxLength: 60 }) || FALLBACK_TITLE;
+            description = cleanMeta(meta.description, { maxLength: 160 }) || FALLBACK_DESC;
+            keywords = parseKeywords(meta.keyword);
         }
+    } catch (error) {
+        console.error("Contact metadata error:", error);
+    }
 
-        return {
+    return {
+        title,
+        description,
+        keywords,
+        alternates: { canonical: `/${locale}/contact_us`, ...buildAlternates("/contact_us") },
+        openGraph: {
             title,
             description,
-            keywords: keywords || undefined,
-            icons: {
-                icon: "/favicon.ico",
-                shortcut: "/favicon.ico",
-                apple: "/favicon.ico",
-            },
-            openGraph: {
-                title,
-                description,
-                type: "website",
-                siteName: "British Academy for Training & Development",
-                images: [
-                    {
-                        url: '/og-image.png',
-                        width: 1200,
-                        height: 630,
-                        alt: title,
-                    },
-                ],
-            },
-
-            twitter: {
-                card: "summary_large_image",
-                title,
-                description,
-                images: [{ url: '/og-image.png', width: 1200, height: 630 }],
-            },
-        };
-    } catch (error) {
-        console.error("Metadata error:", error);
-        return fallback;
-    }
+            type: "website",
+            images: [{ url: "/og-image.png", width: 1200, height: 630, alt: title }],
+        },
+        twitter: {
+            card: "summary_large_image",
+            title,
+            description,
+            images: ["/og-image.png"],
+        },
+    };
 }
 export default async function ContactPage() {
     return (
