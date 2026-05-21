@@ -50,12 +50,9 @@ export async function generateMetadata({ params }) {
       keywords: keywords || undefined,
       alternates: {
         canonical: `/${locale}/post/${slug}`,
-        languages: {
-          en: `${SITE_URL}/en/post/${slug}`,
-          ar: `${SITE_URL}/ar/post/${slug}`,
-          "x-default": `${SITE_URL}/en/post/${slug}`,
-        },
+        ...buildAlternates(`/post/${slug}`),
       },
+
       openGraph: {
         title,
         description,

@@ -32,7 +32,7 @@ const LatestArticlesCard = ({ article, view }) => {
         >
 
             <div className={styles.image}>
-                <Image src={randomImage} alt={article.title} width={363} height={207} unoptimized />
+                <Image src={randomImage} alt={article?.title || 'Blog'} width={363} height={207} unoptimized />
             </div>
             <div className={styles.content}>
                 <div className={styles.articleInfo}>
@@ -60,7 +60,7 @@ const LatestArticlesCard = ({ article, view }) => {
                     </div>
                 </div>
 
-                <Link className={styles.readMore} href={`/en/post/${article.slug}`}>
+                <Link className={styles.readMore} href={`/en/post/${article.slug}`} aria-label={`Read more about ${post.title}`}>
                     Read More
                     <ArrowRight size={14} color="#fff" />
                 </Link>

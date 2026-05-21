@@ -34,7 +34,7 @@ const MainContent = ({ post }) => {
 
                 {
                     post?.related_posts?.length > 0 ? (
-                        <Link href={`/${locale}/blog`} className={style.viewMore}>
+                        <Link href={`/${locale}/blog`} className={style.viewMore} aria-label={`Read more about similar posts`}>
                             View More <ArrowRight />
                         </Link>
                     )
