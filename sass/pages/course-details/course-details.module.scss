@@ -429,7 +429,7 @@
                                         display: flex;
                                         gap: 8px;
 
-                                        span {
+                                        button ,span {
                                             width: 40px;
                                             height: 40px;
                                             background-color: #F3F4F6;
@@ -439,6 +439,8 @@
                                             align-items: center;
                                             color: #4A5565;
                                             font-size: 18px;
+                                            border: none;
+                                            cursor: pointer;
 
                                             @media (max-width: 991px) {
                                                 width: 32px;
