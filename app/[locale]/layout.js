@@ -9,6 +9,8 @@ import { routing } from '@/i18n/routing';
 import Footer from '@/components/layout/Footer';
 import { Toaster } from 'sonner';
 import { SITE_URL, buildAlternates } from '@/lib/seoMeta';
+import { Suspense } from 'react';
+import PageLoader from '@/components/common/RouteProgressBar';
 
 const poppins = Poppins({ subsets: ['latin'], weight: ['400', '600', '700'] });
 const cairo = Cairo({ subsets: ['arabic'], weight: ['400', '600', '700'] });
@@ -79,6 +81,9 @@ export default async function RootLayout({ children, params }) {
    
       <body className={bodyClassName}>
         <NextIntlClientProvider messages={messages}>
+                  <Suspense fallback={null}>
+            <PageLoader />
+          </Suspense>
           <TopNavBar />
           <MainNavBar />
           <main id="main-content" tabIndex={-1}>
