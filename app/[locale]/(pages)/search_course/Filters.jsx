@@ -4,6 +4,7 @@ import styles from "@/sass/pages/search-course/filters.module.scss";
 import { Calendar, ChevronDown, MapPin } from "lucide-react";
 
 import { useSearchParams } from "next/navigation";
+import { useState } from "react";
 
 const Filters = ({ updateFilter, categories, specializations, cities }) => {
   const searchParams = useSearchParams();
@@ -18,6 +19,19 @@ const Filters = ({ updateFilter, categories, specializations, cities }) => {
   const selectedCategory = categories?.find(c => String(c.id) === currentCategoryId)?.name || "";
   const selectedSpecialization = specializations?.find(s => String(s.id) === currentSpecializationId)?.name || "";
   const selectedPlace = cities?.find(c => String(c.id) === currentCityId)?.name || "";
+const [selectedMonth, setSelectedMonth] = useState("");
+const [selectedYear, setSelectedYear] = useState("");
+  const handleMonthChange = (month) => {
+    setSelectedMonth(month);
+    // You can also call updateFilter here if you want to update the URL based on month selection
+    updateFilter("month", month);
+  };
+
+  const handleYearChange = (year) => {
+    setSelectedYear(year);
+    // You can also call updateFilter here if you want to update the URL based on year selection
+    updateFilter("year", year);
+  };
 
   return (
     <section className={styles.filter}>
@@ -34,10 +48,27 @@ const Filters = ({ updateFilter, categories, specializations, cities }) => {
         
         {/* Month/Year placeholders - can be implemented later if needed */}
         <div className={styles.filterItem}>
-          Month <Calendar size={14} />
+
+        
+             <DropdownMenuCustom
+            label="Month"
+            options={[1,2,3,4,5,6,7,8,9,10,11,12].map((item) => item.toString())}
+            value={selectedMonth}
+            onChange={handleMonthChange}
+            icon={<Calendar size={12} />}
+          />
         </div>
         <div className={styles.filterItem}>
-          Year <Calendar size={14} />
+          
+             <DropdownMenuCustom
+            label="Year"
+            options={Array.from({ length: 3 }, (_, i) => (new Date().getFullYear() + i).toString())}
+            value={selectedYear}
+            onChange={handleYearChange}
+            icon={<Calendar size={12} />}
+          />
+
+        
         </div>
 
         <div className={styles.filterItem}>

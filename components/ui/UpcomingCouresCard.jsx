@@ -79,10 +79,13 @@ const UpcomingCouresCard = ({
       viewport={{ once: true }}
       transition={{ duration: 0.5 }}
       whileHover={{
-        y: -10,
+        y:10,
+
         boxShadow:
           "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
+        
       }}
+
     >
       <div className={styles.imageWrapper}>
         <Image

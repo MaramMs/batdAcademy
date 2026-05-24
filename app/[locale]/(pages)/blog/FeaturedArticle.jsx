@@ -34,7 +34,7 @@ const FeaturedArticle = ({ postFeatured }) => {
       </h2>
       <div className={styles.content}>
         <div className={styles.left}>
-          <div style={{ position: "relative", aspectRatio: "3/2" }}>
+          <div className={styles.image}>
             <Image
               src={randomImage}
               alt={postFeatured?.name || "Featured article"}

@@ -246,6 +246,9 @@
             align-items: center;
             justify-content: space-between;
             border-right: none !important;
+                @media (max-width: 576px) {
+                    padding:  12px;
+                } 
 
             &:hover {
                 border-color: $blue-600;
