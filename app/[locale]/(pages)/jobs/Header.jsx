@@ -44,7 +44,8 @@ const Header = ({ updateFilter }) => {
             <div className={styles.content}>
                 <div className={styles.title}>
                     {/* <span><Aperture color="#B12E33" size={22} />EXPLORE OUR GLOBAL LOCATIONS</span> */}
-                    <h1>Find a job that suits <br /> your interest & skills </h1>
+                    <h1>Find a job that suits your <span>
+                    interest & skills </span></h1>
                     <p>Aliquam vitae turpis in diam convallis finibus in at risus. Nullam in scelerisque leo, eget sollicitudin velit bestibulum.</p>
                 </div>
                 <div className={styles.searchCourse}>

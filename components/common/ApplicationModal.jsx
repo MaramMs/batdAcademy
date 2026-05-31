@@ -1,8 +1,18 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import styles from "@/sass/components/common/application-modal.module.scss"
 
-const ApplicationModal = ({ open, onOpenChange, triggerLabel, children }) => {
+const ApplicationModal = ({
+  open,
+  onOpenChange,
+  triggerLabel,
+  children,
+  contentClassName,
+}) => {
   const isControlled = open !== undefined;
+  const contentClasses = [styles.modal, contentClassName]
+    .filter(Boolean)
+    .join(" ");
+
   return (
     <Dialog.Root open={open} onOpenChange={onOpenChange}>
       {!isControlled && (
@@ -12,7 +22,7 @@ const ApplicationModal = ({ open, onOpenChange, triggerLabel, children }) => {
       )}
       <Dialog.Portal>
         <Dialog.Overlay className={styles.overlay} />
-        <Dialog.Content className={styles.modal} aria-describedby={undefined}>
+        <Dialog.Content className={contentClasses} aria-describedby={undefined}>
           {children}
         </Dialog.Content>
       </Dialog.Portal>
