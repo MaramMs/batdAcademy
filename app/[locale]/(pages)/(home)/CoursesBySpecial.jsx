@@ -8,6 +8,7 @@ import styles from '@/sass/pages/home/course-by-special.module.scss';
 import useCategoriesStore from "@/store/useCategoriesStore";
 import { BookOpen } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 
 function chunkArray(arr, size) {
@@ -36,7 +37,9 @@ const CourseBySpecial = ({ items }) => {
         <div className={styles.courseBySpecial}>
             {
                 items?.map((item) => (
-                    <CourseBySpecialCard key={item.id} item={item} />
+                   <Link href={`/course_traning/${item.id}/${item.slug}`} key={item.id}>
+                    <CourseBySpecialCard  item={item} />
+                   </Link>
                 ))
             }
 

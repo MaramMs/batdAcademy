@@ -190,7 +190,7 @@ const MainNavBar = () => {
               </ul>
             )}
           </div>
-          <Link href={'/show_cities'} className={styles.mobileLink} >Cities</Link>
+          <Link href={'/show_cities'} className={styles.mobileLink} onClick={() => setMobileOpen(false)} >Cities</Link>
 
           <Link href="/consulting" className={styles.mobileLink} onClick={() => setMobileOpen(false)}>{t('consulting')}</Link>
           <Link href="/blog" className={styles.mobileLink} onClick={() => setMobileOpen(false)}>{t('blog')}</Link>
