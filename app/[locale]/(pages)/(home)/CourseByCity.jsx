@@ -47,34 +47,58 @@ const CourseByCity = () => {
                             <Skeleton type="card" className={styles.skeletonCard} />
                         </div>
                     ) : (
-                        <GenericSlider
-                            navId="citys"
-                            items={cities}
-                            renderSlide={(city) => <CouresByCities key={city.id} city={city} />}
-                            breakpoints={{
-                                768: {
-                                    slidesPerView: 2,
-                                },
-                                1024: {
-                                    slidesPerView: 3,
-                                },
-                                1280: {
-                                    slidesPerView: 4,
-                                },
-                                1536: {
-                                    slidesPerView: 5,
-                                },
-                                1792: {
-                                    slidesPerView: 6,
-                                },
-                            }}
-                            autoplay={{
-                                delay: 2000,
-                                disableOnInteraction: false,
-                            }}
-                            spaceBetween={20}
-                            showViewAll={false}
-                        />
+                    //     <GenericSlider
+                    //     navId="citys"
+                    //     items={cities}
+                    //     renderSlide={(city) => <CouresByCities key={city.id} city={city} />}
+                    //     breakpoints={{
+                    //       0: {
+                    //         slidesPerView: 1.5,
+                    //         centeredSlides: true,
+                    //       },
+                    //       768: {
+                    //         slidesPerView: 2.5,
+                    //       },
+                    //       1024: {
+                    //         slidesPerView: 3,
+                    //       },
+                    //       1280: {
+                    //         slidesPerView: 4,
+                    //       },
+                    //       1536: {
+                    //         slidesPerView: 5,
+                    //       },
+                    //       1792: {
+                    //         slidesPerView: 6,
+                    //       },
+                    //     }}
+                    //     spaceBetween={20}
+                    //   />
+
+                    <GenericSlider
+  navId="citys"
+  items={cities}
+  renderSlide={(city) => <CouresByCities key={city.id} city={city} />}
+
+  spaceBetween={20}
+  breakpoints={{
+    0:{
+        slidesPerView:1.5,
+        centeredSlides:true,
+        centeredSlidesBounds:true
+    },
+    768: {
+        slidesPerView:2.5,
+        centeredSlides:false,
+    },
+    1024: {
+      slidesPerView: 3,
+    },
+    1280: {
+      slidesPerView: 4,
+    },
+  }}
+/>
                     )
                 }
 

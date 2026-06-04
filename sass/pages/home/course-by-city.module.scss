@@ -16,6 +16,10 @@
             font-size: 16px;
             font-weight: 400;
             color:$blue-900;
+            @media (max-width: 768px) {
+                font-size: 14px;
+                text-align: center;
+            }
         }
     }
  

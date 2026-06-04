@@ -11,9 +11,9 @@ const Tab = ({ tab, isActive, onClick, className, activeClassName }) => {
             {/* <span className={styles.tabIcon}>
                 {tab.icon}
             </span> */}
-            <Link href={`/category/${tab.id}/${tab.title}`} className={styles.tabTitle}>
+            <span className={styles.tabTitle}>
                 {tab.title}
-            </Link>
+            </span>
         </div>
     )
 

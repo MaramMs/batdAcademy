@@ -91,7 +91,14 @@ useEffect(() => {
                   onChange={(date) => {
                     field.onChange(date);
                   }}
-                  selected={field.value instanceof Date ? field.value : null}
+                  selected={
+                    field.value instanceof Date
+                      ? field.value
+                      : typeof field.value === "string" &&
+                          /^\d{4}-\d{2}-\d{2}$/.test(field.value)
+                        ? new Date(`${field.value}T00:00:00`)
+                        : null
+                  }
                   className={styles.datePickerInput}
                   dateFormat="dd / MM / yyyy"
                   isClearable

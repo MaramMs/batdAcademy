@@ -35,9 +35,12 @@ import stylesContainer from "@/sass/components/common/container.module.scss";
 import styles from "@/sass/pages/course-details/course-details.module.scss";
 import SidebarFilter from "@/components/common/SidebarFilter";
 
+const formatDateParam = (value) =>
+  value instanceof Date ? value.toISOString().split("T")[0] : value;
+
 const CourseDetails = ({ initialCourse }) => {
   const [activeTabId, setActiveTabId] = useState(1);
-  const [date, setDate] = useState();
+  const [selectedDate, setSelectedDate] = useState();
   const [mounted, setMounted] = useState(false);
   const { handleGetCourses, data } = useCoursesStore();
 
@@ -51,13 +54,11 @@ const CourseDetails = ({ initialCourse }) => {
   const registerUrl = useMemo(() => {
     const params = new URLSearchParams();
     params.set("course_id", id);
-    if (date) {
-      const formattedDate =
-        date instanceof Date ? date.toISOString().split("T")[0] : date;
-      params.set("date", formattedDate);
+    if (selectedDate) {
+      params.set("date", formatDateParam(selectedDate));
     }
     return `/${locale}/registerCourse?${params.toString()}`;
-  }, [locale, id, date]);
+  }, [locale, id, selectedDate]);
 
   const updateFilter = (key, value) => {
     const params = new URLSearchParams(searchParams.toString());
@@ -119,7 +120,8 @@ const CourseDetails = ({ initialCourse }) => {
                         <X size={20} aria-hidden="true" />
                       </Dialog.Close>
                     </div>
-                    <SidebarFilter data={data} updateFilter={updateFilter} />
+
+                    <SidebarFilter data={data} updateFilter={updateFilter} className='mobileFilter'/>
                   </Dialog.Content>
                 </Dialog.Portal>
               )}
@@ -127,7 +129,7 @@ const CourseDetails = ({ initialCourse }) => {
           </div>
 
           <div className={styles.content}>
-            <SidebarFilter data={data} updateFilter={updateFilter} />
+            <SidebarFilter data={data} updateFilter={updateFilter} className='filter'/>
 
             <div className={styles.details}>
               <div className={styles.contentCourse}>
@@ -222,7 +224,7 @@ const CourseDetails = ({ initialCourse }) => {
                         </div>
                         <Link
                           href={registerUrl}
-                          className={styles.enrollBtnMobile}
+                          className={`${styles.enrollBtnMobile} ${selectedDate ? styles.enrollBtnMobileActive : ""}`}
                         >
                           Enroll Now
                         </Link>
@@ -267,18 +269,25 @@ const CourseDetails = ({ initialCourse }) => {
                             Date
                           </h4>
                           <div className={styles.dates}>
-                            <div className={styles.date}>
-                              <p>March 15,2026</p>
-                              <span>10.00 am</span>
-                            </div>
-                            <div className={styles.date}>
-                              <p>March 15,2026</p>
-                              <span>10.00 am</span>
-                            </div>
-                            <div className={styles.date}>
-                              <p>March 15,2026</p>
-                              <span>10.00 am</span>
-                            </div>
+                            {course?.dates?.map((session) => (
+                              <div
+                                className={`${styles.date} ${selectedDate === session.date ? styles.dateSelected : ""}`}
+                                key={session.id}
+                                role="button"
+                                tabIndex={0}
+                                onClick={() => setSelectedDate(session.date)}
+                                onKeyDown={(e) => {
+                                  if (e.key === "Enter" || e.key === " ") {
+                                    e.preventDefault();
+                                    setSelectedDate(session.date);
+                                  }
+                                }}
+                              >
+                                <p>{session.date}</p>
+                                <span>{session?.time}</span>
+                              </div>
+                            ))}
+                           
                             <div className={styles.selectDate}>
                               <h4>
                                 {" "}
@@ -286,8 +295,12 @@ const CourseDetails = ({ initialCourse }) => {
                                 Course Date
                               </h4>
                               <CustomDatePicker
-                                selected={date}
-                                onChange={(date) => setDate(date)}
+                                selected={
+                                  selectedDate instanceof Date
+                                    ? selectedDate
+                                    : null
+                                }
+                                onChange={(date) => setSelectedDate(date)}
                               />
                             </div>
                           </div>
@@ -295,7 +308,10 @@ const CourseDetails = ({ initialCourse }) => {
                       </div>
 
                       <div className={styles.register}>
-                        <Link href={registerUrl} className={styles.primaryBtn}>
+                        <Link
+                          href={registerUrl}
+                          className={`${styles.primaryBtn} ${selectedDate ? styles.primaryBtnActive : ""}`}
+                        >
                           Register Now
                         </Link>
                         <Link

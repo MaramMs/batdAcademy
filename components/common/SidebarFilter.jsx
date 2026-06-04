@@ -6,12 +6,12 @@ import Range from "../ui/Range";
 import Category from "../ui/Categories";
 import styles from "@/sass/components/common/sidebar-filter.module.scss";
 
-const SidebarFilter = ({ updateFilter, data }) => {
+const SidebarFilter = ({ updateFilter, data ,className}) => {
   const searchParams = useSearchParams();
   const router = useRouter();
   const { locale } = useParams();
   return (
-    <MotionWrapper className={styles.filter}>
+    <MotionWrapper className={styles[className]}>
       <CategoriesBox title="All Categories" icon={<Filter size={18} />} aria-hidden="true" as="h2">
         <div className={styles.sidebarFilterContent}>
           {data?.price_range && (

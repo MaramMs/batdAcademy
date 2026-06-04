@@ -48,9 +48,9 @@ a {
 .swiper-wrapper {
   margin-bottom: 10px;
 }
-@media (max-width: 768px) {
+/* @media (max-width: 768px) {
  
   .swiper-slide {
     margin-right: 10px !important;
   }
-}
+} */

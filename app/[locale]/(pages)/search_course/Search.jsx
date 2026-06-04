@@ -6,19 +6,15 @@ import CategoriesBox from "@/components/common/CategoriesBox";
 import Range from "@/components/ui/Range";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import { useTranslations } from "next-intl";
 
 const SearchCourse = ({ className, updateFilter }) => {
-  // const [mounted, setMounted] = useState(false);
   const searchParams = useSearchParams();
+  const t = useTranslations()
   const [searchValue, setSearchValue] = useState(
     searchParams.get("search") || "",
   );
 
-  // useEffect(() => {
-  //   setMounted(true);
-  // }, []);
-
-  // Debounce search
   useEffect(() => {
     const handler = setTimeout(() => {
       if (searchValue !== (searchParams.get("search") || "")) {
@@ -41,7 +37,7 @@ const SearchCourse = ({ className, updateFilter }) => {
           </div>
           <input
             type="text"
-            placeholder="Search in specific course..."
+            placeholder={t('searchPlacesholder')}
             className={styles.input}
             value={searchValue}
             onChange={(e) => setSearchValue(e.target.value)}
@@ -167,7 +163,7 @@ const SearchCourse = ({ className, updateFilter }) => {
         </Dialog.Root>
 
         <div className={styles.searchContent__right}>
-          <button type="button">Search</button>
+          <button type="button">{t('search')}</button>
         </div>
       </div>
     </section>

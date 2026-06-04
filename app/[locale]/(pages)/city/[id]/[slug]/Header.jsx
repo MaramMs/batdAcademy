@@ -6,13 +6,16 @@ import { useEffect, useState } from "react";
 import SearchCourse from "../../../search_course/Search";
 import useCitiesStore from "@/store/useCitiesStore";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
+import { useTranslations } from "next-intl";
 
 const Header = ({ updateFilter }) => {
+    const  t = useTranslations('header');
+    const tLables = useTranslations()
     const { id, slug, locale } = useParams();
     const router = useRouter();
     const searchParams = useSearchParams();
     const [specialization, setSpecialization] = useState(searchParams.get("specialization") || "");
-    const [city, setCity] = useState(slug || "");
+    const [city, setCity] = useState( decodeURIComponent(slug)|| "");
     const { stats, specializations, cities, handleGetCities } = useCitiesStore();
 
     useEffect(() => {
@@ -28,7 +31,8 @@ const Header = ({ updateFilter }) => {
     };
 
     const handleCityChange = (val) => {
-        setCity(val);
+        setCity( val);
+        console.log(city,'city')
         const targetCity = cities.find(c => c.slug === val);
         if (targetCity) {
             const params = new URLSearchParams(searchParams.toString());
@@ -43,9 +47,9 @@ const Header = ({ updateFilter }) => {
         <div className={styles.header}>
             <div className={styles.content}>
                 <div className={styles.title}>
-                    <span><Aperture color="#B12E33" size={22} />EXPLORE OUR GLOBAL LOCATIONS</span>
-                    <h1>Find Your Perfect <br /> Training Destination in {currentCity?.name || "..."}</h1>
-                    <p>World-class training programs across {stats?.cities || "..."} cities worldwide</p>
+                    <span><Aperture color="#B12E33" size={22} />{t('globle')}</span>
+                    <h1> {t('title')} <br /> {t('subTitle')}  {currentCity?.name || "..."}</h1>
+                    <p> {t('text')} {stats?.cities || "..."} {t('subText')} </p>
                 </div>
                 <div className={styles.searchCourse}>
                     <SearchCourse 
@@ -54,7 +58,7 @@ const Header = ({ updateFilter }) => {
                     />
                     <div className={styles.locationSelect}>
                         <DropdownMenuCustom
-                            label="All Specializations"
+                            label={tLables('allSpecial')}
                             options={specializationOptions}
                             value={specialization}
                             onChange={handleSpecializationChange}
@@ -63,7 +67,7 @@ const Header = ({ updateFilter }) => {
                             triggerClassName={styles.dropdownTrigger}
                         />
                         <DropdownMenuCustom
-                            label="All Cities"
+                            label={tLables('allCities')}
                             options={cityOptions}
                             value={city}
                             onChange={handleCityChange}
@@ -78,4 +82,4 @@ const Header = ({ updateFilter }) => {
     );
 };
 
-export default Header;
+export default Header;

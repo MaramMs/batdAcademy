@@ -18,8 +18,20 @@ export default getRequestConfig(async ({ requestLocale }) => {
   const heroMessages = (
     await import(`../messages/(pages)/home/${locale}/hero.json`)
   ).default;
+  const navgationBarMessages = (
+    await import(`../messages/common/${locale}/NavgationBar.json`)
+  ).default;
+  const headerCityMessages = (
+    await import(`../messages/(pages)/courseDetails/${locale}/header.json`)
+  ).default;
+  const commonMessages = (
+    await import(`../messages/common/${locale}/common.json`)
+  ).default;
   const metaMessages = (
     await import(`../messages/layout/${locale}/meta.json`)
+  ).default;
+  const errorMessages = (
+    await import(`../messages/layout/${locale}/error.json`)
   ).default;
   return {
     locale,
@@ -27,7 +39,11 @@ export default getRequestConfig(async ({ requestLocale }) => {
       ...mainNavMessages,
       ...topNavMessages,
       ...heroMessages,
+      ...headerCityMessages,
+      ...commonMessages,
+      ...navgationBarMessages,
       ...metaMessages,
+      ...errorMessages,
     },
   };
 });

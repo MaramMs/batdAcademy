@@ -11,10 +11,12 @@ import SidebarFilter from "@/components/common/SidebarFilter";
 import NoData from "@/components/common/NoData";
 import stylesContainer from "@/sass/components/common/container.module.scss";
 import styles from "@/sass/pages/course-details-by-city/course-details-by-city.module.scss";
+import { useTranslations } from "next-intl";
 
 const CourseByCityDetails = () => {
     const { id } = useParams();
     const searchParams = useSearchParams();
+    const t = useTranslations()
     const router = useRouter();
     const pathname = usePathname();
     const { data, handleGetCourses, isLoading } = useCoursesStore();
@@ -66,7 +68,7 @@ const CourseByCityDetails = () => {
             <div className={styles.mainContent}>
                 <div className={stylesContainer.container}>
                     <div className={styles.content}>
-                        <SidebarFilter updateFilter={updateFilter} data={data} />
+                        <SidebarFilter updateFilter={updateFilter} data={data}  className='filter'/>
                         <div className={styles.rightContent}>
                             {isLoading && !data?.courses ? (
                                 <div className={styles.cards}>
@@ -90,7 +92,7 @@ const CourseByCityDetails = () => {
                                     </div>
                                     {(visibleCount < (data?.courses?.length || 0) || data?.has_more) && (
                                         <button className={styles.showMoreBtn} onClick={handleViewMore}>
-                                            Show More <ArrowRight size={18} />
+                                       {t('showMore')}      <ArrowRight size={18} />
                                         </button>
                                     )}
                                 </>

@@ -11,6 +11,7 @@ import useLanguageStore from "@/store/useLanguageStore";
 import img1 from "/public/asstes/default-1.jpeg";
 import img2 from "/public/asstes/course1.jpg";
 import img3 from "/public/asstes/default-2.webp";
+import { useTranslations } from "next-intl";
 
 const placeholderImages = [
   "https://batdacademy.com/uploads/placeholder_image.webp",
@@ -30,6 +31,7 @@ const UpcomingCouresCard = ({
   const [isOpen, setIsOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState(null);
   const locale = useLanguageStore((state) => state.locale);
+  const t =useTranslations();
   const handleOpen = () => {
     if (swiperRef?.current) {
       swiperRef.current.slideTo(slideIndex);
@@ -51,6 +53,7 @@ const UpcomingCouresCard = ({
 
   // Build registration URL with all available query params
   const registerUrl = useMemo(() => {
+  
     const params = new URLSearchParams();
     if (course?.id) params.set("course_id", course.id);
     if (selectedDate) params.set("date", selectedDate);
@@ -79,17 +82,14 @@ const UpcomingCouresCard = ({
       viewport={{ once: true }}
       transition={{ duration: 0.5 }}
       whileHover={{
-        y:10,
-
+        y: -10,
         boxShadow:
           "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
-        
       }}
-
     >
       <div className={styles.imageWrapper}>
         <Image
-          src={randomImage}
+          src={course?.image  || randomImage}
           alt={course?.name || course?.title || 'Course thumbnail'}
           width={361}
           height={208}
@@ -134,7 +134,7 @@ const UpcomingCouresCard = ({
             }}
             aria-label={`View more dates for ${course?.name}`}
           >
-            +2 more dates available
+            +2  {t('dateAvailable')}
           </button>
           <DatePopUp
             isOpen={isOpen}
@@ -146,14 +146,14 @@ const UpcomingCouresCard = ({
         </div>
         <div className={styles.btns}>
           <Link href={registerUrl} className={styles.btnRegister}>
-            Register
+            {t('register')}
             <span className="sr-only"> for {course?.name}</span>
           </Link>
           <Link
             href={`/${locale}/course_details/${course?.id}/${course?.slug}`}
             className={styles.btnDetails}
           >
-            Details
+            {t('details')}
             <span className="sr-only"> of {course?.name}</span>
           </Link>
         </div>

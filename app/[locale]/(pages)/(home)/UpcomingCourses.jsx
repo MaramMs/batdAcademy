@@ -49,11 +49,14 @@ const UpcomingCourses = () => {
                             </div>
                         )}
                         breakpoints={{
-                            640: {
-                                slidesPerView: 1,
+                            0:{
+                                slidesPerView:1.5,
+                                centeredSlides:true,
+                                centeredSlidesBounds:true
                             },
                             768: {
-                                slidesPerView: 2,
+                                slidesPerView: 2.5,
+                                centeredSlides:false,
                             },
                             1024: {
                                 slidesPerView: 3,
