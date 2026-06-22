@@ -7,6 +7,7 @@ import styleContainer from '@/sass/components/common/container.module.scss';
 import styles from '@/sass/pages/home/course-by-special.module.scss';
 import useCategoriesStore from "@/store/useCategoriesStore";
 import { BookOpen } from "lucide-react";
+import { useTranslations } from "next-intl";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
@@ -50,13 +51,14 @@ const CourseBySpecial = ({ items }) => {
 const CoursesBySpecial = () => {
     const { categories, handleGetCategories, isLoading } = useCategoriesStore();
     const [activeTabId, setActiveTabId] = useState(null)
-    const [chunkSize, setChunkSize] = useState(6)
+    const [chunkSize, setChunkSize] = useState(6);
+    const t = useTranslations('specialized');
 
     useEffect(() => {
         handleGetCategories();
 
         const handleResize = () => {
-            setChunkSize(window.innerWidth < 1024 ? 3 : 6);
+            setChunkSize(window.innerWidth < 1024 ? 1 : 6);
         };
 
         handleResize();
@@ -88,7 +90,7 @@ const CoursesBySpecial = () => {
     return (
         <section>
             <div className={styleContainer.container}>
-                <Title title="Courses  " span='By Specialization' subtitle='British-European expertise and specialized cadres for your success.' />
+                <Title title={t('title')} span={t('span')} subtitle={t('subtitle')} />
                 {
                     isLoading ? (
                         <div style={{ display: 'flex', justifyContent: 'center', gap: '20px' }}>
@@ -102,7 +104,7 @@ const CoursesBySpecial = () => {
                                 onTabChange={setActiveTabId}
                                 className={styles.specialTabs}
                                 tabClassName={styles.specialTab}
-                                tabs={tabsData.slice(0, 4)}
+                                tabs={tabsData?.slice(0, 4)}
                             />
                             <GenericSlider
                                 key={`${activeTabId}-${chunkSize}`}
@@ -111,7 +113,7 @@ const CoursesBySpecial = () => {
                                 renderSlide={(slideItems) => <CourseBySpecial items={slideItems} />}
                                 breakpoints={{
                                     320: {
-                                        slidesPerView: 1,
+                                        slidesPerView: 1.5,
                                     },
                                     768: {
                                         slidesPerView: 1,
@@ -120,6 +122,8 @@ const CoursesBySpecial = () => {
                                         slidesPerView: 1,
                                     },
                                 }}
+
+                                
                                 spaceBetween={20}
                                 showViewAll={false}
                             />

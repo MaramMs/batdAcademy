@@ -3,8 +3,11 @@ import styles from "@/sass/pages/search-course/header.module.scss";
 import { ChevronRight, House } from "lucide-react";
 import Filters from "./Filters";
 import SearchCourse from "./Search";
+import { useSearchParams } from "next/navigation";
 
 const Header = ({ updateFilter ,categories,specializations,cities}) => {
+   const searchParams = useSearchParams();
+   const type = searchParams.get('type');    
     return (
         <section className={styles.header}>
             <div className={styleContainer.container}>
@@ -12,7 +15,7 @@ const Header = ({ updateFilter ,categories,specializations,cities}) => {
                     <div className={styles.breadcrumb}>
                         <House />
                         <ChevronRight />
-                        <span> FQA</span>
+                        <span> {type === '3' ? 'Diploma' : type === '2' ? "Master" : 'Training course'}</span>
                     </div>
 
                     <div className={styles.content}>

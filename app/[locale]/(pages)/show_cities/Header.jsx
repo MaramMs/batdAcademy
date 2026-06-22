@@ -6,6 +6,7 @@ import { Aperture, ChevronDown } from "lucide-react";
 import { useState } from "react";
 import SearchCourse from "../search_course/Search";
 import useCitiesStore from "@/store/useCitiesStore";
+import { useTranslations } from "next-intl";
 
 const formatStat = (n) => {
     if (!n) return "0";
@@ -14,6 +15,7 @@ const formatStat = (n) => {
 };
 
 const Header = ({ updateFilter }) => {
+    const t = useTranslations("header")
     const [specialization, setSpecialization] = useState("");
     const [city, setCity] = useState("");
     const { stats, specializations, cities } = useCitiesStore();
@@ -35,15 +37,15 @@ const Header = ({ updateFilter }) => {
         <div className={styles.header}>
             <div className={styles.content}>
                 <div className={styles.title}>
-                    <span><Aperture color="#B12E33" size={22} />EXPLORE OUR GLOBAL LOCATIONS</span>
-                    <h1>Find Your Perfect <br /> Training Destination</h1>
-                    <p>World-class training programs across {stats?.cities || "..."} cities worldwide</p>
+                    <span><Aperture color="#B12E33" size={22} />{t("globle")}</span>
+                    <h1>{t("title")} <br /> {t("subTitle")} </h1>
+                    <p>{t("text")} {stats?.cities || "..."} {t("subText")}</p>
                 </div>
                 <div className={styles.searchCourse}>
                     <SearchCourse className={styles.filter} updateFilter={(key, val) => updateFilter?.(key, val)} />
                     <div className={styles.locationSelect}>
                         <DropdownMenuCustom
-                            label="All Specializations"
+                            label={t("allSpecialties")}
                             options={specializationOptions}
                             value={specialization}
                             onChange={handleSpecializationChange}
@@ -52,7 +54,7 @@ const Header = ({ updateFilter }) => {
                             triggerClassName={styles.dropdownTrigger}
                         />
                         <DropdownMenuCustom
-                            label="All Cities"
+                            label={t("allCities")}
                             options={cityOptions}
                             value={city}
                             onChange={handleCityChange}
@@ -67,15 +69,15 @@ const Header = ({ updateFilter }) => {
             <div className={styles.statistics}>
                 <div className={styles.item}>
                     <h2>{stats?.cities ? `${stats.cities}+` : "..."}</h2>
-                    <span>Global Cities</span>
+                    <span>{t("cityStat")}</span>
                 </div>
                 <div className={styles.item}>
                     <h2>{stats?.training_programs ? `${formatStat(stats.training_programs)}+` : "..."}</h2>
-                    <span>Training Programs</span>
+                    <span>{t("trainingPrograms")}</span>
                 </div>
                 <div className={styles.item}>
                     <h2>{stats?.total_students !== undefined ? `${formatStat(stats.total_students)}+` : "..."}</h2>
-                    <span>Happy Students</span>
+                    <span>{t("happyStudents")}</span>
                 </div>
             </div>
         </div>

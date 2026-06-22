@@ -1,0 +1,16 @@
+{
+    "footer": {
+        "consultations":"consultations",
+        "blog":"blog",
+        "FAQ":"FAQ",
+        "Privacy":"Privacy",
+        "about": "About",
+        "quickLinks": "Quick Links",
+        "support": "Support",
+        "coursesByCity": "Courses by City",
+        "yearPlans": "Year Plans",
+        "categories": "Categories",
+        "specialization": "Specialization",
+        "contact": "Contact"
+    }
+}

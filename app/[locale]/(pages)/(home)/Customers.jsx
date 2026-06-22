@@ -8,6 +8,7 @@ import Title from "@/components/common/Title";
 import styleContainer from "@/sass/components/common/container.module.scss";
 import styles from "@/sass/pages/home/customers.module.scss";
 import Skeleton from "@/components/ui/Skeleton";
+import { useTranslations } from "next-intl";
 
 const Customer = ({ client }) => {
     return (
@@ -21,13 +22,14 @@ const Customer = ({ client }) => {
 
 const Customers = () => {
     const { clients, handleGetClients, isLoading } = useClientsStore();
+    const t = useTranslations('customers')
     useEffect(() => {
         handleGetClients();
     }, []);
     return (
         <section>
             <div className={styleContainer.container}>
-                <Title title="Most Of our  " span='Customer' />
+                <Title title={t('title')} span={t('span')} />
                 {
                     isLoading ? (
                         <div style={{ display: 'flex', justifyContent: 'center', gap: '20px' }}>
@@ -48,7 +50,7 @@ const Customers = () => {
                                     delay: 2000,
                                     disableOnInteraction: false,
                                 }}
-                                hidden={true}
+                                // hidden={true}
                                 breakpoints={{
                                     0:{
                                         slidesPerView:1.5,

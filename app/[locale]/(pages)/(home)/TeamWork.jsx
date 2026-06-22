@@ -7,6 +7,7 @@ import styleContainer from '@/sass/components/common/container.module.scss'
 import styles from '@/sass/pages/home/team-work.module.scss'
 import Skeleton from "@/components/ui/Skeleton"
 import Image from "next/image"
+import { useTranslations } from "next-intl"
 const Card = ({ team }) => {
     return (
         <div className={styles.card}>
@@ -101,6 +102,8 @@ const Card = ({ team }) => {
     )
 }
 const TeamWork = () => {
+         const t = useTranslations('team')
+
     const {teamWork,handleGetTeamWork,isLoading} = useTeamWorkStore();
     useEffect(() => {
         handleGetTeamWork();
@@ -108,7 +111,7 @@ const TeamWork = () => {
     return (
         <section className={styles.teamWork}>
             <div className={styleContainer.container}>
-                <Title title="Team " span='Work' subtitle='We have the strongest trainers with a high level of skill' />
+                <Title title={t('title')} span={t('span')} subtitle={t('subtitle')} />
                 {
                     isLoading ? (
                             <div style={{ display: 'flex', justifyContent: 'center', gap: '20px' }}>

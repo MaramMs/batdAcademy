@@ -5,6 +5,7 @@ import Tabs from "@/components/common/Tabs";
 import Title from "@/components/common/Title";
 import styleContainer from '@/sass/components/common/container.module.scss';
 import styles from '@/sass/pages/home/lastest-publication.module.scss';
+import { useTranslations } from "next-intl";
 
 const tabs = [
     {
@@ -47,6 +48,7 @@ const videoData = [
 ]
 
 const Videos = () => {
+    
     return (
         <div>
             {videoData.map((video) => (
@@ -96,10 +98,11 @@ const tabContentMap = {
 
 const LastestPublication = () => {
     const [activeTabId, setActiveTabId] = useState(1)
+    const t = useTranslations('last-publish')
     return (
         <section>
             <div className={styleContainer.container}>
-                <Title title="Latest " span="Publication" />
+                <Title title={t('title')} span={t("span")} />
                 <Tabs
                     activeTabId={activeTabId}
                     onTabChange={setActiveTabId}

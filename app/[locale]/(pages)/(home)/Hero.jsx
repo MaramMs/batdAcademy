@@ -7,6 +7,7 @@ import styles from '@/sass/pages/home/hero.module.scss';
 import { Building2, Search, Users } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import Image from 'next/image';
+import Link from 'next/link';
 
 export default function Hero() {
     const t = useTranslations('Hero');
@@ -14,13 +15,13 @@ export default function Hero() {
     const statsData = [
         {
             id: 1,
-            value: '3.5+',
+            value: '3.5k+',
             label: t('stats.participants'),
             icon: <Users />
         },
         {
             id: 2,
-            value: '65,000+',
+            value: '65,000k+',
             label: t('stats.organisations'),
             icon: <Building2 />,
         },
@@ -82,14 +83,14 @@ export default function Hero() {
                                 whileTap={{ scale: 0.95 }}
                                 className={styles.btnPrimary}
                             >
-                                {t('viewCourses')}
+                                <Link href='/search_course'>{t('viewCourses')}</Link>
                             </motion.button>
                             <motion.button
                                 whileHover={{ scale: 1.05 }}
                                 whileTap={{ scale: 0.95 }}
                                 className={styles.btnSecondary}
                             >
-                                {t('trainingHalls')}
+                                <Link href='/show_cities'>{t('trainingHalls')}</Link>
                             </motion.button>
                         </motion.div>
 

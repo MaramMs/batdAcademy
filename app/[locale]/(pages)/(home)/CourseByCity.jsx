@@ -9,6 +9,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import Skeleton from "@/components/ui/Skeleton";
+import { useTranslations } from "next-intl";
 
 const CouresByCities = ({ city }) => {
     const { locale } = useParams();
@@ -29,6 +30,7 @@ const CouresByCities = ({ city }) => {
 }
 
 const CourseByCity = () => {
+    const t = useTranslations('course-city')
     const { handleGetCities, cities , isLoading } = useCitiesStore();
     useEffect(() => {
         handleGetCities();
@@ -36,7 +38,7 @@ const CourseByCity = () => {
     return (
         <section>
             <div className={styleContainer.container}>
-                <Title title="Course " span='By City' subtitle='Our favorite cities with attractive tourist attractions' />
+                <Title title={t('title')} span={t('span')} subtitle={t('subtitle')} />
 
                 {
                     isLoading ? (
@@ -47,34 +49,6 @@ const CourseByCity = () => {
                             <Skeleton type="card" className={styles.skeletonCard} />
                         </div>
                     ) : (
-                    //     <GenericSlider
-                    //     navId="citys"
-                    //     items={cities}
-                    //     renderSlide={(city) => <CouresByCities key={city.id} city={city} />}
-                    //     breakpoints={{
-                    //       0: {
-                    //         slidesPerView: 1.5,
-                    //         centeredSlides: true,
-                    //       },
-                    //       768: {
-                    //         slidesPerView: 2.5,
-                    //       },
-                    //       1024: {
-                    //         slidesPerView: 3,
-                    //       },
-                    //       1280: {
-                    //         slidesPerView: 4,
-                    //       },
-                    //       1536: {
-                    //         slidesPerView: 5,
-                    //       },
-                    //       1792: {
-                    //         slidesPerView: 6,
-                    //       },
-                    //     }}
-                    //     spaceBetween={20}
-                    //   />
-
                     <GenericSlider
   navId="citys"
   items={cities}

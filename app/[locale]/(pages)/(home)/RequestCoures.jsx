@@ -23,6 +23,7 @@ import containerStyles from '@/sass/components/common/container.module.scss';
 import DropdownMenuCustom from "@/components/common/DropdownMenu";
 import useCoursesStore from '@/store/useCoursesStore';
 import dynamic from 'next/dynamic';
+import { useTranslations } from 'next-intl';
 const ReCAPTCHA = dynamic(() => import('react-google-recaptcha'), { ssr: false });
 
 
@@ -158,14 +159,15 @@ const RequestCoures = () => {
     router.push(`/${locale}/registerInternalCourse?${params.toString()}`);
   };
   const [recaptchaToken, setRecaptchaToken] = useState(null);
+  const t = useTranslations('request-course');
 
   return (
     <section className={styles['request-courses']}>
       <div className={containerStyles.container}>
         <Title
-          title='Request A '
-          span='Course'
-          subtitle='You can contact us for a special course'
+          title={t('title')}
+          span={t('span')}
+          subtitle={t('subtitle')}
         />
 
         <div className={styles['request-courses__content']}>

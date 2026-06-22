@@ -6,6 +6,7 @@ import GenericSlider from "@/components/common/GenericSlider";
 import styles from "@/sass/components/common/container.module.scss";
 import useCoursesStore from "@/store/useCoursesStore";
 import Skeleton from "@/components/ui/Skeleton";
+import { useTranslations } from "next-intl";
 
 const UpcomingCourses = () => {
     const swiperRef = useRef(null);
@@ -13,14 +14,14 @@ const UpcomingCourses = () => {
 
     const {handleGetCourses,data,isLoading} = useCoursesStore();
 
-
+const t = useTranslations('upcoming-course');
     useEffect(() => {
         handleGetCourses();
     }, []);
     return (
         <div>
             <div className={styles.container}>
-                <Title title='Upcoming ' span='Courses' subtitle='Immersive learning experiences designed to transform your career' />
+                <Title title={t('title')} span={t('span')} subtitle={t('subtitle')} />
              {
                 isLoading ? (
                   <div style={{ display: 'flex', justifyContent: 'center', gap: '20px' }}>

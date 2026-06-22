@@ -1,6 +1,7 @@
 import styles from "@/sass/components/layout/footer.module.scss";
 import Image from "next/image";
 import footerLogo from "@/public/asstes/footerlogo.webp";
+import { useTranslations } from "next-intl";
 
 // ─── SVG Icons ────────────────────────────────────────────────
 const IconYoutube = () => (
@@ -46,37 +47,37 @@ const IconMail = () => (
 );
 
 // ─── Data ─────────────────────────────────────────────────────
-const NAV_COLUMNS = [
-  {
-    title: "About",
-    links: [
-      { label: "Consultations", href: "/consulting" },
-      { label: "Blog", href: "/blog" },
-      { label: "FAQ", href: "/page/FQA" },
-      { label: "Privacy", href: "/privacy" },
-    ],
-  },
-  {
-    title: "Quick Links",
-    links: [
-      { label: "Courses by City", href: "#" },
-      { label: "Year Plans", href: "/year_plan" },
-      { label: "Professional Path", href: "#" },
-      { label: "Work Environment", href: "#" },
-      { label: "Categories", href: "/search_course" },
-      { label: "Specialization", href: "/search_course" },
-    ],
-  },
-  {
-    title: "Support",
-    links: [
-      { label: "Support Center", href: "#" },
-      { label: "Account", href: "#" },
-      { label: "Contact", href: "/contact_us" },
-      { label: "Feedback", href: "#" },
-    ],
-  },
-];
+// const NAV_COLUMNS = [
+//   {
+//     title: "About",
+//     links: [
+//       { label: "Consultations", href: "/consulting" },
+//       { label: "Blog", href: "/blog" },
+//       { label: "FAQ", href: "/page/FQA" },
+//       { label: "Privacy", href: "/privacy" },
+//     ],
+//   },
+//   {
+//     title: "Quick Links",
+//     links: [
+//       { label: "Courses by City", href: "/show_cities" },
+//       { label: "Year Plans", href: "/year_plan" },
+//       // { label: "Professional Path", href: "#" },
+//       // { label: "Work Environment", href: "#" },
+//       { label: "Categories", href: "/search_course" },
+//       { label: "Specialization", href: "/search_course" },
+//     ],
+//   },
+//   {
+//     title: "Support",
+//     links: [
+//       // { label: "Support Center", href: "#" },
+//       // { label: "Account", href: "#" },
+//       { label: "Contact", href: "/contact_us" },
+//       // { label: "Feedback", href: "#" },
+//     ],
+//   },
+// ];
 
 const SOCIALS = [
   { icon: <IconYoutube />, href: "#", label: "YouTube" },
@@ -88,6 +89,38 @@ const SOCIALS = [
 
 // ─── Component ────────────────────────────────────────────────
 export default function Footer() {
+  const t = useTranslations('footer')
+  const NAV_COLUMNS = [
+  {
+    title: t('about') ,
+    links: [
+      { label: t('consultations') , href: "/consulting" },
+      { label: t('blog') , href: "/blog" },
+      { label: t('FAQ') , href: "/page/FQA" },
+      { label: t('Privacy') , href: "/privacy" },
+    ],
+  },
+  {
+    title: t('quickLinks') ,
+    links: [
+      { label: t('coursesByCity') , href: "/show_cities" },
+      { label: t('yearPlans') , href: "/year_plan" },
+      // { label: "Professional Path", href: "#" },
+      // { label: "Work Environment", href: "#" },
+      { label: t('categories') , href: "/search_course" },
+      { label: t('specialization') , href: "/search_course" },
+    ],
+  },
+  {
+    title: t('support') ,
+    links: [
+      // { label: "Support Center", href: "#" },
+      // { label: "Account", href: "#" },
+      { label: t('contact') , href: "/contact_us" },
+      // { label: "Feedback", href: "#" },
+    ],
+  },
+];
   return (
     <footer className={styles.footer} aria-label="Site footer">
       <div className={styles.top}>

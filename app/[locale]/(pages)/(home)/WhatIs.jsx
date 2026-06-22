@@ -11,6 +11,7 @@ import promotion from '@/public/asstes/icons/promotion.svg';
 import uxInterface from '@/public/asstes/icons/ux-interface.svg';
 import containerStyle from '@/sass/components/common/container.module.scss'
 import styles from '@/sass/pages/home/what-is.module.scss'
+import { useTranslations } from "next-intl"
 const items = [
     {
         params: {query: {discounted: 22}},
@@ -45,11 +46,13 @@ const items = [
 ]
 const WhatIs = () => {
     const {locale} = useLanguageStore();
+
+     const t = useTranslations('what-is');
   
     return (
         <section className={styles.whatIs}>
             <div className={containerStyle.container}>
-                <Title title='What is' span='BRITISH ACADEMY?' subtitle='' />
+                <Title title={t('title')} span={t('span')} subtitle={t('subtitle')} />
                 <div className={styles.content}>
                     <div className={styles.left}>
                         <div className={styles.imgContainer}>
