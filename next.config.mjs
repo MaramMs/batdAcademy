@@ -27,6 +27,16 @@ const nextConfig = {
       },
     ],
   },
+// async redirects() {
+  //   return [
+  //     // 1. معالجة روابط محددة قديمة تغير مسارها بالكامل
+  //     // {
+  //     //   source: '/old-about-us-page',
+  //     //   destination: '/about',
+  //     //   permanent: true, // تعني 301 Redirect
+  //     // },
+  //   ];
+  // },
 };
 
 export default withNextIntl(nextConfig);
