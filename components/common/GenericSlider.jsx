@@ -7,6 +7,7 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { useEffect, useRef } from "react";
 import { useParams } from "next/navigation";
+import { useTranslations } from "next-intl";
 
 export default function GenericSlider({
     items = [],
@@ -23,6 +24,7 @@ export default function GenericSlider({
     swiperRef: externalRef,
     hidden
 }) {
+    const t = useTranslations();
     const prevSel = `[data-prev="${navId}"]`;
     const nextSel = `[data-next="${navId}"]`;
     const internalRef = useRef(null);
@@ -91,7 +93,7 @@ const swiperRef = externalRef ?? internalRef;
             {showViewAll && (
                 <div className={styles.viewAll}>
                     <Link href={`/${locale}/search_course`}>
-                        View All Courses <ArrowRight color='#1E2749' size={14} />
+                        {t('viewAllCourses')} <ArrowRight color='#1E2749' size={14} />
                     </Link>
                 </div>
             )}

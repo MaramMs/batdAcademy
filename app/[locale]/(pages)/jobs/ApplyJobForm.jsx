@@ -1,11 +1,14 @@
+"use client";
 import { useState } from "react";
 import * as Dialog from "@radix-ui/react-dialog";
 import styles from "@/sass/pages/jobs/applly-job-form.module.scss";
 import { Award, Briefcase, ChevronDown, Clock, FileText, Globe, GraduationCap, Mail, Phone, Upload, User } from "lucide-react";
 import DropdownMenuCustom from "@/components/common/DropdownMenu";
+import { useTranslations } from "next-intl";
 
- 
+
 const ApplyJobForm = ({ onClose }) => {
+  const t = useTranslations('Jobs');
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
@@ -54,11 +57,11 @@ const ApplyJobForm = ({ onClose }) => {
         {/* Personal Information */}
         <section className={styles.section}>
           <h3 className={styles.sectionTitle}>
-            <span className={styles.icon}><User size={20} color="#1E2749"/></span> Personal Information
+            <span className={styles.icon}><User size={20} color="#1E2749"/></span> {t('apply.personalInfo')}
           </h3>
           <div className={styles.grid2}>
             <div className={styles.field}>
-              <label className={styles.label}>Full Name <span className={styles.req}>*</span></label>
+              <label className={styles.label}>{t('apply.fullName')} <span className={styles.req}>*</span></label>
               <div className={styles.inputWrap}>
                 <span className={styles.inputIcon}> <User size={16} color="#99A1AF"/></span>
                 <input className={styles.input} name="fullName" value={formData.fullName}

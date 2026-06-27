@@ -38,11 +38,11 @@ export async function generateMetadata({ params }) {
       description,
       keywords: keywords || undefined,
        alternates: {
-              canonical: `/${locale}/post/${slug}`,
+              canonical: `/${locale}/printCategory/${id}`,
               languages: {
-                en: `${SITE_URL}/en/post/${slug}`,
-                ar: `${SITE_URL}/ar/post/${slug}`,
-                "x-default": `${SITE_URL}/en/post/${slug}`,
+                en: `${SITE_URL}/en/printCategory/${id}`,
+                ar: `${SITE_URL}/ar/printCategory/${id}`,
+                "x-default": `${SITE_URL}/en/printCategory/${id}`,
               },
             },
       openGraph: {

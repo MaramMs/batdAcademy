@@ -5,8 +5,10 @@ import styles from "@/sass/pages/sign-In/login.module.scss";
 import useAuthStore from "@/store/useAuthStore";
 import useLanguageStore from "@/store/useLanguageStore";
 import { toast } from "sonner";
+import { useTranslations } from "next-intl";
 
 const ForgetPasswordForm = () => {
+    const t = useTranslations('ForgetPassword');
     const { locale } = useLanguageStore();
     const {
         register,
@@ -32,26 +34,26 @@ const ForgetPasswordForm = () => {
     return (
         <div className={styles.formCard}>
             <div className={styles.formHeader}>
-                <h1>Forget Password</h1>
-                <p>Enter your email address and we'll send you a link to reset your password.</p>
+                <h1>{t('title')}</h1>
+                <p>{t('subtitle')}</p>
             </div>
 
             <form onSubmit={handleSubmit(onSubmit)} noValidate>
                 <div className={styles.field}>
                     <label htmlFor="email">
-                        Email Address <span className={styles.required}>*</span>
+                        {t('email')} <span className={styles.required}>*</span>
                     </label>
                     <div className={`${styles.inputWrapper} ${errors.email ? styles.hasError : ""}`}>
                         <Mail size={16} className={styles.inputIcon} />
                         <input
                             id="email"
                             type="email"
-                            placeholder="john.doe@example.com"
+                            placeholder={t('emailPlaceholder')}
                             {...register("email", {
                                 required: "Email is required",
                                 pattern: {
                                     value: /^\S+@\S+\.\S+$/,
-                                    message: "Invalid email address",
+                                    message: t('emailInvalid'),
                                 },
                             })}
                         />
@@ -68,7 +70,7 @@ const ForgetPasswordForm = () => {
                     className={styles.submitBtn}
                     disabled={isLoading}
                 >
-                    {isLoading ? "Forgot Password..." : "Forgot Password"}
+                    {isLoading ? t('submitting') : t('submit')}
                     {!isLoading && <ArrowRight size={16} />}
                 </button>
             </form>

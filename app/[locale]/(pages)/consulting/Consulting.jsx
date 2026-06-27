@@ -9,7 +9,9 @@ import ConsultingCard from "./ConsultingCard";
 import ExpertCard from "./ExpertCard";
 import Header from "./Header";
 import Skeleton from "@/components/ui/Skeleton";
+import { useTranslations } from "next-intl";
 const Consulting = () => {
+    const t = useTranslations('Consulting');
     const { data, handleGetConsulting, isLoading } = useConsultingStore();
     const [visibleCount, setVisibleCount] = useState(6);
     useEffect(() => {
@@ -24,11 +26,8 @@ const Consulting = () => {
                     <div className={stylesContainer.container}>
                         <section className={styles.consultingCategory}>
                             <div className={styles.heading}>
-                                <h2>Consultation Categories</h2>
-                                <p>
-                                    Explore our comprehensive range of professional consulting services tailored to your needs
-
-                                </p>
+                                <h2>{t('categoriesTitle')}</h2>
+                                <p>{t('categoriesSubtitle')}</p>
                             </div>
 
                             {
@@ -56,7 +55,7 @@ const Consulting = () => {
                             }
                             {
                                 visibleCount < data?.items?.length && data?.has_more && (
-                                    <button className={styles.viewMoreBtn} onClick={() => setVisibleCount(visibleCount + 6)}>View more <ArrowRight /></button>
+                                    <button className={styles.viewMoreBtn} onClick={() => setVisibleCount(visibleCount + 6)}>{t('viewMore')} <ArrowRight /></button>
                                 )
                             }
 
@@ -67,14 +66,8 @@ const Consulting = () => {
 
                     <section className={styles.expertConsultants}>
                         <div className={styles.heading}>
-                            <h2>
-                                Our Expert Consultants
-                            </h2>
-                            <p>
-
-                                Meet our team of experienced professionals ready to help you succeed
-                            </p>
-
+                            <h2>{t('expertsTitle')}</h2>
+                            <p>{t('expertsSubtitle')}</p>
                         </div>
                         <div className={styles.expertCards}>
                             {
@@ -107,8 +100,8 @@ const Consulting = () => {
                     <div className={stylesContainer.container}>
                         <section className={styles.frequentlyQuestions}>
                             <div className={styles.heading}>
-                                <h2>Frequently Asked Questions</h2>
-                                <p>Here are answers to some of the most common questions about our consulting services.</p>
+                                <h2>{t('faqTitle')}</h2>
+                                <p>{t('faqSubtitle')}</p>
                             </div>
                             <div className={styles.questions}>
                                 {

@@ -5,7 +5,7 @@ import usePlansStore from "@/store/usePlansStore";
 import { useEffect } from "react";
 import Header from "./Header";
 import Print from "./print";
-import PrintCard from "./PrintCard";
+import PrintCard from "./PrintCardV2";
 import { useParams, useSearchParams } from "next/navigation";
 import Skeleton from "@/components/ui/Skeleton";
 

@@ -1,3 +1,4 @@
+"use client";
 import styles from "@/sass/pages/blog/featured-article.module.scss";
 import {
   ArrowRight,
@@ -11,6 +12,7 @@ import {
   TrendingUp,
 } from "lucide-react";
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 
 // Temporary placeholder images
 const placeholderImages = [
@@ -20,7 +22,7 @@ const placeholderImages = [
 ];
 
 const FeaturedArticle = ({ postFeatured }) => {
-  // Select a random image based on the post's ID or randomly.
+  const t = useTranslations('Blog');
   const randomImageIndex = postFeatured?.id
     ? postFeatured.id % 3
     : Math.floor(Math.random() * 3);
@@ -30,7 +32,7 @@ const FeaturedArticle = ({ postFeatured }) => {
     <section className={styles.featuredArticle}>
       <h2>
         {" "}
-        <Star fill="#C41E3A" size={18} color="#C41E3A" /> Featured Article
+        <Star fill="#C41E3A" size={18} color="#C41E3A" /> {t('featuredArticle')}
       </h2>
       <div className={styles.content}>
         <div className={styles.left}>
@@ -45,12 +47,12 @@ const FeaturedArticle = ({ postFeatured }) => {
           </div>{" "}
           <span>
             {" "}
-            <TrendingUp fill="#00C950" size={12} color="#00C950" /> Trending
+            <TrendingUp fill="#00C950" size={12} color="#00C950" /> {t('trending')}
           </span>
         </div>
         <div className={styles.right}>
           <span className={styles.featured}>
-            <Star fill="#fff" size={18} color="#fff" /> Featured
+            <Star fill="#fff" size={18} color="#fff" /> {t('featured')}
           </span>
           <div className={styles.articleContent}>
             <div className={styles.articleInfo}>
@@ -78,7 +80,7 @@ const FeaturedArticle = ({ postFeatured }) => {
             <div className={styles.articleAuthor}>
               <div className={styles.author}>
                 <h3>{postFeatured?.author_name}</h3>
-                <span>Author</span>
+                <span>{t('author')}</span>
               </div>
               <div className={styles.articleReaction}>
                 <span>
@@ -99,7 +101,7 @@ const FeaturedArticle = ({ postFeatured }) => {
 
             <div className={styles.articleActions}>
               <button>
-                Read Article <ArrowRight size={18} color="#fff" />
+                {t('readArticle')} <ArrowRight size={18} color="#fff" />
               </button>
 
               <div className={styles.icons}>

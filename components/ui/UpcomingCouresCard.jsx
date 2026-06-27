@@ -106,7 +106,7 @@ const UpcomingCouresCard = ({
               {course.category?.name.slice(0, 15)}
             </span>
           )}
-          {course.price && <span className={styles.price}>{course.price}</span>}
+          {course.price && <span className={styles.price}>£{course.price}</span>}
         </div>
         <p className={styles.description}>{course.name}</p>
         <div className={styles.meta}>
@@ -119,7 +119,7 @@ const UpcomingCouresCard = ({
 
           <div className={styles.time}>
             <Clock color="#1E2749" size={14} />
-            <span className={styles.time}>1-2 weeks</span>
+            <span className={styles.time}>1-2 {t('weeks')}</span>
           </div>
         </div>
         <div className={styles.more}>

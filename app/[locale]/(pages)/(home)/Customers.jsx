@@ -1,4 +1,3 @@
-
 'use client'
 import { useEffect } from "react";
 import Image from "next/image";
@@ -8,6 +7,7 @@ import Title from "@/components/common/Title";
 import styleContainer from "@/sass/components/common/container.module.scss";
 import styles from "@/sass/pages/home/customers.module.scss";
 import Skeleton from "@/components/ui/Skeleton";
+import { useTranslations } from "next-intl";
 
 const Customer = ({ client }) => {
     return (
@@ -20,6 +20,7 @@ const Customer = ({ client }) => {
 }
 
 const Customers = () => {
+    const t = useTranslations('Customers');
     const { clients, handleGetClients, isLoading } = useClientsStore();
     useEffect(() => {
         handleGetClients();
@@ -27,7 +28,7 @@ const Customers = () => {
     return (
         <section>
             <div className={styleContainer.container}>
-                <Title title="Most Of our  " span='Customer' />
+                <Title title={t('title')} span={t('titleSpan')} />
                 {
                     isLoading ? (
                         <div style={{ display: 'flex', justifyContent: 'center', gap: '20px' }}>

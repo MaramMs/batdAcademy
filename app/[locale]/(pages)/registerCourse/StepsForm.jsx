@@ -4,9 +4,12 @@ import { useFieldArray, Controller } from 'react-hook-form';
 import RegistrationTypeToggle from './RegistrationTypeToggle';
 import styles from '@/sass/pages/register-course/steps-form.module.scss';
 import DropdownMenuCustom from '@/components/common/DropdownMenu';
-import ReCAPTCHA from 'react-google-recaptcha';
+import dynamic from 'next/dynamic';
+import { useTranslations } from 'next-intl';
+const ReCAPTCHA = dynamic(() => import('react-google-recaptcha'), { ssr: false });
 
 const StepsForm = ({ handleSubmit, onSubmit, errors, register, control, setRegType, regType,countries }) => {
+  const t = useTranslations('RegisterCourse');
   const { fields, append, remove } = useFieldArray({
     control,
     name: "participants"
@@ -26,12 +29,12 @@ const StepsForm = ({ handleSubmit, onSubmit, errors, register, control, setRegTy
     <div className={styles.formContent}>
       <div className={styles.formCard}>
         <div className={styles.formHeader}>
-          <h2>Personal Information</h2>
-          <p className={styles.subtitle}>Tell us about yourself to get started</p>
+          <h2>{t('personalInfo')}</h2>
+          <p className={styles.subtitle}>{t('personalSubtitle')}</p>
         </div>
         <div className={styles.registrationTypeSection}>
           <div className={styles.sectionTitle}>
-            <Users color='#C9302C' size={20} /> Registration Type *
+            <Users color='#C9302C' size={20} /> {t('registrationType')} *
           </div>
 
           <RegistrationTypeToggle
@@ -45,20 +48,16 @@ const StepsForm = ({ handleSubmit, onSubmit, errors, register, control, setRegTy
 
           <div className={styles.formGrid}>
             <div className={styles.inputGroup}>
-              <label>Full Name <span>*</span></label>
+              <label>{t('fullName')} <span>*</span></label>
               <div className={styles.inputWrapper}>
                 <User />
-                <input
-                  type="text"
-                  placeholder="John"
-                  {...register("fullName", { required: true })}
-                />
+                <input type="text" placeholder={t('fullName')} {...register("fullName", { required: true })} />
               </div>
-              {errors.fullName && <span className={styles.errorText}>This field is required</span>}
+              {errors.fullName && <span className={styles.errorText}>{t('fullName')} is required</span>}
             </div>
 
             <div className={styles.inputGroup}>
-              <label>Email Address <span>*</span></label>
+              <label>{t('email')} <span>*</span></label>
               <div className={styles.inputWrapper}>
                 <Mail />
                 <input
@@ -70,7 +69,7 @@ const StepsForm = ({ handleSubmit, onSubmit, errors, register, control, setRegTy
               {errors.email && <span className={styles.errorText}>Please enter a valid email</span>}
             </div>
             <div className={styles.inputGroup}>
-              <label>Phone Number <span>*</span></label>
+              <label>{t('phone')} <span>*</span></label>
               <div className={styles.inputWrapper}>
                 <Phone />
                 <input
@@ -82,7 +81,7 @@ const StepsForm = ({ handleSubmit, onSubmit, errors, register, control, setRegTy
               {errors.phone && <span className={styles.errorText}>This field is required</span>}
             </div>
             <div className={styles.inputGroup}>
-              <label>Country <span>*</span></label>
+              <label>{t('country')} <span>*</span></label>
               <div className={styles.inputWrapper}>
                 <Controller
                   name="country"
@@ -90,7 +89,7 @@ const StepsForm = ({ handleSubmit, onSubmit, errors, register, control, setRegTy
                   rules={{ required: true }}
                   render={({ field }) => (
                     <DropdownMenuCustom
-                      label="Select your country"
+                      label={t('countryPlaceholder')}
                       options={countryOptions}
                       value={field.value}
                       onChange={field.onChange}
@@ -105,10 +104,10 @@ const StepsForm = ({ handleSubmit, onSubmit, errors, register, control, setRegTy
 
           {regType === 'individual' && (
             <div className={styles.optionalSection}>
-              <h3>Professional Information (Optional)</h3>
+              <h3>{t('professionalInfo')}</h3>
               <div className={styles.optinals} >
                 <div className={styles.inputGroup}>
-                  <label>Company Name</label>
+                  <label>{t('companyName')}</label>
                   <div className={styles.inputWrapper}>
                     <Briefcase />
                     <input
@@ -120,14 +119,10 @@ const StepsForm = ({ handleSubmit, onSubmit, errors, register, control, setRegTy
                 </div>
 
                 <div className={styles.inputGroup}>
-                  <label>Job Title</label>
+                  <label>{t('jobTitle')}</label>
                   <div className={styles.inputWrapper}>
                     <Briefcase />
-                    <input
-                      type="text"
-                      placeholder="Your Position"
-                      {...register("jobTitle")}
-                    />
+                    <input type="text" placeholder={t('jobTitle')} {...register("jobTitle")} />
                   </div>
                 </div>
               </div>
@@ -139,18 +134,18 @@ const StepsForm = ({ handleSubmit, onSubmit, errors, register, control, setRegTy
               <div className={styles.sectionHeader}>
                 <div className={styles.titleWithBadge}>
                   <div className={styles.sectionTitle}>
-                    <Users color='#C9302C' size={20} /> Course Participants
+                    <Users color='#C9302C' size={20} /> {t('participants')}
                   </div>
                   <span className={styles.participantBadge}>{fields.length} Participant{fields.length !== 1 ? 's' : ''}</span>
                 </div>
-                <p className={styles.sectionSubtitle}>Add participants who will attend this course</p>
+                <p className={styles.sectionSubtitle}>{t('participantsHint')}</p>
               </div>
 
               <div className={styles.participantsList}>
                 {fields.map((field, index) => (
                   <div key={field.id} className={styles.participantCard}>
                     <div className={styles.participantCardHeader}>
-                      <h4>Participant {index + 1}</h4>
+                      <h4>{t('participantLabel')} {index + 1}</h4>
                       <button
                         type="button"
                         onClick={() => remove(index)}
@@ -163,11 +158,11 @@ const StepsForm = ({ handleSubmit, onSubmit, errors, register, control, setRegTy
 
                     <div className={styles.participantFields}>
                       <div className={styles.inputGroup}>
-                        <label>Full Name</label>
+                        <label>{t('fullName')}</label>
                         <div className={styles.inputWrapper}>
                           <input
                             type="text"
-                            placeholder="nourakhalil@gmail.com"
+                            placeholder={t('fullName')}
                             {...register(`participants.${index}.fullName`)}
                           />
                         </div>
@@ -175,7 +170,7 @@ const StepsForm = ({ handleSubmit, onSubmit, errors, register, control, setRegTy
 
                       <div className={styles.fieldRow}>
                         <div className={styles.inputGroup}>
-                          <label>Email Address</label>
+                          <label>{t('email')}</label>
                           <div className={styles.inputWrapper}>
                             <input
                               type="email"
@@ -185,7 +180,7 @@ const StepsForm = ({ handleSubmit, onSubmit, errors, register, control, setRegTy
                           </div>
                         </div>
                         <div className={styles.inputGroup}>
-                          <label>Job Title</label>
+                          <label>{t('jobTitle')}</label>
                           <div className={styles.inputWrapper}>
                             <input
                               type="text"
@@ -198,7 +193,7 @@ const StepsForm = ({ handleSubmit, onSubmit, errors, register, control, setRegTy
 
                       <div className={styles.fieldRow}>
                         <div className={styles.inputGroup}>
-                          <label>Phone</label>
+                          <label>{t('phone')}</label>
                           <div className={styles.inputWrapper}>
                             <input
                               type="tel"
@@ -208,7 +203,7 @@ const StepsForm = ({ handleSubmit, onSubmit, errors, register, control, setRegTy
                           </div>
                         </div>
                         <div className={styles.inputGroup}>
-                          <label>Mobile</label>
+                          <label>{t('mobile')}</label>
                           <div className={styles.inputWrapper}>
                             <input
                               type="tel"
@@ -228,7 +223,7 @@ const StepsForm = ({ handleSubmit, onSubmit, errors, register, control, setRegTy
                 className={styles.addParticipantBtn}
                 onClick={() => append({ fullName: '', email: '', jobTitle: '', phone: '', mobile: '' })}
               >
-                <Plus size={18} /> Add Another Participant
+                <Plus size={18} /> {t('addParticipant')}
               </button>
             </div>
           )}
@@ -248,7 +243,7 @@ const StepsForm = ({ handleSubmit, onSubmit, errors, register, control, setRegTy
           </div>
           <div className={styles.footerActions}>
             <button type="submit" className={styles.btnContinue}>
-              Continue <ArrowRight size={18} />
+              {t('next')} <ArrowRight size={18} />
             </button>
           </div>
         </form>

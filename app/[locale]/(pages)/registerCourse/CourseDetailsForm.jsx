@@ -8,8 +8,10 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import ReCAPTCHA from 'react-google-recaptcha';
 import styles from '@/sass/pages/register-course/course-details-form.module.scss';
+import { useTranslations } from 'next-intl';
 
 const CourseDetailsForm = ({cities,durations,dates,isLoading,register, control, setValue, errors, handleBack, onSubmit, handleSubmit }) => {
+  const t = useTranslations('RegisterCourse');
   const [mounted, setMounted] = useState(false);
   const [recaptchaToken, setRecaptchaToken] = useState(null);
 
@@ -39,8 +41,8 @@ useEffect(() => {
   return (
     <div className={styles.formContainer}>
       <div className={styles.formHeader}>
-        <h2>Choose Your Training Schedule</h2>
-        <p className={styles.subtitle}>Select your preferred date and location</p>
+        <h2>{t('chooseSchedule')}</h2>
+        <p className={styles.subtitle}>{t('scheduleSubtitle')}</p>
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -48,7 +50,7 @@ useEffect(() => {
         <div className={styles.section}>
           <div className={styles.sectionTitle}>
             <Calendar size={18} color="#1E293B" />
-            <span>Available Dates *</span>
+            <span>{t('availableDates')} *</span>
           </div>
           <div className={styles.dateGrid}>
             {dates && dates.length > 0 ? (
@@ -70,7 +72,7 @@ useEffect(() => {
                 </label>
               ))
             ) : (
-              <p style={{ color: '#64748b', fontSize: '14px', marginTop: '10px' }}>No available dates found for this course.</p>
+              <p style={{ color: '#64748b', fontSize: '14px', marginTop: '10px' }}>{t('noDates')}</p>
             )}
           </div>
         </div>
@@ -79,7 +81,7 @@ useEffect(() => {
         <div className={styles.customDateSection}>
           <div className={styles.customDateHeader}>
             <Calendar size={16} color="#C9302C" />
-            <span>Or Choose Your Own Date</span>
+            <span>{t('customDate')}</span>
           </div>
           <div className={styles.inputWrapper}>
             <Controller
@@ -107,14 +109,14 @@ useEffect(() => {
             />
             <Calendar className={styles.inputIcon} size={18} />
           </div>
-          <p className={styles.helperText}>✨ Select a custom start date that works best for you</p>
+          <p className={styles.helperText}>✨ {t('customDateHint')}</p>
         </div>
 
         {/* Course Duration */}
         <div className={styles.section}>
           <div className={styles.sectionTitle}>
             <Clock size={18} color="#1E293B" />
-            <span>Course Duration *</span>
+            <span>{t('courseDuration')} *</span>
           </div>
           <div className={styles.durationGrid}>
             {durations.map((item, index) => (
@@ -138,7 +140,7 @@ useEffect(() => {
         <div className={styles.section}>
           <div className={styles.sectionTitle}>
             <MapPin size={18} color="#1E293B" />
-            <span>Training Location *</span>
+            <span>{t('trainingLocation')} *</span>
           </div>
           <div className={styles.selectWrapper}>
             <Controller
@@ -147,7 +149,7 @@ useEffect(() => {
               rules={{ required: true }}
               render={({ field }) => (
                 <DropdownMenuCustom
-                  label="Select training location..."
+                  label={t('locationPlaceholder')}
                   options={cities?.map(city => ({
                     value: city.id,
                     label: city.name
@@ -165,7 +167,7 @@ useEffect(() => {
         <div className={styles.section}>
           <div className={styles.sectionTitle}>
             <Globe size={18} color="#1E293B" />
-            <span>Course Language *</span>
+            <span>{t('courseLanguage')} *</span>
           </div>
           <div className={styles.languageToggle}>
             <label className={styles.langOption}>
@@ -191,14 +193,14 @@ useEffect(() => {
             <div className={styles.dataConfirmed}>
               <div className={styles.title} >
                 <CircleCheck color='#00A63E' size={20} />
-                <h3>Your Selection Confirmed</h3>
+                <h3>{t('selectionConfirmed')}</h3>
 
               </div>
               <div className={styles.confirmedData}>
                 <div className={styles.item}>
                   <span className={styles.icon}><Calendar size={18} color="#1E293B" /></span>
                   <div className={styles.info}>
-                    <span className={styles.label}>Start Date</span>
+                    <span className={styles.label}>{t('startDate')}</span>
                     <span className={styles.value}>{getDisplayDate()}</span>
 
                   </div>
@@ -208,7 +210,7 @@ useEffect(() => {
                 <div className={styles.item}>
                   <span className={styles.icon}><Clock size={18} color="#1E293B" /></span>
                   <div className={styles.info}>
-                    <span className={styles.label}>Duration</span>
+                    <span className={styles.label}>{t('duration')}</span>
                     <span className={styles.value}>{selectedDuration || 'Not selected'}</span>
 
                   </div>
@@ -218,7 +220,7 @@ useEffect(() => {
                 <div className={styles.item}>
                   <span className={styles.icon}><MapPin size={18} color="#1E293B" /></span>
                   <div className={styles.info}>
-                    <span className={styles.label}>Location</span>
+                    <span className={styles.label}>{t('location')}</span>
                     <span className={styles.value}>{selectedCity || 'Not selected'}</span>
 
                   </div>
@@ -229,7 +231,7 @@ useEffect(() => {
                 <div className={styles.item}>
                   <span className={styles.icon}><Globe size={18} color="#1E293B" /></span>
                   <div className={styles.info}>
-                    <span className={styles.label}>Language</span>
+                    <span className={styles.label}>{t('language')}</span>
                     <span className={styles.value}>{language.charAt(0).toUpperCase() + language.slice(1)}</span>
 
                   </div>
@@ -258,11 +260,11 @@ useEffect(() => {
         {/* Actions */}
         <div className={styles.footerActions}>
           <button type="button" onClick={handleBack} className={styles.btnBack}>
-            <ArrowLeft size={18} /> Previous Step
+            <ArrowLeft size={18} /> {t('prev')}
           </button>
           <button type="submit" className={styles.btnContinue}>
             {
-              isLoading ? 'is loading ....' : 'Continue'
+              isLoading ? t('loading') : t('next')
             } <ArrowRight size={18} />
           </button>
         </div>

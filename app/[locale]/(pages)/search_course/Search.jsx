@@ -10,7 +10,8 @@ import { useTranslations } from "next-intl";
 
 const SearchCourse = ({ className, updateFilter }) => {
   const searchParams = useSearchParams();
-  const t = useTranslations()
+  const t = useTranslations('SearchCourse');
+  const tCommon = useTranslations();
   const [searchValue, setSearchValue] = useState(
     searchParams.get("search") || "",
   );
@@ -21,7 +22,6 @@ const SearchCourse = ({ className, updateFilter }) => {
         updateFilter("search", searchValue);
       }
     }, 500);
-
     return () => clearTimeout(handler);
   }, [searchValue, updateFilter, searchParams]);
 
@@ -37,7 +37,7 @@ const SearchCourse = ({ className, updateFilter }) => {
           </div>
           <input
             type="text"
-            placeholder={t('searchPlacesholder')}
+            placeholder={tCommon('searchPlacesholder')}
             className={styles.input}
             value={searchValue}
             onChange={(e) => setSearchValue(e.target.value)}
@@ -49,121 +49,82 @@ const SearchCourse = ({ className, updateFilter }) => {
             <button
               className={`${styles.funnel} ${className}`}
               type="button"
-              aria-label="Open search filters"
+              aria-label={t('filters')}
             >
               <Filter aria-hidden="true" />
             </button>
           </Dialog.Trigger>
 
-        <Dialog.Portal>
-              <Dialog.Overlay className={styles.drawerOverlay} />
-              <Dialog.Content className={styles.drawerContent}>
-                <div className={styles.drawerHeader}>
-                  <Dialog.Title className={styles.drawerTitle}>
-                    Filters
-                  </Dialog.Title>
-                  <Dialog.Close
-                    className={styles.drawerClose}
-                    aria-label="Close filters"
-                  >
-                    <X size={20} aria-hidden="true" />
-                  </Dialog.Close>
-                </div>
-                <div className={styles.filter}>
-                  {/* Box 1: Filters/Settings */}
-                  <CategoriesBox
-                    title="All Categories"
-                    icon={<Filter size={18} />}
-                  >
-                    <div className={styles.sidebarFilterContent}>
-                      <div className={styles.range}>
-                        <h4 className={styles.filterGroupTitle}>Price Range</h4>
-                        <Range
-                          min={0}
-                          max={2000}
-                          step={10}
-                          //   onChange={({ min, max }) => console.log(min, max)}
-                        />
-                      </div>
+          <Dialog.Portal>
+            <Dialog.Overlay className={styles.drawerOverlay} />
+            <Dialog.Content className={styles.drawerContent}>
+              <div className={styles.drawerHeader}>
+                <Dialog.Title className={styles.drawerTitle}>
+                  {t('filters')}
+                </Dialog.Title>
+                <Dialog.Close
+                  className={styles.drawerClose}
+                  aria-label="Close filters"
+                >
+                  <X size={20} aria-hidden="true" />
+                </Dialog.Close>
+              </div>
 
-                      <h4 className={styles.filterGroupTitle}>Course Type</h4>
-                      <div className={styles.checkboxGroup}>
-                        <label className={styles.checkboxLabel}>
-                          <input type="checkbox" /> Featured Courses
-                        </label>
-                        <label className={styles.checkboxLabel}>
-                          <input type="checkbox" /> Approved Courses
-                        </label>
-                        <label className={styles.checkboxLabel}>
-                          <input type="checkbox" /> Discounted Courses
-                        </label>
-                      </div>
+              <div className={styles.filter}>
+                <CategoriesBox
+                  title={t('allCategories')}
+                  icon={<Filter size={18} />}
+                >
+                  <div className={styles.sidebarFilterContent}>
+                    <div className={styles.range}>
+                      <h4 className={styles.filterGroupTitle}>{t('priceRange')}</h4>
+                      <Range min={0} max={2000} step={10} />
                     </div>
-                  </CategoriesBox>
 
-                  {/* Box 2: Category List */}
-                  <CategoriesBox title="All Category">
-                    <ul className={styles.sidebarCategoryList}>
-                      <li>
-                        <span>Business</span>
-                        <div className={styles.badgeWrapper}>
-                          <span className={styles.badge}>95</span>
-                          <ChevronRight size={12} />
-                        </div>
-                      </li>
-                      <li>
-                        <span>Technical</span>
-                        <div className={styles.badgeWrapper}>
-                          <span className={styles.badge}>32</span>
-                          <ChevronRight size={12} />
-                        </div>
-                      </li>
-                      <li>
-                        <span>Power</span>
-                        <div className={styles.badgeWrapper}>
-                          <span className={styles.badge}>32</span>
-                          <ChevronRight size={12} />
-                        </div>
-                      </li>
-                      <li>
-                        <span>Management</span>
-                        <div className={styles.badgeWrapper}>
-                          <span className={styles.badge}>32</span>
-                          <ChevronRight size={12} />
-                        </div>
-                      </li>
-                      <li>
-                        <span>Development</span>
-                        <div className={styles.badgeWrapper}>
-                          <span className={styles.badge}>32</span>
-                          <ChevronRight size={12} />
-                        </div>
-                      </li>
-                    </ul>
-                  </CategoriesBox>
-
-                  {/* Box 3: Tags */}
-                  <CategoriesBox title="All Tags">
-                    <div className={styles.sidebarTagsContainer}>
-                      <span className={styles.tagPill}>Business</span>
-                      <span className={styles.tagPill}>Graphic Design</span>
-                      <span className={styles.tagPill}>Technology</span>
-                      <span className={styles.tagPill}>Business Idea</span>
-                      <span className={styles.tagPill}>App Development</span>
-                      <span className={styles.tagPill}>Website Design</span>
-                      <span className={styles.tagPill}>Marketing</span>
-                      <span className={styles.tagPill}>Leadership</span>
-                      <span className={styles.tagPill}>Finance</span>
-                      <span className={styles.tagPill}>Project Management</span>
+                    <h4 className={styles.filterGroupTitle}>{t('courseType')}</h4>
+                    <div className={styles.checkboxGroup}>
+                      <label className={styles.checkboxLabel}>
+                        <input type="checkbox" /> {t('featuredCourses')}
+                      </label>
+                      <label className={styles.checkboxLabel}>
+                        <input type="checkbox" /> {t('approvedCourses')}
+                      </label>
+                      <label className={styles.checkboxLabel}>
+                        <input type="checkbox" /> {t('discountedCourses')}
+                      </label>
                     </div>
-                  </CategoriesBox>
-                </div>
-              </Dialog.Content>
-            </Dialog.Portal>
+                  </div>
+                </CategoriesBox>
+
+                <CategoriesBox title={t('allCategory')}>
+                  <ul className={styles.sidebarCategoryList}>
+                    {["Business", "Technical", "Power", "Management", "Development"].map((item) => (
+                      <li key={item}>
+                        <span>{item}</span>
+                        <div className={styles.badgeWrapper}>
+                          <ChevronRight size={12} />
+                        </div>
+                      </li>
+                    ))}
+                  </ul>
+                </CategoriesBox>
+
+                <CategoriesBox title={t('allTags')}>
+                  <div className={styles.sidebarTagsContainer}>
+                    {["Business", "Graphic Design", "Technology", "Business Idea",
+                      "App Development", "Website Design", "Marketing",
+                      "Leadership", "Finance", "Project Management"].map((tag) => (
+                      <span key={tag} className={styles.tagPill}>{tag}</span>
+                    ))}
+                  </div>
+                </CategoriesBox>
+              </div>
+            </Dialog.Content>
+          </Dialog.Portal>
         </Dialog.Root>
 
         <div className={styles.searchContent__right}>
-          <button type="button">{t('search')}</button>
+          <button type="button">{tCommon('search')}</button>
         </div>
       </div>
     </section>

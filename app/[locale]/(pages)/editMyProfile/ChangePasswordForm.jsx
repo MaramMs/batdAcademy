@@ -3,13 +3,7 @@
 import { useState } from "react";
 import { Lock, Eye, EyeOff, CheckCircle2, Circle, KeyRound } from "lucide-react";
 import styles from "@/sass/pages/edit-my-profile/edit-my-profile.module.scss";
-
-const requirements = [
-    { id: "length",    label: "At least 8 characters" },
-    { id: "number",    label: "At least one number" },
-    { id: "case",      label: "Uppercase & lowercase" },
-    { id: "special",   label: "Special character (optional)" },
-];
+import { useTranslations } from "next-intl";
 
 const PasswordField = ({ id, label, placeholder, required }) => {
     const [show, setShow] = useState(false);
@@ -43,36 +37,45 @@ const PasswordField = ({ id, label, placeholder, required }) => {
 };
 
 const ChangePasswordForm = () => {
+    const t = useTranslations('EditProfile');
+
+    const requirements = [
+        { id: "length",    label: t('passwordReqs.length') },
+        { id: "number",    label: t('passwordReqs.number') },
+        { id: "case",      label: t('passwordReqs.case') },
+        { id: "special",   label: t('passwordReqs.special') },
+    ];
+
     return (
         <div className={styles.card}>
             <h2 className={styles.sectionTitle}>
                 <KeyRound size={17} />
-                Change Password
+                {t('changePassword')}
             </h2>
             <p className={styles.sectionSubtitle}>
-                Leave these fields blank if you don&apos;t want to change your password
+                {t('changePasswordHint')}
             </p>
 
             <div className={styles.passwordGrid}>
                 {/* Current password — full width */}
                 <PasswordField
                     id="currentPassword"
-                    label="Current Password"
-                    placeholder="Enter current password"
+                    label={t('currentPassword')}
+                    placeholder={t('currentPasswordPlaceholder')}
                     required="full"
                 />
 
                 {/* New + confirm side by side */}
                 <PasswordField
                     id="newPassword"
-                    label="New Password"
-                    placeholder="Enter new password"
+                    label={t('newPassword')}
+                    placeholder={t('newPasswordPlaceholder')}
                     required={true}
                 />
                 <PasswordField
                     id="confirmPassword"
-                    label="Confirm Password"
-                    placeholder="Confirm new password"
+                    label={t('confirmPassword')}
+                    placeholder={t('confirmPasswordPlaceholder')}
                     required={true}
                 />
 
@@ -80,7 +83,7 @@ const ChangePasswordForm = () => {
                 <div className={styles.passwordRequirements}>
                     <p className={styles.reqTitle}>
                         <CheckCircle2 size={14} />
-                        Password Requirements
+                        {t('passwordRequirements')}
                     </p>
                     <div className={styles.reqGrid}>
                         {requirements.map((r) => (

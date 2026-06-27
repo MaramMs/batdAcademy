@@ -8,8 +8,10 @@ import useCitiesStore from "@/store/useCitiesStore";
 import { useEffect } from "react";
 import { useSearchParams, useRouter, usePathname, useParams } from "next/navigation";
 import { ArrowRight } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 const ShowCities = () => {
+    const t = useTranslations('ShowCities');
     const searchParams = useSearchParams();
     const router = useRouter();
     const pathname = usePathname();
@@ -69,8 +71,8 @@ const ShowCities = () => {
                 <div className={stylesContainer.container}>
                     <div className={styles.content}>
                         <div className={styles.title}>
-                            <h2>Courses by city</h2>
-                            <p>Our favorite cities with attractive attractions</p>
+                            <h2>{t('coursesByCity')}</h2>
+                            <p>{t('citySubtitle')}</p>
                         </div>
 
                         <div className={styles.cities}>
@@ -87,7 +89,7 @@ const ShowCities = () => {
 
                         {!isLoading && hasMore && (
                             <button onClick={onLoadMore} className={styles.loadMoreBtn}>
-                                View More <ArrowRight size={18} />
+                                {t('viewMore')} <ArrowRight size={18} />
                             </button>
                         )}
                     </div>

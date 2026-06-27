@@ -6,16 +6,18 @@ import MyCourses from "./MyCourses";
 import Certificates from "./Certificates";
 import Messages from "./Messages";
 import styles from "@/sass/pages/my-profile/my-profile.module.scss";
-
-const tabs = [
-    { id: "personal",      label: "Personal Information", icon: User     },
-    { id: "courses",       label: "My Courses",           icon: BookOpen },
-    { id: "certificates",  label: "Certificates",         icon: Award    },
-    { id: "messages",      label: "Messages",             icon: Mail     },
-];
+import { useTranslations } from "next-intl";
 
 const ProfileTabs = ({user}) => {
     const [activeTab, setActiveTab] = useState("personal");
+    const t = useTranslations('MyProfile');
+
+    const tabs = [
+        { id: "personal",      label: t('tabs.personalInfo'), icon: User     },
+        { id: "courses",       label: t('tabs.myCourses'),    icon: BookOpen },
+        { id: "certificates",  label: t('tabs.certificates'), icon: Award    },
+        { id: "messages",      label: t('tabs.messages'),     icon: Mail     },
+    ];
     
 
     return (

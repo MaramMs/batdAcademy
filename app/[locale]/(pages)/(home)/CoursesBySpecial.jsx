@@ -10,6 +10,7 @@ import { BookOpen } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
+import { useTranslations } from "next-intl";
 
 function chunkArray(arr, size) {
     const chunks = []
@@ -17,7 +18,7 @@ function chunkArray(arr, size) {
     return chunks
 }
 
-const CourseBySpecialCard = ({ item }) => {
+const CourseBySpecialCard = ({ item, coursesLabel }) => {
     return (
         <div className={styles.card}>
             <div className={styles.cardImage}>
@@ -25,20 +26,20 @@ const CourseBySpecialCard = ({ item }) => {
             </div>
             <div className={styles.cardContent}>
                 <h3 className={styles.cardTitle}>{item.name}</h3>
-                <p className={styles.cardDescription}>{item.courses_count} courses</p>
+                <p className={styles.cardDescription}>{item.courses_count} {coursesLabel}</p>
             </div>
 
         </div>
     )
 }
 
-const CourseBySpecial = ({ items }) => {
+const CourseBySpecial = ({ items, coursesLabel }) => {
     return (
         <div className={styles.courseBySpecial}>
             {
                 items?.map((item) => (
                    <Link href={`/course_traning/${item.id}/${item.slug}`} key={item.id}>
-                    <CourseBySpecialCard  item={item} />
+                    <CourseBySpecialCard item={item} coursesLabel={coursesLabel} />
                    </Link>
                 ))
             }
@@ -48,6 +49,7 @@ const CourseBySpecial = ({ items }) => {
 }
 
 const CoursesBySpecial = () => {
+    const t = useTranslations('CoursesBySpecial');
     const { categories, handleGetCategories, isLoading } = useCategoriesStore();
     const [activeTabId, setActiveTabId] = useState(null)
     const [chunkSize, setChunkSize] = useState(6)
@@ -88,7 +90,7 @@ const CoursesBySpecial = () => {
     return (
         <section>
             <div className={styleContainer.container}>
-                <Title title="Courses  " span='By Specialization' subtitle='British-European expertise and specialized cadres for your success.' />
+                <Title title={t('title')} span={t('titleSpan')} subtitle={t('subtitle')} />
                 {
                     isLoading ? (
                         <div style={{ display: 'flex', justifyContent: 'center', gap: '20px' }}>
@@ -108,7 +110,7 @@ const CoursesBySpecial = () => {
                                 key={`${activeTabId}-${chunkSize}`}
                                 navId="coursebyspecial"
                                 items={slides}
-                                renderSlide={(slideItems) => <CourseBySpecial items={slideItems} />}
+                                renderSlide={(slideItems) => <CourseBySpecial items={slideItems} coursesLabel={t('coursesCount')} />}
                                 breakpoints={{
                                     320: {
                                         slidesPerView: 1,

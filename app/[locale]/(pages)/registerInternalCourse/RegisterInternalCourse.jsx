@@ -15,15 +15,17 @@ import ParticipantsSection from './ParticipantsSection';
 import NavgationBar from './NavgationBar';
 import useRegisterCourseStore from '@/store/useRegisterCourseStore';
 import { toast } from 'sonner';
+import { useTranslations } from 'next-intl';
 
 const RegisterInternalCourse = () => {
+    const t = useTranslations('RegisterInternal');
     const searchParams = useSearchParams();
     const [regType, setRegType] = useState('individual');
     const { handlePostRegisterCourse, isLoading, handleGetRegisterData, registerData } = useRegisterCourseStore();
-   
+
     const lang = [
-        { label: 'English', value: 1 },
-        { label: 'Arabic', value: 0 },
+        { label: t('langEnglish'), value: 1 },
+        { label: t('langArabic'), value: 0 },
     ];
 
     const FALLBACK_DURATIONS = [
@@ -112,7 +114,7 @@ const RegisterInternalCourse = () => {
 
             const res = await handlePostRegisterCourse(payload);
             if (res?.success) {
-                toast.success(res?.message || 'Registration successful!');
+                toast.success(res?.message || t('successMsg'));
                 reset();
             } else {
                 const errorMessages = res?.errors
@@ -121,11 +123,11 @@ const RegisterInternalCourse = () => {
                 if (errorMessages.length) {
                     errorMessages.forEach((msg) => toast.error(msg));
                 } else {
-                    toast.error(res?.message || 'Registration failed. Please try again.');
+                    toast.error(res?.message || t('failMsg'));
                 }
             }
         } catch (error) {
-            toast.error(error?.response?.data?.message || error?.message || 'Something went wrong!');
+            toast.error(error?.response?.data?.message || error?.message || t('errorMsg'));
         }
     };
 
@@ -148,7 +150,7 @@ const RegisterInternalCourse = () => {
 
                                 <div className={formStyles.registrationTypeSection}>
                                     <div className={formStyles.sectionTitle}>
-                                        <Users color='#C9302C' size={20} /> Registration Type *
+                                        <Users color='#C9302C' size={20} /> {t('registrationType')} *
                                     </div>
                                     <RegistrationTypeToggle
                                         value={regType}
@@ -161,7 +163,7 @@ const RegisterInternalCourse = () => {
 
                                 <form onSubmit={handleSubmit(onSubmit, onInvalid)}>
                                     <div className={formStyles.sectionTitle}>
-                                        <Users color='#C9302C' size={20} /> Contact Information *
+                                        <Users color='#C9302C' size={20} /> {t('contactInfo')} *
                                     </div>
                                     <div className={pageStyles.formGrid} style={{ marginBottom: '20px' }}>
                                         <div className={formStyles.inputGroup} style={{ marginBottom: '24px' }}>
@@ -372,7 +374,7 @@ const RegisterInternalCourse = () => {
                                         </div>
 
                                         <div className={formStyles.inputGroup} style={{ marginBottom: '24px' }}>
-                                            <label>Number Of Attendees <span>*</span></label>
+                                            <label>{t('attendees')} <span>*</span></label>
                                             <div className={formStyles.inputWrapper}>
 
                                                 <Controller
@@ -432,7 +434,7 @@ const RegisterInternalCourse = () => {
                                         </div>
 
                                         <div className={formStyles.inputGroup} style={{ marginBottom: '24px' }}>
-                                            <label>Do you have a specific Course/Program ? <span>*</span></label>
+                                            <label>{t('specificCourse')} <span>*</span></label>
                                             <div className={formStyles.inputWrapper}>
                                                 <textarea
                                                     placeholder="Tell us about your specific course requirements..."
@@ -453,7 +455,7 @@ const RegisterInternalCourse = () => {
                                         <div className={formStyles.footerActions}>
                                             <button type="submit" className={formStyles.btnContinue}>
                                                 {
-                                                    isLoading ? 'loading ...' : 'register'
+                                                    isLoading ? t('loading') : t('submit')
                                                 }
                                             </button>
                                         </div>

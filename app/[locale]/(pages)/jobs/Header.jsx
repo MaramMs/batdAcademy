@@ -6,8 +6,10 @@ import DropdownMenuCustom from "@/components/common/DropdownMenu";
 import useCitiesStore from "@/store/useCitiesStore";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
 import styles from "@/sass/pages/jobs/header.module.scss";
+import { useTranslations } from "next-intl";
 
 const Header = ({ updateFilter }) => {
+    const t = useTranslations('Jobs');
     const { id, slug, locale } = useParams();
     const router = useRouter();
     const searchParams = useSearchParams();
@@ -44,15 +46,14 @@ const Header = ({ updateFilter }) => {
             <div className={styles.content}>
                 <div className={styles.title}>
                     {/* <span><Aperture color="#B12E33" size={22} />EXPLORE OUR GLOBAL LOCATIONS</span> */}
-                    <h1>Find a job that suits your <span>
-                    interest & skills </span></h1>
-                    <p>Aliquam vitae turpis in diam convallis finibus in at risus. Nullam in scelerisque leo, eget sollicitudin velit bestibulum.</p>
+                    <h1>{t('headerTitle')}</h1>
+                    <p>{t('headerSubtitle')}</p>
                 </div>
                 <div className={styles.searchCourse}>
-                  
+
                     <div className={styles.locationSelect}>
                         <DropdownMenuCustom
-                            label="All Specializations"
+                            label={t('allSpecializations')}
                             options={specializationOptions}
                             value={specialization}
                             onChange={handleSpecializationChange}
@@ -61,7 +62,7 @@ const Header = ({ updateFilter }) => {
                             triggerClassName={styles.dropdownTrigger}
                         />
                         <DropdownMenuCustom
-                            label="All Cities"
+                            label={t('allCities')}
                             options={cityOptions}
                             value={city}
                             onChange={handleCityChange}
@@ -70,7 +71,7 @@ const Header = ({ updateFilter }) => {
                             triggerClassName={styles.dropdownTrigger}
                         />
 
-                        <button className={styles.findJobBtn}>Find a Job</button>
+                        <button className={styles.findJobBtn}>{t('findJob')}</button>
                     </div>
                       <p className={styles.suggestions}>Suggestions: 
                         <span>Programing</span>

@@ -2,23 +2,26 @@
 
 import { User, Mail, Phone, Globe, Briefcase, Building2, MapPin } from "lucide-react";
 import styles from "@/sass/pages/edit-my-profile/edit-my-profile.module.scss";
-
-const fields = [
-    { id: "fullName",     label: "Full Name",     placeholder: "Ahmed Johnson",                    icon: User,      required: true,  fullWidth: false },
-    { id: "email",        label: "Email Address", placeholder: "ahmedjoh@example.com",             icon: Mail,      required: true,  fullWidth: false },
-    { id: "phone",        label: "Phone Number",  placeholder: "+44 7700 900123",                  icon: Phone,     required: true,  fullWidth: false },
-    { id: "country",      label: "Country",       placeholder: "United Kingdom",                   icon: Globe,     required: true,  fullWidth: false },
-    { id: "jobTitle",     label: "Job Title",     placeholder: "Senior Marketing Manager",         icon: Briefcase, required: false, fullWidth: false },
-    { id: "companyName",  label: "Company Name",  placeholder: "Digital Solutions Ltd",            icon: Building2, required: false, fullWidth: false },
-    { id: "address",      label: "Address",       placeholder: "123 Oxford Street, London, W1D 1LA", icon: MapPin, required: false, fullWidth: true  },
-];
+import { useTranslations } from "next-intl";
 
 const PersonalInfoForm = () => {
+    const t = useTranslations('EditProfile');
+
+    const fields = [
+        { id: "fullName",     label: t('fullName'),     placeholder: "Ahmed Johnson",                    icon: User,      required: true,  fullWidth: false },
+        { id: "email",        label: t('email'),        placeholder: "ahmedjoh@example.com",             icon: Mail,      required: true,  fullWidth: false },
+        { id: "phone",        label: t('phone'),        placeholder: "+44 7700 900123",                  icon: Phone,     required: true,  fullWidth: false },
+        { id: "country",      label: t('country'),      placeholder: "United Kingdom",                   icon: Globe,     required: true,  fullWidth: false },
+        { id: "jobTitle",     label: t('jobTitle'),     placeholder: "Senior Marketing Manager",         icon: Briefcase, required: false, fullWidth: false },
+        { id: "companyName",  label: t('companyName'),  placeholder: "Digital Solutions Ltd",            icon: Building2, required: false, fullWidth: false },
+        { id: "address",      label: t('address'),      placeholder: "123 Oxford Street, London, W1D 1LA", icon: MapPin, required: false, fullWidth: true  },
+    ];
+
     return (
         <div className={styles.card}>
             <h2 className={styles.sectionTitle}>
                 <User size={17} />
-                Personal Information
+                {t('personalInfoTitle')}
             </h2>
 
             <div className={styles.fieldsGrid}>

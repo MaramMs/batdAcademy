@@ -3,10 +3,12 @@ import { useEffect } from "react"
 import useTeamWorkStore from "@/store/useTeamWorkStore"
 import { Mail, Phone } from "lucide-react"
 import Title from "@/components/common/Title"
+import GenericSlider from "@/components/common/GenericSlider"
 import styleContainer from '@/sass/components/common/container.module.scss'
 import styles from '@/sass/pages/home/team-work.module.scss'
 import Skeleton from "@/components/ui/Skeleton"
 import Image from "next/image"
+import { useTranslations } from "next-intl"
 const Card = ({ team }) => {
     return (
         <div className={styles.card}>
@@ -101,6 +103,7 @@ const Card = ({ team }) => {
     )
 }
 const TeamWork = () => {
+    const t = useTranslations('TeamWork');
     const {teamWork,handleGetTeamWork,isLoading} = useTeamWorkStore();
     useEffect(() => {
         handleGetTeamWork();
@@ -108,21 +111,50 @@ const TeamWork = () => {
     return (
         <section className={styles.teamWork}>
             <div className={styleContainer.container}>
-                <Title title="Team " span='Work' subtitle='We have the strongest trainers with a high level of skill' />
+                <Title title={t('title')} span={t('titleSpan')} subtitle={t('subtitle')} />
                 {
                     isLoading ? (
-                            <div style={{ display: 'flex', justifyContent: 'center', gap: '20px' }}>
+                        <div style={{ display: 'flex', justifyContent: 'center', gap: '20px' }}>
                             <Skeleton type="card" className={styles.skeletonCard} />
                             <Skeleton type="card" className={styles.skeletonCard} />
                             <Skeleton type="card" className={styles.skeletonCard} />
                             <Skeleton type="card" className={styles.skeletonCard} />
                         </div>
-                    ):
-                <div className={styles.content}>
-                    {teamWork?.map((team) => (
-                        <Card key={team.id} team={team} />
-                    ))}
-                </div>
+                    ) : (
+                        <GenericSlider
+                            navId="teamwork"
+                            items={teamWork}
+                            renderSlide={(team) => <Card key={team.id} team={team} />}
+                            spaceBetween={20}
+                            breakpoints={{
+                                0: {
+                                    slidesPerView: 1.2,
+                                    centeredSlides: true,
+                                    centeredSlidesBounds: true,
+                                },
+                                576: {
+                                    slidesPerView: 1.8,
+                                    centeredSlides: false,
+                                },
+                                768: {
+                                    slidesPerView: 2.5,
+                                    centeredSlides: false,
+                                },
+                                1024: {
+                                    slidesPerView: 3,
+                                },
+                                1280: {
+                                    slidesPerView: 4,
+                                },
+                            }}
+                            autoplay={{
+                                delay: 3000,
+                                disableOnInteraction: false,
+                            }}
+                            showViewAll={false}
+                            hidden={true}
+                        />
+                    )
                 }
             </div>
         </section>

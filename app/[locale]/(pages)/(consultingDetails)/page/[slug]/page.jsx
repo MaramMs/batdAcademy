@@ -149,7 +149,7 @@ export default async function ConsultingDetailsPage({ params }) {
       )}
 
       <NavgationBar breadcrumb={consultingData?.breadcrumb} />
-      <Header />
+      <Header name={consultingData?.name} />
       <div className={styles.mainContent}>
         <div className={stylesContainer.container}>
           <div className={styles.wrapper}>

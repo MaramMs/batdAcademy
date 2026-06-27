@@ -12,9 +12,11 @@ import stylesContainer from "@/sass/components/common/container.module.scss";
 import styles from "@/sass/pages/category-details/category-details.module.scss";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { ArrowRight } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 const CategoryDetails = ({ params }) => {
     const { id } = use(params);
+    const t = useTranslations('CourseTraning');
     const { categories, handleGetCategories } = useCategoriesStore();
     const router = useRouter();
     const pathname = usePathname();
@@ -116,12 +118,12 @@ const CategoryDetails = ({ params }) => {
                                     ))
                                 ) : (
                                     <div className={styles.noCourses}>
-                                        <NoData message='No courses found in this category' />
+                                        <NoData message={t('noCategoryCoursesFound')} />
                                     </div>
                                 )}
                                 {(visibleCount < (data?.courses?.length || 0) || data?.has_more) && (
                                     <button className={styles.viewMore} onClick={handleViewMore}>
-                                        View More <ArrowRight />
+                                        {t('viewMore')} <ArrowRight />
                                     </button>
                                 )}
                             </div>

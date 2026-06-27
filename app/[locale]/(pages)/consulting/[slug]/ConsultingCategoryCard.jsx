@@ -1,36 +1,44 @@
+"use client";
 import Image from "next/image";
 import Link from "next/link";
 import useLanguageStore from "@/store/useLanguageStore";
 import { ChevronRight } from "lucide-react";
 import styles from "@/sass/pages/consulting/consulting-category/consulting-category-card.module.scss";
+import { useTranslations } from "next-intl";
+// tCommon used for shared terms like 'weeks'
 
 const ConsultingCategoryCard = ({ service }) => {
-    const {locale} = useLanguageStore();
+    const { locale } = useLanguageStore();
+    const t = useTranslations('Consulting');
+    const tCommon = useTranslations();
+
     return (
         <div className={styles.consultingCategoryCard}>
             <div className={styles.image}>
                 <Image src={service.image} alt={service.name} width={403} height={224} />
-                <span>{service.duration || '1-2 weeks'}</span>
+                <span>{service.duration || `1-2 ${tCommon('weeks')}`}</span>
             </div>
             <div className={styles.content}>
                 <div className={styles.info}>
                     <h2>{service.name}</h2>
-                    <div  dangerouslySetInnerHTML={{ __html: service.description }} style={{
-                        display: '-webkit-box',
-                        WebkitLineClamp: 2,
-                        WebkitBoxOrient: 'vertical',
-                        overflow: 'hidden',
-                    }}/>
+                    <div
+                        dangerouslySetInnerHTML={{ __html: service.description }}
+                        style={{
+                            display: '-webkit-box',
+                            WebkitLineClamp: 2,
+                            WebkitBoxOrient: 'vertical',
+                            overflow: 'hidden',
+                        }}
+                    />
                 </div>
-                <span>{service.prices || '$4500'}</span>
+                <span>£{service.prices || '4,500'}</span>
                 <Link href={`/${locale}/page/${service.slug}`} className={styles.viewDetails}>
-                    View Details
+                    {t('viewDetails')}
                     <ChevronRight />
                 </Link>
-
             </div>
         </div>
     );
 };
 
-export default ConsultingCategoryCard;  
+export default ConsultingCategoryCard;

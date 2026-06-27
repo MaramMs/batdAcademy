@@ -12,9 +12,11 @@ import Skeleton from "@/components/ui/Skeleton";
 import SidebarFilter from "@/components/common/SidebarFilter";
 import Image from "next/image";
 import NoData from "@/components/common/NoData";
+import { useTranslations } from "next-intl";
 
 
 const CoursesPage = () => {
+    const t = useTranslations('SearchCourse');
     const router = useRouter();
     const pathname = usePathname();
     const searchParams = useSearchParams();
@@ -103,8 +105,8 @@ const CoursesPage = () => {
                                         <div className={styles.courses}>
                                             {
                                                 data?.courses?.length === 0 ? (
-                                                   <div className={styles.noDataFound}> 
-                                                     <NoData message='No Courses Found' />
+                                                   <div className={styles.noDataFound}>
+                                                     <NoData message={t('noCoursesFound')} />
                                                     </div>
                                                 ) : (
                                                     data?.courses?.slice(0, visibleCount)?.map((course, index) => (
@@ -117,7 +119,7 @@ const CoursesPage = () => {
 
                                         {(visibleCount < (data?.courses?.length || 0) || data?.has_more) && (
                                             <button className={styles.viewMore} onClick={handleViewMore}>
-                                                View More <ArrowRight />
+                                                {t('viewMore')} <ArrowRight />
                                             </button>
                                         )}
                                     </>

@@ -30,7 +30,7 @@ const MobileCourseHeader = () => {
           </div>
           <div className={styles.stats}>
             <span>Duration: <strong>8 weeks</strong></span>
-            <span>Price: <strong>$599</strong></span>
+            <span>Price: <strong>£{course?.price || '—'}</strong></span>
           </div>
         </div>
       )}

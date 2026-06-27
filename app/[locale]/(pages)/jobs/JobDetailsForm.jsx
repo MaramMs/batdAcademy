@@ -13,6 +13,7 @@ import {
   X,
 } from "lucide-react";
 import styles from "@/sass/pages/jobs/job-details-modal.module.scss";
+import { useTranslations } from "next-intl";
 
 const BENEFIT_ICONS = {
   salary: DollarSign,
@@ -22,6 +23,7 @@ const BENEFIT_ICONS = {
 };
 
 const JobDetailsForm = ({ job, onApplyNow }) => {
+  const t = useTranslations('Jobs');
   const benefits = job.benefits.map((benefit) => {
     const Icon = BENEFIT_ICONS[benefit.iconKey] ?? Briefcase;
     return { ...benefit, Icon };
@@ -76,12 +78,12 @@ const JobDetailsForm = ({ job, onApplyNow }) => {
 
       <div className={styles.body}>
         <section>
-          <h3 className={styles.sectionTitle}>Job Description</h3>
+          <h3 className={styles.sectionTitle}>{t('jobDescription')}</h3>
           <p className={styles.description}>{job.description}</p>
         </section>
 
         <section>
-          <h3 className={styles.sectionTitle}>Requirements</h3>
+          <h3 className={styles.sectionTitle}>{t('requirements')}</h3>
           <ul className={styles.requirements}>
             {job.requirements.map((item) => (
               <li key={item}>{item}</li>
@@ -90,7 +92,7 @@ const JobDetailsForm = ({ job, onApplyNow }) => {
         </section>
 
         <section>
-          <h3 className={styles.sectionTitle}>Benefits</h3>
+          <h3 className={styles.sectionTitle}>{t('benefits')}</h3>
           <div className={styles.benefitsGrid}>
             {benefits.map(({ label, Icon }) => (
               <div key={label} className={styles.benefitItem}>
@@ -105,10 +107,10 @@ const JobDetailsForm = ({ job, onApplyNow }) => {
       <footer className={styles.footer}>
         <button type="button" className={styles.bookmarkBtn}>
           <Bookmark size={18} />
-          Bookmark
+          {t('bookmark')}
         </button>
         <button type="button" className={styles.applyBtn} onClick={onApplyNow}>
-          Apply Now
+          {t('applyNow')}
           <ArrowRight size={18} />
         </button>
       </footer>

@@ -1,11 +1,14 @@
+"use client";
 import styles from '@/sass/pages/privacy/privacy.module.scss';
+import { useTranslations } from 'next-intl';
 
 const PrivacyHeader = () => {
+    const t = useTranslations('Privacy');
     return (
         <div className={styles.header}>
             <div className="container">
-                <h1>Privacy Policy</h1>
-                <p>We value your privacy and are committed to protecting your personal data.</p>
+                <h1>{t('title')}</h1>
+                <p>{t('subtitle')}</p>
             </div>
         </div>
     );

@@ -9,6 +9,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import Skeleton from "@/components/ui/Skeleton";
+import { useTranslations } from "next-intl";
 
 const CouresByCities = ({ city }) => {
     const { locale } = useParams();
@@ -29,6 +30,7 @@ const CouresByCities = ({ city }) => {
 }
 
 const CourseByCity = () => {
+    const t = useTranslations('CourseByCity');
     const { handleGetCities, cities , isLoading } = useCitiesStore();
     useEffect(() => {
         handleGetCities();
@@ -36,7 +38,7 @@ const CourseByCity = () => {
     return (
         <section>
             <div className={styleContainer.container}>
-                <Title title="Course " span='By City' subtitle='Our favorite cities with attractive tourist attractions' />
+                <Title title={t('title')} span={t('titleSpan')} subtitle={t('subtitle')} />
 
                 {
                     isLoading ? (

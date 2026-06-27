@@ -1,6 +1,7 @@
 import styles from "@/sass/components/layout/footer.module.scss";
 import Image from "next/image";
 import footerLogo from "@/public/asstes/footerlogo.webp";
+import { getTranslations } from "next-intl/server";
 
 // ─── SVG Icons ────────────────────────────────────────────────
 const IconYoutube = () => (
@@ -45,39 +46,6 @@ const IconMail = () => (
   </svg>
 );
 
-// ─── Data ─────────────────────────────────────────────────────
-const NAV_COLUMNS = [
-  {
-    title: "About",
-    links: [
-      { label: "Consultations", href: "/consulting" },
-      { label: "Blog", href: "/blog" },
-      { label: "FAQ", href: "/page/FQA" },
-      { label: "Privacy", href: "/privacy" },
-    ],
-  },
-  {
-    title: "Quick Links",
-    links: [
-      { label: "Courses by City", href: "#" },
-      { label: "Year Plans", href: "/year_plan" },
-      { label: "Professional Path", href: "#" },
-      { label: "Work Environment", href: "#" },
-      { label: "Categories", href: "/search_course" },
-      { label: "Specialization", href: "/search_course" },
-    ],
-  },
-  {
-    title: "Support",
-    links: [
-      { label: "Support Center", href: "#" },
-      { label: "Account", href: "#" },
-      { label: "Contact", href: "/contact_us" },
-      { label: "Feedback", href: "#" },
-    ],
-  },
-];
-
 const SOCIALS = [
   { icon: <IconYoutube />, href: "#", label: "YouTube" },
   { icon: <IconInstagram />, href: "#", label: "Instagram" },
@@ -87,7 +55,41 @@ const SOCIALS = [
 ];
 
 // ─── Component ────────────────────────────────────────────────
-export default function Footer() {
+export default async function Footer() {
+  const t = await getTranslations('Footer');
+
+  const NAV_COLUMNS = [
+    {
+      title: t('columns.about.title'),
+      links: [
+        { label: t('columns.about.consultations'), href: "/consulting" },
+        { label: t('columns.about.blog'), href: "/blog" },
+        { label: t('columns.about.faq'), href: "/page/FQA" },
+        { label: t('columns.about.privacy'), href: "/privacy" },
+      ],
+    },
+    {
+      title: t('columns.quickLinks.title'),
+      links: [
+        { label: t('columns.quickLinks.coursesByCity'), href: "#" },
+        { label: t('columns.quickLinks.yearPlans'), href: "/year_plan" },
+        { label: t('columns.quickLinks.professionalPath'), href: "#" },
+        { label: t('columns.quickLinks.workEnvironment'), href: "#" },
+        { label: t('columns.quickLinks.categories'), href: "/search_course" },
+        { label: t('columns.quickLinks.specialization'), href: "/search_course" },
+      ],
+    },
+    {
+      title: t('columns.support.title'),
+      links: [
+        { label: t('columns.support.supportCenter'), href: "#" },
+        { label: t('columns.support.account'), href: "#" },
+        { label: t('columns.support.contact'), href: "/contact_us" },
+        { label: t('columns.support.feedback'), href: "#" },
+      ],
+    },
+  ];
+
   return (
     <footer className={styles.footer} aria-label="Site footer">
       <div className={styles.top}>
@@ -98,11 +100,8 @@ export default function Footer() {
           alt="British Academy"
           priority={false}
           style={{ width: "150px", height: "107px" }}
-        />{" "}
-        <p className={styles.tagline}>
-          The world's most trusted training partner for improving knowledge,
-          skills, and capabilities through innovative learning solutions.
-        </p>
+        />
+        <p className={styles.tagline}>{t('tagline')}</p>
       </div>
 
       <div className={styles.main}>
@@ -167,12 +166,7 @@ export default function Footer() {
 
       {/* ── Bottom bar ── */}
       <div className={styles.bottom}>
-        <p className={styles.copyright}>
-          © 2023 British Academy. All Rights Reserved | Created by{" "}
-          <a href="#" rel="noopener noreferrer">
-            Shifflet
-          </a>
-        </p>
+        <p className={styles.copyright}>{t('copyright')}</p>
       </div>
     </footer>
   );

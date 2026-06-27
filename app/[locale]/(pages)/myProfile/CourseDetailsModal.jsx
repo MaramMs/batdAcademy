@@ -6,8 +6,10 @@ import {
 } from "lucide-react";
 import styles from "@/sass/pages/my-profile/my-profile.module.scss";
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 
 const CourseDetailsModal = ({ course, onClose }) => {
+    const t = useTranslations('MyProfile');
     const isCompleted = course.status === "completed";
 
     // lock body scroll while modal is open
@@ -52,14 +54,14 @@ const CourseDetailsModal = ({ course, onClose }) => {
                             {course.category}
                         </span>
                         <span className={`${styles.tag} ${isCompleted ? styles.tagCompleted : styles.tagInProgress}`}>
-                            {isCompleted ? "Completed" : "In Progress"}
+                            {isCompleted ? t('courses.completed') : t('courses.inProgress')}
                         </span>
                     </div>
 
                     {/* Instructor */}
                     <div className={styles.modalInstructor}>
                         <User size={15} />
-                        <span>Instructor: <strong>{course.instructor}</strong></span>
+                        <span>{t('courses.instructor')} <strong>{course.instructor}</strong></span>
                     </div>
 
                     {/* Info grid */}
@@ -67,29 +69,29 @@ const CourseDetailsModal = ({ course, onClose }) => {
                         <div className={styles.modalInfoItem}>
                             <Calendar size={16} />
                             <div>
-                                <span>Enrolled</span>
+                                <span>{t('courses.enrolled')}</span>
                                 <span>{course.enrolled}</span>
                             </div>
                         </div>
                         <div className={styles.modalInfoItem}>
                             <Clock size={16} />
                             <div>
-                                <span>Duration</span>
+                                <span>{t('courses.duration')}</span>
                                 <span>{course.duration}</span>
                             </div>
                         </div>
                         <div className={styles.modalInfoItem}>
                             <BookOpen size={16} />
                             <div>
-                                <span>Category</span>
+                                <span>{t('modal.category')}</span>
                                 <span>{course.category}</span>
                             </div>
                         </div>
                         <div className={styles.modalInfoItem}>
                             {isCompleted ? <Award size={16} /> : <BarChart2 size={16} />}
                             <div>
-                                <span>{isCompleted ? "Completed" : "Status"}</span>
-                                <span>{isCompleted ? course.completedDate : "In Progress"}</span>
+                                <span>{isCompleted ? t('courses.completed') : t('modal.status')}</span>
+                                <span>{isCompleted ? course.completedDate : t('courses.inProgress')}</span>
                             </div>
                         </div>
                     </div>
@@ -99,7 +101,7 @@ const CourseDetailsModal = ({ course, onClose }) => {
                     {/* Progress */}
                     <div className={styles.modalProgressSection}>
                         <div className={styles.progressHeader}>
-                            <span>Course Progress</span>
+                            <span>{t('modal.courseProgress')}</span>
                             <strong>{course.progress}%</strong>
                         </div>
                         <div className={styles.progressTrack}>
@@ -112,7 +114,7 @@ const CourseDetailsModal = ({ course, onClose }) => {
 
                     {/* Description */}
                     <div className={styles.modalDescription}>
-                        <h4>About this Course</h4>
+                        <h4>{t('modal.about')}</h4>
                         <p>{course.description}</p>
                     </div>
                 </div>
@@ -122,16 +124,16 @@ const CourseDetailsModal = ({ course, onClose }) => {
                     {isCompleted ? (
                         <button className={styles.btnCertificate} style={{ flex: 1 }}>
                             <CheckCircle size={15} />
-                            View Certificate
+                            {t('courses.viewCertificate')}
                         </button>
                     ) : (
                         <button className={styles.btnContinue} style={{ flex: 1 }}>
                             <PlayCircle size={15} />
-                            Continue Learning
+                            {t('courses.continueLearning')}
                         </button>
                     )}
                     <button className={styles.modalBtnSecondary} onClick={onClose}>
-                        Close
+                        {t('modal.close')}
                     </button>
                 </div>
             </div>

@@ -7,8 +7,10 @@ import LatestArticlesCard from "../../blog/LatestArticlesCard";
 import NoData from "@/components/common/NoData";
 import style from "@/sass/pages/blog/blog-details.module.scss";
 import useLanguageStore from "@/store/useLanguageStore";
+import { useTranslations } from "next-intl";
 
 const MainContent = ({ post }) => {
+    const t = useTranslations('Blog');
     const locale = useLanguageStore((state) => state.locale);
     return (
         <div className={style.mainContent}>
@@ -17,7 +19,7 @@ const MainContent = ({ post }) => {
             <Reactions />
             <div className={style.content}  dangerouslySetInnerHTML={{ __html: post?.content }}></div>
             <div className={style.relatedArticles}>
-                <h2 className={style.relatedArticlesTitle}>Similar Blog</h2>
+                <h2 className={style.relatedArticlesTitle}>{t('similarBlog')}</h2>
                 <div className={style.relatedArticlesContent}>
                     {
                         post?.related_posts?.length > 0 ? (
@@ -25,7 +27,7 @@ const MainContent = ({ post }) => {
                                 <LatestArticlesCard key={article.id} article={article} />
                             ))
                         ) :
-                            <NoData message="No similar posts" />
+                            <NoData message={t('noSimilarPosts')} />
                     }
 
 
@@ -34,8 +36,8 @@ const MainContent = ({ post }) => {
 
                 {
                     post?.related_posts?.length > 0 ? (
-                        <Link href={`/${locale}/blog`} className={style.viewMore} aria-label={`Read more about similar posts`}>
-                            View More <ArrowRight />
+                        <Link href={`/${locale}/blog`} className={style.viewMore}>
+                            {t('viewMore')} <ArrowRight />
                         </Link>
                     )
                         : (
