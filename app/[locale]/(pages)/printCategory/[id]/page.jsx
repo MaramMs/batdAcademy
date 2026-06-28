@@ -5,7 +5,7 @@ import { SITE_URL } from "@/lib/seoMeta";
 export async function generateMetadata({ params }) {
   const { locale, id } = await params;
   const fallback = {
-    title: `Print Category${id ? ` #${id}` : ""}  | British Academy for Training & Development`,
+    title: `Print Category${id ? ` #${id}` : ""}  `,
     description:
       "Printable category view from the British Academy for Training & Development.",
   };

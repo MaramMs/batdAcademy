@@ -6,7 +6,7 @@ export async function generateMetadata({ params }) {
     const slug = "all-training-cities-british-academy-for-training-development";
 
     const fallback = {
-        title: "Search Courses | British Academy for Training & Development",
+        title: "Search Courses",
         description: "Search for training courses by keyword, category, city, or date at the British Academy for Training & Development.",
           icons: {
                 icon: "/favicon.ico",

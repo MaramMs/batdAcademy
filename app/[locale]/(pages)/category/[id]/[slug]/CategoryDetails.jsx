@@ -105,6 +105,8 @@ const CategoryDetails = ({ params }) => {
 
                         <div className={styles.content}>
                             <SidebarFilter data={data} updateFilter={updateFilter} />
+                            <div className={styles.rightWrapper}>
+
                             <div className={styles.rightContent}>
                                 {isLoading ? (
                                     Array.from({ length: 6 }).map((_, i) => (
@@ -119,8 +121,11 @@ const CategoryDetails = ({ params }) => {
                                         <NoData message='No courses found in this category' />
                                     </div>
                                 )}
-                                {(visibleCount < (data?.courses?.length || 0) || data?.has_more) && (
-                                    <button className={styles.viewMore} onClick={handleViewMore}>
+                              
+                            </div>
+
+                              {(visibleCount < (data?.courses?.length || 0) || data?.has_more) && (
+                                    <button className={styles.showMoreBtn} onClick={handleViewMore}>
                                         View More <ArrowRight />
                                     </button>
                                 )}

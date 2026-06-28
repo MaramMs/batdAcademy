@@ -2,11 +2,12 @@
 import { useState } from "react";
 import { ChevronDown, ChevronRight } from "lucide-react";
 import styles from "@/sass/components/common/category-item.module.scss";
+import { useParams } from "next/navigation";
 
 const Category = ({ category, onClick, active, onSpecializationClick, activeSpecializationId }) => {
     const hasSpecializations = category?.specializations?.length > 0;
     const [isExpanded, setIsExpanded] = useState(active);
-
+ const { locale } = useParams();
     const handleToggle = () => {
         if (hasSpecializations) {
             setIsExpanded((prev) => !prev);
@@ -17,7 +18,11 @@ const Category = ({ category, onClick, active, onSpecializationClick, activeSpec
     return (
         <li className={`${styles.categoryItem} ${active ? styles.active : ''}`}>
             <div className={styles.categoryRow} onClick={handleToggle}>
-                <span className={styles.categoryName}>{category.name}</span>
+                <span className={styles.categoryName}   onClick={() => {
+                router.push(
+                  `/${locale}/category/${category.id}/${category.slug}`,
+                );
+              }}>{category.name}</span>
                 <div className={styles.badgeWrapper}>
                     <span className={styles.badge}>{category?.courses_count}</span>
                     {hasSpecializations ? (

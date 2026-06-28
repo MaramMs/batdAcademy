@@ -9,7 +9,7 @@ export async function generateMetadata({ params }) {
         .replace(/\b\w/g, (c) => c.toUpperCase())
     : "Category";
   const fallback = {
-    title: `Training Courses in ${name} | British Academy for Training & Development`,
+    title: `Training Courses in ${name} `,
     description: `Explore training courses available in ${name} from the British Academy for Training & Development.`,
   };
   try {
@@ -93,8 +93,8 @@ export default async function CourseByCityPage({ params }) {
     <>
       {specialData?.slug_en && specialData?.slug_ar && (
         <AlternatePathsSetter
-          enPath={`/course_traning/${specialData.id}/${specialData.slug_en}`}
-          arPath={`/course_traning/${specialData.id}/${specialData.slug_ar}`}
+          enPath={`/course_training/${specialData.id}/${specialData.slug_en}`}
+          arPath={`/course_training/${specialData.id}/${specialData.slug_ar}`}
         />
       )}
       <SpecializationDetails params={params} />

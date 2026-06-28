@@ -13,7 +13,7 @@ export async function generateMetadata({ params }) {
     : "Consulting";
 
   const fallback = {
-    title: `${niceName} | British Academy for Training & Development`,
+    title: `${niceName} `,
     description: `Learn more about ${niceName} consulting services offered by the British Academy for Training & Development.`,
   };
 

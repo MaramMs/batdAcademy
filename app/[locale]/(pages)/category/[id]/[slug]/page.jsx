@@ -8,7 +8,7 @@ export async function generateMetadata({ params }) {
         ? decodeURIComponent(slug).replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase())
         : "Category";
     const fallback = {
-        title: `Training Courses in ${name} | British Academy for Training & Development`,
+        title: `Training Courses in ${name} `,
         description: `Explore training courses available in ${name} from the British Academy for Training & Development.`,
     };
     try {

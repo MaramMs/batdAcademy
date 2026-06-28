@@ -38,7 +38,7 @@ const CourseBySpecial = ({ items }) => {
         <div className={styles.courseBySpecial}>
             {
                 items?.map((item) => (
-                   <Link href={`/course_traning/${item.id}/${item.slug}`} key={item.id}>
+                   <Link href={`/course_training/${item.id}/${item.slug}`} key={item.id}>
                     <CourseBySpecialCard  item={item} />
                    </Link>
                 ))

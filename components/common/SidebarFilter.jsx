@@ -70,15 +70,11 @@ const SidebarFilter = ({ updateFilter, data ,className}) => {
             <Category
               key={category.id}
               category={category}
-              onClick={() => {
-                router.push(
-                  `/${locale}/category/${category.id}/${category.slug}`,
-                );
-              }}
+            
               active={searchParams.get("category_id") === String(category.id)}
               activeSpecializationId={searchParams.get("specialization_id")}
               onSpecializationClick={(specId, specSlug) => {
-                router.push(`/${locale}/course_traning/${specId}/${specSlug}`);
+                router.push(`/${locale}/course_training/${specId}/${specSlug}`);
               }}
             />
           ))}

@@ -8,20 +8,36 @@ import stylesContainer from "@/sass/components/common/container.module.scss";
 import styles from "@/sass/pages/category-details/category-details.module.scss";
 import useCategoriesStore from "@/store/useCategoriesStore";
 import useCoursesStore from "@/store/useCoursesStore";
-import { ChevronRight, Filter } from "lucide-react";
+import { ArrowRight, ChevronRight, Filter } from "lucide-react";
 import Link from "next/link";
-import { use, useEffect } from "react";
+import { use, useEffect, useState } from "react";
 import Header from "./Header";
+import { useTranslations } from "next-intl";
 
 const SpecializationDetails = ({ params }) => {
   const { id } = use(params);
   const { categories, handleGetCategories } = useCategoriesStore();
   const { data, handleGetCourses, isLoading } = useCoursesStore();
+  const [visibleCount, setVisibleCount] = useState(6);
+  const t = useTranslations();
 
   useEffect(() => {
     handleGetCategories();
     handleGetCourses(`?specialization_id=${id}`);
   }, [id]);
+
+
+    const handleViewMore = () => {
+        if (data?.courses && visibleCount < data.courses.length) {
+            setVisibleCount(prev => prev + 6);
+        } else if (data?.has_more) {
+            setVisibleCount(prev => prev + 6);
+            const params = new URLSearchParams();
+            params.set("specialization_id", id);
+            params.set('cursor', data.next_cursor);
+            handleGetCourses(`?${params.toString()}`, true);
+        }
+    };
 
   return (
     <div className={styles.categoryDetails}>
@@ -100,7 +116,8 @@ const SpecializationDetails = ({ params }) => {
                 </CategoriesBox>
               </div>
 
-              <div className={styles.rightContent}>
+              <div className={styles.rightWrapper}>
+                       <div className={styles.rightContent}>
                 {isLoading ? (
                   Array.from({ length: 6 }).map((_, i) => (
                     <Skeleton key={i} type="card" height="400px" />
@@ -114,8 +131,26 @@ const SpecializationDetails = ({ params }) => {
                     <h3>No courses found in this specialization</h3>
                   </div>
                 )}
+
               </div>
+
+              
+    {(visibleCount < (data?.courses?.length || 0) || data?.has_more) && (
+                                        <button className={styles.showMoreBtn} onClick={handleViewMore}>
+                                       {t('showMore')}      <ArrowRight size={18} />
+                                        </button>
+                                    )}
+
+       
+
+
+              </div>
+
+              
+
             </div>
+            
+               
           </div>
         </div>
       </div>

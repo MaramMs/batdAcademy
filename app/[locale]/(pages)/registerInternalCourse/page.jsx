@@ -6,7 +6,7 @@ export async function generateMetadata({ params }) {
     const slug = "register-your-course-british-academy-for-training-development";
 
     const fallback = {
-        title: "Register Your Course | British Academy for Training & Development",
+        title: "Register Your Course ",
         description: "Ready to start your professional journey? Fill out the form to register for your chosen course and take the first step towards achieving your goals.",
     };
 

@@ -10,7 +10,7 @@ export async function generateMetadata({ params }) {
         .replace(/\b\w/g, (c) => c.toUpperCase())
     : "City";
   const fallback = {
-    title: `Training Courses in ${name} | British Academy for Training & Development`,
+    title: `Training Courses in ${name} `,
     description: `Explore training courses available in ${name} from the British Academy for Training & Development.`,
   };
   try {

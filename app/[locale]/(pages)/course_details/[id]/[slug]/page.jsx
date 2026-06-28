@@ -12,7 +12,7 @@ export async function generateMetadata({ params }) {
         .replace(/\b\w/g, (c) => c.toUpperCase())
     : "training course";
 
-  const fallbackTitle = `${niceName} | British Academy for Training & Development`;
+  const fallbackTitle = `${niceName} `;
   const fallbackDescription = `Learn about the ${niceName} training course offered by the British Academy for Training & Development.`;
 
   const fallback = {
