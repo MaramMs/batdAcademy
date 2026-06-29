@@ -27,7 +27,7 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
- 
+ isolation: isolate;
     @media (max-width: 1024px) {
         padding:0px;
         width: 100%;
@@ -90,10 +90,20 @@
         line-height: 1.5;
         margin-bottom: clamp(24px, 5vw, 38.84px);
         max-width: 600px;
+        position: relative;
+        
+
+    }
+
+    .searchWrapper{
+        position: relative;
+        z-index: 100;
     }
 
     // ─── Search Bar ──────────────────────────────────────────────────
     .searchBar {
+        position: relative;
+        z-index: 10;
         display: flex;
         align-items: center;
         flex-wrap: nowrap;
@@ -108,6 +118,7 @@
         padding: 8px;
         padding-inline-start: 16px;
         transition: box-shadow 0.2s;
+        
 
         &:focus-within {
             @include input-focus-ring($blue-900);
@@ -159,10 +170,12 @@
 
     // ─── CTA Buttons ─────────────────────────────────────────────────
     .cta {
+        position: relative;
         display: flex;
         gap: clamp(12px, 2vw, 19.85px);
         margin-bottom: clamp(32px, 8vw, 60.59px);
         width: 100%;
+        
 
         @media (max-width: 1024px) {
             justify-content: center;

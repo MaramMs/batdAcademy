@@ -5,12 +5,49 @@ import heroImage from '@/public/asstes/heroImage.webp';
 import stylesConteiner from '@/sass/components/common/container.module.scss';
 import styles from '@/sass/pages/home/hero.module.scss';
 import { Building2, Search, Users } from 'lucide-react';
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 import Image from 'next/image';
 import Link from 'next/link';
+import useSearchAutocomplete from '@/hooks/useSearchAutocomplete';
+import { useEffect, useState } from 'react';
+import useCoursesStore from '@/store/useCoursesStore';
+import SearchSuggestions from '@/components/ui/SearchSuggestions';
+import { useRouter } from 'next/navigation';
 
 export default function Hero() {
     const t = useTranslations('Hero');
+    const locale = useLocale();
+    const router = useRouter()
+      const { query, setQuery, suggestions, isLoading, clearSuggestions } = useSearchAutocomplete();
+      console.log(suggestions , 'sug from hero')
+const showDropdown = query.length >= 2 && suggestions.length > 0;
+   
+console.log(showDropdown , 'show drop')
+    // User clicks a suggestion
+    const handleSelect = async(course) => {
+        setQuery(course.name);
+        clearSuggestions();
+        router.push(`/${locale}/search_course?search=${encodeURIComponent(course.name)}`);
+        
+    // }
+        
+    };
+
+    // User clicks Search button or presses Enter
+    const handleSearch = () => {
+        if (!query.trim()) return;
+        clearSuggestions();
+        router.push(`/${locale}/search_course?search=${encodeURIComponent(query)}`);
+    };
+useEffect(() => {
+    const handleClickOutside = (e) => {
+        if (!e.target.closest(`.${styles.searchBar}`)) {
+            clearSuggestions();
+        }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+}, []);
 
     const statsData = [
         {
@@ -61,17 +98,35 @@ export default function Hero() {
                             })}
                         </motion.h1>
 
-                        <motion.div className={styles.searchBar} variants={itemVariants}>
-                            <span className={styles.searchIcon}>
-                                <Search color='#99A1AF' size={16} />
-                            </span>
-                            <input
-                                type="text"
-                                placeholder={t('searchPlaceholder')}
-                                className={styles.searchInput}
-                            />
-                            <button className={styles.btnSearch}>{t('searchButton')}</button>
-                        </motion.div>
+{/* ── Wrap the motion.div with this plain div ── */}
+<div className={styles.searchWrapper} >
+    <motion.div
+        className={`${styles.searchBar} ${styles.searchBarRelative}`}
+        variants={itemVariants}
+    >
+        <span className={styles.searchIcon}>
+            <Search color='#99A1AF' size={16} />
+        </span>
+        <input
+            type="text"
+            placeholder={t('searchPlaceholder')}
+            className={styles.searchInput}
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
+        />
+        <button className={styles.btnSearch} onClick={handleSearch}>
+            {t('searchButton')}
+        </button>
+
+        <SearchSuggestions
+            suggestions={suggestions}
+            isLoading={isLoading}
+            onSelect={handleSelect}
+            visible={showDropdown}
+        />
+    </motion.div>
+</div>
 
                         <motion.p className={styles.subtitle} variants={itemVariants}>
                             {t('subtitle')}
