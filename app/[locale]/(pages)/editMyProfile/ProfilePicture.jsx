@@ -3,6 +3,7 @@
 import { Camera, Upload, ShieldCheck } from "lucide-react";
 import styles from "@/sass/pages/edit-my-profile/edit-my-profile.module.scss";
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 
 const mockUser = {
     name: "Ahmed Johnson",
@@ -14,13 +15,14 @@ const mockUser = {
 };
 
 const ProfilePicture = () => {
+    const t = useTranslations('EditProfile');
     return (
         <>
             {/* ── Profile Picture Card ── */}
             <div className={styles.card}>
                 <p className={styles.cardTitle}>
                     <Camera size={16} />
-                    Profile Picture
+                    {t('profilePicture')}
                 </p>
 
                 <div className={styles.avatarArea}>
@@ -38,14 +40,14 @@ const ProfilePicture = () => {
                     </div>
 
                     <div className={styles.avatarHint}>
-                        <p>JPG, PNG or GIF. Max 2MB</p>
-                        <p>Recommended 400×400px</p>
+                        <p>{t('photoHint1')}</p>
+                        <p>{t('photoHint2')}</p>
                     </div>
                 </div>
 
                 <button className={styles.uploadBtn}>
                     <Upload size={14} />
-                    Upload Photo
+                    {t('uploadPhoto')}
                 </button>
             </div>
 
@@ -56,8 +58,8 @@ const ProfilePicture = () => {
                         <ShieldCheck size={20} />
                     </div>
                     <div className={styles.statusTitles}>
-                        <h3>Account Status</h3>
-                        <span>Verified Account</span>
+                        <h3>{t('accountStatus')}</h3>
+                        <span>{t('verifiedAccount')}</span>
                     </div>
                 </div>
 
@@ -65,15 +67,15 @@ const ProfilePicture = () => {
 
                 <div className={styles.statusList}>
                     <div className={styles.statusItem}>
-                        <span>Member Since</span>
+                        <span>{t('memberSince')}</span>
                         <span>{mockUser.memberSince}</span>
                     </div>
                     <div className={styles.statusItem}>
-                        <span>Courses Enrolled</span>
+                        <span>{t('coursesEnrolled')}</span>
                         <span>{mockUser.coursesEnrolled}</span>
                     </div>
                     <div className={styles.statusItem}>
-                        <span>Certificates</span>
+                        <span>{t('certificates')}</span>
                         <span>{mockUser.certificates}</span>
                     </div>
                 </div>

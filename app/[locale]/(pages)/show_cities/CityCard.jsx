@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 
 const formatStat = (n) => {
     if (!n) return "0";
@@ -17,45 +18,46 @@ const isValidImage = (src) =>
 
 const CityCard = ({ city }) => {
     const { locale } = useParams();
+    const t = useTranslations('ShowCities');
     const [imgError, setImgError] = useState(false);
 
     const showImage = isValidImage(city.image) && !imgError;
 
     return (
-  <div className={styles.card}>
-  <div className={styles.imageContainer}>
-    {showImage ? (
-      <Image src={city.image} alt={city.name} width={302} height={224} onError={() => setImgError(true)} />
-    ) : (
-      <div className={styles.imagePlaceholder}>
-        <MapPin size={64} aria-hidden="true" />
-      </div>
-    )}
-    <div className={styles.location}>
-      <span>
-        <MapPin aria-hidden="true" />
-        {city.country?.name || ""}
-      </span>
-      <p className={styles.cityName}>{city.name}</p> 
-    </div>
-  </div>
+        <div className={styles.card}>
+            <div className={styles.imageContainer}>
+                {showImage ? (
+                    <Image src={city.image} alt={city.name} width={302} height={224} onError={() => setImgError(true)} />
+                ) : (
+                    <div className={styles.imagePlaceholder}>
+                        <MapPin size={64} aria-hidden="true" />
+                    </div>
+                )}
+                <div className={styles.location}>
+                    <span>
+                        <MapPin aria-hidden="true" />
+                        {city.country?.name || ""}
+                    </span>
+                    <p className={styles.cityName}>{city.name}</p>
+                </div>
+            </div>
 
-  <div className={styles.content}>
-    <div className={styles.top}>
-      <div className={styles.item}>
-        <p className={styles.statNumber}>{city.courses_count}</p>  
-        <span>Courses Available</span>
-      </div>
-      <div className={styles.item}>
-        <p className={styles.statNumber}>{formatStat(city.students_count)}</p>  
-        <span>Total Students</span>
-      </div>
-    </div>
-    <Link href={`/${locale}/city/${city.id}/${city.slug}`} className={styles.link}>
-      Explore Courses <ChevronRight aria-hidden="true" />
-    </Link>
-  </div>
-</div>
+            <div className={styles.content}>
+                <div className={styles.top}>
+                    <div className={styles.item}>
+                        <p className={styles.statNumber}>{city.courses_count}</p>
+                        <span>{t('coursesAvailable')}</span>
+                    </div>
+                    <div className={styles.item}>
+                        <p className={styles.statNumber}>{formatStat(city.students_count)}</p>
+                        <span>{t('totalStudents')}</span>
+                    </div>
+                </div>
+                <Link href={`/${locale}/city/${city.id}/${city.slug}`} className={styles.link}>
+                    {t('exploreCourses')} <ChevronRight aria-hidden="true" />
+                </Link>
+            </div>
+        </div>
     );
 };
 

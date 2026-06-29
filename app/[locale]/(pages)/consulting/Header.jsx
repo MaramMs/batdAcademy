@@ -1,62 +1,38 @@
 "use client";
 
-import DropdownMenuCustom from "@/components/common/DropdownMenu";
 import styles from "@/sass/pages/consulting/header.module.scss";
-import { Aperture, ChevronDown } from "lucide-react";
-import { useState } from "react";
+import { Aperture } from "lucide-react";
 import SearchCourse from "../search_course/Search";
+import { useTranslations } from "next-intl";
 
-const Header = ({stats}) => {
-    const [specialization, setSpecialization] = useState("");
-    const [city, setCity] = useState("");
+const Header = ({ stats }) => {
+    const t = useTranslations('Consulting');
 
     return (
         <div className={styles.header}>
             <div className={styles.content}>
                 <div className={styles.title}>
-                    <span><Aperture color="#B12E33" size={22} />Expert Consultants Worldwide</span>
-                    <h1>Find Your Perfect <br />
-                        Consultation Service</h1>
-                    <p>Professional consulting services across multiple domains worldwide</p>
+                    <span><Aperture color="#B12E33" size={22} />{t('headerTag')}</span>
+                    <h1>{t('title')} <br /> {t('titleLine2')}</h1>
+                    <p>{t('subtitle')}</p>
                 </div>
                 <div className={styles.searchCourse}>
                     <SearchCourse className={styles.filter} />
-                    {/* <div className={styles.locationSelect}>
-                        <DropdownMenuCustom
-                            label="All Specializations"
-                            options={["Specialization 1", "Specialization 2"]}
-                            value={specialization}
-                            onChange={(val) => setSpecialization(val)}
-                            multi={false}
-                            icon={<ChevronDown size={14} />}
-                            triggerClassName={styles.dropdownTrigger}
-                        />
-                        <DropdownMenuCustom
-                            label="All Cities"
-                            options={["City 1", "City 2"]}
-                            value={city}
-                            onChange={(val) => setCity(val)}
-                            multi={false}
-                            icon={<ChevronDown size={14} />}
-                            triggerClassName={styles.dropdownTrigger}
-                        />
-                    </div> */}
                 </div>
-
             </div>
+
             <div className={styles.statistics}>
                 <div className={styles.item}>
                     <h5>{stats?.cities}</h5>
-                    <span>Cities</span>
+                    <span>{t('cities')}</span>
                 </div>
                 <div className={styles.item}>
                     <h5>{stats?.training_programs}</h5>
-                    <span>Training Programs</span>
+                    <span>{t('trainingPrograms')}</span>
                 </div>
-
                 <div className={styles.item}>
                     <h5>{stats?.students}</h5>
-                    <span>Students</span>
+                    <span>{t('students')}</span>
                 </div>
             </div>
         </div>

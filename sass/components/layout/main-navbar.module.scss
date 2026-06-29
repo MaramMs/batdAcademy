@@ -74,6 +74,9 @@
     border: none;
     cursor: pointer;
     white-space: nowrap;
+    padding: 0;
+    line-height: inherit;
+    font-family: inherit;
     @media (min-width:1600px) {
         font-size: 18px;
     }
@@ -89,10 +92,11 @@
 }
 
 .chevron {
-    width: 15px;
-    height: 15px;
-    color: #6b7280;
+    width: 14px;
+    height: 14px;
+    color: currentColor;
     transition: transform 0.2s ease;
+    flex-shrink: 0;
 
     &.open {
         transform: rotate(180deg);

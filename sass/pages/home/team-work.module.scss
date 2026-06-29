@@ -1,24 +1,3 @@
-.content {
-    display: flex;
-    overflow-x: auto;
-    gap: 15.22px;
-    scroll-behavior: smooth;
-
-    &::-webkit-scrollbar {
-        display: none;
-    }
-
-    @media (min-width:1920px) {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(294.43px, 1fr));
-        gap: 15.22px;
-    }
-
-    @media (max-width: 768px) {
-        padding: 20px 0px;
-    }
-}
-
 
 .card {
     min-height: 419px;

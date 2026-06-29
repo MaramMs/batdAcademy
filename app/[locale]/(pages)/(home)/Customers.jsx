@@ -1,4 +1,3 @@
-
 'use client'
 import { useEffect } from "react";
 import Image from "next/image";
@@ -21,6 +20,7 @@ const Customer = ({ client }) => {
 }
 
 const Customers = () => {
+    // const t = useTranslations('Customers');
     const { clients, handleGetClients, isLoading } = useClientsStore();
     const t = useTranslations('customers')
     useEffect(() => {

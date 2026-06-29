@@ -30,7 +30,7 @@ const CouresByCities = ({ city }) => {
 }
 
 const CourseByCity = () => {
-    const t = useTranslations('course-city')
+    const t = useTranslations('CourseByCity')
     const { handleGetCities, cities , isLoading } = useCitiesStore();
     useEffect(() => {
         handleGetCities();
@@ -38,7 +38,7 @@ const CourseByCity = () => {
     return (
         <section>
             <div className={styleContainer.container}>
-                <Title title={t('title')} span={t('span')} subtitle={t('subtitle')} />
+                <Title title={t('title')} span={t('titleSpan')} subtitle={t('subtitle')} />
 
                 {
                     isLoading ? (

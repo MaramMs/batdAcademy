@@ -34,11 +34,14 @@ import Header from "./Header";
 import stylesContainer from "@/sass/components/common/container.module.scss";
 import styles from "@/sass/pages/course-details/course-details.module.scss";
 import SidebarFilter from "@/components/common/SidebarFilter";
+import { useTranslations } from "next-intl";
 
 const formatDateParam = (value) =>
   value instanceof Date ? value.toISOString().split("T")[0] : value;
 
 const CourseDetails = ({ initialCourse }) => {
+  const t = useTranslations('CourseDetails');
+  const tCommon = useTranslations();
   const [activeTabId, setActiveTabId] = useState(1);
   const [selectedDate, setSelectedDate] = useState();
   const [mounted, setMounted] = useState(false);
@@ -95,7 +98,7 @@ const CourseDetails = ({ initialCourse }) => {
         <div className={styles.mainContent}>
           <div className={styles.mainTitle}>
             <h1>
-              All Details For Course <span> {course?.name}</span>
+              {t('allDetailsFor')} <span> {course?.name}</span>
             </h1>{" "}
             <Dialog.Root modal={true}>
               <Dialog.Trigger asChild>
@@ -114,7 +117,7 @@ const CourseDetails = ({ initialCourse }) => {
                   <Dialog.Content className={styles.drawerContent}>
                     <div className={styles.drawerHeader}>
                       <Dialog.Title className={styles.drawerTitle}>
-                        Filters
+                        {t('filters')}
                       </Dialog.Title>
                       <Dialog.Close className={styles.drawerClose}>
                         <X size={20} aria-hidden="true" />
@@ -140,7 +143,7 @@ const CourseDetails = ({ initialCourse }) => {
                         <div className={styles.title}>
                           <h2>{course?.name}</h2>
                           <div className={styles.iconShare}>
-                            <span>Share:</span>
+                            <span>{t('share')}</span>
                             <div className={styles.icons}>
                               <button
                                 type="button"
@@ -220,13 +223,13 @@ const CourseDetails = ({ initialCourse }) => {
                       <div className={styles.priceHeaderMobile}>
                         <div className={styles.priceTag}>
                           <span>{course?.price}</span>
-                          <p>One-time payment</p>
+                          <p>{t('oneTimePayment')}</p>
                         </div>
                         <Link
                           href={registerUrl}
                           className={`${styles.enrollBtnMobile} ${selectedDate ? styles.enrollBtnMobileActive : ""}`}
                         >
-                          Enroll Now
+                          {t('enrollNow')}
                         </Link>
                       </div>
 
@@ -237,7 +240,7 @@ const CourseDetails = ({ initialCourse }) => {
                           </div>
                           <div className={styles.statInfo}>
                             <span className={styles.statValue}>4.5</span>
-                            <span className={styles.statLabel}>Rating</span>
+                            <span className={styles.statLabel}>{t('rating')}</span>
                           </div>
                         </div>
                         <div className={styles.mobileStatItem}>
@@ -246,7 +249,7 @@ const CourseDetails = ({ initialCourse }) => {
                           </div>
                           <div className={styles.statInfo}>
                             <span className={styles.statValue}>8,643</span>
-                            <span className={styles.statLabel}>Students</span>
+                            <span className={styles.statLabel}>{t('students')}</span>
                           </div>
                         </div>
                         <div className={styles.mobileStatItem}>
@@ -255,7 +258,7 @@ const CourseDetails = ({ initialCourse }) => {
                           </div>
                           <div className={styles.statInfo}>
                             <span className={styles.statValue}>8 weeks</span>
-                            <span className={styles.statLabel}>Duration</span>
+                            <span className={styles.statLabel}>{t('duration')}</span>
                           </div>
                         </div>
                       </div>
@@ -265,8 +268,7 @@ const CourseDetails = ({ initialCourse }) => {
                         <div className={styles.infoContainer}>
                           <h4>
                             {" "}
-                            <Calendar color="#1E2749" size={20} /> Select Course
-                            Date
+                            <Calendar color="#1E2749" size={20} /> {t('selectCourseDate')}
                           </h4>
                           <div className={styles.dates}>
                             {course?.dates?.map((session) => (
@@ -291,8 +293,7 @@ const CourseDetails = ({ initialCourse }) => {
                             <div className={styles.selectDate}>
                               <h4>
                                 {" "}
-                                <Calendar color="#B12E33" size={20} /> Select
-                                Course Date
+                                <Calendar color="#B12E33" size={20} /> {t('selectCourseDate')}
                               </h4>
                               <CustomDatePicker
                                 selected={
@@ -312,15 +313,15 @@ const CourseDetails = ({ initialCourse }) => {
                           href={registerUrl}
                           className={`${styles.primaryBtn} ${selectedDate ? styles.primaryBtnActive : ""}`}
                         >
-                          Register Now
+                          {t('registerNow')}
                         </Link>
                         <Link
                           href={`/${locale}/registerInternalCourse?course_id=${id}`}
                         >
-                          Request an Internal Course
+                          {t('requestInternal')}
                         </Link>
                         <Link href={`/${locale}/contact_us?course_id=${id}`}>
-                          Quick Inquiry
+                          {t('quickInquiry')}
                         </Link>
                       </div>
                     </div>
@@ -332,7 +333,7 @@ const CourseDetails = ({ initialCourse }) => {
                       </div>
                       <div className={styles.content}>
                         <p className={styles.statNumber}>+600k</p>
-                        <p>Reviews</p>
+                        <p>{t('reviews')}</p>
                       </div>
                     </div>
 
@@ -342,7 +343,7 @@ const CourseDetails = ({ initialCourse }) => {
                       </div>
                       <div className={styles.content}>
                         <p className={styles.statNumber}>+800k</p>
-                        <p>Students</p>
+                        <p>{t('students')}</p>
                       </div>
                     </div>
 
@@ -351,8 +352,8 @@ const CourseDetails = ({ initialCourse }) => {
                         <Clock size={24} color="#9810FA" />
                       </div>
                       <div className={styles.content}>
-                        <p className={styles.statNumber}>1-2 weeks</p>
-                        <p>Duration</p>
+                        <p className={styles.statNumber}>1-2 {tCommon('weeks')}</p>
+                        <p>{t('duration')}</p>
                       </div>
                     </div>
                   </div>
@@ -376,12 +377,12 @@ const CourseDetails = ({ initialCourse }) => {
 
                   <div className={styles.similarCourses}>
                     <div className={styles.top}>
-                      <h2>Similar Courses</h2>
+                      <h2>{t('similarCourses')}</h2>
                       <Link
                         href={`/${locale}/search_course`}
                         className={styles.seeAll}
                       >
-                        see all <ArrowRight size={19} />
+                        {t('seeAll')} <ArrowRight size={19} />
                       </Link>
                     </div>
                     <div className={styles.courses}>
@@ -401,11 +402,8 @@ const CourseDetails = ({ initialCourse }) => {
                         <Play />
                       </span>
                       <div className={styles.info}>
-                        <h2>Course Video</h2>
-                        <p>
-                          Preview what you'll learn in this comprehensive
-                          training
-                        </p>
+                        <h2>{t('courseVideo')}</h2>
+                        <p>{t('videoPreview')}</p>
                       </div>
                     </div>
                     <video src={course?.video}></video>

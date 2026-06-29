@@ -7,34 +7,6 @@ import styleContainer from '@/sass/components/common/container.module.scss';
 import styles from '@/sass/pages/home/lastest-publication.module.scss';
 import { useTranslations } from "next-intl";
 
-const tabs = [
-    {
-        id: 1,
-        icon: <Play />,
-        title: 'Videos',
-    },
-    {
-        id: 2,
-        icon: <BookOpen />,
-        title: 'Courses',
-    },
-    {
-        id: 3,
-        icon: <MessageSquare />,
-        title: 'Blogs',
-    },
-    {
-        id: 4,
-        icon: <Briefcase />,
-        title: 'Consultancy',
-    },
-    {
-        id: 5,
-        icon: <Briefcase />,
-        title: 'Work With Us',
-    }
-]
-
 const videoData = [
     {
         id: 1,
@@ -47,8 +19,7 @@ const videoData = [
     },
 ]
 
-const Videos = () => {
-    
+const Videos = ({ watchNow }) => {
     return (
         <div>
             {videoData.map((video) => (
@@ -78,31 +49,35 @@ const Videos = () => {
                         </div>
 
                         <button className={styles.watchNowBtn}>
-                            Watch Now <ArrowRight />
+                            {watchNow} <ArrowRight />
                         </button>
                     </div>
-
                 </div>
             ))}
         </div>
     )
 }
 
-const tabContentMap = {
-    1: <Videos />,
-    // 2: <Courses />,
-    // 3: <Blogs />,
-    // 4: <Consultancy />,
-    // 5: <WorkWithUs />,
-}
-
 const LastestPublication = () => {
-    const [activeTabId, setActiveTabId] = useState(1)
-    const t = useTranslations('last-publish')
+    const t = useTranslations('LatestPublication');
+    const [activeTabId, setActiveTabId] = useState(1);
+
+    const tabs = [
+        { id: 1, icon: <Play />, title: t('tabs.videos') },
+        { id: 2, icon: <BookOpen />, title: t('tabs.courses') },
+        { id: 3, icon: <MessageSquare />, title: t('tabs.blogs') },
+        { id: 4, icon: <Briefcase />, title: t('tabs.consultancy') },
+        { id: 5, icon: <Briefcase />, title: t('tabs.workWithUs') },
+    ];
+
+    const tabContentMap = {
+        1: <Videos watchNow={t('watchNow')} />,
+    };
+
     return (
         <section>
             <div className={styleContainer.container}>
-                <Title title={t('title')} span={t("span")} />
+                <Title title={t('title')} span={t('titleSpan')} />
                 <Tabs
                     activeTabId={activeTabId}
                     onTabChange={setActiveTabId}

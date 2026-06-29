@@ -4,6 +4,7 @@ import Image from "next/image";
 import { ArrowLeft, Calendar, Clock, Eye, Heart, User } from "lucide-react";
 import styles from "@/sass/pages/blog/blog-details.module.scss";
 import useLanguageStore from "@/store/useLanguageStore";
+import { useTranslations } from "next-intl";
 const SOCIAL_LINKS = [
   {
     href: "#",
@@ -166,6 +167,7 @@ const SOCIAL_LINKS = [
   },
 ];
 const Header = ({ post }) => {
+  const t = useTranslations('Blog');
   const locale = useLanguageStore((state) => state.locale);
   return (
     <div className={styles.header}>
@@ -174,7 +176,7 @@ const Header = ({ post }) => {
           <div className={styles.back}>
             <Link href={`/${locale}/blog`}>
               <ArrowLeft size={20} color="#FFFFFFCC" aria-hidden="true" />
-              Back to Blog
+              {t('backToBlog')}
             </Link>
           </div>
           <div className={styles.contentItem}>
@@ -208,7 +210,7 @@ const Header = ({ post }) => {
                         strokeLinejoin="round"
                       />
                     </svg>
-                    Featured
+                    {t('featured')}
                   </span>
                 )}
               </div>
@@ -222,15 +224,15 @@ const Header = ({ post }) => {
                 </div>
                 <div className={styles.reaction}>
                   <Clock size={20} />
-                  <span> {post?.read_time} min read </span>
+                  <span> {post?.read_time} {t('minRead')} </span>
                 </div>
                 <div className={styles.reaction}>
                   <Eye size={20} />
-                  <span>2.3k views</span>
+                  <span>2.3k {t('views')}</span>
                 </div>
                 <div className={styles.reaction}>
                   <Heart size={20} />
-                  <span>150 likes</span>
+                  <span>150 {t('likes')}</span>
                 </div>
               </div>
               <div className={styles.social}>
@@ -264,7 +266,7 @@ const Header = ({ post }) => {
                 </div>
                 <div className={styles.authorInfo}>
                   <h3>{post?.user?.name}</h3>
-                  <p>Author</p>
+                  <p>{t('author')}</p>
                 </div>
               </div>
             ) : null}

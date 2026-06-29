@@ -15,7 +15,6 @@ const formatStat = (n) => {
 };
 
 const Header = ({ updateFilter }) => {
-    const t = useTranslations("header")
     const [specialization, setSpecialization] = useState("");
     const [city, setCity] = useState("");
     const { stats, specializations, cities } = useCitiesStore();
@@ -37,15 +36,15 @@ const Header = ({ updateFilter }) => {
         <div className={styles.header}>
             <div className={styles.content}>
                 <div className={styles.title}>
-                    <span><Aperture color="#B12E33" size={22} />{t("globle")}</span>
-                    <h1>{t("title")} <br /> {t("subTitle")} </h1>
-                    <p>{t("text")} {stats?.cities || "..."} {t("subText")}</p>
+                    <span><Aperture color="#B12E33" size={22} />EXPLORE OUR GLOBAL LOCATIONS</span>
+                    <h1>Find Your Perfect <br /> Training Destination</h1>
+                    <p>World-class training programs across {stats?.cities || "..."} cities worldwide</p>
                 </div>
                 <div className={styles.searchCourse}>
                     <SearchCourse className={styles.filter} updateFilter={(key, val) => updateFilter?.(key, val)} />
                     <div className={styles.locationSelect}>
                         <DropdownMenuCustom
-                            label={t("allSpecialties")}
+                            label="All Specializations"
                             options={specializationOptions}
                             value={specialization}
                             onChange={handleSpecializationChange}
@@ -54,7 +53,7 @@ const Header = ({ updateFilter }) => {
                             triggerClassName={styles.dropdownTrigger}
                         />
                         <DropdownMenuCustom
-                            label={t("allCities")}
+                            label="All Cities"
                             options={cityOptions}
                             value={city}
                             onChange={handleCityChange}
@@ -69,15 +68,15 @@ const Header = ({ updateFilter }) => {
             <div className={styles.statistics}>
                 <div className={styles.item}>
                     <h2>{stats?.cities ? `${stats.cities}+` : "..."}</h2>
-                    <span>{t("cityStat")}</span>
+                    <span>Global Cities</span>
                 </div>
                 <div className={styles.item}>
                     <h2>{stats?.training_programs ? `${formatStat(stats.training_programs)}+` : "..."}</h2>
-                    <span>{t("trainingPrograms")}</span>
+                    <span>Training Programs</span>
                 </div>
                 <div className={styles.item}>
                     <h2>{stats?.total_students !== undefined ? `${formatStat(stats.total_students)}+` : "..."}</h2>
-                    <span>{t("happyStudents")}</span>
+                    <span>Happy Students</span>
                 </div>
             </div>
         </div>

@@ -4,6 +4,7 @@ import Image from "next/image";
 import styles from "@/sass/pages/blog/lastest-articles-card.module.scss";
 import { ArrowRight, Clock, Eye, Heart } from "lucide-react";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 import img1 from "/public/asstes/default-1.jpeg";
 import img2 from "/public/asstes/course1.jpg";
 import img3 from "/public/asstes/default-2.webp";
@@ -15,6 +16,7 @@ const placeholderImages = [
   img3,
 ];
 const LatestArticlesCard = ({ article, view }) => {
+  const t = useTranslations('Blog');
   const randomImageIndex = article?.id
     ? article.id % 3
     : Math.floor(Math.random() * 3);
@@ -58,7 +60,7 @@ const LatestArticlesCard = ({ article, view }) => {
         <div className={styles.articleAuthor}>
           <div className={styles.author}>
             <h3>{article?.author_name}</h3>
-            <span>Author</span>
+            <span>{t('author')}</span>
           </div>
           <div className={styles.articleReaction}>
             <span>
@@ -76,7 +78,7 @@ const LatestArticlesCard = ({ article, view }) => {
           className={styles.readMore}
           href={`/post/${article.slug}`}
         >
-          Read More
+          {t('readMore')}
           <span className="sr-only"> about {article?.name}</span>
           <ArrowRight size={14} color="#fff" aria-hidden="true" />
         </Link>

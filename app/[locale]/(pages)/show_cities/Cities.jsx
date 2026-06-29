@@ -89,7 +89,7 @@ const ShowCities = () => {
 
                         {!isLoading && hasMore && (
                             <button onClick={onLoadMore} className={styles.loadMoreBtn}>
-                                View More <ArrowRight size={18} />
+                                {t('viewMore')} <ArrowRight size={18} />
                             </button>
                         )}
                     </div>

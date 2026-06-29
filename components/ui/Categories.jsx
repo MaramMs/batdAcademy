@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ChevronDown, ChevronRight } from "lucide-react";
 import styles from "@/sass/components/common/category-item.module.scss";
 import { useParams } from "next/navigation";
@@ -11,8 +11,9 @@ const Category = ({ category, onClick, active, onSpecializationClick, activeSpec
     const handleToggle = () => {
         if (hasSpecializations) {
             setIsExpanded((prev) => !prev);
+        } else {
+            onClick?.();
         }
-        onClick?.();
     };
 
     return (

@@ -14,8 +14,10 @@ import stylesContainer from '@/sass/components/common/container.module.scss';
 import useRegisterCourseStore from '@/store/useRegisterCourseStore';
 import { useSearchParams } from 'next/navigation';
 import { toast } from 'sonner';
+import { useTranslations } from 'next-intl';
 
 const RegisterCourse = () => {
+    const t = useTranslations('RegisterCourse');
     const searchParams = useSearchParams();
     const course_id = searchParams.get('course_id');
     const preselectedDate = searchParams.get('date');
@@ -73,14 +75,14 @@ const onSubmit = async (data) => {
 
       const res = await handlePostRegisterCourse(payload);
       if (res?.success) {
-        toast.success(res?.message || 'Registration successful!');
+        toast.success(res?.message || t('successMsg'));
         setTimeout(() => setCurrentStep(4), 2000);
       } else {
-        toast.error(res?.message|| 'Registration failed. Please try again.');
+        toast.error(res?.message || t('failMsg'));
       }
     }
   } catch (error) {
-    toast.error(error?.response?.data?.message || error?.message || 'Something went wrong!');
+    toast.error(error?.response?.data?.message || error?.message || t('errorMsg'));
   }
 };
 

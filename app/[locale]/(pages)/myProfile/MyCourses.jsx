@@ -5,6 +5,7 @@ import CourseDetailsModal from "./CourseDetailsModal";
 import styles from "@/sass/pages/my-profile/my-profile.module.scss";
 import useUserProfileStore from "@/store/useUserProfileStore";
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 
 const courses = [
     {
@@ -52,6 +53,7 @@ const courses = [
 ];
 
 const MyCourses = () => {
+    const t = useTranslations('MyProfile');
     const [selectedCourse, setSelectedCourse] = useState(null);
     const activeCount = courses.filter((c) => c.status === "inProgress").length;
     const {userCourses , handleGetUserCourses} = useUserProfileStore();
@@ -63,10 +65,10 @@ const MyCourses = () => {
     return (
         <div>
             <div className={styles.coursesHeader}>
-                <h2>My Courses</h2>
+                <h2>{t('courses.title')}</h2>
                 <div className={styles.activeCount}>
                     <TrendingUp size={14} />
-                    <span>{activeCount} Active Courses</span>
+                    <span>{activeCount} {t('courses.active')}</span>
                 </div>
             </div>
 
@@ -91,33 +93,33 @@ const MyCourses = () => {
                                         {course.category}
                                     </span>
                                     <span className={`${styles.tag} ${isCompleted ? styles.tagCompleted : styles.tagInProgress}`}>
-                                        {isCompleted ? "Completed" : "In Progress"}
+                                        {isCompleted ? t('courses.completed') : t('courses.inProgress')}
                                     </span>
                                 </div>
 
                                 <h3 className={styles.courseTitle}>{course.title}</h3>
-                                <p className={styles.instructor}>Instructor: {course.instructor}</p>
+                                <p className={styles.instructor}>{t('courses.instructor')} {course.instructor}</p>
 
                                 <div className={styles.metaRow}>
                                     <span className={styles.metaItem}>
                                         <Calendar size={13} />
-                                        Enrolled: {course.enrolled}
+                                        {t('courses.enrolled')} {course.enrolled}
                                     </span>
                                     <span className={styles.metaItem}>
                                         <Clock size={13} />
-                                        Duration: {course.duration}
+                                        {t('courses.duration')} {course.duration}
                                     </span>
                                     {course.completedDate && (
                                         <span className={styles.metaItem}>
                                             <CheckCircle size={13} />
-                                            Completed: {course.completedDate}
+                                            {t('courses.completedDate')} {course.completedDate}
                                         </span>
                                     )}
                                 </div>
 
                                 <div className={styles.progressSection}>
                                     <div className={styles.progressHeader}>
-                                        <span>Progress</span>
+                                        <span>{t('courses.progress')}</span>
                                         <strong>{course.progress}%</strong>
                                     </div>
                                     <div className={styles.progressTrack}>
@@ -132,19 +134,19 @@ const MyCourses = () => {
                                     {isCompleted ? (
                                         <button className={styles.btnCertificate}>
                                             <CheckCircle size={14} />
-                                            View Certificate
+                                            {t('courses.viewCertificate')}
                                         </button>
                                     ) : (
                                         <button className={styles.btnContinue}>
                                             <PlayCircle size={14} />
-                                            Continue Learning
+                                            {t('courses.continueLearning')}
                                         </button>
                                     )}
                                     <button
                                         className={styles.btnDetails}
                                         onClick={() => setSelectedCourse(course)}
                                     >
-                                        Course Details
+                                        {t('courses.courseDetails')}
                                     </button>
                                 </div>
                             </div>

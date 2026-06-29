@@ -26,28 +26,6 @@ import dynamic from 'next/dynamic';
 import { useTranslations } from 'next-intl';
 const ReCAPTCHA = dynamic(() => import('react-google-recaptcha'), { ssr: false });
 
-
-// --- CONSTANTS ---
-
-const STATS_DATA = [
-  { icon: Users, value: "15,000+", label: "Active Students" },
-  { icon: Award, value: "15,000+", label: "Active Students" },
-  { icon: GraduationCap, value: "15,000+", label: "Active Students" },
-];
-
-const BENEFITS_DATA = [
-  "Industry-recognized certificates",
-  "Industry-recognized certificates",
-  "Industry-recognized certificates",
-  "Industry-recognized certificates",
-];
-
-
-// --- SUB-COMPONENTS ---
-
-/**
- * Individual Stat Card
- */
 const StatItem = ({ icon: Icon, value, label }) => (
   <div className={styles['request-courses__stat-card']}>
     <Icon color='#1E2749' className={styles['request-courses__stat-icon']} />
@@ -56,9 +34,6 @@ const StatItem = ({ icon: Icon, value, label }) => (
   </div>
 );
 
-/**
- * Individual Benefit Item
- */
 const BenefitItem = ({ text }) => (
   <div className={styles['request-courses__benefit-item']}>
     <CircleCheck color='#3B82F6' size={21} />
@@ -66,9 +41,6 @@ const BenefitItem = ({ text }) => (
   </div>
 );
 
-/**
- * Interactive Course Tag
- */
 const CourseTag = ({ name, isSelected, onClick }) => (
   <button
     type="button"
@@ -79,18 +51,10 @@ const CourseTag = ({ name, isSelected, onClick }) => (
   </button>
 );
 
-/**
- * Specialized Form Field with Icon and Error Handling
- */
-const FormField = ({
-  icon: Icon,
-  error,
-  children,
-  className = ""
-}) => (
+const FormField = ({ icon: Icon, error, children, className = "" }) => (
   <div className={`${styles['request-courses__field-group']} ${className}`}>
     <div className={`
-      ${styles['request-courses__input-wrapper']} 
+      ${styles['request-courses__input-wrapper']}
       ${error ? styles['request-courses__input-wrapper--error'] : ''}
     `}>
       {Icon && <Icon size={20} className={styles['request-courses__input-icon']} />}
@@ -101,6 +65,7 @@ const FormField = ({
 );
 
 const RequestCoures = () => {
+  const t = useTranslations('RequestCourse');
   const router = useRouter();
   const { locale } = useParams();
   const { data: coursesData, handleGetCourses } = useCoursesStore();
@@ -110,18 +75,24 @@ const RequestCoures = () => {
   }, []);
 
   const courseOptions = useMemo(
-    () =>
-      (coursesData?.courses || []).map((c) => ({
-        label: c.name,
-        value: c.id,
-      })),
+    () => (coursesData?.courses || []).map((c) => ({ label: c.name, value: c.id })),
     [coursesData]
   );
 
-  const popularCourses = useMemo(
-    () => courseOptions.slice(0, 4),
-    [courseOptions]
-  );
+  const popularCourses = useMemo(() => courseOptions.slice(0, 4), [courseOptions]);
+
+  const STATS_DATA = [
+    { icon: Users, value: "15,000+", label: t('stats.students') },
+    { icon: Award, value: "8,500+", label: t('stats.graduates') },
+    { icon: GraduationCap, value: "500+", label: t('stats.trainers') },
+  ];
+
+  const BENEFITS_DATA = [
+    t('benefits.certificates'),
+    t('benefits.instructors'),
+    t('benefits.curriculum'),
+    t('benefits.support'),
+  ];
 
   const {
     register,
@@ -131,16 +102,12 @@ const RequestCoures = () => {
     watch,
     formState: { errors, isSubmitting },
   } = useForm({
-    defaultValues: {
-      name: "",
-      email: "",
-      mobile: "",
-      course: "",
-    },
+    defaultValues: { name: "", email: "", mobile: "", course: "" },
   });
 
   const selectedCourse = watch("course");
   const enableCaptcha = !!process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY;
+  const [recaptchaToken, setRecaptchaToken] = useState(null);
 
   const handleTagClick = (courseId) => {
     setValue("course", courseId, { shouldValidate: true, shouldDirty: true });
@@ -155,23 +122,19 @@ const RequestCoures = () => {
       course_id: String(data.course ?? ""),
       course_name: selected?.label ?? "",
     });
-
     router.push(`/${locale}/registerInternalCourse?${params.toString()}`);
   };
-  const [recaptchaToken, setRecaptchaToken] = useState(null);
-  const t = useTranslations('request-course');
 
   return (
     <section className={styles['request-courses']}>
       <div className={containerStyles.container}>
         <Title
           title={t('title')}
-          span={t('span')}
+          span={t('titleSpan')}
           subtitle={t('subtitle')}
         />
 
         <div className={styles['request-courses__content']}>
-          {/* LEFT: Info & Stats */}
           <div className={styles['request-courses__left']}>
             <div className={styles['request-courses__stats']}>
               {STATS_DATA.map((stat, idx) => (
@@ -182,7 +145,7 @@ const RequestCoures = () => {
             <div className={styles['request-courses__benefits']}>
               <h2>
                 <Award color="#3B82F6" size={21} />
-                What You Get
+                {t('whatYouGet')}
               </h2>
               <div className={styles['request-courses__benefits-list']}>
                 {BENEFITS_DATA.map((benefit, idx) => (
@@ -196,7 +159,7 @@ const RequestCoures = () => {
             <div className={styles['request-courses__header']}>
               <h2>
                 <Sparkles color='#3B82F6' size={20} />
-                Popular choices:
+                {t('popularChoices')}:
               </h2>
               <div className={styles['request-courses__tags']}>
                 {popularCourses.map((c) => (
@@ -220,11 +183,11 @@ const RequestCoures = () => {
                   <input
                     id="fullName"
                     type="text"
-                    placeholder="Full Name"
+                    placeholder={t('form.fullName')}
                     className={styles['request-courses__input']}
                     {...register("name", {
-                      required: "Full name is required",
-                      minLength: { value: 2, message: "Name must be at least 2 characters" },
+                      required: t('form.errors.nameRequired'),
+                      minLength: { value: 2, message: t('form.errors.nameMin') },
                     })}
                   />
                 </FormField>
@@ -233,13 +196,13 @@ const RequestCoures = () => {
                   <input
                     id="email"
                     type="email"
-                    placeholder="Email Address"
+                    placeholder={t('form.emailAddress')}
                     className={styles['request-courses__input']}
                     {...register("email", {
-                      required: "Email address is required",
+                      required: t('form.errors.emailRequired'),
                       pattern: {
                         value: /^\S+@\S+\.\S+$/,
-                        message: "Enter a valid email address",
+                        message: t('form.errors.emailInvalid'),
                       },
                     })}
                   />
@@ -250,13 +213,13 @@ const RequestCoures = () => {
                 <input
                   id="mobile"
                   type="tel"
-                  placeholder="Mobile Number"
+                  placeholder={t('form.mobileNumber')}
                   className={styles['request-courses__input']}
                   {...register("mobile", {
-                    required: "Mobile number is required",
+                    required: t('form.errors.mobileRequired'),
                     pattern: {
                       value: /^[0-9+\s\-()\\.]{7,15}$/,
-                      message: "Enter a valid mobile number",
+                      message: t('form.errors.mobileInvalid'),
                     },
                   })}
                 />
@@ -266,10 +229,10 @@ const RequestCoures = () => {
                 <Controller
                   name="course"
                   control={control}
-                  rules={{ required: "Please select a course" }}
+                  rules={{ required: t('form.errors.courseRequired') }}
                   render={({ field }) => (
                     <DropdownMenuCustom
-                      label="Select your course"
+                      label={t('form.selectCourse')}
                       options={courseOptions}
                       value={field.value}
                       onChange={field.onChange}
@@ -283,7 +246,8 @@ const RequestCoures = () => {
                   )}
                 />
               </FormField>
-        <div style={{ marginTop: '24px', minHeight: 78 }}>
+
+              <div style={{ marginTop: '24px', minHeight: 78 }}>
                 {enableCaptcha && (
                   <ReCAPTCHA
                     sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}
@@ -292,15 +256,16 @@ const RequestCoures = () => {
                   />
                 )}
                 {!recaptchaToken && errors.recaptcha && (
-                  <span style={{ color: '#EF4444', fontSize: '12px' }}>يرجى إتمام التحقق</span>
+                  <span style={{ color: '#EF4444', fontSize: '12px' }}>{t('form.errors.recaptcha')}</span>
                 )}
               </div>
+
               <button
                 type="submit"
                 className={styles['request-courses__submit']}
                 disabled={isSubmitting}
               >
-                {isSubmitting ? 'Sending...' : 'Send Request'}
+                {isSubmitting ? t('form.sending') : t('form.sendRequest')}
                 {!isSubmitting && <Send size={16} color="#FFFFFF" />}
               </button>
             </form>

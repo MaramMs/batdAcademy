@@ -9,19 +9,20 @@ import Skeleton from "@/components/ui/Skeleton";
 import { useTranslations } from "next-intl";
 
 const UpcomingCourses = () => {
+    const t = useTranslations('UpcomingCourses');
     const swiperRef = useRef(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     const {handleGetCourses,data,isLoading} = useCoursesStore();
 
-const t = useTranslations('upcoming-course');
+// const t = useTranslations('upcoming-course');
     useEffect(() => {
         handleGetCourses();
     }, []);
     return (
         <div>
             <div className={styles.container}>
-                <Title title={t('title')} span={t('span')} subtitle={t('subtitle')} />
+                <Title title={t('title')} span={t('titleSpan')} subtitle={t('subtitle')} />
              {
                 isLoading ? (
                   <div style={{ display: 'flex', justifyContent: 'center', gap: '20px' }}>

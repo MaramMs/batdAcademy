@@ -1,6 +1,7 @@
 import { Award, Calendar, Download, ImageIcon } from "lucide-react";
 import styles from "@/sass/pages/my-profile/my-profile.module.scss";
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 
 const certificates = [
     {
@@ -13,20 +14,21 @@ const certificates = [
 ];
 
 const Certificates = () => {
+    const t = useTranslations('MyProfile');
     return (
         <div>
             <div className={styles.certHeader}>
-                <h2>My Certificates</h2>
+                <h2>{t('certificates.title')}</h2>
                 <div className={styles.certCount}>
                     <Award size={14} />
-                    <span>{certificates.length} Certificate(s) Earned</span>
+                    <span>{certificates.length} {t('certificates.earned')}</span>
                 </div>
             </div>
 
             {certificates.length === 0 ? (
                 <div className={styles.noCerts}>
                     <Award size={40} />
-                    <p>No certificates earned yet</p>
+                    <p>{t('certificates.none')}</p>
                 </div>
             ) : (
                 <div className={styles.certGrid}>
@@ -51,7 +53,7 @@ const Certificates = () => {
                                 <div className={styles.certMeta}>
                                     <span className={styles.certMetaItem}>
                                         <Calendar size={12} />
-                                        Issued: {cert.issuedDate}
+                                        {t('certificates.issued')} {cert.issuedDate}
                                     </span>
                                 </div>
 
@@ -59,7 +61,7 @@ const Certificates = () => {
 
                                 <button className={styles.downloadBtn}>
                                     <Download size={14} />
-                                    Download Certificate
+                                    {t('certificates.download')}
                                 </button>
                             </div>
                         </div>

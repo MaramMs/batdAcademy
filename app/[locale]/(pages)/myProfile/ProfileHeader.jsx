@@ -3,8 +3,10 @@ import { MapPin, Pencil } from "lucide-react";
 import styles from "@/sass/pages/my-profile/my-profile.module.scss";
 import useCitiesStore from "@/store/useCitiesStore";
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 
 const ProfileHeader = ({ user }) => {
+    const t = useTranslations('MyProfile');
     const { cities, handleGetCities } = useCitiesStore();
 
     useEffect(() => {
@@ -14,9 +16,9 @@ const ProfileHeader = ({ user }) => {
     }, [cities.length, handleGetCities]);
 
     const countryName = useMemo(() => {
-        if (!user?.country_id) return user?.country || "Not specified";
+        if (!user?.country_id) return user?.country || t('notSpecified');
         const found = cities.find(c => c.id === user.country_id);
-        return found ? found.name : (user?.country || "Not specified");
+        return found ? found.name : (user?.country || t('notSpecified'));
     }, [cities, user?.country_id, user?.country]);
 
     return (
@@ -48,7 +50,7 @@ const ProfileHeader = ({ user }) => {
 
                 <button className={styles.editBtn}>
                     <Pencil size={14} />
-                    Edit Profile
+                    {t('editProfile')}
                 </button>
             </div>
 

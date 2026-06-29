@@ -1,30 +1,33 @@
-import { ArrowLeft, ArrowRight, House } from "lucide-react"
-import styles from "@/sass/pages/course-details/header.module.scss"
-import stylesContainer from "@/sass/components/common/container.module.scss"
-import Link from "next/link"
-import useLanguageStore from "@/store/useLanguageStore"
+"use client";
+import { ArrowLeft, ArrowRight, House } from "lucide-react";
+import styles from "@/sass/pages/course-details/header.module.scss";
+import stylesContainer from "@/sass/components/common/container.module.scss";
+import Link from "next/link";
+import useLanguageStore from "@/store/useLanguageStore";
+import { useTranslations } from "next-intl";
 
 const Header = () => {
-    const {locale} = useLanguageStore();
+    const { locale } = useLanguageStore();
+    const t = useTranslations('CourseDetails');
+
     return (
         <section className={styles.header}>
-       <div className={stylesContainer.container}>
-        <div className={styles.wrapper}>
-                 <div className={styles.breadcrumb}>
-                <ArrowLeft color='#2F327D' size={20}/>
-                <Link href={`/${locale}/search_course`}>Back to Courses</Link>
+            <div className={stylesContainer.container}>
+                <div className={styles.wrapper}>
+                    <div className={styles.breadcrumb}>
+                        <ArrowLeft color='#2F327D' size={20} />
+                        <Link href={`/${locale}/search_course`}>{t('backToCourses')}</Link>
+                    </div>
+                    <span>|</span>
+                    <House color='#4A5565' size={20} />
+                    <ArrowRight color='#4A5565' size={20} />
+                    <span>{t('courses')}</span>
+                    <ArrowRight color='#4A5565' size={20} />
+                    <span>{t('courseDetails')}</span>
+                </div>
             </div>
-            <span>|</span>
-            <House color='#4A5565' size={20} />
-            <ArrowRight color='#4A5565' size={20} />
-            <span>Courses</span>
-            <ArrowRight color='#4A5565' size={20} />  
-            <span>Course Details</span>
-        </div>
-
-       </div>
         </section>
-    )
-}
+    );
+};
 
-export default Header
+export default Header;

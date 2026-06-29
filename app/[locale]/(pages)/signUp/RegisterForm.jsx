@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import Link from "next/link";
 import { User, Mail, Phone, Building2, Briefcase, Lock, Eye, EyeOff, ArrowRight } from "lucide-react";
@@ -8,10 +8,11 @@ import useLanguageStore from "@/store/useLanguageStore";
 import { useRouter } from "next/navigation";
 import useAuthStore from "@/store/useAuthStore";
 import useCitiesStore from "@/store/useCitiesStore";
-import { useEffect } from "react";
 import { toast } from "sonner";
+import { useTranslations } from "next-intl";
 
 const RegisterForm = () => {
+    const t = useTranslations('Auth.signUp');
     const router = useRouter();
     const { locale } = useLanguageStore();
     const { handleSignup, isLoading } = useAuthStore();
@@ -19,171 +20,109 @@ const RegisterForm = () => {
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-    const { register, handleSubmit, formState: { errors }, watch, getValues, trigger } = useForm();
-
+    const { register, handleSubmit, formState: { errors }, watch, trigger } = useForm();
     const password = watch("password");
 
     const handlePasswordChange = () => {
-        if (errors.password_confirmation) {
-            trigger("password_confirmation");
-        }
+        if (errors.password_confirmation) trigger("password_confirmation");
     };
 
-    useEffect(() => {
-        handleGetCities();
-    }, [handleGetCities]);
+    useEffect(() => { handleGetCities(); }, [handleGetCities]);
 
     const onSubmit = async (formData) => {
         const result = await handleSignup(formData, locale);
-        console.log(result, "result")
-
         if (result?.success && result?.member) {
-            toast.success("Account created successfully!");
-            setTimeout(() => {
-                router.push(`/${locale}/myProfile`);
-            }, 500);
+            toast.success(t('successMsg'));
+            setTimeout(() => { router.push(`/${locale}/myProfile`); }, 500);
         } else {
-            toast.error(result?.error || "Something went wrong");
+            toast.error(result?.error || t('errorMsg'));
         }
     };
 
     return (
         <div className={styles.formCard}>
             <div className={styles.formHeader}>
-                <h1>Create Your Account</h1>
-                <p>Fill in your information to get started</p>
+                <h1>{t('title')}</h1>
+                <p>{t('subtitle')}</p>
             </div>
 
             <form onSubmit={handleSubmit(onSubmit)} noValidate>
-                <p className={styles.sectionLabel}>Personal Information</p>
+                <p className={styles.sectionLabel}>{t('personalInfo')}</p>
 
-                {/* Full Name */}
                 <div className={styles.field}>
-                    <label htmlFor="fullName">
-                        Full Name <span className={styles.required}>*</span>
-                    </label>
-                    <div className={`${styles.inputWrapper} ${errors.fullName ? styles.hasError : ""}`}>
+                    <label htmlFor="fullName">{t('fullName')} <span className={styles.required}>*</span></label>
+                    <div className={`${styles.inputWrapper} ${errors.full_name ? styles.hasError : ""}`}>
                         <User size={16} className={styles.inputIcon} />
-                        <input
-                            id="fullName"
-                            type="text"
-                            placeholder="John"
-                            {...register("full_name", { required: "Full name is required" })}
-                        />
+                        <input id="fullName" type="text" placeholder={t('fullNamePlaceholder')}
+                            {...register("full_name", { required: t('fullNameRequired') })} />
                     </div>
-                    {errors.fullName && <span className={styles.error}>{errors.fullName.message}</span>}
+                    {errors.full_name && <span className={styles.error}>{errors.full_name.message}</span>}
                 </div>
 
-                {/* Email */}
                 <div className={styles.field}>
-                    <label htmlFor="email">
-                        Email Address <span className={styles.required}>*</span>
-                    </label>
+                    <label htmlFor="email">{t('email')} <span className={styles.required}>*</span></label>
                     <div className={`${styles.inputWrapper} ${errors.email ? styles.hasError : ""}`}>
                         <Mail size={16} className={styles.inputIcon} />
-                        <input
-                            id="email"
-                            type="email"
-                            placeholder="john.doe@example.com"
+                        <input id="email" type="email" placeholder={t('emailPlaceholder')}
                             {...register("email", {
-                                required: "Email is required",
-                                pattern: {
-                                    value: /^\S+@\S+\.\S+$/,
-                                    message: "Invalid email address",
-                                },
-                            })}
-                        />
+                                required: t('emailRequired'),
+                                pattern: { value: /^\S+@\S+\.\S+$/, message: t('emailInvalid') },
+                            })} />
                     </div>
                     {errors.email && <span className={styles.error}>{errors.email.message}</span>}
                 </div>
 
-                {/* Phone */}
                 <div className={styles.field}>
-                    <label htmlFor="phone">
-                        Phone Number <span className={styles.required}>*</span>
-                    </label>
+                    <label htmlFor="phone">{t('phone')} <span className={styles.required}>*</span></label>
                     <div className={`${styles.inputWrapper} ${errors.phone ? styles.hasError : ""}`}>
                         <Phone size={16} className={styles.inputIcon} />
-                        <input
-                            id="phone"
-                            type="tel"
-                            placeholder="+1 (555) 000-0000"
-                            {...register("phone", { required: "Phone number is required" })}
-                        />
+                        <input id="phone" type="tel" placeholder={t('phonePlaceholder')}
+                            {...register("phone", { required: t('phoneRequired') })} />
                     </div>
                     {errors.phone && <span className={styles.error}>{errors.phone.message}</span>}
                 </div>
 
-                {/* Country */}
                 <div className={styles.field}>
-                    <label htmlFor="country">
-                        Country <span className={styles.required}>*</span>
-                    </label>
-                    <div className={`${styles.inputWrapper} ${styles.noIcon} ${errors.country ? styles.hasError : ""}`}>
-                        <select
-                            id="country_id"
-                            defaultValue=""
-                            {...register("country_id", { required: "Please select your country" })}
-                        >
-                            <option value="" disabled>Select your country</option>
+                    <label htmlFor="country_id">{t('country')} <span className={styles.required}>*</span></label>
+                    <div className={`${styles.inputWrapper} ${styles.noIcon} ${errors.country_id ? styles.hasError : ""}`}>
+                        <select id="country_id" defaultValue=""
+                            {...register("country_id", { required: t('countryRequired') })}>
+                            <option value="" disabled>{t('countryPlaceholder')}</option>
                             {cities?.map((c) => (
                                 <option key={c.id} value={282}>{c.name}</option>
                             ))}
                         </select>
                     </div>
-                    {errors.country && <span className={styles.error}>{errors.country.message}</span>}
+                    {errors.country_id && <span className={styles.error}>{errors.country_id.message}</span>}
                 </div>
 
-                {/* Company Name */}
                 <div className={styles.field}>
-                    <label htmlFor="company">Company Name</label>
+                    <label htmlFor="company">{t('company')}</label>
                     <div className={styles.inputWrapper}>
                         <Building2 size={16} className={styles.inputIcon} />
-                        <input
-                            id="company"
-                            type="text"
-                            placeholder="Your Company"
-                            {...register("company")}
-                        />
+                        <input id="company" type="text" placeholder={t('companyPlaceholder')}
+                            {...register("company")} />
                     </div>
                 </div>
 
-                {/* Job Title */}
                 <div className={styles.field}>
-                    <label htmlFor="jobTitle">Job Title</label>
+                    <label htmlFor="jobTitle">{t('jobTitle')}</label>
                     <div className={styles.inputWrapper}>
                         <Briefcase size={16} className={styles.inputIcon} />
-                        <input
-                            id="jobTitle"
-                            type="text"
-                            placeholder="Your Position"
-                            {...register("jobTitle")}
-                        />
+                        <input id="jobTitle" type="text" placeholder={t('jobTitlePlaceholder')}
+                            {...register("jobTitle")} />
                     </div>
                 </div>
 
-                {/* Password */}
                 <div className={styles.field}>
-                    <label htmlFor="password">
-                        Password <span className={styles.required}>*</span>
-                    </label>
+                    <label htmlFor="password">{t('password')} <span className={styles.required}>*</span></label>
                     <div className={`${styles.inputWrapper} ${errors.password ? styles.hasError : ""}`}>
                         <Lock size={16} className={styles.inputIcon} />
-                        <input
-                            id="password"
-                            type={showPassword ? "text" : "password"}
-                            placeholder="Enter your password"
-                            {...register("password", {
-                                required: "Password is required",
-                                onChange: handlePasswordChange
-                            })}
-                        />
-                        <button
-                            type="button"
-                            className={styles.eyeBtn}
-                            onClick={() => setShowPassword((prev) => !prev)}
-                            aria-label={showPassword ? "Hide password" : "Show password"}
-                        >
+                        <input id="password" type={showPassword ? "text" : "password"}
+                            placeholder={t('passwordPlaceholder')}
+                            {...register("password", { required: t('passwordRequired'), onChange: handlePasswordChange })} />
+                        <button type="button" className={styles.eyeBtn}
+                            onClick={() => setShowPassword((prev) => !prev)}>
                             {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
                         </button>
                     </div>
@@ -191,26 +130,17 @@ const RegisterForm = () => {
                 </div>
 
                 <div className={styles.field}>
-                    <label htmlFor="password_confirmation">
-                        Password Confirmation <span className={styles.required}>*</span>
-                    </label>
+                    <label htmlFor="password_confirmation">{t('confirmPassword')} <span className={styles.required}>*</span></label>
                     <div className={`${styles.inputWrapper} ${errors.password_confirmation ? styles.hasError : ""}`}>
                         <Lock size={16} className={styles.inputIcon} />
-                        <input
-                            id="password_confirmation"
-                            type={showConfirmPassword ? "text" : "password"}
-                            placeholder="Confirm your password"
+                        <input id="password_confirmation" type={showConfirmPassword ? "text" : "password"}
+                            placeholder={t('confirmPlaceholder')}
                             {...register("password_confirmation", {
-                                required: "Please confirm your password",
-                                validate: (value) => value === password || "The passwords do not match"
-                            })}
-                        />
-                        <button
-                            type="button"
-                            className={styles.eyeBtn}
-                            onClick={() => setShowConfirmPassword((prev) => !prev)}
-                            aria-label={showConfirmPassword ? "Hide password" : "Show password"}
-                        >
+                                required: t('confirmRequired'),
+                                validate: (value) => value === password || t('confirmMismatch'),
+                            })} />
+                        <button type="button" className={styles.eyeBtn}
+                            onClick={() => setShowConfirmPassword((prev) => !prev)}>
                             {showConfirmPassword ? <EyeOff size={16} /> : <Eye size={16} />}
                         </button>
                     </div>
@@ -219,42 +149,26 @@ const RegisterForm = () => {
                     )}
                 </div>
 
-                {/* Terms */}
                 <label className={styles.termsBox}>
-                    <input
-                        type="checkbox"
-                        {...register("terms", { required: true })}
-                    />
+                    <input type="checkbox" {...register("terms", { required: true })} />
                     <p>
-                        I agree to the{" "}
-                        <Link href="/terms" onClick={(e) => e.stopPropagation()}>
-                            Terms and Conditions
-                        </Link>{" "}
-                        and{" "}
-                        <Link href="/privacy" onClick={(e) => e.stopPropagation()}>
-                            Privacy Policy
-                        </Link>
+                        {t('terms')}{" "}
+                        <Link href="/terms" onClick={(e) => e.stopPropagation()}>{t('termsLink')}</Link>
+                        {" "}{t('and')}{" "}
+                        <Link href="/privacy" onClick={(e) => e.stopPropagation()}>{t('privacyLink')}</Link>
                     </p>
                 </label>
-                {errors.terms && (
-                    <p className={styles.termsError}>You must agree to the terms to continue</p>
-                )}
+                {errors.terms && <p className={styles.termsError}>{t('termsRequired')}</p>}
 
-
-
-                <button
-                    type="submit"
-                    className={styles.submitBtn}
-                    disabled={isLoading}
-                >
-                    {isLoading ? "Creating account..." : "Sign Up"}
+                <button type="submit" className={styles.submitBtn} disabled={isLoading}>
+                    {isLoading ? t('submitting') : t('submit')}
                     {!isLoading && <ArrowRight size={16} />}
                 </button>
             </form>
 
             <p className={styles.alreadyHave}>
-                Already have an account?
-                <Link href={`/${locale}/signIn`}>Sign In</Link>
+                {t('alreadyHave')}
+                <Link href={`/${locale}/signIn`}>{t('signIn')}</Link>
             </p>
         </div>
     );

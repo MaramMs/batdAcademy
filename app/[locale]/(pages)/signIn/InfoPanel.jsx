@@ -1,40 +1,31 @@
-import { Lock, CheckCircle2, CircleCheckBig } from "lucide-react";
+"use client";
+import { Lock, CircleCheckBig } from "lucide-react";
 import styles from "@/sass/pages/sign-In/login.module.scss";
-
-const features = [
-    {
-        title: "Expert Instructors",
-        description: "Learn from industry professionals with years of experience",
-    },
-    {
-        title: "Flexible Learning",
-        description: "Study at your own pace with 24/7 access to course materials",
-    },
-    {
-        title: "Certified Programs",
-        description: "Earn recognized certifications to boost your career",
-    },
-];
-
-const stats = [
-    { value: "10K+", label: "Students" },
-    { value: "500+", label: "Courses" },
-    { value: "95%", label: "Satisfaction" },
-];
+import { useTranslations } from "next-intl";
 
 const InfoPanel = () => {
+    const t = useTranslations('Auth.signIn');
+
+    const features = [
+        { title: t('features.instructors'), description: t('features.instructorsDesc') },
+        { title: t('features.flexible'),    description: t('features.flexibleDesc')    },
+        { title: t('features.certified'),   description: t('features.certifiedDesc')   },
+    ];
+
+    const stats = [
+        { value: "10K+", label: t('statsStudents')    },
+        { value: "500+", label: t('statsCourses')     },
+        { value: "95%",  label: t('statsSatisfaction') },
+    ];
+
     return (
         <div className={styles.infoPanel}>
             <div className={styles.infoPanelInner}>
                 <div className={styles.lockIcon}>
                     <Lock size={24} color="#ffffff" />
                 </div>
-
-                <h2 className={styles.panelTitle}>Continue Your Learning</h2>
-
-                <p className={styles.panelDesc}>
-                    Access your courses, track your progress, and achieve your professional development goals.
-                </p>
+                <h2 className={styles.panelTitle}>{t('panelTitle')}</h2>
+                <p className={styles.panelDesc}>{t('panelDesc')}</p>
 
                 <ul className={styles.featureList}>
                     {features.map((f) => (

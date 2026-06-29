@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { Inbox, Mail, Calendar, Clock, CheckCheck } from "lucide-react";
 import styles from "@/sass/pages/my-profile/my-profile.module.scss";
 import useUserProfileStore from "@/store/useUserProfileStore";
+import { useTranslations } from "next-intl";
 
 const initialMessages = [
     {
@@ -32,6 +33,7 @@ const initialMessages = [
 ];
 
 const Messages = () => {
+    const t = useTranslations('MyProfile');
     const { userMessages, handleGetUserMessages, unreadNumberMessage, handleUnreadNumberMessage } = useUserProfileStore();
   
     useEffect(() => {
@@ -46,17 +48,17 @@ const Messages = () => {
     return (
         <div>
             <div className={styles.msgsHeader}>
-                <h2>Messages</h2>
+                <h2>{t('messages.title')}</h2>
                 <div className={styles.msgCount}>
                     <Mail size={14} />
-                    <span>{userMessages?.length || 0} Message(s)</span>
+                    <span>{userMessages?.length || 0} {t('messages.count')}</span>
                 </div>
             </div>
 
             {(!userMessages || userMessages.length === 0) ? (
                 <div className={styles.noMsgs}>
                     <Inbox size={40} />
-                    <span>No messages yet</span>
+                    <span>{t('messages.none')}</span>
                 </div>
             ) : (
                 <div className={styles.msgList}>
@@ -73,12 +75,12 @@ const Messages = () => {
                                 <span className={styles.msgBadge}>{msg.type}</span>
 
                                 <h3 className={styles.msgTitle}>{msg.title}</h3>
-                                <p className={styles.msgFrom}>From: {msg.from}</p>
+                                <p className={styles.msgFrom}>{t('messages.from')} {msg.from}</p>
 
                                 <div className={styles.msgMeta}>
                                     <span className={styles.msgMetaItem}>
                                         <Calendar size={12} />
-                                        Date: {msg.date}
+                                        {t('messages.date')} {msg.date}
                                     </span>
                                     <span
                                         className={`${styles.msgMetaItem} ${
@@ -86,14 +88,14 @@ const Messages = () => {
                                         }`}
                                     >
                                         <Clock size={12} />
-                                        Status: {msg.isRead ? "Read" : "Unread"}
+                                        {t('messages.status')} {msg.isRead ? t('messages.read') : t('messages.unread')}
                                     </span>
                                 </div>
 
                                 <div className={styles.msgActions}>
                                     <button className={styles.btnViewMsg}>
                                         <Mail size={14} />
-                                        View Message
+                                        {t('messages.view')}
                                     </button>
                                     <button
                                         className={`${styles.btnMarkRead} ${msg.isRead ? styles.alreadyRead : ""}`}
@@ -101,7 +103,7 @@ const Messages = () => {
                                         disabled={msg.isRead}
                                     >
                                         <CheckCheck size={14} />
-                                        Mark as Read
+                                        {t('messages.markRead')}
                                     </button>
                                 </div>
                             </div>

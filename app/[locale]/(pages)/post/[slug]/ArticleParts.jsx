@@ -5,8 +5,10 @@ import { BookOpen, ChevronRight } from "lucide-react";
 import styles from "@/sass/pages/blog/article-parts.module.scss";
 import Skeleton from "@/components/ui/Skeleton";
 import NoData from "@/components/common/NoData";
+import { useTranslations } from "next-intl";
 
 const ArticleParts = ({ post }) => {
+  const t = useTranslations('Blog');
   const [activeId, setActiveId] = useState(null);
 
   const tableOfContents = post?.table_of_contents || [];
@@ -45,7 +47,7 @@ const ArticleParts = ({ post }) => {
     <div className={styles.tocContainer}>
       <header className={styles.header}>
         <BookOpen size={20} strokeWidth={2.5} className={styles.headerIcon} />
-        <h3 className={styles.headerTitle}>In This Article</h3>
+        <h3 className={styles.headerTitle}>{t('inThisArticle')}</h3>
       </header>
 
       {tableOfContents && tableOfContents.length > 0 ? (
@@ -78,13 +80,13 @@ const ArticleParts = ({ post }) => {
             <>
               <div className={styles.footerDivider} />
               <footer className={styles.footer}>
-                <span className={styles.readingTime}>{readTime} min read</span>
+                <span className={styles.readingTime}>{readTime} {t('minRead')}</span>
               </footer>
             </>
           )}
         </>
       ) : (
-       <NoData message='No heading in this article'/>
+       <NoData message={t('noHeadings')} />
       )}
     </div>
   );

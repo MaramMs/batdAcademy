@@ -15,8 +15,10 @@ import { useState } from "react";
 import ApplyJobForm from "./ApplyJobForm";
 import JobDetailsForm from "./JobDetailsForm";
 import { MOCK_JOB } from "./jobData";
+import { useTranslations } from "next-intl";
 
 const JobCard = ({ job = MOCK_JOB }) => {
+  const t = useTranslations('Jobs');
   const [isDetailsOpen, setIsDetailsOpen] = useState(false);
   const [isApplyOpen, setIsApplyOpen] = useState(false);
 
@@ -61,7 +63,7 @@ const JobCard = ({ job = MOCK_JOB }) => {
         className={styles.viewBtn}
         onClick={() => setIsDetailsOpen(true)}
       >
-        View Details <ArrowRight size={16} />
+        {t('viewDetails')} <ArrowRight size={16} />
       </button>
 
       <ApplicationModal

@@ -2,24 +2,26 @@
 import React from 'react';
 import { Clock, Award, Check, Mail, Phone } from 'lucide-react';
 import styles from '@/sass/pages/register-course/register-course.module.scss';
-import course from '/public/asstes/course1.jpg'
+import courseImg from '/public/asstes/course1.jpg';
 import Image from 'next/image';
+import { useTranslations } from 'next-intl';
 
-const CourseSummaryCard = ({course}) => {
+const CourseSummaryCard = ({ course }) => {
+  const t = useTranslations('RegisterCourse');
+
   return (
     <aside className={styles.sidebar}>
       <div className={styles.summaryCard}>
         <Image
-          src={course?.image || course}
-          alt={course?.name || course}
+          src={course?.image || courseImg}
+          alt={course?.name || 'Course'}
           className={styles.courseImg}
-          onError={(e) => { e.target.src = 'https://via.placeholder.com/400x200?text=Course+Image'; }}
           width={400}
           height={400}
         />
         <div className={styles.summaryContent}>
           <h3>{course?.name}</h3>
-          
+
           <div className={styles.instructor}>
             <div className={styles.avatar}>
               <span className={styles.initials}>SJ</span>
@@ -31,52 +33,43 @@ const CourseSummaryCard = ({course}) => {
           </div>
 
           <div className={styles.detailsRow}>
-            <div className={styles.label}>
-              <Clock color='#2F327D'/> Duration
-            </div>
+            <div className={styles.label}><Clock color='#2F327D' /> {t('duration')}</div>
             <div className={styles.value}>8 weeks</div>
           </div>
 
           <div className={styles.detailsRow}>
-            <div className={styles.label}>
-              <Award color='#C41E3A' /> Certificate
-            </div>
+            <div className={styles.label}><Award color='#C41E3A' /> Certificate</div>
             <div className={styles.value}>Included</div>
           </div>
 
           <div className={styles.divider} />
 
           <div className={styles.priceSection}>
-            <div className={styles.label}>Course Price</div>
+            <div className={styles.label}>{t('summary.coursePrice')}</div>
             <div className={styles.priceContainer}>
-              <span className={styles.oldPrice}>{course?.price}</span>
-              <span className={styles.newPrice}>$599</span>
+              <span className={styles.newPrice}>£{course?.price}</span>
             </div>
           </div>
 
           <div className={styles.whatsIncluded}>
-            <h4>What's Included</h4>
+            <h4>{t('summary.whatsIncluded')}</h4>
             <ul>
-              <li><Check color='#00A63E'/> Lifetime access to course materials</li>
-              <li><Check color='#00A63E'/> Certificate of completion</li>
-              <li><Check color='#00A63E'/> Live Q&A sessions</li>
-              <li><Check color='#00A63E'/> Practical projects and assignments</li>
-              <li><Check color='#00A63E'/> 24/7 support</li>
+              <li><Check color='#00A63E' /> {t('summary.item1')}</li>
+              <li><Check color='#00A63E' /> {t('summary.item2')}</li>
+              <li><Check color='#00A63E' /> {t('summary.item3')}</li>
+              <li><Check color='#00A63E' /> {t('summary.item4')}</li>
+              <li><Check color='#00A63E' /> {t('summary.item5')}</li>
             </ul>
           </div>
         </div>
       </div>
 
       <div className={styles.helpCard}>
-        <h3>Need Help?</h3>
-        <p>Our support team is here to assist you with your registration.</p>
+        <h3>{t('summary.needHelp')}</h3>
+        <p>{t('summary.helpText')}</p>
         <div className={styles.contactInfo}>
-          <div className={styles.item}>
-            <Mail size={16} /> support@britishacademy.com
-          </div>
-          <div className={styles.item}>
-            <Phone size={16} /> +972 4 123 4567
-          </div>
+          <div className={styles.item}><Mail size={16} /> support@britishacademy.com</div>
+          <div className={styles.item}><Phone size={16} /> +44 (0) 123 456 789</div>
         </div>
       </div>
     </aside>

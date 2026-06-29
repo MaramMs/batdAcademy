@@ -16,8 +16,10 @@ import SearchInput from "./Search";
 import MotionWrapper from "@/components/common/MotionWrapper";
 import CategoriesBox from "@/components/common/CategoriesBox";
 import * as Dialog from "@radix-ui/react-dialog";
+import { useTranslations } from "next-intl";
 
 const Blog = () => {
+  const t = useTranslations('Blog');
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
@@ -113,7 +115,7 @@ const Blog = () => {
                     <Dialog.Content className={styles.drawerContent}>
                       <div className={styles.drawerHeader}>
                         <Dialog.Title className={styles.drawerTitle}>
-                          Filters
+                          {t('filters')}
                         </Dialog.Title>
                         <Dialog.Close className={styles.drawerClose}>
                           <X size={20} />
@@ -121,7 +123,7 @@ const Blog = () => {
                       </div>
                       <div className={styles.filter}>
                         <CategoriesBox
-                          title="Sort by"
+                          title={t('sortBy')}
                           icon={<Filter size={18} />}
                         >
                           <div className={styles.sidebarFilterContent}>
@@ -135,7 +137,7 @@ const Blog = () => {
                           </div>
                         </CategoriesBox>
                         <CategoriesBox
-                          title="All Categories"
+                          title={t('allCategories')}
                           icon={<Filter size={18} />}
                         >
                           <ul className={styles.sidebarCategoryList}>
@@ -168,7 +170,7 @@ const Blog = () => {
       </div>
 
       <div className={styles.moblieTop}>
-        <h2>Blog Posts</h2>
+        <h2>{t('blogPosts')}</h2>
 
         <Dialog.Root modal={true}>
           <Dialog.Trigger asChild>
@@ -204,14 +206,14 @@ const Blog = () => {
               <Dialog.Content className={styles.drawerContent}>
                 <div className={styles.drawerHeader}>
                   <Dialog.Title className={styles.drawerTitle}>
-                    Filters
+                    {t('filters')}
                   </Dialog.Title>
                   <Dialog.Close className={styles.drawerClose}>
                     <X size={20} />
                   </Dialog.Close>
                 </div>
                 <div className={styles.filter}>
-                  <CategoriesBox title="Sort by" icon={<Filter size={18} />}>
+                  <CategoriesBox title={t('sortBy')} icon={<Filter size={18} />}>
                     <div className={styles.sidebarFilterContent}>
                       <Sort
                         activeSort={searchParams.get("sort") || "latest"}
@@ -223,7 +225,7 @@ const Blog = () => {
                     </div>
                   </CategoriesBox>
                   <CategoriesBox
-                    title="All Categories"
+                    title={t('allCategories')}
                     icon={<Filter size={18} />}
                   >
                     <ul className={styles.sidebarCategoryList}>
@@ -262,7 +264,7 @@ const Blog = () => {
             ) : (
               <>
                 <div className={styles.categories}>
-                  <h2 className={styles.title}>All Categories</h2>
+                  <h2 className={styles.title}>{t('allCategories')}</h2>
                   {posts?.categories?.map((category) => {
                     const isActive =
                       searchParams.get("category_id") === String(category.id);
@@ -320,7 +322,7 @@ const Blog = () => {
                           </defs>
                         </svg>
                       </div>
-                      <h2>Latest Posts</h2>
+                      <h2>{t('latestPosts')}</h2>
                     </div>
                     <div className={styles.right}>
                       <SquareArrowOutUpRight color="#333333" size={14} />
@@ -364,7 +366,7 @@ const Blog = () => {
                           </clipPath>
                         </defs>
                       </svg>
-                      Follow @britishacademy
+                      {t('follow')}
                     </button>
                   </div>
                 </div>

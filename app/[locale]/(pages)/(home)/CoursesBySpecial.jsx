@@ -12,13 +12,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 
-function chunkArray(arr, size) {
+function chunkArray(arr, size) {``
     const chunks = []
     for (let i = 0; i < arr.length; i += size) chunks.push(arr.slice(i, i + size))
     return chunks
 }
 
-const CourseBySpecialCard = ({ item }) => {
+const CourseBySpecialCard = ({ item, coursesLabel }) => {
     return (
         <div className={styles.card}>
             <div className={styles.cardImage}>
@@ -26,14 +26,14 @@ const CourseBySpecialCard = ({ item }) => {
             </div>
             <div className={styles.cardContent}>
                 <h3 className={styles.cardTitle}>{item.name}</h3>
-                <p className={styles.cardDescription}>{item.courses_count} courses</p>
+                <p className={styles.cardDescription}>{item.courses_count} {coursesLabel}</p>
             </div>
 
         </div>
     )
 }
 
-const CourseBySpecial = ({ items }) => {
+const CourseBySpecial = ({ items, coursesLabel }) => {
     return (
         <div className={styles.courseBySpecial}>
             {
@@ -49,10 +49,11 @@ const CourseBySpecial = ({ items }) => {
 }
 
 const CoursesBySpecial = () => {
+    const t = useTranslations('CoursesBySpecial');
     const { categories, handleGetCategories, isLoading } = useCategoriesStore();
     const [activeTabId, setActiveTabId] = useState(null)
     const [chunkSize, setChunkSize] = useState(6);
-    const t = useTranslations('specialized');
+    // const t = useTranslations('specialized');
 
     useEffect(() => {
         handleGetCategories();
@@ -90,7 +91,7 @@ const CoursesBySpecial = () => {
     return (
         <section>
             <div className={styleContainer.container}>
-                <Title title={t('title')} span={t('span')} subtitle={t('subtitle')} />
+                <Title title={t('title')} span={t('titleSpan')} subtitle={t('subtitle')} />
                 {
                     isLoading ? (
                         <div style={{ display: 'flex', justifyContent: 'center', gap: '20px' }}>
@@ -110,7 +111,7 @@ const CoursesBySpecial = () => {
                                 key={`${activeTabId}-${chunkSize}`}
                                 navId="coursebyspecial"
                                 items={slides}
-                                renderSlide={(slideItems) => <CourseBySpecial items={slideItems} />}
+                                renderSlide={(slideItems) => <CourseBySpecial items={slideItems} coursesLabel={t('coursesCount')} />}
                                 breakpoints={{
                                     320: {
                                         slidesPerView: 1.5,

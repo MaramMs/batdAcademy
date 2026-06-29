@@ -8,8 +8,10 @@ import useFaqsStore from "@/store/useFaqsStore";
 import Skeleton from "@/components/ui/Skeleton";
 import { useEffect } from "react";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
+import { useTranslations } from "next-intl";
 
 const FQA = () => {
+    const t = useTranslations('FAQ');
     const searchParams = useSearchParams();
     const router = useRouter();
     const pathname = usePathname();
@@ -44,8 +46,8 @@ const FQA = () => {
                         <div className={styles.header}>
                             <span><TrendingUp size={20} color="#FFFFFF" /></span>
                             <div className={styles.content}>
-                                <h2>Popular Questions</h2>
-                                <p>Most frequently asked questions</p>
+                                <h2>{t('popularTitle')}</h2>
+                                <p>{t('popularSubtitle')}</p>
                             </div>
                         </div>
                         <div className={styles.faqList}>
@@ -66,8 +68,8 @@ const FQA = () => {
 
                     <div className={styles.allFQA}>
                         <div className={styles.header}>
-                            <h2>Every Question Answered</h2>
-                            <p>{isLoading ? "..." : `${allFaqs.length} questions found`}</p>
+                            <h2>{t('allTitle')}</h2>
+                            <p>{isLoading ? "..." : t('questionsFound', { count: allFaqs.length })}</p>
                         </div>
                         <div className={styles.listFQA}>
                             {isLoading ? (
