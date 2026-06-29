@@ -10,6 +10,7 @@ import Skeleton from "@/components/ui/Skeleton"
 import Image from "next/image"
 import { useTranslations } from "next-intl"
 const Card = ({ team }) => {
+    console.log(team , 'team from home')
     return (
         <div className={styles.card}>
             <div className={styles.image}>
@@ -34,13 +35,7 @@ const Card = ({ team }) => {
 
                     </i>
                     </a>
-                    <a href={team?.social?.facebook} target="_blank" rel="noopener noreferrer" aria-label="Facebook"><i className="fab fa-facebook-f" aria-hidden="true">
-                        <svg width="8" height="13" viewBox="0 0 8 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M6.70808 0.559082H5.03108C4.2898 0.559082 3.57888 0.853554 3.05472 1.37772C2.53055 1.90188 2.23608 2.6128 2.23608 3.35408V5.03108H0.559082V7.26708H2.23608V11.7391H4.47208V7.26708H6.14908L6.70808 5.03108H4.47208V3.35408C4.47208 3.20583 4.53098 3.06364 4.63581 2.95881C4.74064 2.85398 4.88283 2.79508 5.03108 2.79508H6.70808V0.559082Z" stroke="#1E2749" strokeWidth="1.118" strokeLinecap="round" strokeLinejoin="round" />
-                        </svg>
-
-                    </i>
-                    </a>
+                  
                     <a href={team?.social?.twitter} target="_blank" rel="noopener noreferrer" aria-label="Twitter"><i className="fab fa-twitter" aria-hidden="true">
                         <svg width="13" height="11" viewBox="0 0 13 11" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M11.7391 0.563462C11.7391 0.563462 11.3478 1.73736 10.6211 2.46406C11.5155 8.05406 5.36648 12.1348 0.559082 8.94846C1.78888 9.00436 3.01868 8.61306 3.91308 7.83046C1.11808 6.99196 -0.279418 3.69386 1.11808 1.12246C2.34788 2.57586 4.24848 3.41436 6.14908 3.35846C5.64598 1.01066 8.38508 -0.330938 10.0621 1.23426C10.677 1.23426 11.7391 0.563462 11.7391 0.563462Z" stroke="#1E2749" strokeWidth="1.118" strokeLinecap="round" strokeLinejoin="round" />

@@ -52,7 +52,7 @@ useEffect(() => {
     const statsData = [
         {
             id: 1,
-            value: '3.5k+',
+            value: '2.5k+',
             label: t('stats.participants'),
             icon: <Users />
         },

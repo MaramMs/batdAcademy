@@ -12,6 +12,7 @@ import img1 from "/public/asstes/default-1.jpeg";
 import img2 from "/public/asstes/course1.jpg";
 import img3 from "/public/asstes/default-2.webp";
 import { useTranslations } from "next-intl";
+import { useRouter } from "next/navigation";
 
 const placeholderImages = [
   "https://batdacademy.com/uploads/placeholder_image.webp",
@@ -31,6 +32,7 @@ const UpcomingCouresCard = ({
   const [isOpen, setIsOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState(null);
   const locale = useLanguageStore((state) => state.locale);
+  const router = useRouter()
   const t =useTranslations();
   const handleOpen = () => {
     if (swiperRef?.current) {
@@ -46,9 +48,14 @@ const UpcomingCouresCard = ({
     }, 1500);
     onModalClose?.();
   };
-
+console.log(selectedDate , 'select')
   const handleSelect = (session) => {
     setSelectedDate(session.date);
+    const params = new URLSearchParams();
+    if (course?.id) params.set("course_id", course.id);
+    if (session?.date) params.set("date", session.date);
+  
+    router.push(`/${locale}/registerCourse?${params.toString()}`);
   };
 
   // Build registration URL with all available query params
@@ -142,6 +149,7 @@ const UpcomingCouresCard = ({
             onSelect={handleSelect}
             courseName={course.title}
             dates={course?.dates}
+            id={course?.id}
           />
         </div>
         <div className={styles.btns}>

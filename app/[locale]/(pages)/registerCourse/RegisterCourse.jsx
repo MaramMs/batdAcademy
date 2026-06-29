@@ -35,6 +35,7 @@ const RegisterCourse = () => {
         }
     });
     const { handlePostRegisterCourse, isLoading, handleGetRegisterData, registerData ,handleGetCourseByIdData , course} = useRegisterCourseStore();
+    console.log(course,'coures from register page')
     useEffect(() => {
         handleGetRegisterData();
         handleGetCourseByIdData(course_id)

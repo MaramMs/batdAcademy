@@ -11,6 +11,7 @@ import styles from '@/sass/pages/register-course/course-details-form.module.scss
 import { useTranslations } from 'next-intl';
 
 const CourseDetailsForm = ({cities,durations,dates,isLoading,register, control, setValue, errors, handleBack, onSubmit, handleSubmit }) => {
+  console.log(dates , 'dates from course details')
   const t = useTranslations('RegisterCourse');
   const [mounted, setMounted] = useState(false);
   const [recaptchaToken, setRecaptchaToken] = useState(null);

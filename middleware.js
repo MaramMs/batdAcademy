@@ -59,19 +59,19 @@ export async function middleware(request) {
   }
 
   // ب. روابط query params قديمة مثل ?specialization=33
-  const queryKeys = ['specialization', 'category', 'course_id', 'id', 'main_spec'];
-  for (let key of queryKeys) {
-    if (searchParams.has(key)) {
-      const idValue = searchParams.get(key);
-      if (/^\d+$/.test(idValue)) {
-        const lang = pathname.startsWith('/en/') ? 'en' : 'ar';
-        const url = request.nextUrl.clone();
-        url.pathname = `/${lang}/course_training/${idValue}`;
-        url.search = '';
-        return NextResponse.redirect(url, 301);
-      }
-    }
-  }
+  // const queryKeys = ['specialization', 'category', 'course_id', 'id', 'main_spec'];
+  // for (let key of queryKeys) {
+  //   if (searchParams.has(key)) {
+  //     const idValue = searchParams.get(key);
+  //     if (/^\d+$/.test(idValue)) {
+  //       const lang = pathname.startsWith('/en/') ? 'en' : 'ar';
+  //       const url = request.nextUrl.clone();
+  //       url.pathname = `/${lang}/course_training/${idValue}`;
+  //       url.search = '';
+  //       return NextResponse.redirect(url, 301);
+  //     }
+  //   }
+  // }
 
   // ✅ ج. روابط /ar/search_course?type=X أو /en/search_course?type=X
   if (pathname.match(/^\/(ar|en)\/search_course$/) && searchParams.has('type')) {
