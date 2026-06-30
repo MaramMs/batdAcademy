@@ -4,7 +4,7 @@ import { SITE_URL } from "@/lib/seoMeta";
 import CourseDetails from "./CourseDetails";
 
 export async function generateMetadata({ params }) {
-  const { locale, slug } = await params;
+  const { locale, id, slug } = await params;
 
   const niceName = slug
     ? decodeURIComponent(slug)
@@ -16,7 +16,7 @@ export async function generateMetadata({ params }) {
   const fallbackDescription = `Learn about the ${niceName} training course offered by the British Academy for Training & Development.`;
 
   const fallback = {
-    title: fallbackTitle,
+    title: { absolute: fallbackTitle },
     description: fallbackDescription,
     // icons: {
     //     icon: "/favicon.ico",
@@ -50,7 +50,7 @@ export async function generateMetadata({ params }) {
     const data = res?.data || {};
     const m = data.meta || {};
     const title =
-      data.meta_title || m.meta_title || m.title || data.name || fallback.title;
+      data.meta_title || m.meta_title || m.title || data.name || fallbackTitle;
     const description =
       data.meta_description ||
       m.meta_description ||
@@ -61,7 +61,7 @@ export async function generateMetadata({ params }) {
       data.meta_keyword || m.meta_keyword || m.keyword || undefined;
     return {
       metadataBase: new URL(SITE_URL),
-      title,
+      title: { absolute: title },
       description,
       keywords,
       alternates: {

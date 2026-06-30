@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useParams, useSearchParams, useRouter, usePathname } from "next/navigation";
-import {ArrowRight } from "lucide-react";
+import { ArrowRight, ArrowLeft } from "lucide-react";
 import Header from "./Header";
 import NavgationBar from "./NavgationBar";
 import UpcomingCouresCard from "@/components/ui/UpcomingCouresCard";
@@ -11,12 +11,13 @@ import SidebarFilter from "@/components/common/SidebarFilter";
 import NoData from "@/components/common/NoData";
 import stylesContainer from "@/sass/components/common/container.module.scss";
 import styles from "@/sass/pages/course-details-by-city/course-details-by-city.module.scss";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 
 const CourseByCityDetails = () => {
     const { id } = useParams();
     const searchParams = useSearchParams();
-    const t = useTranslations()
+    const t = useTranslations();
+    const locale = useLocale();
     const router = useRouter();
     const pathname = usePathname();
     const { data, handleGetCourses, isLoading } = useCoursesStore();
@@ -92,7 +93,7 @@ const CourseByCityDetails = () => {
                                     </div>
                                     {(visibleCount < (data?.courses?.length || 0) || data?.has_more) && (
                                         <button className={styles.showMoreBtn} onClick={handleViewMore}>
-                                       {t('showMore')}      <ArrowRight size={18} />
+                                            {t('showMore')} {locale === 'ar' ? <ArrowLeft size={18} /> : <ArrowRight size={18} />}
                                         </button>
                                     )}
                                 </>

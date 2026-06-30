@@ -11,12 +11,13 @@ import Header from "./Header";
 import stylesContainer from "@/sass/components/common/container.module.scss";
 import styles from "@/sass/pages/category-details/category-details.module.scss";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { ArrowRight } from "lucide-react";
-import { useTranslations } from "next-intl";
+import { ArrowRight, ArrowLeft } from "lucide-react";
+import { useTranslations, useLocale } from "next-intl";
 
 const CategoryDetails = ({ params }) => {
     const { id } = use(params);
     const t = useTranslations('CourseTraning');
+    const locale = useLocale();
     const { categories, handleGetCategories } = useCategoriesStore();
     const router = useRouter();
     const pathname = usePathname();
@@ -128,7 +129,7 @@ const CategoryDetails = ({ params }) => {
 
                               {(visibleCount < (data?.courses?.length || 0) || data?.has_more) && (
                                     <button className={styles.showMoreBtn} onClick={handleViewMore}>
-                                        View More <ArrowRight />
+                                        {t('showMore')} {locale === 'ar' ? <ArrowLeft size={18} /> : <ArrowRight size={18} />}
                                     </button>
                                 )}
                             </div>
