@@ -84,6 +84,13 @@
       }
     }
 
+    .errorText {
+      display: block;
+      margin-top: 6px;
+      font-size: 13px;
+      color: $error;
+    }
+
     .inputWrapper {
       position: relative;
       display: flex;
@@ -354,6 +361,12 @@
         background-color: lighten($blue-900, 5%);
         transform: translateY(-2px);
         box-shadow: $shadow-md;
+      }
+
+      svg {
+        [dir='rtl'] & {
+          transform: scaleX(-1);
+        }
       }
     }
   }

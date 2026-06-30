@@ -141,6 +141,12 @@
       gap: 10px;
       cursor: pointer;
       transition: all 0.2s;
+
+      svg {
+        [dir='rtl'] & {
+          transform: scaleX(-1);
+        }
+      }
     }
 
     .btnBack {

@@ -96,7 +96,7 @@ const onSubmit = async (data) => {
             <NavigationBar currentStep={currentStep > 3 ? 3 : currentStep} />
             <div className={styles.mainContent}>
                 <div className={stylesContainer.container}>
-                    {currentStep <= 3 && <MobileCourseHeader />}
+                    {currentStep <= 3 && <MobileCourseHeader course={course} />}
                     <div className={`${styles.content} ${currentStep === 4 ? styles.successLayout : ''}`}>
                         <div className={styles.formContent}>
                             {currentStep <= 3 && <Stepper currentStep={currentStep} />}
@@ -143,7 +143,7 @@ const onSubmit = async (data) => {
                                     <SuccessPage />
                                 )}
                         </div>
-                        {/* {currentStep <= 3 && <CourseSummaryCard course={course}/>} */}
+                        {currentStep <= 3 && <CourseSummaryCard course={course} />}
                     </div>
                 </div>
             </div>

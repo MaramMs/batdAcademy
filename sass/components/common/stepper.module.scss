@@ -3,6 +3,9 @@
   justify-content: space-between;
   align-items: center;
   gap: 24px;
+  @media (max-width: $tablet) {
+    gap: 16px;
+  }
   @media (max-width: 576px) {
     gap: 12px;
   }
@@ -77,16 +80,16 @@
     content: "";
     position: absolute;
     top: 24px;
-    left: calc(50% + 24px);
-    right: calc(-50% + 24px);
+    inset-inline-start: calc(50% + 24px);
+    inset-inline-end: calc(-50% + 24px);
     height: 2px;
     background-color: $gray-300;
     z-index: 1;
 
     @media (max-width: 576px) {
       top: 20px;
-      left: calc(50% + 20px);
-      right: calc(-50% + 20px);
+      inset-inline-start: calc(50% + 20px);
+      inset-inline-end: calc(-50% + 20px);
     }
   }
 }
