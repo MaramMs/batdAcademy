@@ -110,12 +110,12 @@
                 }
             }
 
-            .viewMore {
+            .showMoreBtn {
                 width: 283px;
                 height: 48px;
                 background-color: $white;
                 color: $blue-900;
-                border: 1.24px solid #1E2749;
+                border: 1px solid $blue-900;
                 cursor: pointer;
                 padding: 4px 30px;
                 border-radius: 10px;
@@ -128,7 +128,7 @@
                 font-weight: 500;
                 line-height: 20px;
                 text-decoration: none;
-                margin: 0px auto;
+                margin: 30px auto 0;
 
                 @media (max-width: 480px) {
                     width: 100%;

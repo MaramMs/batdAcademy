@@ -1,46 +1,69 @@
 import { useState, useEffect, useRef } from 'react';
-import { getCourses } from '@/action/courses';
-import useLanguageStore from '@/store/useLanguageStore';
+import { getCourseSuggestions } from '@/action/courses';
+import { useLocale } from 'next-intl';
+
+// Module-level cache: survives re-renders, cleared on page reload
+const cache = new Map();
+const CACHE_MAX = 40;
+
+function addToCache(key, value) {
+    if (cache.size >= CACHE_MAX) {
+        cache.delete(cache.keys().next().value);
+    }
+    cache.set(key, value);
+}
 
 export default function useSearchAutocomplete() {
     const [query, setQuery] = useState('');
     const [suggestions, setSuggestions] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
-    const abortRef = useRef(null);
-    const locale = useLanguageStore((s) => s.locale);
-    console.log(query , 'query from hook')
-    console.log(suggestions , 'sug from hook')
+    const locale = useLocale();
+    const reqIdRef = useRef(0);
 
     useEffect(() => {
-        // Less than 2 chars → clear suggestions, no fetch
-        if (query.length < 2) {
+        const trimmed = query.trim();
+
+        if (trimmed.length < 2) {
             setSuggestions([]);
+            setIsLoading(false);
             return;
         }
 
-        // Debounce 300ms
-        const timer = setTimeout(async () => {
-            // Cancel previous request
-            if (abortRef.current) abortRef.current.abort();
-            abortRef.current = new AbortController();
+        // Show loading immediately so dropdown stays open
+        setIsLoading(true);
 
-            setIsLoading(true);
+        const cacheKey = `${locale}:${trimmed.toLowerCase()}`;
+        const cached = cache.get(cacheKey);
+        if (cached) {
+            setSuggestions(cached);
+            setIsLoading(false);
+            return;
+        }
+
+        const timer = setTimeout(async () => {
+            const reqId = ++reqIdRef.current;
             try {
-                const data = await getCourses(locale, `?search=${query}`);
-                console.log(data, 'data from hook sugg')
-                // We only want a short list for suggestions (max 6)
-                setSuggestions(data?.data?.courses?.slice(0, 6) || []);
-            } catch (err) {
-                if (err.name !== 'AbortError') setSuggestions([]);
+                const results = await getCourseSuggestions(locale, trimmed);
+                // Ignore response if a newer request is already in flight
+                if (reqId !== reqIdRef.current) return;
+                addToCache(cacheKey, results);
+                setSuggestions(results);
+            } catch {
+                if (reqId === reqIdRef.current) setSuggestions([]);
             } finally {
-                setIsLoading(false);
+                if (reqId === reqIdRef.current) setIsLoading(false);
             }
-        }, 300);
+        }, 250);
 
         return () => clearTimeout(timer);
     }, [query, locale]);
 
-    const clearSuggestions = () => setSuggestions([]);
+    const clearSuggestions = () => {
+        setSuggestions([]);
+        setIsLoading(false);
+    };
 
-    return { query, setQuery, suggestions, isLoading, clearSuggestions };
+    const showDropdown = query.trim().length >= 2 && (isLoading || suggestions.length > 0);
+
+    return { query, setQuery, suggestions, isLoading, showDropdown, clearSuggestions };
 }

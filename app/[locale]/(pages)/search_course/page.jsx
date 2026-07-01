@@ -1,13 +1,16 @@
 import CoursesPage from "./Courses";
 import { getMeta } from "@/action/meta";
+import { SITE_URL, buildAlternates } from "@/lib/seoMeta";
 
 export async function generateMetadata({ params }) {
     const { locale } = await params;
     const slug = "our-top-training-courses-british-academy-for-training-development";
 
     const fallback = {
+        metadataBase: new URL(SITE_URL),
         title: "Search Courses ",
         description: "Search for training courses by keyword, category, city, or date at the British Academy for Training & Development.",
+        alternates: { canonical: `/${locale}/search_course`, ...buildAlternates("/search_course") },
           icons: {
                 icon: "/favicon.ico",
                 shortcut: "/favicon.ico",
@@ -34,9 +37,11 @@ export async function generateMetadata({ params }) {
         }
 
         return {
+            metadataBase: new URL(SITE_URL),
             title,
             description,
             keywords: keywords || undefined,
+            alternates: { canonical: `/${locale}/search_course`, ...buildAlternates("/search_course") },
               icons: {
                 icon: "/favicon.ico",
                 shortcut: "/favicon.ico",

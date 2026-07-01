@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, ArrowLeft } from "lucide-react";
 import Header from "./Header";
 import UpcomingCouresCard from "@/components/ui/UpcomingCouresCard";
 import styleContainer from "@/sass/components/common/container.module.scss";
@@ -12,11 +12,12 @@ import Skeleton from "@/components/ui/Skeleton";
 import SidebarFilter from "@/components/common/SidebarFilter";
 import Image from "next/image";
 import NoData from "@/components/common/NoData";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 
 
 const CoursesPage = () => {
     const t = useTranslations('SearchCourse');
+    const locale = useLocale();
     const router = useRouter();
     const pathname = usePathname();
     const searchParams = useSearchParams();
@@ -118,8 +119,8 @@ const CoursesPage = () => {
                                         </div>
 
                                         {(visibleCount < (data?.courses?.length || 0) || data?.has_more) && (
-                                            <button className={styles.viewMore} onClick={handleViewMore}>
-                                                {t('viewMore')} <ArrowRight />
+                                            <button className={styles.showMoreBtn} onClick={handleViewMore}>
+                                                {t('viewMore')} {locale === 'ar' ? <ArrowLeft size={18} /> : <ArrowRight size={18} />}
                                             </button>
                                         )}
                                     </>

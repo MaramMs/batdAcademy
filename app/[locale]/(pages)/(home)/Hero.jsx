@@ -18,11 +18,7 @@ export default function Hero() {
     const t = useTranslations('Hero');
     const locale = useLocale();
     const router = useRouter()
-      const { query, setQuery, suggestions, isLoading, clearSuggestions } = useSearchAutocomplete();
-      console.log(suggestions , 'sug from hero')
-const showDropdown = query.length >= 2 && suggestions.length > 0;
-   
-console.log(showDropdown , 'show drop')
+    const { query, setQuery, suggestions, isLoading, showDropdown, clearSuggestions } = useSearchAutocomplete();
     // User clicks a suggestion
     const handleSelect = async(course) => {
         setQuery(course.name);
@@ -124,6 +120,7 @@ useEffect(() => {
             isLoading={isLoading}
             onSelect={handleSelect}
             visible={showDropdown}
+            query={query}
         />
     </motion.div>
 </div>

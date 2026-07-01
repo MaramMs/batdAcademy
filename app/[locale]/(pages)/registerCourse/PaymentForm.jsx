@@ -25,7 +25,7 @@ const PaymentForm = ({ register, errors, handleBack, onSubmit, handleSubmit }) =
               <input type="text" placeholder="1234 5678 9012 3456"
                 {...register("cardNumber", { required: true })} />
             </div>
-            {errors.cardNumber && <span className={styles.errorText}>{t('payment.cardNumber')} is required</span>}
+            {errors.cardNumber && <span className={styles.errorText}>{t('fieldRequired', { field: t('payment.cardNumber') })}</span>}
           </div>
 
           <div className={styles.inputGroup}>
@@ -34,7 +34,7 @@ const PaymentForm = ({ register, errors, handleBack, onSubmit, handleSubmit }) =
               <input type="text" placeholder={t('payment.cardName')}
                 {...register("cardHolderName", { required: true })} />
             </div>
-            {errors.cardHolderName && <span className={styles.errorText}>{t('payment.cardName')} is required</span>}
+            {errors.cardHolderName && <span className={styles.errorText}>{t('fieldRequired', { field: t('payment.cardName') })}</span>}
           </div>
 
           <div className={styles.flexRow}>
@@ -44,7 +44,7 @@ const PaymentForm = ({ register, errors, handleBack, onSubmit, handleSubmit }) =
                 <input type="text" placeholder="MM/YY"
                   {...register("expiryDate", { required: true })} />
               </div>
-              {errors.expiryDate && <span className={styles.errorText}>{t('payment.expiry')} is required</span>}
+              {errors.expiryDate && <span className={styles.errorText}>{t('fieldRequired', { field: t('payment.expiry') })}</span>}
             </div>
 
             <div className={styles.inputGroup}>
@@ -53,7 +53,7 @@ const PaymentForm = ({ register, errors, handleBack, onSubmit, handleSubmit }) =
                 <input type="text" placeholder="123" maxLength={4}
                   {...register("cvv", { required: true })} />
               </div>
-              {errors.cvv && <span className={styles.errorText}>{t('payment.cvv')} is required</span>}
+              {errors.cvv && <span className={styles.errorText}>{t('fieldRequired', { field: t('payment.cvv') })}</span>}
             </div>
           </div>
         </div>

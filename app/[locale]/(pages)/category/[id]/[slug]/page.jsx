@@ -2,14 +2,20 @@
 import AlternatePathsSetter from "@/components/common/AlternatePathsSetter";
 import CategoryDetails from "./CategoryDetails";
 import { getCategoryBySlug } from "@/action/categories";
+import { SITE_URL, buildAlternates } from "@/lib/seoMeta";
 export async function generateMetadata({ params }) {
-    const { locale, slug } = await params;
+    const { locale, id, slug } = await params;
     const name = slug
         ? decodeURIComponent(slug).replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase())
         : "Category";
     const fallback = {
+        metadataBase: new URL(SITE_URL),
         title: `Training Courses in ${name} `,
         description: `Explore training courses available in ${name} from the British Academy for Training & Development.`,
+        alternates: {
+            canonical: `/${locale}/category/${id}/${slug}`,
+            ...buildAlternates(`/category/${id}/${slug}`),
+        },
     };
     try {
          const response = await getCategoryBySlug(locale, slug);
@@ -31,9 +37,14 @@ export async function generateMetadata({ params }) {
          }
  
          return {
+             metadataBase: new URL(SITE_URL),
              title,
              description,
              keywords: keywords || undefined,
+             alternates: {
+                 canonical: `/${locale}/category/${id}/${slug}`,
+                 ...buildAlternates(`/category/${id}/${slug}`),
+             },
             openGraph: {
                  title,
                  description,

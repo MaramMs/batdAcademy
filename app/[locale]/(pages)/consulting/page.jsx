@@ -1,15 +1,16 @@
 import { getMeta } from "@/action/meta";
 import Consulting from "./Consulting";
-
-const baseUrl = "https://batd-academy.vercel.app";
+import { SITE_URL, buildAlternates } from "@/lib/seoMeta";
 
 export async function generateMetadata({ params }) {
     const { locale } = await params;
     const slug = 'our-consulting-and-management-services-british-academy-for-training-development';
 
     const fallback = {
+        metadataBase: new URL(SITE_URL),
         title: "Consulting Services",
         description: "Discover professional consulting services offered by the British Academy for Training & Development.",
+        alternates: { canonical: `/${locale}/consulting`, ...buildAlternates("/consulting") },
         icons: {
             icon: "/favicon.ico",
             shortcut: "/favicon.ico",
@@ -19,7 +20,6 @@ export async function generateMetadata({ params }) {
             title: "Consulting Services",
             description: "Discover professional consulting services offered by the British Academy for Training & Development.",
             type: "website",
-            // url: `${baseUrl}/en/consulting`,
             siteName: "British Academy for Training & Development",
             images: [
                 {
@@ -49,9 +49,11 @@ export async function generateMetadata({ params }) {
         }
 
         return {
+            metadataBase: new URL(SITE_URL),
             title,
             description,
             keywords: keywords || undefined,
+            alternates: { canonical: `/${locale}/consulting`, ...buildAlternates("/consulting") },
             icons: {
                 icon: "/favicon.ico",
                 shortcut: "/favicon.ico",

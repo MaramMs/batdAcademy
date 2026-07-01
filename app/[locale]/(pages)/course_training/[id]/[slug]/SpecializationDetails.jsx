@@ -6,19 +6,19 @@ import SidebarFilter from "@/components/common/SidebarFilter";
 import stylesContainer from "@/sass/components/common/container.module.scss";
 import styles from "@/sass/pages/category-details/category-details.module.scss";
 import useCoursesStore from "@/store/useCoursesStore";
-import { ArrowRight, ChevronRight, Filter } from "lucide-react";
+import { ArrowRight, ArrowLeft, ChevronRight, Filter } from "lucide-react";
 import Link from "next/link";
 import { use, useEffect, useMemo, useState } from "react";
 import Header from "./Header";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 const SpecializationDetails = ({ params }) => {
   const { id } = use(params);
   const t = useTranslations('CourseTraning');
+  const locale = useLocale();
   const { data, handleGetCourses, isLoading } = useCoursesStore();
   const [visibleCount, setVisibleCount] = useState(6);
-  // const t = useTranslations();
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -96,7 +96,7 @@ const SpecializationDetails = ({ params }) => {
 
                 {(visibleCount < (data?.courses?.length || 0) || data?.has_more) && (
                   <button className={styles.showMoreBtn} onClick={handleViewMore}>
-                    {t('showMore')}      <ArrowRight size={18} />
+                    {t('showMore')} {locale === 'ar' ? <ArrowLeft size={18} /> : <ArrowRight size={18} />}
                   </button>
                 )}
 

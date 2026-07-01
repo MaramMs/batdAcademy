@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useLocale } from 'next-intl';
 import { useRouter, usePathname } from '@/i18n/routing';
+import { useSearchParams } from 'next/navigation';
 import useLanguageStore, { LANGUAGES } from '@/store/useLanguageStore';
 
 export { LANGUAGES };
@@ -9,7 +10,8 @@ export const useLanguageSwitcher = () => {
   const locale = useLocale();
   const router = useRouter();
   const pathname = usePathname();
-  
+  const searchParams = useSearchParams();
+
   const setLocale = useLanguageStore((s) => s.setLocale);
   const alternatePaths = useLanguageStore((s) => s.alternatePaths); 
 
@@ -27,7 +29,10 @@ export const useLanguageSwitcher = () => {
     if (alternatePaths && alternatePaths[langCode]) {
       router.replace(alternatePaths[langCode], { locale: langCode });
     } else {
-      router.replace(pathname, { locale: langCode }); 
+      router.replace(
+        { pathname, query: Object.fromEntries(searchParams.entries()) },
+        { locale: langCode }
+      );
     }
   };
 

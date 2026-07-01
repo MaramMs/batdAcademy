@@ -109,6 +109,10 @@
                 width: 14px;
                 height: 14px;
             }
+
+            [dir='rtl'] & {
+                transform: scaleX(-1);
+            }
         }
     }
 }

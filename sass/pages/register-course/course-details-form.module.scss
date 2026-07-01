@@ -182,6 +182,8 @@
         font-size: 14px;
         background: transparent;
         cursor: pointer;
+        direction: ltr;
+        text-align: left;
 
         &::placeholder {
           color: #94A3B8;
@@ -395,6 +397,12 @@
       gap: 10px;
       cursor: pointer;
       transition: all 0.2s;
+
+      svg {
+        [dir='rtl'] & {
+          transform: scaleX(-1);
+        }
+      }
     }
 
     .btnBack {

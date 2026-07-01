@@ -53,7 +53,7 @@ const StepsForm = ({ handleSubmit, onSubmit, errors, register, control, setRegTy
                 <User />
                 <input type="text" placeholder={t('fullName')} {...register("fullName", { required: true })} />
               </div>
-              {errors.fullName && <span className={styles.errorText}>{t('fullName')} is required</span>}
+              {errors.fullName && <span className={styles.errorText}>{t('fieldRequired', { field: t('fullName') })}</span>}
             </div>
 
             <div className={styles.inputGroup}>
@@ -66,7 +66,7 @@ const StepsForm = ({ handleSubmit, onSubmit, errors, register, control, setRegTy
                   {...register("email", { required: true, pattern: /^\S+@\S+$/i })}
                 />
               </div>
-              {errors.email && <span className={styles.errorText}>Please enter a valid email</span>}
+              {errors.email && <span className={styles.errorText}>{t('invalidEmail')}</span>}
             </div>
             <div className={styles.inputGroup}>
               <label>{t('phone')} <span>*</span></label>
@@ -78,7 +78,7 @@ const StepsForm = ({ handleSubmit, onSubmit, errors, register, control, setRegTy
                   {...register("phone", { required: true })}
                 />
               </div>
-              {errors.phone && <span className={styles.errorText}>This field is required</span>}
+              {errors.phone && <span className={styles.errorText}>{t('fieldRequired', { field: t('phone') })}</span>}
             </div>
             <div className={styles.inputGroup}>
               <label>{t('country')} <span>*</span></label>
@@ -98,7 +98,7 @@ const StepsForm = ({ handleSubmit, onSubmit, errors, register, control, setRegTy
                   )}
                 />
               </div>
-              {errors.country && <span className={styles.errorText}>Please select a country</span>}
+              {errors.country && <span className={styles.errorText}>{t('selectCountry')}</span>}
             </div>
           </div>
 
@@ -112,7 +112,7 @@ const StepsForm = ({ handleSubmit, onSubmit, errors, register, control, setRegTy
                     <Briefcase />
                     <input
                       type="text"
-                      placeholder="Your Company"
+                      placeholder={t('companyName')}
                       {...register("company_name")}
                     />
                   </div>
@@ -136,7 +136,7 @@ const StepsForm = ({ handleSubmit, onSubmit, errors, register, control, setRegTy
                   <div className={styles.sectionTitle}>
                     <Users color='#C9302C' size={20} /> {t('participants')}
                   </div>
-                  <span className={styles.participantBadge}>{fields.length} Participant{fields.length !== 1 ? 's' : ''}</span>
+                  <span className={styles.participantBadge}>{fields.length} {fields.length === 1 ? t('participant') : t('participantsPlural')}</span>
                 </div>
                 <p className={styles.sectionSubtitle}>{t('participantsHint')}</p>
               </div>
@@ -184,7 +184,7 @@ const StepsForm = ({ handleSubmit, onSubmit, errors, register, control, setRegTy
                           <div className={styles.inputWrapper}>
                             <input
                               type="text"
-                              placeholder="ux.ui designer"
+                              placeholder={t('jobTitle')}
                               {...register(`participants.${index}.jobTitle`)}
                             />
                           </div>
@@ -229,18 +229,18 @@ const StepsForm = ({ handleSubmit, onSubmit, errors, register, control, setRegTy
           )}
 
 
-          <div style={{ marginTop: '24px' }}>
-    
+          {/* <div style={{ marginTop: '24px' }}>
+
             <ReCAPTCHA
 
-              sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY} 
+              sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}
               onChange={(token) => setRecaptchaToken(token)}
               onExpired={() => setRecaptchaToken(null)}
             />
             {!recaptchaToken && errors.recaptcha && (
               <span style={{ color: '#EF4444', fontSize: '12px' }}>يرجى إتمام التحقق</span>
             )}
-          </div>
+          </div> */}
           <div className={styles.footerActions}>
             <button type="submit" className={styles.btnContinue}>
               {t('next')} <ArrowRight size={18} />

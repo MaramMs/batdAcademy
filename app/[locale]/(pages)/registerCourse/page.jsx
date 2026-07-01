@@ -1,12 +1,15 @@
 import { getMeta } from "@/action/meta";
 import RegisterCourse from "./RegisterCourse";
+import { SITE_URL, buildAlternates } from "@/lib/seoMeta";
 export async function generateMetadata({ params }) {
     const { locale } = await params;
     const slug = "register-your-course-british-academy-for-training-development";
 
     const fallback = {
+        metadataBase: new URL(SITE_URL),
         title: "Register Your Course",
         description: "Ready to start your professional journey? Fill out the form to register for your chosen course and take the first step towards achieving your goals.",
+        alternates: { canonical: `/${locale}/registerCourse`, ...buildAlternates("/registerCourse") },
     };
 
     try {
@@ -28,9 +31,11 @@ export async function generateMetadata({ params }) {
         }
 
         return {
+            metadataBase: new URL(SITE_URL),
             title,
             description,
             keywords: keywords || undefined,
+            alternates: { canonical: `/${locale}/registerCourse`, ...buildAlternates("/registerCourse") },
    openGraph: {
                 title,
                 description,

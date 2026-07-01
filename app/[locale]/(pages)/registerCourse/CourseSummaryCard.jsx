@@ -27,19 +27,19 @@ const CourseSummaryCard = ({ course }) => {
               <span className={styles.initials}>SJ</span>
             </div>
             <div className={styles.info}>
-              <span>Instructor</span>
+              <span>{t('instructorLabel')}</span>
               <p>Dr. Sarah Johnson</p>
             </div>
           </div>
 
           <div className={styles.detailsRow}>
             <div className={styles.label}><Clock color='#2F327D' /> {t('duration')}</div>
-            <div className={styles.value}>8 weeks</div>
+            <div className={styles.value}>{t('weeksCount', { count: 8 })}</div>
           </div>
 
           <div className={styles.detailsRow}>
-            <div className={styles.label}><Award color='#C41E3A' /> Certificate</div>
-            <div className={styles.value}>Included</div>
+            <div className={styles.label}><Award color='#C41E3A' /> {t('certificate')}</div>
+            <div className={styles.value}>{t('included')}</div>
           </div>
 
           <div className={styles.divider} />

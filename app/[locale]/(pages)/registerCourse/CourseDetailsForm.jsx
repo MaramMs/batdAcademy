@@ -29,7 +29,7 @@ useEffect(() => {
         ? course_date.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })
         : course_date;
     }
-    return 'Not selected';
+    return t('notSelected');
   };
 
   const isFormComplete = course_date && duration_id && city_id;
@@ -51,7 +51,7 @@ useEffect(() => {
         <div className={styles.section}>
           <div className={styles.sectionTitle}>
             <Calendar size={18} color="#1E293B" />
-            <span>{t('availableDates')} *</span>
+            <span>{t('availableDates')}</span>
           </div>
           <div className={styles.dateGrid}>
             {dates && dates.length > 0 ? (
@@ -108,7 +108,7 @@ useEffect(() => {
                 />
               )}
             />
-            <Calendar className={styles.inputIcon} size={18} />
+            {!course_date && <Calendar className={styles.inputIcon} size={18} />}
           </div>
           <p className={styles.helperText}>✨ {t('customDateHint')}</p>
         </div>
@@ -117,7 +117,7 @@ useEffect(() => {
         <div className={styles.section}>
           <div className={styles.sectionTitle}>
             <Clock size={18} color="#1E293B" />
-            <span>{t('courseDuration')} *</span>
+            <span>{t('courseDuration')}</span>
           </div>
           <div className={styles.durationGrid}>
             {durations.map((item, index) => (
@@ -141,7 +141,7 @@ useEffect(() => {
         <div className={styles.section}>
           <div className={styles.sectionTitle}>
             <MapPin size={18} color="#1E293B" />
-            <span>{t('trainingLocation')} *</span>
+            <span>{t('trainingLocation')}</span>
           </div>
           <div className={styles.selectWrapper}>
             <Controller
@@ -168,7 +168,7 @@ useEffect(() => {
         <div className={styles.section}>
           <div className={styles.sectionTitle}>
             <Globe size={18} color="#1E293B" />
-            <span>{t('courseLanguage')} *</span>
+            <span>{t('courseLanguage')}</span>
           </div>
           <div className={styles.languageToggle}>
             <label className={styles.langOption}>
@@ -212,7 +212,7 @@ useEffect(() => {
                   <span className={styles.icon}><Clock size={18} color="#1E293B" /></span>
                   <div className={styles.info}>
                     <span className={styles.label}>{t('duration')}</span>
-                    <span className={styles.value}>{selectedDuration || 'Not selected'}</span>
+                    <span className={styles.value}>{selectedDuration || t('notSelected')}</span>
 
                   </div>
 
@@ -222,7 +222,7 @@ useEffect(() => {
                   <span className={styles.icon}><MapPin size={18} color="#1E293B" /></span>
                   <div className={styles.info}>
                     <span className={styles.label}>{t('location')}</span>
-                    <span className={styles.value}>{selectedCity || 'Not selected'}</span>
+                    <span className={styles.value}>{selectedCity || t('notSelected')}</span>
 
                   </div>
 
@@ -246,18 +246,18 @@ useEffect(() => {
           )
         }
 
-     <div style={{ marginTop: '24px' }}>
-    
+     {/* <div style={{ marginTop: '24px' }}>
+
             <ReCAPTCHA
 
-              sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY} 
+              sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}
               onChange={(token) => setRecaptchaToken(token)}
               onExpired={() => setRecaptchaToken(null)}
             />
             {!recaptchaToken && errors.recaptcha && (
               <span style={{ color: '#EF4444', fontSize: '12px' }}>يرجى إتمام التحقق</span>
             )}
-          </div>
+          </div> */}
         {/* Actions */}
         <div className={styles.footerActions}>
           <button type="button" onClick={handleBack} className={styles.btnBack}>
