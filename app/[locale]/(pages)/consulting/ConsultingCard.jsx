@@ -5,6 +5,7 @@ import { ChevronRight } from "lucide-react";
 import Link from "next/link";
 import useLanguageStore from "@/store/useLanguageStore";
 import { useTranslations } from "next-intl";
+import defaultImage from "/public/asstes/default-1.jpeg";
 
 const ConsultingCard = ({ data }) => {
     const locale = useLanguageStore.getState().locale;
@@ -13,9 +14,8 @@ const ConsultingCard = ({ data }) => {
     return (
         <div className={styles.card}>
             <div className={styles.header}>
-                {data?.image && <Image src={data.image} alt={data?.name || "consulting"} width={403} height={192} />}
+                <Image src={data?.image || defaultImage} alt={data?.name || "consulting"} width={403} height={192} />
                 <div className={styles.cardHeader}>
-                    <span style={{ fontWeight: 700, fontSize: '18px', color: '#1E2749' }}>£</span>
                     <h3>{data?.name}</h3>
                 </div>
             </div>

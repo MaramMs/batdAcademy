@@ -8,7 +8,7 @@ import useCitiesStore from "@/store/useCitiesStore";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 
-const Header = ({ updateFilter }) => {
+const Header = ({ updateFilter, onOpenFilters }) => {
     const  t = useTranslations('header');
     const tLables = useTranslations()
     const { id, slug, locale } = useParams();
@@ -52,9 +52,10 @@ const Header = ({ updateFilter }) => {
                     <p> {t('text')} {stats?.cities || "..."} {t('subText')} </p>
                 </div>
                 <div className={styles.searchCourse}>
-                    <SearchCourse 
-                        className={styles.filter} 
-                        updateFilter={updateFilter} 
+                    <SearchCourse
+                        className={styles.filter}
+                        updateFilter={updateFilter}
+                        onOpenFilters={onOpenFilters}
                     />
                     <div className={styles.locationSelect}>
                         <DropdownMenuCustom

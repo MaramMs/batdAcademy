@@ -1,7 +1,8 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useParams, useSearchParams, useRouter, usePathname } from "next/navigation";
-import { ArrowRight, ArrowLeft } from "lucide-react";
+import * as Dialog from "@radix-ui/react-dialog";
+import { ArrowRight, ArrowLeft, X } from "lucide-react";
 import Header from "./Header";
 import NavgationBar from "./NavgationBar";
 import UpcomingCouresCard from "@/components/ui/UpcomingCouresCard";
@@ -22,6 +23,12 @@ const CourseByCityDetails = () => {
     const pathname = usePathname();
     const { data, handleGetCourses, isLoading } = useCoursesStore();
     const [visibleCount, setVisibleCount] = useState(6);
+    const [mounted, setMounted] = useState(false);
+    const [filterOpen, setFilterOpen] = useState(false);
+
+    useEffect(() => {
+        setMounted(true);
+    }, []);
 
     useEffect(() => {
         const params = new URLSearchParams(searchParams.toString());
@@ -64,10 +71,30 @@ const CourseByCityDetails = () => {
     return (
         <section className={styles.courseByCityDetails}>
             <NavgationBar />
-            <Header updateFilter={updateFilter} />
+            <Header updateFilter={updateFilter} onOpenFilters={() => setFilterOpen(true)} />
 
             <div className={styles.mainContent}>
                 <div className={stylesContainer.container}>
+                    <Dialog.Root modal={true} open={filterOpen} onOpenChange={setFilterOpen}>
+                        {mounted && (
+                            <Dialog.Portal>
+                                <Dialog.Overlay className={styles.drawerOverlay} />
+                                <Dialog.Content className={styles.drawerContent}>
+                                    <div className={styles.drawerHeader}>
+                                        <Dialog.Title className={styles.drawerTitle}>
+                                            {t('filters')}
+                                        </Dialog.Title>
+                                        <Dialog.Close className={styles.drawerClose}>
+                                            <X size={20} aria-hidden="true" />
+                                        </Dialog.Close>
+                                    </div>
+
+                                    <SidebarFilter updateFilter={updateFilter} data={data} className='mobileFilter' />
+                                </Dialog.Content>
+                            </Dialog.Portal>
+                        )}
+                    </Dialog.Root>
+
                     <div className={styles.content}>
                         <SidebarFilter updateFilter={updateFilter} data={data}  className='filter'/>
                         <div className={styles.rightContent}>
