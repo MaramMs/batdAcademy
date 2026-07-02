@@ -23,6 +23,9 @@ const RegisterInternalCourse = () => {
     const [regType, setRegType] = useState('individual');
     const { handlePostRegisterCourse, isLoading, handleGetRegisterData, registerData } = useRegisterCourseStore();
 
+
+    console.log(registerData, "registerData?.categories");
+    console.log(registerData?.categories?.specializations, "registerData?.categories?.specializations");
     const lang = [
         { label: t('langEnglish'), value: 1 },
         { label: t('langArabic'), value: 0 },
@@ -134,6 +137,34 @@ const RegisterInternalCourse = () => {
     useEffect(() => {
         handleGetRegisterData()
     }, [])
+
+
+    const selectedCategoryId = watch('category_id');
+const selectedSpecialisationId = watch('specialisation_id');
+    const selectedCategory = useMemo(() => {
+        return registerData?.categories?.find((cat) => cat.id === selectedCategoryId);
+    }, [registerData, selectedCategoryId]);
+    const specialisationOptions = useMemo(() => {
+        return selectedCategory?.specializations?.map((item) => ({
+            label: item.name,
+            value: item.id,
+        })) || [];
+    }, [selectedCategory]);
+
+    const selectedSpecialisation = useMemo(() => {
+        return selectedCategory?.specializations?.find((spec) => spec.id === selectedSpecialisationId);
+    }, [selectedCategory, selectedSpecialisationId]);
+
+    console.log(selectedSpecialisation , 'spec')
+
+    const courseOptions = useMemo(() => {
+        return selectedSpecialisation?.courses?.map((item) => ({
+            label: item.name,
+            value: item.id,
+        })) || [];
+    }, [selectedSpecialisation]);
+
+    console.log(courseOptions ,'opetions')
     return (
 
         <div>
@@ -162,9 +193,9 @@ const RegisterInternalCourse = () => {
                                 </div>
 
                                 <form onSubmit={handleSubmit(onSubmit, onInvalid)}>
-                                    <div className={formStyles.sectionTitle}>
+                                    {/* <div className={formStyles.sectionTitle}>
                                         <Users color='#C9302C' size={20} /> {t('contactInfo')} *
-                                    </div>
+                                    </div> */}
                                     <div className={pageStyles.formGrid} style={{ marginBottom: '20px' }}>
                                         <div className={formStyles.inputGroup} style={{ marginBottom: '24px' }}>
                                             <label>Full Name <span>*</span></label>
@@ -225,7 +256,7 @@ const RegisterInternalCourse = () => {
                                         <Users color='#C9302C' size={20} /> Course Details *
                                     </div> */}
                                     <div className={pageStyles.formGrid}>
-                                        {/* <div className={formStyles.inputGroup} style={{ marginBottom: '24px' }}>
+                                        <div className={formStyles.inputGroup} style={{ marginBottom: '24px' }}>
                                             <label>Category <span>*</span></label>
                                             <div className={formStyles.inputWrapper}>
 
@@ -251,12 +282,15 @@ const RegisterInternalCourse = () => {
 
                                             </div>
                                             {errors.category && <span style={{ color: '#EF4444', fontSize: '12px', marginTop: '4px' }}>This field is required</span>}
-                                        </div> */}
+                                        </div>
 
-                                        {/* <div className={formStyles.special}>
+
+                                        <div className={formStyles.special}>
                                             <div className={formStyles.inputGroup}>
                                                 <label>Specialisation <span>*</span></label>
                                                 <div className={formStyles.inputWrapper}>
+                                                   
+
                                                     <Controller
                                                         name="specialisation_id"
                                                         control={control}
@@ -264,21 +298,28 @@ const RegisterInternalCourse = () => {
                                                         render={({ field }) => (
                                                             <DropdownMenuCustom
                                                                 label="Please Selected from the list"
-                                                                options={registerData?.specialisation?.map((item) => ({
-                                                                    value: item.id,
-                                                                    lable: item.name
-                                                                }))}
+                                                                options={specialisationOptions}
                                                                 value={field.value}
                                                                 onChange={field.onChange}
                                                                 icon={<ChevronDown size={14} />}
                                                             />
                                                         )}
+
                                                     />
+
+      
                                                 </div>
+                                                                                                  {!selectedCategoryId && (
+        <span style={{ color: '#94A3B8', fontSize: '12px' }}>
+            Please select a category first
+        </span>
+    )}
                                             </div>
                                             <div className={formStyles.inputGroup}>
                                                 <label>Course <span>*</span></label>
                                                 <div className={formStyles.inputWrapper}>
+
+
 
                                                     <Controller
                                                         name="course_id"
@@ -287,12 +328,7 @@ const RegisterInternalCourse = () => {
                                                         render={({ field }) => (
                                                             <DropdownMenuCustom
                                                                 label="Please Selected from the list"
-                                                                options={registerData?.courses?.map((item) => (
-                                                                    {
-                                                                        lable: item.name,
-                                                                        value: item.value
-                                                                    }
-                                                                ))}
+                                                                options={courseOptions}
                                                                 value={field.value}
                                                                 onChange={field.onChange}
                                                                 icon={<ChevronDown size={14} />}
@@ -300,8 +336,14 @@ const RegisterInternalCourse = () => {
                                                         )}
                                                     />
                                                 </div>
+
+                                                                                                  {!selectedCategoryId && (
+        <span style={{ color: '#94A3B8', fontSize: '12px' }}>
+            Please select a category and specialization first
+        </span>
+    )}
                                             </div>
-                                        </div> */}
+                                        </div>
 
                                         <div className={formStyles.special}>
                                             <div className={formStyles.inputGroup}>

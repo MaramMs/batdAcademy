@@ -1,14 +1,30 @@
 {
-     "Hero": {
-    "title": "Find Your <ideal>Ideal</ideal> <br></br>Course, Build <skills>Skills</skills>",
-    "searchPlaceholder": "Search courses, programs, trainers...",
+  "Hero": {
+    "badge": "Trusted British Training Academy Since 2010",
+    "title": "Empowering Ambitious Professionals Through Internationally Recognised <highlight>British Training</highlight>",
+    "subtitle": "For over 15 years, British Academy has helped more than 65,000 professionals, executives, and organisations achieve career growth through internationally recognised training programmes and certifications.",
+    "searchPlaceholder": "Search professional courses, certifications, and training programs...",
     "searchButton": "Search",
-    "subtitle": "The World's Most Trusted Training Partner For Improving Knowledge, Skills, And Capabilities.",
-    "viewCourses": "View All Courses",
-    "trainingHalls": "View All Cities",
+    "explorePrograms": "Explore Training Programs",
+    "requestConsultation": "Request Consultation",
+    "trust": {
+      "experience": "15+ Years of Excellence",
+      "professionals": "65,000+ Professionals Trained",
+      "programs": "600+ Training Programs",
+      "clients": "Corporate & Government Clients",
+      "standards": "International Training Standards"
+    },
     "stats": {
-      "participants": "Participants",
-      "organisations": "Organisations"
+      "experienceLabel": "Years of Excellence",
+      "participantsLabel": "Professionals Trained",
+      "programsLabel": "Training Programs",
+      "clientsLabel": "Corporate & Government Clients"
+    },
+    "floating": {
+      "recognized": "Internationally Recognized Programs",
+      "certifications": "Professional Certifications",
+      "corporate": "Corporate Training Solutions",
+      "leadership": "Leadership Development"
     }
   }
 }

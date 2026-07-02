@@ -1,327 +1,515 @@
 .hero {
+    position: relative;
     overflow: hidden;
     width: 100%;
-    background-color: #F8F9FB;
-   
+    background-color: $home_color;
+    isolation: isolate;
 }
+
+// ─── Premium Background System ────────────────────────────────────
+.bgPattern {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background-image:
+        radial-gradient(ellipse 60% 50% at 8% 0%, rgba($blue-900, 0.08), transparent 60%),
+        radial-gradient(ellipse 55% 45% at 100% 100%, rgba($red, 0.06), transparent 60%),
+        radial-gradient(rgba($blue-900, 0.05) 1px, transparent 1px);
+    background-size: 100% 100%, 100% 100%, 28px 28px;
+}
+
+// ─── Content Grid ───────────────────────────────────────────────
 .content {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    padding: 50px 0px 21px 0px;
-    @media (min-width:1920px){
-        padding: 123px 0px 21px 0px;
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: 1.05fr 1fr;
+    grid-template-areas:
+        "badge    media"
+        "title    media"
+        "subtitle media"
+        "trust    media"
+        "search   media"
+        "cta      media"
+        "stats    stats";
+    column-gap: clamp(24px, 4vw, 64px);
+    align-content: center;
+    min-height: 85vh;
+    padding: 56px 0px 48px 0px;
+
+    @media (min-width:1920px) {
+        padding: 130px 0px 64px 0px;
     }
-  
+
+    @media (max-width: 1024px) {
+        grid-template-columns: 1fr;
+        grid-template-areas:
+            "badge"
+            "title"
+            "subtitle"
+            "trust"
+            "search"
+            "cta"
+            "media"
+            "stats";
+        align-content: start;
+        min-height: auto;
+        padding: 32px 0px 40px 0px;
+    }
 
     @media (max-width: $tablet) {
-         padding: 32px 0px 27px 0px;
-        flex-direction: column;
-        min-height: auto;
+        grid-template-areas:
+            "badge"
+            "title"
+            "subtitle"
+            "trust"
+            "cta"
+            "stats"
+            "search"
+            "media";
     }
 }
 
-// ─── Left Column ─────────────────────────────────────────────────
+// ─── Left Column (becomes invisible wrapper — its children are grid items) ──
 .left {
-    flex: 1.1;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
- isolation: isolate;
+    display: contents;
+
     @media (max-width: 1024px) {
-        padding:0px;
-        width: 100%;
         text-align: center;
-        align-items: center;
+    }
+}
+
+// ─── Trust Badge ─────────────────────────────────────────────────
+.badge {
+    grid-area: badge;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    justify-self: start;
+    padding-block: 8px;
+    padding-inline-start: 8px;
+    padding-inline-end: 18px;
+    border-radius: 9999px;
+    background: $white;
+    border: 1px solid $gray-100;
+    box-shadow: $shadow-sm;
+    margin-bottom: clamp(18px, 2.5vw, 26px);
+
+    @media (max-width: 1024px) {
+        justify-self: center;
+    }
+}
+
+.badgeIcon {
+    position: relative;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, $blue-900, lighten($blue-900, 14%));
+    color: $white;
+    flex-shrink: 0;
+    @include flex-center;
+
+    svg {
+        width: 16px;
+        height: 16px;
+    }
+}
+
+.badgeIconAccent {
+    position: absolute;
+    bottom: -3px;
+    inset-inline-end: -3px;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: $red;
+    color: $white;
+    border: 2px solid $white;
+    @include flex-center;
+
+    svg {
+        width: 9px;
+        height: 9px;
+    }
+}
+
+.badgeText {
+    font-size: 13px;
+    font-weight: 600;
+    color: $blue-900;
+    letter-spacing: 0.01em;
+}
+
+// ─── Headline ─────────────────────────────────────────────────────
+.title {
+    grid-area: title;
+    font-family: var(--font-heading), inherit;
+    font-size: clamp(32px, 4.4vw, 54px);
+    font-weight: 800;
+    color: #111827;
+    line-height: 1.18;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+    max-width: 26ch;
+    margin-bottom: clamp(18px, 3vw, 24px);
+
+    span {
+        color: $red;
+    }
+
+    @media (max-width: 1024px) {
+        max-width: none;
+    }
+}
+
+.subtitle {
+    grid-area: subtitle;
+    font-size: clamp(16px, 1.4vw, 18px);
+    color: $gray-600;
+    font-weight: 400;
+    line-height: 1.7;
+    margin-bottom: clamp(20px, 3vw, 28px);
+    max-width: 600px;
+
+    @media (max-width: 1024px) {
+        max-width: none;
+        margin-inline: auto;
+    }
+}
+
+// ─── Trust Bar ───────────────────────────────────────────────────
+.trustBar {
+    grid-area: trust;
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+    gap: 10px 22px;
+    padding: 0;
+    margin-bottom: clamp(28px, 4.5vw, 36px);
+
+    @media (max-width: 1024px) {
         justify-content: center;
     }
-   @media(min-width :822px) and (max-width: 920px)  {
-    flex: auto;
-    padding: 0px;
-   
+}
+
+.trustItem {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    font-weight: 500;
+    color: $gray-700;
+    white-space: nowrap;
+
+    svg {
+        color: $blue-900;
+        flex-shrink: 0;
     }
 
-    @media (max-width: 576px) {
-        .title {
-            order: 1;
-        }
+    @media (max-width: $mobile) {
+        font-size: 12px;
+    }
+}
 
-        .subtitle {
-            order: 2;
-        }
+// ─── Search Bar (secondary emphasis) ──────────────────────────────
+.searchBar {
+    position: relative;
+    grid-area: search;
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+    background: $white;
+    border: 1px solid $gray-100;
+    border-radius: $radius-lg;
+    box-shadow: $shadow-sm;
+    gap: 8px;
+    height: clamp(48px, 6vw, 58px);
+    width: 100%;
+    max-width: 520px;
+    margin-bottom: clamp(20px, 3vw, 28px);
+    padding: 6px;
+    padding-inline-start: 18px;
+    transition: $transition-base;
 
-        .searchBar {
-            order: 3;
-        }
-
-        .cta {
-            order: 4;
-        }
-
-        .stats {
-            order: 5;
-        }
+    &:focus-within {
+        @include input-focus-ring($blue-800);
     }
 
- 
-    .title {
-        font-size: clamp(24px, 4vw, 29.77px);
-        font-weight: 500;
-        color: #333333;
-        line-height: 1.4;
-        margin-bottom: clamp(24px, 5vw, 45px);
-
-        span {
-            color: $blue-900;
-            font-size: clamp(26px, 4.5vw, 32px);
-        }
-
-        br {
-            @media (max-width: $tablet) {
-                display: none;
-            }
-        }
+    @media (max-width: 1024px) {
+        margin-inline: auto;
     }
+}
 
-    .subtitle {
-        font-size: clamp(16px, 1.8vw, 19.85px);
-        color: #333333;
-        font-weight: 400;
-        line-height: 1.5;
-        margin-bottom: clamp(24px, 5vw, 38.84px);
-        max-width: 600px;
-        position: relative;
-        
+.searchIcon {
+    color: $gray-400;
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+}
 
-    }
+.searchInput {
+    border: none;
+    outline: none;
+    background: transparent;
+    font-size: clamp(13px, 1.1vw, 15px);
+    color: #111827;
+    flex: 1;
+    min-width: 0;
 
-    .searchWrapper{
-        position: relative;
-        z-index: 100;
-    }
-
-    // ─── Search Bar ──────────────────────────────────────────────────
-    .searchBar {
-        position: relative;
-        z-index: 10;
-        display: flex;
-        align-items: center;
-        flex-wrap: nowrap;
-        background: $white;
-        border-radius: 16px;
-        box-shadow: 0px 8px 10px -6px rgba(0, 0, 0, 0.1), 0px 20px 25px -5px rgba(0, 0, 0, 0.1);
-        gap: 8px;
-        height: clamp(54px, 8vw, 64px);
-        width: 100%;
-        max-width: 580px;
-        margin-bottom: clamp(24px, 5vw, 39.16px);
-        padding: 8px;
-        padding-inline-start: 16px;
-        transition: box-shadow 0.2s;
-        
-
-        &:focus-within {
-            @include input-focus-ring($blue-900);
-        }
-
-        @media (max-width: $tablet) {
-            margin-inline: auto;
-        }
-    }
-
-    .searchIcon {
+    &::placeholder {
         color: $gray-400;
-        display: flex;
+    }
+}
+
+.btnSearch {
+    background: $blue-900;
+    color: $white;
+    border: none;
+    border-radius: $radius-md;
+    padding: 10px clamp(14px, 2vw, 22px);
+    font-size: clamp(13px, 1.1vw, 15px);
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.2s, transform 0.1s;
+    flex-shrink: 0;
+
+    &:hover {
+        background: lighten($blue-900, 8%);
+    }
+
+    &:active {
+        transform: scale(0.98);
+    }
+}
+
+// ─── CTA Buttons ─────────────────────────────────────────────────
+.cta {
+    grid-area: cta;
+    display: flex;
+    gap: clamp(14px, 2vw, 20px);
+    margin-bottom: clamp(8px, 2vw, 12px);
+    width: 100%;
+
+    @media (max-width: 1024px) {
+        justify-content: center;
         align-items: center;
-        flex-shrink: 0;
     }
 
-    .searchInput {
-        border: none;
-        outline: none;
-        background: transparent;
-        font-size: clamp(14px, 1.2vw, 16px);
-        color: black;
-        flex: 1;
-        min-width: 0;
+    @media (max-width: $tablet) {
+        flex-direction: column;
 
-        &::placeholder {
-            color: $gray-400;
-        }
-    }
-
-    .btnSearch {
-        background: $blue-900;
-        color: $white;
-        border: none;
-        border-radius: $radius-md;
-        padding: 12px clamp(12px, 2vw, 20px);
-        font-size: clamp(14px, 1.2vw, 16px);
-        font-weight: 500;
-        cursor: pointer;
-        white-space: nowrap;
-        transition: background 0.2s, transform 0.1s;
-        flex-shrink: 0;
-
-        &:active {
-            transform: scale(0.98);
-        }
-    }
-
-    // ─── CTA Buttons ─────────────────────────────────────────────────
-    .cta {
-        position: relative;
-        display: flex;
-        gap: clamp(12px, 2vw, 19.85px);
-        margin-bottom: clamp(32px, 8vw, 60.59px);
-        width: 100%;
-        
-
-        @media (max-width: 1024px) {
-            justify-content: center;
-            align-items: center;
-        }
-
-        @media (max-width: $mobile) {
-            flex-direction: row !important;
-            gap: 12px;
-
-            .btnPrimary,
-            .btnSecondary {
-                width: 50% !important;
-                flex: 1;
-            }
-        }
-    }
-
-    .btnPrimary,
-    .btnSecondary {
-        width: clamp(160px, 30vw, 227px);
-        height: 48px;
-        font-weight: 500;
-        border-radius: $radius-md;
-        font-size: 16px;
-        cursor: pointer;
-        transition: $transition-base;
-        @include flex-center;
-
-        @media (max-width: $mobile) {
+        .btnPrimary,
+        .btnSecondary {
             width: 100%;
         }
     }
+}
 
-    .btnPrimary {
-        background: $blue-900;
-        color: $white;
-        border: none;
-        box-shadow: 0px 12.4px 18.61px -3.72px rgba(0, 0, 0, 0.1);
+.btnPrimary,
+.btnSecondary {
+    width: clamp(190px, 28vw, 240px);
+    height: 58px;
+    font-weight: 600;
+    font-size: 16px;
+    border-radius: $radius-lg;
+    cursor: pointer;
+    transition: $transition-base;
+    @include flex-center;
+}
 
-        &:hover {
-            background: #2d3a6b;
-        }
-    }
+.btnPrimary {
+    background: $blue-900;
+    color: $white;
+    border: none;
+    box-shadow: 0px 12px 24px -8px rgba($blue-900, 0.35);
 
-    .btnSecondary {
-        background: transparent;
-        color: $blue-900;
-        border: 1.5px solid $blue-900;
-
-        &:hover {
-            background: $blue-900;
-            color: $white;
-        }
-    }
-
-    // ─── Stats ───────────────────────────────────────────────────────
-    .stats {
-        display: flex;
-        gap: clamp(12px, 3vw, 39.69px);
-        flex-wrap: nowrap;
-        width: 100%;
-
-        @media (max-width: 1024px) {
-            justify-content: center;
-            align-items: center;
-        }
-
-        @media (max-width: $mobile) {
-            flex-direction: row !important;
-            gap: 12px;
-        }
-    }
-
-    .statItem {
-        flex: 1;
-        max-width: 250px;
-        height: clamp(80px, 12vw, 101.71px);
-        border-radius: clamp(12px, 2vw, 19.85px);
-        padding-inline: clamp(12px, 3vw, 29.77px);
-        display: flex;
-        align-items: center;
-        gap: clamp(8px, 1.5vw, 12px);
-        background-color: rgba($white, 0.6);
-        border: 1px solid rgba($white, 0.5);
-        box-shadow: 0px 12.4px 18.61px -3.72px rgba(0, 0, 0, 0.1);
-
-        @media (max-width: $mobile) {
-            width: 50% !important;
-            padding-inline: 12px;
-        }
-          @media (max-width: 450px) {
-            width: 100% !important;
-        }
-    }
-
-    .statIcon {
-        width: clamp(40px, 6vw, 59.54px);
-        height: clamp(40px, 6vw, 59.54px);
-        background: $blue-900;
-        border-radius: clamp(6px, 1vw, 10px);
-        @include flex-center;
-        flex-shrink: 0;
-        color: $white;
-
-        svg {
-            width: 60%;
-            height: 60%;
-        }
-    }
-
-    .statText {
-        font-size: clamp(14px, 1.8vw, 19.85px);
-        line-height: 1.2;
-        text-align: start;
-
-        strong {
-            display: block;
-            color: #101828;
-        }
-
-        span {
-            color: $gray-600;
-            font-size: clamp(12px, 1.4vw, 14px);
-        }
+    &:hover {
+        background: #2d3a6b;
     }
 }
 
-// ─── Right Column ─────────────────────────────────────────────────
+.btnSecondary {
+    background: transparent;
+    color: $blue-900;
+    border: 1.5px solid $blue-900;
+
+    &:hover {
+        background: $blue-900;
+        color: $white;
+    }
+}
+
+// ─── Right Column (Image + Floating Cards) ────────────────────────
 .right {
-    flex: 1;
+    grid-area: media;
+    position: relative;
+    align-self: center;
+
+    @media (max-width: 1024px) {
+        align-self: stretch;
+        width: 100%;
+    }
+}
+
+.imageFrame {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    border-radius: $radius-2xl;
     overflow: hidden;
+    box-shadow: $shadow-md;
+    border: 1px solid $gray-100;
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        inset-inline: 0;
+        height: 5px;
+        background: $red;
+        z-index: 2;
+    }
 
     @media (max-width: $tablet) {
-        width: 100%;
-        height: clamp(300px, 50vh, 500px);
+        aspect-ratio: 16 / 10;
     }
+}
 
-    @media (max-width: 920px) {
+.heroImage {
+    object-fit: cover;
+}
+
+// ─── Floating Trust Cards ────────────────────────────────────────────
+.floatingCard {
+    position: absolute;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-width: 230px;
+    padding: 14px 18px;
+    border-radius: $radius-lg;
+    background: $white;
+    border: 1px solid $gray-100;
+    box-shadow: $shadow-md;
+
+    @media (max-width: $tablet) {
         display: none;
     }
+}
 
-    .heroImage {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        display: block;
+.floatingTop {
+    top: 28px;
+    inset-inline-end: 28px;
+}
+
+.floatingBottom {
+    bottom: 28px;
+    inset-inline-start: 28px;
+}
+
+.floatingItem {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #111827;
+}
+
+.floatingIcon {
+    width: 30px;
+    height: 30px;
+    border-radius: $radius-sm;
+    background: $blue-900;
+    color: $white;
+    @include flex-center;
+    flex-shrink: 0;
+
+    svg {
+        width: 16px;
+        height: 16px;
     }
+}
+
+// ─── Statistics Section ────────────────────────────────────────────
+.statsSection {
+    grid-area: stats;
+    position: relative;
+    z-index: 1;
+    margin-top: clamp(8px, 2vw, 16px);
+    padding-top: clamp(32px, 5vw, 48px);
+    border-top: 1px solid $gray-100;
+
+    @media (max-width: $tablet) {
+        margin-top: clamp(24px, 5vw, 32px);
+        padding-bottom: clamp(8px, 2vw, 16px);
+    }
+}
+
+.statsGrid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: clamp(14px, 2vw, 24px);
+    width: 100%;
+
+    @media (max-width: $tablet) {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+.statCard {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    padding: clamp(24px, 2.6vw, 32px) clamp(20px, 2.2vw, 28px);
+    background: $white;
+    border-radius: $radius-lg;
+    border: 1px solid $gray-100;
+    border-top: 3px solid $red;
+    transition: $transition-base;
+
+    &:hover {
+        transform: translateY(-4px);
+        box-shadow: $shadow-md;
+    }
+
+    @media (max-width: 1024px) {
+        align-items: center;
+        text-align: center;
+    }
+}
+
+.statIcon {
+    width: clamp(48px, 5vw, 56px);
+    height: clamp(48px, 5vw, 56px);
+    border-radius: $radius-md;
+    background: rgba($blue-900, 0.06);
+    border: 1px solid rgba($blue-900, 0.08);
+    color: $blue-900;
+    @include flex-center;
+
+    svg {
+        width: 50%;
+        height: 50%;
+    }
+}
+
+.statValue {
+    font-family: var(--font-heading), inherit;
+    font-size: clamp(30px, 3.6vw, 44px);
+    font-weight: 800;
+    color: $blue-900;
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+}
+
+.statLabel {
+    font-size: clamp(13px, 1.3vw, 15px);
+    color: $gray-600;
+    font-weight: 500;
 }

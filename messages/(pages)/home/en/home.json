@@ -56,7 +56,115 @@
       "consultancy": "Consultancy",
       "workWithUs": "Work With Us"
     },
-    "watchNow": "Watch Now"
+    "watchNow": "Watch Now",
+    "readArticle": "Read Article",
+    "registerNow": "Register Now",
+    "learnMore": "Learn More",
+    "applyNow": "Apply Now",
+    "viewAll": "View All",
+    "minRead": "min read",
+    "students": "Students",
+    "lessons": "Lessons",
+    "duration": "Duration",
+    "weeks": "Weeks",
+    "remote": "Remote",
+    "onSite": "On-Site",
+    "fullTime": "Full Time",
+    "partTime": "Part Time",
+    "location": "Location",
+    "postedAgo": "ago",
+    "details":"Details",
+    "published":"published",
+    "requestConsultation": "Request Consultation",
+    "blogs": {
+      "card1": {
+        "category": "Leadership",
+        "title": "10 Essential Leadership Skills for Modern Managers",
+        "excerpt": "Discover the key leadership competencies that drive team performance and organizational success in today's dynamic business landscape.",
+        "author": "Dr. Sarah Mitchell",
+        "date": "Jun 28, 2026",
+        "readTime": "8"
+      },
+      "card2": {
+        "category": "Digital Marketing",
+        "title": "AI-Powered Marketing Strategies for 2026",
+        "excerpt": "How artificial intelligence is transforming digital marketing and what professionals need to know to stay ahead.",
+        "author": "James Crawford",
+        "date": "Jun 25, 2026",
+        "readTime": "6"
+      },
+      "card3": {
+        "category": "Finance",
+        "title": "Understanding ESG Investing Fundamentals",
+        "excerpt": "A comprehensive guide to Environmental, Social, and Governance investing principles for financial professionals.",
+        "author": "Prof. Ahmed Hassan",
+        "date": "Jun 22, 2026",
+        "readTime": "10"
+      }
+    },
+    "courses": {
+      "card1": {
+        "category": "Project Management",
+        "title": "PMP Certification Prep Bootcamp",
+        "price": "1,299",
+        "studentCount": "2.4K",
+        "lessonCount": "48",
+        "durationWeeks": "6"
+      },
+      "card2": {
+        "category": "Data Science",
+        "title": "Advanced Data Analytics & Visualization",
+        "price": "1,599",
+        "studentCount": "1.8K",
+        "lessonCount": "56",
+        "durationWeeks": "8"
+      },
+      "card3": {
+        "category": "Human Resources",
+        "title": "Strategic HR Management Certification",
+        "price": "999",
+        "studentCount": "3.1K",
+        "lessonCount": "36",
+        "durationWeeks": "4"
+      }
+    },
+    "consultancy": {
+      "card1": {
+        "title": "Business Strategy & Transformation",
+        "description": "Expert guidance on organizational restructuring, digital transformation, and strategic planning for sustainable growth.",
+        "features": "Strategic Planning, Change Management, Growth Modeling"
+      },
+      "card2": {
+        "title": "HR & Talent Development",
+        "description": "Optimize your workforce with tailored talent acquisition, performance systems, and leadership development programs.",
+        "features": "Talent Strategy, Performance Systems, Leadership Coaching"
+      },
+      "card3": {
+        "title": "Financial Advisory Services",
+        "description": "Comprehensive financial consulting including risk assessment, investment strategy, and regulatory compliance guidance.",
+        "features": "Risk Assessment, Compliance, Investment Strategy"
+      }
+    },
+    "workWithUs": {
+      "card1": {
+        "role": "Senior Course Instructor",
+        "department": "Academic Division",
+        "type": "Full Time",
+        "location": "London, UK"
+      },
+      "card2": {
+        "role": "Marketing Specialist",
+        "department": "Growth & Outreach",
+        "type": "Full Time",
+        "location": "Dubai, UAE"
+      },
+      "card3": {
+        "role": "UX/UI Designer",
+        "department": "Product & Design",
+        "type": "Remote",
+        "location": "Remote"
+      }
+    }
   },
   "RequestCourse": {
     "title": "Request a",

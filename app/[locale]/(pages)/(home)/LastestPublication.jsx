@@ -1,11 +1,22 @@
 'use client'
-import { useState } from "react";
-import { ArrowRight, BookOpen, Briefcase, Clock, Eye, MessageSquare, Play } from 'lucide-react';
+import { useEffect, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import {
+    ArrowRight, BookOpen, Briefcase, Clock, Eye, Play,
+    MessageSquare, Users, GraduationCap, MapPin, Building2,
+    Sparkles, TrendingUp, ChevronRight, Calendar, FileText,
+    Star, BadgeCheck, Lightbulb
+} from 'lucide-react';
 import Tabs from "@/components/common/Tabs";
 import Title from "@/components/common/Title";
 import styleContainer from '@/sass/components/common/container.module.scss';
 import styles from '@/sass/pages/home/lastest-publication.module.scss';
 import { useTranslations } from "next-intl";
+import Link from "next/link";
+import useLanguageStore from "@/store/useLanguageStore";
+import useCoursesStore from "@/store/useCoursesStore";
+import usePostsStore from "@/store/usePostsStore";
+import useConsultingStore from "@/store/useConsultingStore";
 
 const videoData = [
     {
@@ -58,20 +69,290 @@ const Videos = ({ watchNow }) => {
     )
 }
 
+// ─── Blogs Tab ──────────────────────────────────────────────
+const Blogs = ({ t, locale }) => {
+    const cards = ['card1', 'card2', 'card3'];
+    const images = ['/asstes/default-1.jpeg', '/asstes/course1.jpg', '/asstes/default-2.webp'];
+    const categoryColors = ['#C62839', '#162554', '#3b82f6'];
+    const { handleGetPosts, posts } = usePostsStore();
+    useEffect(() => {
+        handleGetPosts();
+    }, [])
+
+    console.log(posts, 'posts')
+    return (
+        <div className={styles.blogsGrid}>
+            {posts?.posts?.slice(0, 3)?.map((post, i) => {
+                const { _id, name, description
+                    ,
+                    author_name
+                    , date,
+                    publish_date, image } = post;
+                return (
+                    <motion.div
+                        key={_id}
+                        className={styles.blogCard}
+                        initial={{ opacity: 0, y: 30 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.4, delay: i * 0.1 }}
+                        whileHover={{ y: -8 }}
+                    >
+                        <div className={styles.blogImageWrapper}>
+                            <img
+                                src={image}
+                                alt={name}
+                                className={styles.blogImage}
+                            />
+                            <div className={styles.blogImageOverlay} />
+                            {/* {
+                            category && (
+                                   <span
+                            className={styles.blogCategory}
+                            style={{ backgroundColor: categoryColors[i] }}
+                        >
+                            {category}
+                        </span>
+
+                            )
+                        } */}
+
+                        </div>
+                        <div className={styles.blogContent}>
+                            <h3 className={styles.blogTitle}>{name}</h3>
+                            <p className={styles.blogExcerpt}>{description
+                            }</p>
+                            <div className={styles.blogFooter}>
+                                <div className={styles.blogAuthorInfo}>
+                                    <div className={styles.blogAuthorAvatar}>
+                                        {
+                                            author_name
+                                                .charAt(0)}
+                                    </div>
+                                    <div>
+                                        <span className={styles.blogAuthorName}>{author_name}</span>
+                                        <span className={styles.blogDate}>{date}</span>
+                                    </div>
+                                </div>
+                                <div className={styles.blogReadTime}>
+                                    <Clock size={13} />
+                                    <span>{
+                                        publish_date} {t('published')}</span>
+                                </div>
+                            </div>
+                            <Link href={`/${locale}/post/${post?.slug}`} className={styles.blogReadBtn}>
+                                {t('readArticle')} <ArrowRight size={15} />
+                            </Link>
+                        </div>
+                    </motion.div>
+                )
+            })}
+        </div>
+    );
+};
+
+// ─── Courses Tab ────────────────────────────────────────────
+const Courses = ({ t, locale }) => {
+   
+    const { handleGetCourses, data, isLoading } = useCoursesStore();
+
+    useEffect(() => {
+        handleGetCourses();
+    }, []);
+
+    return (
+        <div className={styles.coursesGrid}>
+            {data?.courses?.slice(0, 3)?.map((course, i) => (
+                <motion.div
+                    key={course.id}
+                    className={styles.courseCard}
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.4, delay: i * 0.1 }}
+                    whileHover={{ y: -8 }}
+                >
+                    <div className={styles.courseImageWrapper}>
+                        <img
+                            src={course.image}
+                            alt={t(course.title)}
+                            className={styles.courseImage}
+                        />
+                        <div className={styles.courseImageOverlay} />
+                        <span className={styles.coursePrice}>
+                            {course.price}
+                        </span>
+                        <span className={styles.courseCategoryBadge}>
+                            {course?.category?.name}
+                        </span>
+                    </div>
+                    <div className={styles.courseContent}>
+                        <h3 className={styles.courseTitle}>{course.name}</h3>
+                        <div className={styles.courseStats}>
+                            {/* <div className={styles.courseStat}>
+                                <Users size={14} />
+                                <span>{t(course.studentCount)} {t('students')}</span>
+                            </div> */}
+                            {/* <div className={styles.courseStat}>
+                                <BookOpen size={14} />
+                                <span>{t(course.lessonCount)} {t('lessons')}</span>
+                            </div>
+                            <div className={styles.courseStat}>
+                                <Clock size={14} />
+                                <span>{t(`courses.${key}.durationWeeks`)} {t('weeks')}</span>
+                            </div>
+                        </div>
+                        <div className={styles.courseRating}>
+                            {[...Array(5)].map((_, si) => (
+                                <Star key={si} size={14} fill="#f59e0b" color="#f59e0b" />
+                            ))}
+                            <span className={styles.ratingText}>4.9</span>
+                        </div> */}
+                            <Link href={`/${locale}/course_details/${course?.id}/${course?.slug}`} className={styles.courseEnrollBtn}>
+                                {t('details')} <ArrowRight size={15} />
+                            </Link>
+                        </div>
+
+                    </div>
+                </motion.div>
+            ))}
+        </div>
+    );
+};
+
+// ─── Consultancy Tab ────────────────────────────────────────
+const Consultancy = ({ t, locale }) => {
+    const cards = ['card1', 'card2', 'card3'];
+    const iconComponents = [
+        <Lightbulb key="l" size={28} />,
+        <Users key="u" size={28} />,
+        <TrendingUp key="t" size={28} />
+    ];
+    const gradients = [
+        'linear-gradient(135deg, #162554 0%, #3b82f6 100%)',
+        'linear-gradient(135deg, #C62839 0%, #e85d6a 100%)',
+        'linear-gradient(135deg, #0f766e 0%, #2dd4bf 100%)',
+    ];
+
+    const {handleGetConsulting , data} = useConsultingStore();
+
+
+    useEffect(() =>{
+        handleGetConsulting()
+
+    }, []);
+
+
+    console.log(data , 'data from consl')
+    return (
+        <div className={styles.consultancyGrid}>
+            {data?.items?.slice(0,3).map((item, i) => (
+                <motion.div
+                    key={item?.id}
+                    className={styles.consultancyCard}
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.4, delay: i * 0.1 }}
+                    whileHover={{ y: -8 }}
+                >
+                    <div className={styles.consultancyIconWrapper} style={{ background: gradients[i] }}>
+                        {data?.icon}
+                    </div>
+                    <h3 className={styles.consultancyTitle}>{item?.name}</h3>
+                    <p className={styles.consultancyDescription}>
+                        {item?.description}
+                    </p>
+                    {/* <div className={styles.consultancyFeatures}>
+                        {item?.consult_services?.map((feat, fi) => (
+                            <span key={fi} className={styles.featureTag}>
+                                <BadgeCheck size={12} /> {feat.trim()}
+                            </span>
+                        ))}
+                    </div> */}
+                    <Link href={`/${locale}/page/${item?.slug}`} className={styles.consultancyBtn}>
+                        {t('requestConsultation')} <ChevronRight size={16} />
+                    </Link>
+                </motion.div>
+            ))}
+        </div>
+    );
+};
+
+// ─── Work With Us Tab ───────────────────────────────────────
+const WorkWithUs = ({ t, locale }) => {
+    const cards = ['card1', 'card2', 'card3'];
+    const typeBadgeColors = {
+        'Full Time': '#162554',
+        'دوام كامل': '#162554',
+        'Remote': '#0f766e',
+        'عن بُعد': '#0f766e',
+    };
+
+    return (
+        <div className={styles.jobsGrid}>
+            {cards.map((key, i) => (
+                <motion.div
+                    key={key}
+                    className={styles.jobCard}
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.4, delay: i * 0.1 }}
+                    whileHover={{ y: -6 }}
+                >
+                    <div className={styles.jobHeader}>
+                        <div className={styles.jobIconCircle}>
+                            <Briefcase size={22} />
+                        </div>
+                        <span
+                            className={styles.jobTypeBadge}
+                            style={{
+                                backgroundColor: (typeBadgeColors[t(`workWithUs.${key}.type`)] || '#162554') + '14',
+                                color: typeBadgeColors[t(`workWithUs.${key}.type`)] || '#162554'
+                            }}
+                        >
+                            {t(`workWithUs.${key}.type`)}
+                        </span>
+                    </div>
+                    <h3 className={styles.jobRole}>{t(`workWithUs.${key}.role`)}</h3>
+                    <div className={styles.jobMeta}>
+                        <span className={styles.jobMetaItem}>
+                            <Building2 size={15} />
+                            {t(`workWithUs.${key}.department`)}
+                        </span>
+                        <span className={styles.jobMetaItem}>
+                            <MapPin size={15} />
+                            {t(`workWithUs.${key}.location`)}
+                        </span>
+                    </div>
+                    <div className={styles.jobDivider} />
+                    <Link href={`/${locale}/jobs`} className={styles.jobApplyBtn}>
+                        {t('applyNow')} <ArrowRight size={15} />
+                    </Link>
+                </motion.div>
+            ))}
+        </div>
+    );
+};
+
+
+// ─── Main Component ─────────────────────────────────────────
 const LastestPublication = () => {
     const t = useTranslations('LatestPublication');
+    const locale = useLanguageStore((state) => state.locale);
     const [activeTabId, setActiveTabId] = useState(1);
 
     const tabs = [
         { id: 1, icon: <Play />, title: t('tabs.videos') },
         { id: 2, icon: <BookOpen />, title: t('tabs.courses') },
         { id: 3, icon: <MessageSquare />, title: t('tabs.blogs') },
-        { id: 4, icon: <Briefcase />, title: t('tabs.consultancy') },
+        { id: 4, icon: <Sparkles />, title: t('tabs.consultancy') },
         { id: 5, icon: <Briefcase />, title: t('tabs.workWithUs') },
     ];
 
     const tabContentMap = {
         1: <Videos watchNow={t('watchNow')} />,
+        2: <Courses t={t} locale={locale} />,
+        3: <Blogs t={t} locale={locale} />,
+        4: <Consultancy t={t} locale={locale} />,
+        5: <WorkWithUs t={t} locale={locale} />,
     };
 
     return (
@@ -85,7 +366,17 @@ const LastestPublication = () => {
                     className={styles.publicationTabs}
                     tabClassName={styles.publicationTab}
                 />
-                {tabContentMap[activeTabId]}
+                <AnimatePresence mode="wait">
+                    <motion.div
+                        key={activeTabId}
+                        initial={{ opacity: 0, y: 16 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -16 }}
+                        transition={{ duration: 0.3 }}
+                    >
+                        {tabContentMap[activeTabId]}
+                    </motion.div>
+                </AnimatePresence>
             </div>
         </section>
     );
