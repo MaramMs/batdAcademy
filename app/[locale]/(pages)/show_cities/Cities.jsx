@@ -11,7 +11,7 @@ import { ArrowRight } from "lucide-react";
 import { useTranslations } from "next-intl";
 
 const ShowCities = () => {
-    const t = useTranslations('title')
+    const t = useTranslations('ShowCities')
     const searchParams = useSearchParams();
     const router = useRouter();
     const pathname = usePathname();
@@ -72,7 +72,7 @@ const ShowCities = () => {
                     <div className={styles.content}>
                         <div className={styles.title}>
                             <h2> {t('coursesByCity')} </h2>
-                            <p> {t('ourFavoriteCities')} </p>
+                            <p> {t('citySubtitle')} </p>
                         </div>
 
                         <div className={styles.cities}>

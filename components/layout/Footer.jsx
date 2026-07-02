@@ -72,10 +72,10 @@ export default async function Footer() {
     {
       title: t('columns.quickLinks.title'),
       links: [
-        { label: t('columns.quickLinks.coursesByCity'), href: "#" },
+        { label: t('columns.quickLinks.coursesByCity'), href: "/show_cities" },
         { label: t('columns.quickLinks.yearPlans'), href: "/year_plan" },
-        { label: t('columns.quickLinks.professionalPath'), href: "#" },
-        { label: t('columns.quickLinks.workEnvironment'), href: "#" },
+        // { label: t('columns.quickLinks.professionalPath'), href: "#" },
+        // { label: t('columns.quickLinks.workEnvironment'), href: "#" },
         { label: t('columns.quickLinks.categories'), href: "/search_course" },
         { label: t('columns.quickLinks.specialization'), href: "/search_course" },
       ],
@@ -83,10 +83,10 @@ export default async function Footer() {
     {
       title: t('columns.support.title'),
       links: [
-        { label: t('columns.support.supportCenter'), href: "#" },
-        { label: t('columns.support.account'), href: "#" },
+        // { label: t('columns.support.supportCenter'), href: "#" },
+        // { label: t('columns.support.account'), href: "#" },
         { label: t('columns.support.contact'), href: "/contact_us" },
-        { label: t('columns.support.feedback'), href: "#" },
+        // { label: t('columns.support.feedback'), href: "#" },
       ],
     },
   ];
