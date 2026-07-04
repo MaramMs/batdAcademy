@@ -15,10 +15,7 @@
             "standards": "معايير تدريب دولية"
         },
         "stats": {
-            "experienceLabel": "سنوات من التميز",
-            "participantsLabel": "محترف تم تدريبهم",
-            "programsLabel": "برنامج تدريبي",
-            "clientsLabel": "عملاء من الشركات والجهات الحكومية"
+            "programsLabel": "برنامج تدريبي"
         },
         "floating": {
             "recognized": "برامج معتمدة دوليًا",

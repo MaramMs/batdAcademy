@@ -31,8 +31,7 @@
         "subtitle media"
         "trust    media"
         "search   media"
-        "cta      media"
-        "stats    stats";
+        "cta      media";
     column-gap: clamp(24px, 4vw, 64px);
     align-content: center;
     min-height: 85vh;
@@ -51,8 +50,7 @@
             "trust"
             "search"
             "cta"
-            "media"
-            "stats";
+            "media";
         align-content: start;
         min-height: auto;
         padding: 32px 0px 40px 0px;
@@ -65,7 +63,6 @@
             "subtitle"
             "trust"
             "cta"
-            "stats"
             "search"
             "media";
     }
@@ -433,83 +430,4 @@
         width: 16px;
         height: 16px;
     }
-}
-
-// ─── Statistics Section ────────────────────────────────────────────
-.statsSection {
-    grid-area: stats;
-    position: relative;
-    z-index: 1;
-    margin-top: clamp(8px, 2vw, 16px);
-    padding-top: clamp(32px, 5vw, 48px);
-    border-top: 1px solid $gray-100;
-
-    @media (max-width: $tablet) {
-        margin-top: clamp(24px, 5vw, 32px);
-        padding-bottom: clamp(8px, 2vw, 16px);
-    }
-}
-
-.statsGrid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: clamp(14px, 2vw, 24px);
-    width: 100%;
-
-    @media (max-width: $tablet) {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-
-.statCard {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 12px;
-    padding: clamp(24px, 2.6vw, 32px) clamp(20px, 2.2vw, 28px);
-    background: $white;
-    border-radius: $radius-lg;
-    border: 1px solid $gray-100;
-    border-top: 3px solid $red;
-    transition: $transition-base;
-
-    &:hover {
-        transform: translateY(-4px);
-        box-shadow: $shadow-md;
-    }
-
-    @media (max-width: 1024px) {
-        align-items: center;
-        text-align: center;
-    }
-}
-
-.statIcon {
-    width: clamp(48px, 5vw, 56px);
-    height: clamp(48px, 5vw, 56px);
-    border-radius: $radius-md;
-    background: rgba($blue-900, 0.06);
-    border: 1px solid rgba($blue-900, 0.08);
-    color: $blue-900;
-    @include flex-center;
-
-    svg {
-        width: 50%;
-        height: 50%;
-    }
-}
-
-.statValue {
-    font-family: var(--font-heading), inherit;
-    font-size: clamp(30px, 3.6vw, 44px);
-    font-weight: 800;
-    color: $blue-900;
-    line-height: 1.05;
-    letter-spacing: -0.01em;
-}
-
-.statLabel {
-    font-size: clamp(13px, 1.3vw, 15px);
-    color: $gray-600;
-    font-weight: 500;
 }

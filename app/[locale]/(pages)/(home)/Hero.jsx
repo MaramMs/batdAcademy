@@ -5,12 +5,9 @@ import stylesConteiner from '@/sass/components/common/container.module.scss';
 import styles from '@/sass/pages/home/hero.module.scss';
 import {
     Award,
-    Briefcase,
     CheckCircle2,
-    GraduationCap,
     Search,
     ShieldCheck,
-    Users,
 } from 'lucide-react';
 import HeroVisual from '@/components/ui/HeroVisual';
 import { useLocale, useTranslations } from 'next-intl';
@@ -38,32 +35,10 @@ export default function Hero() {
         t('trust.standards'),
     ];
 
-    const statsData = [
-        {
-            id: 1,
-            value: '15+',
-            label: t('stats.experienceLabel'),
-            icon: <Award />
-        },
-        {
-            id: 2,
-            value: '65,000+',
-            label: t('stats.participantsLabel'),
-            icon: <Users />
-        },
-        {
-            id: 3,
-            value: '600+',
-            label: t('stats.programsLabel'),
-            icon: <GraduationCap />
-        },
-        {
-            id: 4,
-            value: '120+',
-            label: t('stats.clientsLabel'),
-            icon: <Briefcase />
-        },
-    ];
+    const programsStat = {
+        value: '600+',
+        label: t('stats.programsLabel'),
+    };
 
     const containerVariants = {
         hidden: { opacity: 0 },
@@ -213,8 +188,8 @@ export default function Hero() {
                                 alt: t('subtitle'),
                             },
                             coursesCard: {
-                                number: statsData[2].value,
-                                label: statsData[2].label,
+                                number: programsStat.value,
+                                label: programsStat.label,
                             },
                             certifiedCard: {
                                 image: "/asstes/expert.jpg",
@@ -227,25 +202,6 @@ export default function Hero() {
                                 moreText: "+500",
                             },
                         }} />
-                    </motion.div>
-
-                    {/* ── STATISTICS ── */}
-                    <motion.div
-                        className={styles.statsSection}
-                        initial={{ opacity: 0, y: 24 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true, amount: 0.3 }}
-                        transition={{ duration: 0.6, ease: "easeOut" }}
-                    >
-                        <div className={styles.statsGrid}>
-                            {statsData.map((stat) => (
-                                <div key={stat.id} className={styles.statCard}>
-                                    <div className={styles.statIcon}>{stat.icon}</div>
-                                    <strong className={styles.statValue}>{stat.value}</strong>
-                                    <span className={styles.statLabel}>{stat.label}</span>
-                                </div>
-                            ))}
-                        </div>
                     </motion.div>
                 </motion.div>
             </div>
