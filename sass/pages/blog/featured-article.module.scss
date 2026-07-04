@@ -21,6 +21,7 @@
         border-radius: 14.82px;
         background-color: #FFFFFF;
         border: 0.93px solid #F3F4F6;
+        overflow: hidden;
 
         @media (max-width: $tablet) {
             position: relative;
@@ -48,8 +49,8 @@
                 width: 100%;
                 height: 100%;
                 object-fit: cover;
-                border-top-left-radius: 14.82px;
-                border-bottom-left-radius: 14.82px;
+                border-start-start-radius: 14.82px;
+                border-end-start-radius: 14.82px;
 
                 &::after {
                     content: "";
@@ -68,7 +69,7 @@
                 height: 29.64px;
                 position: absolute;
                 bottom: 22.23px;
-                left: 22.23px;
+                inset-inline-start: 22.23px;
                 z-index: 2;
                 display: flex;
                 align-items: center;
@@ -112,7 +113,7 @@
                 height: 33.34px;
                 position: absolute;
                 top: 22.23px;
-                right: 22.23px;
+                inset-inline-end: 22.23px;
                 display: flex;
                 align-items: center;
                 gap: 7.4px;
@@ -130,7 +131,7 @@
 
                 @media (max-width: $tablet) {
                     top: 22.23px;
-                    right: 22.23px;
+                    inset-inline-end: 22.23px;
                     z-index: 2;
                 }
             }
@@ -206,7 +207,7 @@
                     justify-content: space-between;
                     align-items: center;
                     border-bottom: 1px solid #F3F4F6;
-                    margin-right: 27.78px;
+                    margin-inline-end: 27.78px;
                     padding: 11.11px 0px;
 
                     .author {
@@ -252,7 +253,7 @@
                     display: flex;
                     gap: 15px;
                     align-items: center;
-                    margin-right: 27.78px;
+                    margin-inline-end: 27.78px;
 
                     button {
                         display: flex;
