@@ -110,7 +110,7 @@ export default function Hero() {
                             <span className={styles.badgeText}>{t('badge')}</span>
                         </motion.div>
 
-                        <motion.h1 className={styles.title} variants={itemVariants}>
+                        <motion.h1 className={`${styles.title} ${locale === 'en' ? styles.titleEn : ''}`} variants={itemVariants}>
                             {t.rich('title', {
                                 highlight: (chunks) => <span>{chunks}</span>,
                             })}

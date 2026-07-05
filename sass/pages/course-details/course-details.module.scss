@@ -980,6 +980,56 @@
                                 overflow-x: auto;
                             }
 
+                            // The site-wide `* { margin: 0; padding: 0 }` reset strips all
+                            // default spacing from the CMS-authored rich text below, so the
+                            // paragraph/list/heading shape has to be restored explicitly here.
+                            p {
+                                margin: 0 0 12px;
+                                line-height: 1.7;
+                                color: #364153;
+
+                                // Authors mark section headings by bolding a whole paragraph
+                                // (e.g. <p><b>Heading</b></p>) rather than using a real <h2-6>,
+                                // so paragraphs that start with bold text get heading treatment.
+                                &:has(> b:first-child),
+                                &:has(> strong:first-child) {
+                                    margin-top: 20px;
+                                    font-size: 18px;
+                                    font-weight: 700;
+                                    color: $blue-900;
+
+                                    &:first-child {
+                                        margin-top: 0;
+                                    }
+                                }
+                            }
+
+                            ul, ol {
+                                margin: 0 0 16px;
+                                padding-inline-start: 22px;
+
+                                li {
+                                    margin-bottom: 8px;
+                                    line-height: 1.7;
+                                    color: #364153;
+                                }
+                            }
+
+                            h1, h2, h3, h4, h5, h6 {
+                                margin: 20px 0 8px;
+                                color: $blue-900;
+                                font-weight: 700;
+
+                                &:first-child {
+                                    margin-top: 0;
+                                }
+                            }
+
+                            a {
+                                color: $blue-900;
+                                text-decoration: underline;
+                            }
+
                             @media (max-width: 768px) {
                                 padding: 20px;
                                 gap: 12px;

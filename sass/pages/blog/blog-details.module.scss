@@ -263,6 +263,45 @@
         border: 1.43px solid #F3F4F6;
         border-radius: 22.82px;
 
+        // The site-wide `* { margin: 0; padding: 0 }` reset strips all default
+        // spacing from the CMS-authored article body, so it has to be restored
+        // explicitly here to match the shape the author sees in the editor.
+        p {
+            margin: 0 0 16px;
+            line-height: 1.8;
+            color: #364153;
+        }
+
+        ul, ol {
+            margin: 0 0 16px;
+            padding-inline-start: 22px;
+
+            li {
+                margin-bottom: 8px;
+                line-height: 1.8;
+                color: #364153;
+            }
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            margin: 24px 0 12px;
+            color: $blue-900;
+            font-weight: 700;
+
+            &:first-child {
+                margin-top: 0;
+            }
+        }
+
+        a {
+            color: $blue-900;
+            text-decoration: underline;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+        }
     }
 
     .relatedArticles {

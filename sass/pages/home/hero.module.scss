@@ -161,6 +161,19 @@
     }
 }
 
+// English copy is longer than Arabic for the same meaning, so it wraps to
+// more lines under the shared .title rules. Trim the size and drop the
+// ch-based cap (which would otherwise re-bind at the smaller font size)
+// so it wraps closer to the Arabic version's line count.
+.titleEn {
+    font-size: clamp(26px, 3.4vw, 32px);
+    max-width: none;
+
+    @media (max-width: 1024px) {
+        font-size: clamp(26px, 5vw, 32px);
+    }
+}
+
 .subtitle {
     grid-area: subtitle;
     font-size: clamp(16px, 1.4vw, 18px);
