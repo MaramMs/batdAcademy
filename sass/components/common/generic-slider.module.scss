@@ -7,6 +7,16 @@
   }
 }
 
+// Positions the arrows against the swiper's own height only, excluding the
+// "View all" link below it, so they center on the cards instead of the whole section.
+.sliderTrack {
+  position: relative;
+
+  @media (max-width: $tablet) {
+    position: static;
+  }
+}
+
 %arrow-base {
   position: absolute;
   top: 50%;
@@ -23,6 +33,17 @@
   color: $white;
   transition: $transition-base;
 
+  &:hover,
+  &:focus-visible {
+    background: $blue-800;
+    box-shadow: 0 6px 16px rgba(22, 37, 84, 0.25);
+  }
+
+  &:focus-visible {
+    outline: 2px solid $blue-800;
+    outline-offset: 2px;
+  }
+
   &:global(.swiper-button-disabled) {
     opacity: 0.3;
     cursor: not-allowed;
@@ -32,7 +53,7 @@
 
 .sliderPrev {
   @extend %arrow-base;
-  left: -38px;
+  left: -60px;
 
   @media (max-width: $tablet) {
     top: auto;
@@ -45,7 +66,7 @@
 
 .sliderNext {
   @extend %arrow-base;
-  right: -38px;
+  right: -60px;
 
   @media (max-width: $tablet) {
     top: auto;

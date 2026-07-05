@@ -5,3 +5,19 @@
 .courses {
     margin-top: clamp(40px, 6vw, 60px); // Scalable margin
 }
+
+.loadingRow {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.slide {
+    display: flex;
+    justify-content: center;
+}
+
+.slideCard {
+    max-width: 400px;
+    width: 100%;
+}

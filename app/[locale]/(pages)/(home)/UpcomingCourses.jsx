@@ -3,7 +3,8 @@ import { useEffect, useRef, useState } from "react";
 import Title from "@/components/common/Title";
 import UpcomingCouresCard from "@/components/ui/UpcomingCouresCard";
 import GenericSlider from "@/components/common/GenericSlider";
-import styles from "@/sass/components/common/container.module.scss";
+import stylesContainer from "@/sass/components/common/container.module.scss";
+import styles from "@/sass/pages/home/upcoming-coures.module.scss";
 import useCoursesStore from "@/store/useCoursesStore";
 import Skeleton from "@/components/ui/Skeleton";
 import { useTranslations } from "next-intl";
@@ -21,11 +22,11 @@ const UpcomingCourses = () => {
     }, []);
     return (
         <div>
-            <div className={styles.container}>
+            <div className={stylesContainer.container}>
                 <Title title={t('title')} span={t('titleSpan')} subtitle={t('subtitle')} />
              {
                 isLoading ? (
-                  <div style={{ display: 'flex', justifyContent: 'center', gap: '20px' }}>
+                  <div className={styles.loadingRow}>
                       <Skeleton type="card" className={styles.skeletonCard} />
                       <Skeleton type="card" className={styles.skeletonCard} />
                       <Skeleton type="card" className={styles.skeletonCard} />
@@ -38,15 +39,15 @@ const UpcomingCourses = () => {
                         pauseAutoplay={isModalOpen}
                         items={data?.courses}
                         renderSlide={(course, index) => (
-                            <div style={{ display: 'flex', justifyContent: 'center' }}>
-                                <div style={{ maxWidth: '400px', width: '100%' }}>
-                                
+                            <div className={styles.slide}>
+                                <div className={styles.slideCard}>
+
                                         <UpcomingCouresCard course={course}
                                             slideIndex={index}
                                             swiperRef={swiperRef}
                                             onModalOpen={() => setIsModalOpen(true)}
                                             onModalClose={() => setIsModalOpen(false)} isLoading={isLoading}/>
-                                 
+
                                 </div>
                             </div>
                         )}
@@ -69,7 +70,7 @@ const UpcomingCourses = () => {
                         }}
                         autoplay={false}
                         pauseOnMouseEnter={true}
-                        spaceBetween={5}
+                        spaceBetween={20}
                         showViewAll={true}
                         viewAllLink="/courses"
                     />

@@ -2,28 +2,39 @@
   display: flex;
   flex-direction: column;
   border-radius: 14.92px;
-  overflow: hidden;
   background: $white;
   border: 0.93px solid $gray-100;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-  transition: box-shadow 0.2s ease;
+  // Kept visible (not hidden) so the "more dates" popup can escape the card bounds.
   overflow: visible;
+  // transform (translateY lift) is driven by framer-motion's whileHover in the
+  // component, since it already owns this element's transform for the entrance
+  // animation — a CSS transform here would be overridden by that inline style.
+  transition: box-shadow 0.25s ease-out, border-color 0.25s ease-out;
 
   &:hover {
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+    border: 2px solid $blue-900;
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.06), 0 4px 8px rgba(0, 0, 0, 0.04);
+
+    .imageWrapper img {
+      transform: scale(1.04);
+    }
   }
 
   .imageWrapper {
     position: relative;
     width: 100%;
+    overflow: hidden;
     border-top-left-radius: 14.92px;
     border-top-right-radius: 14.92px;
 
     img {
       display: block;
       width: 100%;
+      object-fit: cover;
       border-top-left-radius: 14.92px;
       border-top-right-radius: 14.92px;
+      transition: transform 0.3s ease-out;
     }
   }
 

@@ -143,7 +143,7 @@
 .title {
     grid-area: title;
     font-family: var(--font-heading), inherit;
-    font-size: clamp(32px, 4.4vw, 54px);
+    font-size: clamp(32px, 4.4vw, 40px);
     font-weight: 800;
     color: #111827;
     line-height: 1.18;
@@ -224,7 +224,7 @@
     gap: 8px;
     height: clamp(48px, 6vw, 58px);
     width: 100%;
-    max-width: 520px;
+    max-width: 515px;
     margin-bottom: clamp(20px, 3vw, 28px);
     padding: 6px;
     padding-inline-start: 18px;

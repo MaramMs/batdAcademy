@@ -44,6 +44,7 @@ const swiperRef = externalRef ?? internalRef;
     return (
         <div className={styles.genericSlider}>
 
+        <div className={styles.sliderTrack}>
         {
             !hidden && (
                 <>
@@ -75,7 +76,7 @@ const swiperRef = externalRef ?? internalRef;
                        {renderSlide(item, index)}
                     </SwiperSlide>
                 ))}
-               
+
             </Swiper>
 {
     !hidden && (
@@ -89,6 +90,7 @@ const swiperRef = externalRef ?? internalRef;
         </>
     )
 }
+        </div>
 
             {showViewAll && (
                 <div className={styles.viewAll}>

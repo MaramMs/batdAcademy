@@ -20,6 +20,24 @@ const placeholderImages = [
   img1,
   img3,
 ];
+
+/**
+ * @typedef {Object} Course
+ * @property {number|string} id
+ * @property {string} name
+ * @property {string} [title]
+ * @property {string} [slug]
+ * @property {string} [image]
+ * @property {number|string} [price]
+ * @property {{ name: string }} [category]
+ * @property {string} [created_at]
+ * @property {string} [language]
+ * @property {Array<{ date: string, time?: string }>} [dates]
+ */
+
+/**
+ * @param {{ course: Course }} props
+ */
 const UpcomingCouresCard = ({
   course,
   onModalOpen,
@@ -48,7 +66,7 @@ const UpcomingCouresCard = ({
     }, 1500);
     onModalClose?.();
   };
-console.log(selectedDate , 'select')
+
   const handleSelect = (session) => {
     setSelectedDate(session.date);
     const params = new URLSearchParams();
@@ -88,11 +106,7 @@ console.log(selectedDate , 'select')
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.5 }}
-      whileHover={{
-        y: -10,
-        boxShadow:
-          "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
-      }}
+      whileHover={{ y: -6, transition: { duration: 0.25, ease: "easeOut" } }}
     >
       <div className={styles.imageWrapper}>
         <Image
@@ -100,7 +114,6 @@ console.log(selectedDate , 'select')
           alt={course?.name || course?.title || 'Course thumbnail'}
           width={361}
           height={208}
-          style={{ objectFit: "cover" }}
         />
 
         <div className={styles.overlay} />
