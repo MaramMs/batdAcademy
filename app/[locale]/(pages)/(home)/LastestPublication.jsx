@@ -9,14 +9,18 @@ import {
 } from 'lucide-react';
 import Tabs from "@/components/common/Tabs";
 import Title from "@/components/common/Title";
+import Skeleton from "@/components/ui/Skeleton";
 import styleContainer from '@/sass/components/common/container.module.scss';
 import styles from '@/sass/pages/home/lastest-publication.module.scss';
 import { useTranslations } from "next-intl";
+import Image from "next/image";
 import Link from "next/link";
 import useLanguageStore from "@/store/useLanguageStore";
 import useCoursesStore from "@/store/useCoursesStore";
 import usePostsStore from "@/store/usePostsStore";
 import useConsultingStore from "@/store/useConsultingStore";
+import defaultImage from "/public/asstes/default-1.jpeg";
+import videoThumbnail from "/public/asstes/logo.png";
 
 const videoData = [
     {
@@ -26,7 +30,7 @@ const videoData = [
         duration: "12:45",
         views: "2.5K Views",
         date: "2 days ago",
-        thumbnail: "/asstes/logo.png",
+        thumbnail: videoThumbnail,
     },
 ]
 
@@ -35,9 +39,12 @@ const Videos = ({ watchNow }) => {
         <div>
             {videoData.map((video) => (
                 <div key={video.id} className={styles.videoCard}>
-                    <img
+                    <Image
                         src={video.thumbnail}
                         alt={video.title}
+                        fill
+                        priority
+                        sizes="(max-width: 768px) 100vw, 1200px"
                         className={styles.videoThumbnail}
                     />
                     <button className={styles.playBtn} aria-label="Play video">
@@ -74,23 +81,32 @@ const Blogs = ({ t, locale }) => {
     const cards = ['card1', 'card2', 'card3'];
     const images = ['/asstes/default-1.jpeg', '/asstes/course1.jpg', '/asstes/default-2.webp'];
     const categoryColors = ['#C62839', '#162554', '#3b82f6'];
-    const { handleGetPosts, posts } = usePostsStore();
+    const { handleGetPosts, posts, isLoading } = usePostsStore();
     useEffect(() => {
         handleGetPosts();
     }, [])
 
-    console.log(posts, 'posts')
+    if (isLoading) {
+        return (
+            <div className={styles.blogsGrid}>
+                {[1, 2, 3].map((i) => (
+                    <Skeleton key={i} type="card" />
+                ))}
+            </div>
+        );
+    }
+
     return (
         <div className={styles.blogsGrid}>
             {posts?.posts?.slice(0, 3)?.map((post, i) => {
-                const { _id, name, description
+                const { id, name, description
                     ,
                     author_name
                     , date,
                     publish_date, image } = post;
                 return (
                     <motion.div
-                        key={_id}
+                        key={id ?? i}
                         className={styles.blogCard}
                         initial={{ opacity: 0, y: 30 }}
                         animate={{ opacity: 1, y: 0 }}
@@ -98,9 +114,11 @@ const Blogs = ({ t, locale }) => {
                         whileHover={{ y: -8 }}
                     >
                         <div className={styles.blogImageWrapper}>
-                            <img
-                                src={image}
+                            <Image
+                                src={image || defaultImage}
                                 alt={name}
+                                fill
+                                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                                 className={styles.blogImage}
                             />
                             <div className={styles.blogImageOverlay} />
@@ -124,9 +142,7 @@ const Blogs = ({ t, locale }) => {
                             <div className={styles.blogFooter}>
                                 <div className={styles.blogAuthorInfo}>
                                     <div className={styles.blogAuthorAvatar}>
-                                        {
-                                            author_name
-                                                .charAt(0)}
+                                        {author_name?.charAt(0)}
                                     </div>
                                     <div>
                                         <span className={styles.blogAuthorName}>{author_name}</span>
@@ -159,6 +175,16 @@ const Courses = ({ t, locale }) => {
         handleGetCourses();
     }, []);
 
+    if (isLoading) {
+        return (
+            <div className={styles.coursesGrid}>
+                {[1, 2, 3].map((i) => (
+                    <Skeleton key={i} type="card" />
+                ))}
+            </div>
+        );
+    }
+
     return (
         <div className={styles.coursesGrid}>
             {data?.courses?.slice(0, 3)?.map((course, i) => (
@@ -171,9 +197,11 @@ const Courses = ({ t, locale }) => {
                     whileHover={{ y: -8 }}
                 >
                     <div className={styles.courseImageWrapper}>
-                        <img
-                            src={course.image}
-                            alt={t(course.title)}
+                        <Image
+                            src={course.image || defaultImage}
+                            alt={course.name}
+                            fill
+                            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                             className={styles.courseImage}
                         />
                         <div className={styles.courseImageOverlay} />
@@ -232,7 +260,7 @@ const Consultancy = ({ t, locale }) => {
         'linear-gradient(135deg, #0f766e 0%, #2dd4bf 100%)',
     ];
 
-    const {handleGetConsulting , data} = useConsultingStore();
+    const {handleGetConsulting , data, isLoading} = useConsultingStore();
 
 
     useEffect(() =>{
@@ -241,7 +269,16 @@ const Consultancy = ({ t, locale }) => {
     }, []);
 
 
-    console.log(data , 'data from consl')
+    if (isLoading) {
+        return (
+            <div className={styles.consultancyGrid}>
+                {[1, 2, 3].map((i) => (
+                    <Skeleton key={i} type="card" />
+                ))}
+            </div>
+        );
+    }
+
     return (
         <div className={styles.consultancyGrid}>
             {data?.items?.slice(0,3).map((item, i) => (
@@ -254,7 +291,7 @@ const Consultancy = ({ t, locale }) => {
                     whileHover={{ y: -8 }}
                 >
                     <div className={styles.consultancyIconWrapper} style={{ background: gradients[i] }}>
-                        {data?.icon}
+                        {iconComponents[i]}
                     </div>
                     <h3 className={styles.consultancyTitle}>{item?.name}</h3>
                     <p className={styles.consultancyDescription}>
