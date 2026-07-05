@@ -12,7 +12,7 @@ import {
 import HeroVisual from '@/components/ui/HeroVisual';
 import { useLocale, useTranslations } from 'next-intl';
 import { Plus_Jakarta_Sans } from 'next/font/google';
-import heroImage from "@/public/asstes/heroImage.jpeg"
+import heroImage from "@/public/asstes/heroup.jpeg"
 import { useRouter } from 'next/navigation';
 import useSearchAutocomplete from '@/hooks/useSearchAutocomplete';
 import { useEffect } from 'react';

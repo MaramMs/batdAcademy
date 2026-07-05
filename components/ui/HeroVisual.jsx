@@ -64,7 +64,6 @@ export default function HeroVisual({ config = {} }) {
 
   const { mainImage, coursesCard, certifiedCard, teamCard } = cfg;
 
-  console.log(mainImage.src.heroImage.src , 'srcc')
 
   return (
     <div className={styles.wrapper}>

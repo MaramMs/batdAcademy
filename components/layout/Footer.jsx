@@ -1,7 +1,6 @@
 import styles from "@/sass/components/layout/footer.module.scss";
 import Image from "next/image";
 import footerLogo from "@/public/asstes/footerlogo.webp";
-import { useTranslations } from "next-intl";
 import { getTranslations } from "next-intl/server";
 
 // ─── SVG Icons ────────────────────────────────────────────────
@@ -75,7 +74,7 @@ export default async function Footer() {
         { label: t('columns.quickLinks.coursesByCity'), href: "/show_cities" },
         { label: t('columns.quickLinks.yearPlans'), href: "/year_plan" },
         // { label: t('columns.quickLinks.professionalPath'), href: "#" },
-        // { label: t('columns.quickLinks.workEnvironment'), href: "#" },
+        { label: t('columns.quickLinks.jobs'), href: "/jobs" },
         { label: t('columns.quickLinks.categories'), href: "/search_course" },
         { label: t('columns.quickLinks.specialization'), href: "/search_course" },
       ],
