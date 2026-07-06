@@ -59,7 +59,7 @@ const CoursesBySpecial = () => {
         handleGetCategories();
 
         const handleResize = () => {
-            setChunkSize(window.innerWidth < 1024 ? 1 : 6);
+            setChunkSize(window.innerWidth < 1024 ? 1: 6);
         };
 
         handleResize();
@@ -114,10 +114,10 @@ const CoursesBySpecial = () => {
                                 renderSlide={(slideItems) => <CourseBySpecial items={slideItems} coursesLabel={t('coursesCount')} />}
                                 breakpoints={{
                                     320: {
-                                        slidesPerView: 1.5,
+                                        slidesPerView: 2,
                                     },
                                     768: {
-                                        slidesPerView: 1,
+                                        slidesPerView: 3,
                                     },
                                     1024: {
                                         slidesPerView: 1,

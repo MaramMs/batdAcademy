@@ -78,29 +78,31 @@ const DropdownMenuCustom = ({
             </div>
           )}
 
-          {filteredOptions.length === 0 && (
-            <div className={styles.emptyState}>No results found</div>
-          )}
+          <div className={styles.list}>
+            {filteredOptions.length === 0 && (
+              <div className={styles.emptyState}>No results found</div>
+            )}
 
-          {filteredOptions.map((opt, i) => {
-            const val = getOptionValue(opt);
-            const lbl = getOptionLabel(opt);
-            const isSelected = multi ? (value || []).includes(val) : value === val;
+            {filteredOptions.map((opt, i) => {
+              const val = getOptionValue(opt);
+              const lbl = getOptionLabel(opt);
+              const isSelected = multi ? (value || []).includes(val) : value === val;
 
-            return (
-              <DropdownMenu.Item
-                key={`${val}-${i}`}
-                className={`${styles.item} ${isSelected ? styles.selected : ''}`}
-                onSelect={(e) => handleSelect(opt, e)}
-              >
-                {multi && (
-                  <span className={`${styles.checkbox} ${isSelected ? styles.checked : ''}`} />
-                )}
-                {lbl}
-                {!multi && isSelected && <span className={styles.dot} />}
-              </DropdownMenu.Item>
-            );
-          })}
+              return (
+                <DropdownMenu.Item
+                  key={`${val}-${i}`}
+                  className={`${styles.item} ${isSelected ? styles.selected : ''}`}
+                  onSelect={(e) => handleSelect(opt, e)}
+                >
+                  {multi && (
+                    <span className={`${styles.checkbox} ${isSelected ? styles.checked : ''}`} />
+                  )}
+                  {lbl}
+                  {!multi && isSelected && <span className={styles.dot} />}
+                </DropdownMenu.Item>
+              );
+            })}
+          </div>
         </DropdownMenu.Content>
       </DropdownMenu.Portal>
     </DropdownMenu.Root>

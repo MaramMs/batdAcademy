@@ -13,6 +13,7 @@ import HeroVisual from '@/components/ui/HeroVisual';
 import { useLocale, useTranslations } from 'next-intl';
 import { Plus_Jakarta_Sans } from 'next/font/google';
 import heroImage from "@/public/asstes/heroup.jpeg"
+import newImage from "@/public/asstes/newImage.jpeg"
 import { useRouter } from 'next/navigation';
 import useSearchAutocomplete from '@/hooks/useSearchAutocomplete';
 import { useEffect } from 'react';
@@ -192,7 +193,7 @@ export default function Hero() {
                                 label: programsStat.label,
                             },
                             certifiedCard: {
-                                image: "/asstes/expert.jpg",
+                                image: newImage,
                                 alt: "Certified program",
                                 text: "Certified Programs",
                             },
