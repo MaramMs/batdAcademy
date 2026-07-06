@@ -7,7 +7,7 @@ import { ChevronDown, Menu, X, Search, User } from 'lucide-react';
 import styles from '@/sass/components/layout/main-navbar.module.scss';
 import { useTranslations } from 'next-intl';
 import { useLanguageSwitcher } from '@/hooks/useLanguageSwitcher';
-import logo from '@/public/asstes/logoUp.jpg';
+import logo from '@/public/asstes/batdacademy-logo.png';
 import useAuthStore from '@/store/useAuthStore';
 import useLanguageStore from '@/store/useLanguageStore';
 
