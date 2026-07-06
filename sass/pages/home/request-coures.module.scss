@@ -10,7 +10,7 @@
     align-items: start;
     grid-template-columns: 1.1fr 1fr;
 
-    @media (max-width:1020px) {
+    @media (max-width:1024px) {
       grid-template-columns: 1fr;
     }
   }
@@ -30,10 +30,10 @@
     grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
     gap: 1rem;
 
-    @media (min-width:1021px) and (max-width:1440px){
+    @media (min-width:1025px) and (max-width:1440px){
       grid-template-columns: repeat(3,1fr);
     }
-    @media (max-width: 1020px) {
+    @media (max-width: 1024px) {
       grid-template-columns: repeat(3, 1fr);
       gap: 9px;
     }
@@ -44,7 +44,7 @@
     @include flex-center(column);
     text-align: center;
     @include hover-lift;
-     @media (min-width:1021px) and (max-width:1440px){
+     @media (min-width:1025px) and (max-width:1440px){
      padding: 12px;
     }
 
@@ -65,7 +65,7 @@
       font-size: 1.25rem;
       font-weight: 400;
       color: $blue-800;
-  @media (min-width:1021px) and (max-width:1440px){
+  @media (min-width:1025px) and (max-width:1440px){
      font-size: 16px;
     }
       @media (max-width: $tablet) {
@@ -77,7 +77,7 @@
       font-size: 0.85rem;
       color: $gray-600;
       margin: 0;
-  @media (min-width:1021px) and (max-width:1440px){
+  @media (min-width:1025px) and (max-width:1440px){
    font-size: 12px;
     }
       @media (max-width: $tablet) {

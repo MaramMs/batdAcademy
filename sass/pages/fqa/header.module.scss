@@ -2,8 +2,12 @@
     background-color: $blue-900;
     padding: 32px 0px 77px 0px;
 
+    @media (max-width: 992px) {
+        padding: 28px 20px 48px 20px;
+    }
+
     @media (max-width: 768px) {
-        padding: 21px 0px 22px 22px;
+        padding: 21px 16px 22px 16px;
     }
 
     .wrapper {
@@ -11,8 +15,12 @@
         flex-direction: column;
         gap: 75.8px;
 
+        @media (max-width: 992px) {
+            gap: 32px;
+        }
+
         @media (max-width: 768px) {
-            gap: 10px;
+            gap: 16px;
         }
 
         .breadcrumb {
@@ -46,8 +54,12 @@
                 font-weight: 500;
                 text-transform: uppercase;
 
+                @media (max-width: 992px) {
+                    font-size: 26px;
+                }
+
                 @media (max-width: 768px) {
-                    font-size: 16px;
+                    font-size: 20px;
                 }
 
                 span {
@@ -63,6 +75,11 @@
                 line-height: 35.39px;
                 text-align: center;
                 width: 50%;
+
+                @media (max-width: 992px) {
+                    font-size: 18px;
+                    width: 80%;
+                }
 
                 @media (max-width: 768px) {
                     font-size: 14px;
