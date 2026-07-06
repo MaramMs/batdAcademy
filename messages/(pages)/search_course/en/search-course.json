@@ -1,6 +1,9 @@
 {
   "SearchCourse": {
     "breadcrumb": "Search Courses",
+    "trainingCourse": "Training Courses",
+    "diploma": "Diplomas",
+    "master": "Master's Programs",
     "title": "Explore Our",
     "titleSpan": "Professional Courses",
     "subtitle": "Find the perfect course to advance your career",

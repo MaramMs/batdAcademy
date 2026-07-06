@@ -8,6 +8,7 @@ import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useTranslations } from "next-intl";
+import { useMemo } from "react";
 
 const Header = ({ updateFilter ,categories,specializations,cities}) => {
    const searchParams = useSearchParams();

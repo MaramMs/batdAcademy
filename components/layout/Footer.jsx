@@ -93,14 +93,14 @@ export default async function Footer() {
   return (
     <footer className={styles.footer} aria-label="Site footer">
       <div className={styles.top}>
-        <Image
+        {/* <Image
           src={footerLogo}
           width={150}
           height={107}
           alt="British Academy"
           priority={false}
           style={{ width: "150px", height: "107px" }}
-        />
+        /> */}
         <p className={styles.tagline}>{t('tagline')}</p>
       </div>
 
