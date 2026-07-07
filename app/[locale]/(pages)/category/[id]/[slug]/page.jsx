@@ -76,7 +76,18 @@ export async function generateMetadata({ params }) {
          };
      } catch (error) {
          console.error("Metadata error:", error);
-         return { ...fallback, openGraph: { ...fallback, type: "article" } };
+         const defaultImages = [
+             { url: '/og-image.png', width: 1200, height: 630, alt: fallback.title },
+         ];
+         return {
+             ...fallback,
+             openGraph: { ...fallback, type: "article", images: defaultImages },
+             twitter: {
+                 card: "summary_large_image",
+                 ...fallback,
+                 images: defaultImages,
+             },
+         };
      }
 }
 

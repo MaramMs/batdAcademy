@@ -41,7 +41,7 @@ export async function generateMetadata({ params }) {
             type: "website",
             ...(title ? { title } : {}),
             ...(description ? { description } : {}),
-            images: [{ url: "/og-image.png", width: 1200, height: 630, alt: title || "British Academy for Training & Development" }],
+            images: [{ url: "/og-image.png", width: 1200, height: 630, alt: title }],
         },
         twitter: {
             card: "summary_large_image",
