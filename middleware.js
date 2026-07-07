@@ -109,7 +109,7 @@ export async function middleware(request) {
   }
 
   // د٢. فحص slug/locale mismatch
-  const coursePathMatch = pathname.match(/^\/(en|ar)\/(course_tr[ai]ning)\/(\d+)\/(.+)$/);
+const coursePathMatch = pathname.match(/^\/(en|ar)\/(course_training)\/(\d+)\/(.+)$/);
   if (coursePathMatch) {
     const [, lang, routeName, id, slugPart] = coursePathMatch;
     const decodedSlug = decodeURIComponent(slugPart);
