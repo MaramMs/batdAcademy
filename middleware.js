@@ -141,7 +141,24 @@ export async function middleware(request) {
   // ========================================================
   // ثالثاً: next-intl
   // ========================================================
-  return intlMiddleware(request);
+  const intlResponse = intlMiddleware(request);
+
+  // next-intl's locale-prefix redirect (e.g. "/" -> "/en") always uses 307,
+  // which is bad for SEO on a permanent, always-on locale prefix. Re-issue it as 301.
+  if (intlResponse.status === 307 || intlResponse.status === 308) {
+    const location = intlResponse.headers.get('location');
+    if (location) {
+      const permanentRedirect = NextResponse.redirect(new URL(location, request.url), 301);
+      intlResponse.headers.forEach((value, key) => {
+        if (key.toLowerCase() !== 'location') {
+          permanentRedirect.headers.set(key, value);
+        }
+      });
+      return permanentRedirect;
+    }
+  }
+
+  return intlResponse;
 }
 
 export const config = {
