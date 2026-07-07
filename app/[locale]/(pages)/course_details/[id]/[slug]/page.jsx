@@ -1,6 +1,6 @@
 import { getCourseBySlug } from "@/action/courses";
 import AlternatePathsSetter from "@/components/common/AlternatePathsSetter";
-import { SITE_URL } from "@/lib/seoMeta";
+import { resolveOgImage, SITE_URL } from "@/lib/seoMeta";
 import CourseDetails from "./CourseDetails";
 
 export async function generateMetadata({ params }) {
@@ -59,6 +59,7 @@ export async function generateMetadata({ params }) {
       fallback.description;
     const keywords =
       data.meta_keyword || m.meta_keyword || m.keyword || undefined;
+    const ogImage = resolveOgImage(data?.image);
     return {
       metadataBase: new URL(SITE_URL),
       title: { absolute: title },
@@ -78,8 +79,8 @@ export async function generateMetadata({ params }) {
         type: "article",
         locale: locale === "ar" ? "ar_AR" : "en_US",
         alternateLocale: locale === "ar" ? ["en_US"] : ["ar_AR"],
-        ...(data?.image
-          ? { images: [data.image] }
+        ...(ogImage
+          ? { images: [ogImage] }
           : {
               images: [
                 {
@@ -95,8 +96,8 @@ export async function generateMetadata({ params }) {
         card: "summary_large_image",
         title,
         description,
-        ...(data?.image
-          ? { images: [data.image] }
+        ...(ogImage
+          ? { images: [ogImage] }
           : {
               images: [
                 {

@@ -17,6 +17,7 @@ export async function generateMetadata({ params }) {
     : "Article";
 
   const fallback = {
+    metadataBase: new URL(SITE_URL),
     title: `${niceName} `,
     description: `Read this article from the British Academy for Training & Development blog.`,
   };
@@ -24,7 +25,20 @@ export async function generateMetadata({ params }) {
   try {
     const response = await getPostBySlug(locale, slug);
     const res = response?.data;
-    if (!res) return fallback;
+    if (!res) {
+      const defaultImages = [
+        { url: "/og-image.png", width: 1200, height: 630, alt: fallback.title },
+      ];
+      return {
+        ...fallback,
+        openGraph: { ...fallback, type: "article", images: defaultImages },
+        twitter: {
+          card: "summary_large_image",
+          ...fallback,
+          images: defaultImages,
+        },
+      };
+    }
 
     const meta = res.meta || {};
     const title = meta.title || res.name || fallback.title;
