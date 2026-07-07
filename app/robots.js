@@ -1,3 +1,5 @@
+import { SITE_URL } from "@/lib/seoMeta";
+
 export default function robots() {
   return {
     rules: {
@@ -10,6 +12,6 @@ export default function robots() {
         '/*registerInternalCourse',
       ],
     },
-    sitemap: 'https://batdacademy.com/sitemap.xml',
+    sitemap: [`${SITE_URL}/en/sitemap.xml`, `${SITE_URL}/ar/sitemap.xml`],
   };
 }
