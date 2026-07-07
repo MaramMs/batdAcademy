@@ -90,7 +90,25 @@ export async function middleware(request) {
     return NextResponse.redirect(url, 301);
   }
 
-  // د. فحص slug/locale mismatch
+  // د١. روابط قديمة بـ slug يبدأ بـ Training-Course(s)-in- على أي route فيه id/slug
+  // (course_training, city, category, course_details, ...)
+  const oldSlugMatch = pathname.match(/^\/(en|ar)\/([a-zA-Z_]+)\/(\d+)\/(.+)$/);
+  if (oldSlugMatch) {
+    const [, lang, routeName, id, slugPart] = oldSlugMatch;
+    const decodedSlug = decodeURIComponent(slugPart);
+
+    if (/^training-courses?-in-/i.test(decodedSlug)) {
+      const cleanedSlug = decodedSlug.replace(/^training-courses?-in-/i, '');
+
+      if (cleanedSlug) {
+        const url = request.nextUrl.clone();
+        url.pathname = `/${lang}/${routeName}/${id}/${encodeURIComponent(cleanedSlug)}`;
+        return NextResponse.redirect(url, 301);
+      }
+    }
+  }
+
+  // د٢. فحص slug/locale mismatch
   const coursePathMatch = pathname.match(/^\/(en|ar)\/(course_tr[ai]ning)\/(\d+)\/(.+)$/);
   if (coursePathMatch) {
     const [, lang, routeName, id, slugPart] = coursePathMatch;
