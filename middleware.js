@@ -59,19 +59,27 @@ export async function middleware(request) {
   }
 
   // ب. روابط query params قديمة مثل ?specialization=33
-  // const queryKeys = ['specialization', 'category', 'course_id', 'id', 'main_spec'];
-  // for (let key of queryKeys) {
-  //   if (searchParams.has(key)) {
-  //     const idValue = searchParams.get(key);
-  //     if (/^\d+$/.test(idValue)) {
-  //       const lang = pathname.startsWith('/en/') ? 'en' : 'ar';
-  //       const url = request.nextUrl.clone();
-  //       url.pathname = `/${lang}/course_training/${idValue}`;
-  //       url.search = '';
-  //       return NextResponse.redirect(url, 301);
-  //     }
-  //   }
-  // }
+  // ✅ نستثني الصفحات الحقيقية اللي بتستخدم نفس أسماء الـ params بشكل شرعي
+  const legacyQueryExcludedRoutes = ['/registerCourse', '/registerInternalCourse', '/contact_us'];
+  const isExcludedFromLegacyRedirect = legacyQueryExcludedRoutes.some(route =>
+    pathname.includes(route)
+  );
+
+  if (!isExcludedFromLegacyRedirect) {
+    const queryKeys = ['specialization', 'category', 'course_id', 'id', 'main_spec'];
+    for (let key of queryKeys) {
+      if (searchParams.has(key)) {
+        const idValue = searchParams.get(key);
+        if (/^\d+$/.test(idValue)) {
+          const lang = pathname.startsWith('/en/') ? 'en' : 'ar';
+          const url = request.nextUrl.clone();
+          url.pathname = `/${lang}/course_training/${idValue}`;
+          url.search = '';
+          return NextResponse.redirect(url, 301);
+        }
+      }
+    }
+  }
 
   // ✅ ج. روابط /ar/search_course?type=X أو /en/search_course?type=X
   if (pathname.match(/^\/(ar|en)\/search_course$/) && searchParams.has('type')) {
