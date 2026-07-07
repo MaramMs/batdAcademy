@@ -1,6 +1,6 @@
 import { getConsultantWithService } from "@/action/consulting";
 import AlternatePathsSetter from "@/components/common/AlternatePathsSetter";
-import { SITE_URL } from "@/lib/seoMeta";
+import { resolveOgImage, SITE_URL } from "@/lib/seoMeta";
 import ConsultingService from "./ConsultingService";
 
 export async function generateMetadata({ params }) {
@@ -39,6 +39,8 @@ export async function generateMetadata({ params }) {
       }
     }
 
+    const ogImage = resolveOgImage(res.image);
+
     return {
       metadataBase: new URL(SITE_URL),
       title,
@@ -58,8 +60,8 @@ export async function generateMetadata({ params }) {
         type: "article",
         locale: locale === "ar" ? "ar_AR" : "en_US",
         alternateLocale: locale === "ar" ? ["en_US"] : ["ar_AR"],
-        ...(res.image
-          ? { images: [res.image] }
+        ...(ogImage
+          ? { images: [ogImage] }
           : {
               images: [
                 {
@@ -75,8 +77,8 @@ export async function generateMetadata({ params }) {
         card: "summary_large_image",
         title,
         description,
-        ...(res.image
-          ? { images: [res.image] }
+        ...(ogImage
+          ? { images: [ogImage] }
           : {
               images: [
                 {

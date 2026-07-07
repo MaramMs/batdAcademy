@@ -1,6 +1,6 @@
 import { getPostBySlug } from "@/action/posts";
 import AlternatePathsSetter from "@/components/common/AlternatePathsSetter";
-import { buildAlternates, SITE_URL } from "@/lib/seoMeta";
+import { buildAlternates, resolveOgImage, SITE_URL } from "@/lib/seoMeta";
 import styleContainer from "@/sass/components/common/container.module.scss";
 import styles from "@/sass/pages/blog/blog-details.module.scss";
 import ArticleParts from "./ArticleParts";
@@ -43,6 +43,8 @@ export async function generateMetadata({ params }) {
       }
     }
 
+    const ogImage = resolveOgImage(res?.image);
+
     return {
       metadataBase: new URL(SITE_URL),
       title,
@@ -57,9 +59,9 @@ export async function generateMetadata({ params }) {
         title,
         description,
         type: "article",
-       
-        ...(res?.image
-          ? { images: [res.image] }
+
+        ...(ogImage
+          ? { images: [ogImage] }
           : {
               images: [
                 {
@@ -75,8 +77,8 @@ export async function generateMetadata({ params }) {
         card: "summary_large_image",
         title,
         description,
-        ...(res?.image
-          ? { images: [res.image] }
+        ...(ogImage
+          ? { images: [ogImage] }
           : {
               images: [
                 {

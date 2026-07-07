@@ -1,7 +1,7 @@
 import AlternatePathsSetter from "@/components/common/AlternatePathsSetter";
 import { getSpecializationBySlug } from "@/action/categories";
 import SpecializationDetails from "./SpecializationDetails";
-import { SITE_URL, buildAlternates } from "@/lib/seoMeta";
+import { SITE_URL, buildAlternates, resolveOgImage } from "@/lib/seoMeta";
 export async function generateMetadata({ params }) {
   const { locale, id, slug } = await params;
   const name = slug
@@ -40,6 +40,8 @@ export async function generateMetadata({ params }) {
       }
     }
 
+    const ogImage = resolveOgImage(res?.image);
+
     return {
       metadataBase: new URL(SITE_URL),
       title,
@@ -53,8 +55,8 @@ export async function generateMetadata({ params }) {
         title,
         description,
         type: "article",
-        ...(res?.image
-          ? { images: [res.image] }
+        ...(ogImage
+          ? { images: [ogImage] }
           : {
               images: [
                 {
@@ -70,8 +72,8 @@ export async function generateMetadata({ params }) {
         card: "summary_large_image",
         title,
         description,
-        ...(res?.image
-          ? { images: [res.image] }
+        ...(ogImage
+          ? { images: [ogImage] }
           : {
               images: [
                 {

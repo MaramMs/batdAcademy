@@ -2,7 +2,7 @@
 import AlternatePathsSetter from "@/components/common/AlternatePathsSetter";
 import CategoryDetails from "./CategoryDetails";
 import { getCategoryBySlug } from "@/action/categories";
-import { SITE_URL, buildAlternates } from "@/lib/seoMeta";
+import { SITE_URL, buildAlternates, resolveOgImage } from "@/lib/seoMeta";
 export async function generateMetadata({ params }) {
     const { locale, id, slug } = await params;
     const name = slug
@@ -36,6 +36,8 @@ export async function generateMetadata({ params }) {
              }
          }
  
+         const ogImage = resolveOgImage(res?.image);
+
          return {
              metadataBase: new URL(SITE_URL),
              title,
@@ -49,7 +51,7 @@ export async function generateMetadata({ params }) {
                  title,
                  description,
                  type: "article",
-                 ...(res?.image ? { images: [res.image] } : {
+                 ...(ogImage ? { images: [ogImage] } : {
                      images: [{
                          url: '/og-image.png',
                          width: 1200,
@@ -62,7 +64,7 @@ export async function generateMetadata({ params }) {
                  card: "summary_large_image",
                  title,
                  description,
-                 ...(res?.image ? { images: [res.image] } : {
+                 ...(ogImage ? { images: [ogImage] } : {
                      images: [
                          {
                              url: '/og-image.png',
