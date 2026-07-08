@@ -14,8 +14,6 @@ function hasArabicCharacters(text) {
 
 export async function middleware(request) {
   const { pathname, searchParams } = request.nextUrl;
-  console.log('NEXT_LOCALE cookie:', request.cookies.get('NEXT_LOCALE')?.value);
-  console.log('accept-language:', request.headers.get('accept-language'));
 
   // ========================================================
   // أولاً: SEO Redirects للروابط القديمة
@@ -35,11 +33,12 @@ export async function middleware(request) {
 
         const localeCookie = request.cookies.get('NEXT_LOCALE')?.value;
 
-        let lang = 'en'; 
+        let lang = 'en';
 
         if (localeCookie === 'en' || localeCookie === 'ar') {
           lang = localeCookie;
         } else {
+          const acceptLang = request.headers.get('accept-language') || '';
           const primaryLang = acceptLang.split(',')[0].trim().substring(0, 2);
           lang = primaryLang === 'ar' ? 'ar' : 'en';
         }
@@ -90,40 +89,46 @@ export async function middleware(request) {
     return NextResponse.redirect(url, 301);
   }
 
-  // د١. روابط قديمة بـ slug يبدأ بـ Training-Course(s)-in- على أي route فيه id/slug
-  // (course_training, city, category, course_details, ...)
-  const oldSlugMatch = pathname.match(/^\/(en|ar)\/([a-zA-Z_]+)\/(\d+)\/(.+)$/);
-  if (oldSlugMatch) {
-    const [, lang, routeName, id, slugPart] = oldSlugMatch;
-    const decodedSlug = decodeURIComponent(slugPart);
+  // د. فحص عام على الـ routes اللي بتستخدم slug مرتبط باللغة
+  // (course_training, city, post, blog, ...) - يدعم شكلين:
+  //   /locale/routeName/slug          (زي post)
+  //   /locale/routeName/id/slug       (زي course_training, city)
+  //
+  // ⚠️ لازم قائمة محددة بالـ routes، لأن أي route تاني فيه segment
+  // زي /ar/editMyProfile/notifications ممكن ينكسر لو طبقنا الفحص عالكل
+  const localizedSlugRoutes = ['course_training', 'city', 'post', 'blog'];
 
-    if (/^training-courses?-in-/i.test(decodedSlug)) {
-      const cleanedSlug = decodedSlug.replace(/^training-courses?-in-/i, '');
+  const slugRouteMatch = pathname.match(/^\/(en|ar)\/([a-zA-Z_]+)\/(?:(\d+)\/)?([^/]+)$/);
+  if (slugRouteMatch) {
+    const [, lang, routeName, id, slugPart] = slugRouteMatch;
 
-      if (cleanedSlug) {
+    if (localizedSlugRoutes.includes(routeName)) {
+      const decodedSlug = decodeURIComponent(slugPart);
+      const idSegment = id ? `${id}/` : '';
+
+      // د١. تنظيف الـ slug القديم اللي يبدأ بـ Training-Course(s)-in- (بس لو فيه id)
+      if (id && /^training-courses?-in-/i.test(decodedSlug)) {
+        const cleanedSlug = decodedSlug.replace(/^training-courses?-in-/i, '');
+
+        if (cleanedSlug) {
+          const url = request.nextUrl.clone();
+          url.pathname = `/${lang}/${routeName}/${idSegment}${encodeURIComponent(cleanedSlug)}`;
+          return NextResponse.redirect(url, 301);
+        }
+      }
+
+      // د٢. فحص slug/locale mismatch
+      if (lang === 'en' && hasArabicCharacters(decodedSlug)) {
         const url = request.nextUrl.clone();
-        url.pathname = `/${lang}/${routeName}/${id}/${encodeURIComponent(cleanedSlug)}`;
+        url.pathname = `/ar/${routeName}/${idSegment}${encodeURIComponent(decodedSlug)}`;
         return NextResponse.redirect(url, 301);
       }
-    }
-  }
 
-  // د٢. فحص slug/locale mismatch
-const coursePathMatch = pathname.match(/^\/(en|ar)\/(course_training)\/(\d+)\/(.+)$/);
-  if (coursePathMatch) {
-    const [, lang, routeName, id, slugPart] = coursePathMatch;
-    const decodedSlug = decodeURIComponent(slugPart);
-
-    if (lang === 'en' && hasArabicCharacters(decodedSlug)) {
-      const url = request.nextUrl.clone();
-      url.pathname = `/ar/${routeName}/${id}/${encodeURIComponent(decodedSlug)}`;
-      return NextResponse.redirect(url, 301);
-    }
-
-    if (lang === 'ar' && !hasArabicCharacters(decodedSlug)) {
-      const url = request.nextUrl.clone();
-      url.pathname = `/en/${routeName}/${id}/${encodeURIComponent(decodedSlug)}`;
-      return NextResponse.redirect(url, 301);
+      if (lang === 'ar' && !hasArabicCharacters(decodedSlug)) {
+        const url = request.nextUrl.clone();
+        url.pathname = `/en/${routeName}/${idSegment}${encodeURIComponent(decodedSlug)}`;
+        return NextResponse.redirect(url, 301);
+      }
     }
   }
 
@@ -147,13 +152,13 @@ const coursePathMatch = pathname.match(/^\/(en|ar)\/(course_training)\/(\d+)\/(.
   if (isProtectedRoute && !token) {
     const locale = pathname.split('/')[1] || routing.defaultLocale;
     const url = new URL(`/${locale}/signIn`, request.url);
-    return NextResponse.redirect(url);
+    return NextResponse.redirect(url, 301);
   }
 
   if (isPublicOnlyRoute && token) {
     const locale = pathname.split('/')[1] || routing.defaultLocale;
     const url = new URL(`/${locale}/`, request.url);
-    return NextResponse.redirect(url);
+    return NextResponse.redirect(url, 301);
   }
 
   // ========================================================
