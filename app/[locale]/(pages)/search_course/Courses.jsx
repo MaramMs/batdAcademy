@@ -92,7 +92,7 @@ const CoursesPage = () => {
                         </div>
                     ) : (
                         <div className={styles.wrapper}>
-                            <SidebarFilter updateFilter={updateFilter} data={data} />
+                            <SidebarFilter updateFilter={updateFilter} data={data} className='filter'/>
 
                             <MotionWrapper className={styles.coursesWrapper}>
                                 {isLoading ? (
