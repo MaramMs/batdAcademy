@@ -1,7 +1,12 @@
+import { cache } from "react";
 import { getCourseBySlug } from "@/action/courses";
 import AlternatePathsSetter from "@/components/common/AlternatePathsSetter";
-import { SITE_URL, cleanMeta } from "@/lib/seoMeta";
+import { SITE_URL, cleanMeta, resolveOgImage } from "@/lib/seoMeta";
 import CourseDetails from "./CourseDetails";
+
+// generateMetadata and the page component both need the same course — memoize per-request
+// so they share one API call instead of two independent (and possibly inconsistent) fetches.
+const getCachedCourseBySlug = cache((locale, slug) => getCourseBySlug(locale, slug));
 
 // The API sometimes returns this generic CMS placeholder instead of omitting `image` —
 // treat it as "no image" so schema doesn't advertise a blank graphic.
@@ -11,6 +16,17 @@ const PROVIDER_LOGO_PATH = "/asstes/batdacademy-logo.png";
 // Prices are always GBP across the app (see the hardcoded "£" in CourseSummaryCard.jsx /
 // MobileCourseHeader.jsx) — the API never returns a per-course currency field.
 const COURSE_CURRENCY = "GBP";
+const BRAND_NAME = "British Academy for Training & Development";
+const IMAGE_MIME_TYPES = { jpg: "image/jpeg", jpeg: "image/jpeg", png: "image/png", webp: "image/webp", gif: "image/gif" };
+
+function getImageMimeType(url) {
+  const ext = url?.split(".").pop()?.split(/[?#]/)[0]?.toLowerCase();
+  return IMAGE_MIME_TYPES[ext] || "image/jpeg";
+}
+
+function buildOgImage({ url, alt }) {
+  return { url, width: 1200, height: 630, alt, type: getImageMimeType(url) };
+}
 
 function cleanJsonLd(value) {
   if (Array.isArray(value)) {
@@ -107,7 +123,7 @@ function buildCourseSchema({ course, locale, routeId, routeSlug, siteUrl }) {
       name:
         locale === "ar"
           ? "الأكاديمية البريطانية للتدريب والتطوير"
-          : "British Academy for Training & Development",
+          : BRAND_NAME,
       url: siteUrl,
       logo: {
         "@type": "ImageObject",
@@ -147,41 +163,32 @@ export async function generateMetadata({ params }) {
         .replace(/\b\w/g, (c) => c.toUpperCase())
     : "training course";
 
-  const fallbackTitle = `${niceName} `;
-  const fallbackDescription = `Learn about the ${niceName} training course offered by the British Academy for Training & Development.`;
+  const fallbackTitle = niceName;
+  const fallbackDescription = `Learn about the ${niceName} training course offered by ${BRAND_NAME}.`;
+  const fallbackUrl = `${SITE_URL}/${locale}/course_details/${id}/${slug}`;
+  const fallbackImage = buildOgImage({ url: `${SITE_URL}/og-image.png`, alt: fallbackTitle });
 
   const fallback = {
     title: { absolute: fallbackTitle },
     description: fallbackDescription,
-    // icons: {
-    //     icon: "/favicon.ico",
-    //     shortcut: "/favicon.ico",
-    //     apple: "/favicon.ico",
-    // },
     openGraph: {
       title: fallbackTitle,
       description: fallbackDescription,
       type: "website",
-      siteName: "British Academy for Training & Development",
-      images: [
-        {
-          url: "/og-image.png",
-          width: 1200,
-          height: 630,
-          alt: fallbackTitle,
-        },
-      ],
+      url: fallbackUrl,
+      siteName: BRAND_NAME,
+      images: [fallbackImage],
     },
 
     twitter: {
       card: "summary_large_image",
       title: fallbackTitle,
       description: fallbackDescription,
-      images: [{ url: "/og-image.png", width: 1200, height: 630 }],
+      images: [fallbackImage],
     },
   };
   try {
-    const res = await getCourseBySlug(locale, slug);
+    const res = await getCachedCourseBySlug(locale, slug);
     const data = res?.data || {};
     const m = data.meta || {};
     const title =
@@ -194,7 +201,10 @@ export async function generateMetadata({ params }) {
       fallback.description;
     const keywords =
       data.meta_keyword || m.meta_keyword || m.keyword || undefined;
-    const ogImage = resolveOgImage(data?.image);
+    const pageUrl = `${SITE_URL}/${locale}/course_details/${id}/${slug}`;
+    const resolvedImageUrl =
+      resolveOgImage(data?.image) || `${SITE_URL}${FALLBACK_COURSE_IMAGE_PATH}`;
+    const ogImage = buildOgImage({ url: resolvedImageUrl, alt: title });
     return {
       metadataBase: new URL(SITE_URL),
       title: { absolute: title },
@@ -212,41 +222,22 @@ export async function generateMetadata({ params }) {
         title,
         description,
         type: "article",
+        url: pageUrl,
+        siteName: BRAND_NAME,
         locale: locale === "ar" ? "ar_AR" : "en_US",
         alternateLocale: locale === "ar" ? ["en_US"] : ["ar_AR"],
-        ...(ogImage
-          ? { images: [ogImage] }
-          : {
-              images: [
-                {
-                  url: "/og-image.png",
-                  width: 1200,
-                  height: 630,
-                  alt: title,
-                },
-              ],
-            }),
+        images: [ogImage],
       },
       twitter: {
         card: "summary_large_image",
         title,
         description,
-        ...(ogImage
-          ? { images: [ogImage] }
-          : {
-              images: [
-                {
-                  url: "/og-image.png",
-                  width: 1200,
-                  height: 630,
-                  alt: title,
-                },
-              ],
-            }),
+        images: [ogImage],
       },
     };
-  } catch {
-    return { ...fallback, openGraph: { ...fallback, type: "website" } };
+  } catch (error) {
+    console.error("generateMetadata error:", error);
+    return fallback;
   }
 }
 
@@ -254,7 +245,7 @@ export default async function CourseDetailsPage({ params }) {
   const { locale, id, slug } = await params;
   let courseData = {};
   try {
-    const res = await getCourseBySlug(locale, slug);
+    const res = await getCachedCourseBySlug(locale, slug);
     courseData = res?.data || {};
   } catch (error) {
     console.error("Failed to fetch course details:", error);

@@ -14,10 +14,8 @@ import {
   Calendar,
   ChevronRight,
   Clock,
-  Copy,
   Filter,
   Mail,
-  MessageCircle,
   Play,
   Printer,
   Star,
@@ -38,6 +36,11 @@ import { useTranslations } from "next-intl";
 
 const formatDateParam = (value) =>
   value instanceof Date ? value.toISOString().split("T")[0] : value;
+
+// The printable course PDF is served by the Laravel site (not part of this Next.js
+// app), so it can't be built from NEXT_PUBLIC_SITE_URL — that resolves to localhost
+// in dev, where this route doesn't exist.
+const LARAVEL_SITE_URL = "https://batdacademy.com";
 
 const CourseDetails = ({ initialCourse }) => {
   const t = useTranslations('CourseDetails');
@@ -62,6 +65,30 @@ const CourseDetails = ({ initialCourse }) => {
     }
     return `/${locale}/registerCourse?${params.toString()}`;
   }, [locale, id, selectedDate]);
+
+  const handleFacebookShare = () => {
+    const shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}`;
+    window.open(shareUrl, "_blank", "noopener,noreferrer,width=600,height=400");
+  };
+
+  const handleXShare = () => {
+    // URL-only: X unfurls title/description/image itself from the page's own
+    // meta tags, so passing a duplicate `text` would just show redundant text
+    // above the card instead of a clean link preview.
+    const shareUrl = `https://x.com/intent/tweet?url=${encodeURIComponent(window.location.href)}`;
+    window.open(shareUrl, "_blank", "noopener,noreferrer,width=600,height=400");
+  };
+
+  const handleGmailShare = () => {
+    const shareUrl = `https://mail.google.com/mail/?view=cm&fs=1&su=${encodeURIComponent(course?.name || "")}&body=${encodeURIComponent(window.location.href)}`;
+    window.open(shareUrl, "_blank", "noopener,noreferrer");
+  };
+
+  const handlePrint = () => {
+    const courseId = course?.id || id;
+    const printUrl = `${LARAVEL_SITE_URL}/${locale}/show_course_content_pdf/${courseId}`;
+    window.open(printUrl, "_blank", "noopener,noreferrer");
+  };
 
   const updateFilter = (key, value) => {
     const params = new URLSearchParams(searchParams.toString());
@@ -147,23 +174,32 @@ const CourseDetails = ({ initialCourse }) => {
                             <div className={styles.icons}>
                               <button
                                 type="button"
-                                aria-label="Share via email"
+                                aria-label="Share on Facebook"
+                                onClick={handleFacebookShare}
                               >
-                                <Mail size={18} aria-hidden="true" />
+                                <svg
+                                  width="18"
+                                  height="18"
+                                  viewBox="0 0 24 24"
+                                  fill="currentColor"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  aria-hidden="true"
+                                >
+                                  <path d="M22.675 0h-21.35c-.732 0-1.325.593-1.325 1.325v21.351c0 .731.593 1.324 1.325 1.324h11.495v-9.294h-3.128v-3.622h3.128v-2.671c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12v9.293h6.116c.73 0 1.323-.593 1.323-1.325v-21.35c0-.732-.593-1.325-1.325-1.325z" />
+                                </svg>
                               </button>
                               <button
                                 type="button"
-                                aria-label="Share via message"
+                                aria-label="Share on X"
+                                onClick={handleXShare}
                               >
-                                <MessageCircle size={18} aria-hidden="true" />
-                              </button>
-                              <span>
                                 <svg
                                   width="18"
                                   height="18"
                                   viewBox="0 0 18 18"
                                   fill="none"
                                   xmlns="http://www.w3.org/2000/svg"
+                                  aria-hidden="true"
                                 >
                                   <mask
                                     id="mask0_560_9573"
@@ -179,15 +215,23 @@ const CourseDetails = ({ initialCourse }) => {
                                   <g mask="url(#mask0_560_9573)">
                                     <path
                                       d="M14.175 0.843414H16.9354L10.9054 7.75284L18 17.1566H12.4457L8.09229 11.4544L3.11657 17.1566H0.353571L6.80271 9.7637L0 0.8447H5.69571L9.62486 6.0557L14.175 0.843414ZM13.2043 15.5006H14.7343L4.86 2.41327H3.21943L13.2043 15.5006Z"
-                                      fill="#4A5565"
+                                      fill="currentColor"
                                     />
                                   </g>
                                 </svg>
-                              </span>
-                              <button type="button" aria-label="Copy link">
-                                <Copy size={18} aria-hidden="true" />
                               </button>
-                              <button type="button" aria-label="Print">
+                              <button
+                                type="button"
+                                aria-label="Share via Gmail"
+                                onClick={handleGmailShare}
+                              >
+                                <Mail size={18} aria-hidden="true" />
+                              </button>
+                              <button
+                                type="button"
+                                aria-label="Print"
+                                onClick={handlePrint}
+                              >
                                 <Printer size={18} aria-hidden="true" />
                               </button>
                             </div>
@@ -222,7 +266,7 @@ const CourseDetails = ({ initialCourse }) => {
                     <div className={styles.right}>
                       <div className={styles.priceHeaderMobile}>
                         <div className={styles.priceTag}>
-                          <span>{course?.price}</span>
+                          <span>£{course?.price}</span>
                           <p>{t('oneTimePayment')}</p>
                         </div>
                         <Link
@@ -264,7 +308,7 @@ const CourseDetails = ({ initialCourse }) => {
                       </div>
 
                       <div className={styles.dateInfo}>
-                        <h3>{course?.price}</h3>
+                        <h3>£{course?.price}</h3>
                         <div className={styles.infoContainer}>
                           <h4>
                             {" "}

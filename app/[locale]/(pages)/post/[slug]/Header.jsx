@@ -7,80 +7,8 @@ import useLanguageStore from "@/store/useLanguageStore";
 import { useTranslations } from "next-intl";
 const SOCIAL_LINKS = [
   {
-    href: "#",
-    label: "Share on YouTube",
-    svg: (
-      <svg
-        aria-hidden="true"
-        width="18"
-        height="18"
-        viewBox="0 0 18 18"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <g clipPath="url(#clip0_344_11265)">
-          <path
-            d="M1.78781 12.1576C1.28818 9.79978 1.28818 7.36339 1.78781 5.00553C1.85346 4.76609 1.9803 4.54785 2.15586 4.37229C2.33142 4.19673 2.54966 4.06989 2.7891 4.00424C6.62509 3.36875 10.5395 3.36875 14.3755 4.00424C14.615 4.06989 14.8332 4.19673 15.0087 4.37229C15.1843 4.54785 15.3112 4.76609 15.3768 5.00553C15.8764 7.36339 15.8764 9.79978 15.3768 12.1576C15.3112 12.3971 15.1843 12.6153 15.0087 12.7909C14.8332 12.9664 14.615 13.0933 14.3755 13.1589C10.5395 13.7946 6.62508 13.7946 2.7891 13.1589C2.54966 13.0933 2.33142 12.9664 2.15586 12.7909C1.9803 12.6153 1.85346 12.3971 1.78781 12.1576Z"
-            stroke="white"
-            strokeWidth="1.43042"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-          <path
-            d="M7.15234 10.7269L10.7284 8.58124L7.15234 6.43561V10.7269Z"
-            stroke="white"
-            strokeWidth="1.43042"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </g>
-        <defs>
-          <clipPath id="clip0_344_11265">
-            <rect width="17.165" height="17.165" fill="white" />
-          </clipPath>
-        </defs>
-      </svg>
-    ),
-  },
-  {
-    href: "#",
-    label: "Share on Instagram",
-    svg: (
-      <svg
-        aria-hidden="true"
-        width="18"
-        height="18"
-        viewBox="0 0 18 18"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          d="M12.1588 1.42969H5.00671C3.03172 1.42969 1.43066 3.03074 1.43066 5.00574V12.1578C1.43066 14.1328 3.03172 15.7339 5.00671 15.7339H12.1588C14.1338 15.7339 15.7349 14.1328 15.7349 12.1578V5.00574C15.7349 3.03074 14.1338 1.42969 12.1588 1.42969Z"
-          stroke="white"
-          strokeWidth="1.43042"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-        <path
-          d="M11.4427 8.13228C11.531 8.72751 11.4293 9.33541 11.1521 9.86953C10.875 10.4037 10.4365 10.8368 9.899 11.1073C9.36151 11.3779 8.75239 11.472 8.1583 11.3764C7.5642 11.2808 7.01537 11.0003 6.58988 10.5748C6.16438 10.1493 5.88389 9.60051 5.78829 9.00642C5.69269 8.41232 5.78686 7.8032 6.05739 7.26571C6.32793 6.72821 6.76106 6.28971 7.29518 6.01257C7.8293 5.73542 8.4372 5.63375 9.03244 5.72202C9.63959 5.81205 10.2017 6.09497 10.6357 6.52899C11.0697 6.96301 11.3527 7.52512 11.4427 8.13228Z"
-          stroke="white"
-          strokeWidth="1.43042"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-        <path
-          d="M12.5166 4.64771H12.524"
-          stroke="white"
-          strokeWidth="1.43042"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </svg>
-    ),
-  },
-  {
-    href: "#",
-    label: "Share on Twitter",
+    id: "x",
+    label: "Share on X",
     svg: (
       <svg
         aria-hidden="true"
@@ -108,43 +36,7 @@ const SOCIAL_LINKS = [
     ),
   },
   {
-    href: "#",
-    label: "Share on LinkedIn",
-    svg: (
-      <svg
-        aria-hidden="true"
-        width="18"
-        height="18"
-        viewBox="0 0 18 18"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          d="M11.4436 5.71997C12.5817 5.71997 13.6732 6.17208 14.478 6.97685C15.2828 7.78162 15.7349 8.87312 15.7349 10.0112V15.0177H12.874V10.0112C12.874 9.63186 12.7233 9.26803 12.4551 8.99977C12.1868 8.73152 11.823 8.58081 11.4436 8.58081C11.0642 8.58081 10.7004 8.73152 10.4321 8.99977C10.1639 9.26803 10.0132 9.63186 10.0132 10.0112V15.0177H7.15234V10.0112C7.15234 8.87312 7.60446 7.78162 8.40923 6.97685C9.21399 6.17208 10.3055 5.71997 11.4436 5.71997Z"
-          stroke="white"
-          strokeWidth="1.43042"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-        <path
-          d="M4.2915 6.43588H1.43066V15.0184H4.2915V6.43588Z"
-          stroke="white"
-          strokeWidth="1.43042"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-        <path
-          d="M2.86108 4.29047C3.65108 4.29047 4.2915 3.65005 4.2915 2.86005C4.2915 2.07005 3.65108 1.42963 2.86108 1.42963C2.07108 1.42963 1.43066 2.07005 1.43066 2.86005C1.43066 3.65005 2.07108 4.29047 2.86108 4.29047Z"
-          stroke="white"
-          strokeWidth="1.43042"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </svg>
-    ),
-  },
-  {
-    href: "#",
+    id: "facebook",
     label: "Share on Facebook",
     svg: (
       <svg
@@ -165,10 +57,68 @@ const SOCIAL_LINKS = [
       </svg>
     ),
   },
+  {
+    id: "print",
+    label: "Print",
+    svg: (
+      <svg
+        aria-hidden="true"
+        width="18"
+        height="18"
+        viewBox="0 0 18 18"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M5.00586 5.71973V1.42969H12.8732V5.71973"
+          stroke="white"
+          strokeWidth="1.43042"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M5.00586 12.8735H2.86084C2.48142 12.8735 2.11763 12.7228 1.84937 12.4545C1.58112 12.1863 1.43042 11.8225 1.43042 11.4431V7.86987C1.43042 7.49045 1.58112 7.12665 1.84937 6.8584C2.11763 6.59014 2.48142 6.43945 2.86084 6.43945H15.0182C15.3977 6.43945 15.7614 6.59014 16.0297 6.8584C16.298 7.12665 16.4487 7.49045 16.4487 7.86987V11.4431C16.4487 11.8225 16.298 12.1863 16.0297 12.4545C15.7614 12.7228 15.3977 12.8735 15.0182 12.8735H12.8732"
+          stroke="white"
+          strokeWidth="1.43042"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M12.8732 9.29785H5.00586V16.4501H12.8732V9.29785Z"
+          stroke="white"
+          strokeWidth="1.43042"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </svg>
+    ),
+  },
 ];
+
+const LARAVEL_SITE_URL = "https://batdacademy.com";
 const Header = ({ post }) => {
   const t = useTranslations('Blog');
   const locale = useLanguageStore((state) => state.locale);
+
+  const handleSocialClick = (id) => {
+    if (id === "facebook") {
+      const shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}`;
+      window.open(shareUrl, "_blank", "noopener,noreferrer,width=600,height=400");
+    } else if (id === "x") {
+      // URL-only: X unfurls title/description/image itself from the page's own
+      // meta tags, so passing a duplicate `text` would just show redundant text
+      // above the card instead of a clean link preview.
+      const shareUrl = `https://x.com/intent/tweet?url=${encodeURIComponent(window.location.href)}`;
+      window.open(shareUrl, "_blank", "noopener,noreferrer,width=600,height=400");
+    } else if (id === "print") {
+      // Served by the Laravel site (not part of this Next.js app), so it can't
+      // be built from NEXT_PUBLIC_SITE_URL — that resolves to localhost in dev,
+      // where this route doesn't exist.
+      const printUrl = `${LARAVEL_SITE_URL}/${locale}/post/print/${post?.id}`;
+      window.open(printUrl, "_blank", "noopener,noreferrer");
+    }
+  };
+
   return (
     <div className={styles.header}>
       <div className={styles.container}>
@@ -238,9 +188,13 @@ const Header = ({ post }) => {
               <div className={styles.social}>
                 {SOCIAL_LINKS.map((item) => (
                   <Link
-                    key={item.label}
-                    href={item.href}
+                    key={item.id}
+                    href="#"
                     aria-label={item.label}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleSocialClick(item.id);
+                    }}
                   >
                     {item.svg}
                   </Link>
