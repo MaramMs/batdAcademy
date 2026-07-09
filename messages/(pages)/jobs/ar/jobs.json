@@ -13,7 +13,7 @@
     "bookmark": "حفظ",
     "jobDescription": "وصف الوظيفة",
     "requirements": "المتطلبات",
-    "benefits": "المزايا",
+    "responsibilities": " المسؤوليات",
     "personalInfo": "المعلومات الشخصية",
     "professionalInfo": "المعلومات المهنية",
     "fullName": "الاسم الكامل",
@@ -40,6 +40,14 @@
     "oneMonth": "إشعار شهر",
     "moreThanMonth": "أكثر من شهر",
     "expectedSalary": "الراتب المتوقع",
-    "submitApplication": "إرسال الطلب"
+    "submitApplication": "إرسال الطلب",
+    "teamNumber":"عدد أعضاء الفريق",
+    "submitting": "جارٍ الإرسال...",
+    "applySuccess": "تم إرسال طلبك بنجاح.",
+    "applyFailed": "فشل إرسال الطلب. يرجى المحاولة مرة أخرى.",
+    "fullNameRequired": "الاسم الكامل مطلوب.",
+    "emailRequired": "البريد الإلكتروني مطلوب.",
+    "phoneRequired": "رقم الهاتف مطلوب.",
+    "cvRequired": "السيرة الذاتية مطلوبة."
   }
 }

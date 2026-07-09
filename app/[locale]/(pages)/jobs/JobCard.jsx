@@ -30,34 +30,44 @@ const JobCard = ({ job = MOCK_JOB }) => {
   return (
     <div className={styles.jobCard}>
       <div className={styles.cardHeader}>
-        <span className={styles.jobType}>{job.tags[0]}</span>
+        <span className={styles.jobType}>{job?.type}</span>
         <Bookmark color="#99A1AF" size={20} />
       </div>
       <div className={styles.jobTitle}>
-        <span>{job.logoLetter}</span>
+        {/* <span>{job.logoLetter}</span> */}
         <p>
-          <h2>{job.title}</h2>
-          <span className={styles.companyName}>{job.company}</span>
+          <h2>{job.name}</h2>
+          <span className={styles.companyName}>{job?.company?.name}</span>
         </p>
       </div>
       <div className={styles.jobInfo}>
-        <span>
-          <MapPin />
-          {job.location}
-        </span>
+        {job?.country && (
+          job?.city && (
+            <span>
+              <MapPin />
+            {job?.country} - {job?.city}
+            </span>
+          )
+        )}
+        
+        
         <span className={styles.salary}>
           <DollarSign color="#1E2749" />
-          {job.salary}
+          {job?.salary_min} - {job?.salary_max}
         </span>
-        <span>
+        {/* <span>
           <Clock />
           {job.postedAgo}
-        </span>
+        </span> */}
       </div>
-      <div className={styles.jobSkills}>
-        <Award size={16} color="#99A1AF" />
-        <span>{job.experience}</span>
-      </div>
+      {
+        job?.experience_years && (
+          <div className={styles.jobSkills}>
+            <Award size={16} color="#99A1AF" />
+            <span>{job?.experience_years}</span>
+          </div>
+        )
+      }
       <button
         type="button"
         className={styles.viewBtn}
@@ -71,11 +81,16 @@ const JobCard = ({ job = MOCK_JOB }) => {
         onOpenChange={setIsDetailsOpen}
         contentClassName={modalStyles.jobDetailsModal}
       >
-        <JobDetailsForm job={job} onApplyNow={handleApplyNow} />
+        <JobDetailsForm slug={job?.slug} onApplyNow={handleApplyNow} />
       </ApplicationModal>
 
       <ApplicationModal open={isApplyOpen} onOpenChange={setIsApplyOpen}>
-        <ApplyJobForm jobId={job.id} onClose={() => setIsApplyOpen(false)} />
+        <ApplyJobForm
+          jobId={job.id}
+          jobName={job.name}
+          companyName={job?.company?.name}
+          onClose={() => setIsApplyOpen(false)}
+        />
       </ApplicationModal>
     </div>
   );

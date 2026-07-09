@@ -5,10 +5,22 @@ import styles from "@/sass/pages/jobs/applly-job-form.module.scss";
 import { Award, Briefcase, ChevronDown, Clock, FileText, Globe, GraduationCap, Mail, Phone, Upload, User } from "lucide-react";
 import DropdownMenuCustom from "@/components/common/DropdownMenu";
 import { useTranslations } from "next-intl";
+import { toast } from "sonner";
+import useJobsStore from "@/store/useJobsStore";
 
+const SERVER_FIELD_MAP = {
+  full_name: "fullName",
+  email: "email",
+  phone_number: "phone",
+  cover_letter: "coverLetter",
+  cv: "cv",
+  image: "image",
+};
 
-const ApplyJobForm = ({ onClose }) => {
+const ApplyJobForm = ({ jobId, jobName, companyName, onClose }) => {
   const t = useTranslations('Jobs');
+  const { handleApplyToJob, isApplying } = useJobsStore();
+  const [fieldErrors, setFieldErrors] = useState({});
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
@@ -27,10 +39,49 @@ const ApplyJobForm = ({ onClose }) => {
   const [photoFile, setPhotoFile] = useState(null);
   const [resumeFile, setResumeFile] = useState(null);
  
-  const handleChange = (e) =>
+  const handleChange = (e) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
- 
-  const handleSubmit = () => {
+    setFieldErrors((prev) => ({ ...prev, [e.target.name]: undefined }));
+  };
+
+  const validate = () => {
+    const errors = {};
+    if (!formData.fullName.trim()) errors.fullName = t('fullNameRequired');
+    if (!formData.email.trim()) errors.email = t('emailRequired');
+    if (!formData.phone.trim()) errors.phone = t('phoneRequired');
+    if (!resumeFile) errors.cv = t('cvRequired');
+    setFieldErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+
+  const handleSubmit = async () => {
+    if (!validate()) return;
+
+    const payload = new FormData();
+    payload.append("company_job_id", jobId);
+    payload.append("full_name", formData.fullName);
+    payload.append("email", formData.email);
+    payload.append("phone_number", formData.phone);
+    payload.append("cover_letter", formData.coverLetter);
+    if (photoFile) payload.append("image", photoFile);
+    payload.append("cv", resumeFile);
+
+    const result = await handleApplyToJob(payload);
+
+    if (!result?.success) {
+      toast.error(result?.error || t('applyFailed'));
+      if (result?.errors) {
+        const mapped = {};
+        Object.entries(result.errors).forEach(([key, messages]) => {
+          const field = SERVER_FIELD_MAP[key] || key;
+          mapped[field] = Array.isArray(messages) ? messages[0] : messages;
+        });
+        setFieldErrors((prev) => ({ ...prev, ...mapped }));
+      }
+      return;
+    }
+
+    toast.success(t('applySuccess'));
     onClose?.();
   };
  
@@ -40,10 +91,10 @@ const ApplyJobForm = ({ onClose }) => {
       <div className={styles.header}>
         <div>
           <Dialog.Title className={styles.title}>
-          Apply for Software Engineer
+            {jobName ? `${t('applyNow')} - ${jobName}` : t('applyNow')}
           </Dialog.Title>
           <Dialog.Description className={styles.company}>
-            Google Inc.
+            {companyName}
           </Dialog.Description>
         </div>
         <Dialog.Close asChild>
@@ -57,35 +108,38 @@ const ApplyJobForm = ({ onClose }) => {
         {/* Personal Information */}
         <section className={styles.section}>
           <h3 className={styles.sectionTitle}>
-            <span className={styles.icon}><User size={20} color="#1E2749"/></span> {t('apply.personalInfo')}
+            <span className={styles.icon}><User size={20} color="#1E2749"/></span> {t('personalInfo')}
           </h3>
           <div className={styles.grid2}>
             <div className={styles.field}>
-              <label className={styles.label}>{t('apply.fullName')} <span className={styles.req}>*</span></label>
+              <label className={styles.label}>{t('fullName')} <span className={styles.req}>*</span></label>
               <div className={styles.inputWrap}>
                 <span className={styles.inputIcon}> <User size={16} color="#99A1AF"/></span>
                 <input className={styles.input} name="fullName" value={formData.fullName}
                   onChange={handleChange} placeholder="Enter your full name" />
               </div>
+              {fieldErrors.fullName && <span className={styles.error}>{fieldErrors.fullName}</span>}
             </div>
             <div className={styles.field}>
-              <label className={styles.label}>Email <span className={styles.req}>*</span></label>
+              <label className={styles.label}>{t('email')} <span className={styles.req}>*</span></label>
               <div className={styles.inputWrap}>
                 <span className={styles.inputIcon}> <Mail size={16} color="#99A1AF"/> </span>
                 <input className={styles.input} name="email" type="email" value={formData.email}
                   onChange={handleChange} placeholder="your.email@example.com" />
               </div>
+              {fieldErrors.email && <span className={styles.error}>{fieldErrors.email}</span>}
             </div>
           </div>
           <div className={styles.field}>
-            <label className={styles.label}>Phone Number <span className={styles.req}>*</span></label>
+            <label className={styles.label}>{t('phone')} <span className={styles.req}>*</span></label>
             <div className={styles.inputWrap}>
               <span className={styles.inputIcon}><Phone size={16} color="#99A1AF"/></span>
               <input className={styles.input} name="phone" value={formData.phone}
                 onChange={handleChange} placeholder="+1 (555) 000-0000" />
             </div>
+            {fieldErrors.phone && <span className={styles.error}>{fieldErrors.phone}</span>}
           </div>
-       
+
         </section>
 
 
@@ -168,6 +222,7 @@ const ApplyJobForm = ({ onClose }) => {
                <span className={styles.uploadHint}>PDF, DOC, DOCX (Max 5MB)</span>
                </div>
               </label>
+              {fieldErrors.cv && <span className={styles.error}>{fieldErrors.cv}</span>}
             </div>
           </div>
         </section>
@@ -237,8 +292,8 @@ const ApplyJobForm = ({ onClose }) => {
  
       {/* Footer */}
       <div className={styles.footer}>
-        <button className={styles.submitBtn} onClick={handleSubmit}>
-          Submit Application →
+        <button className={styles.submitBtn} onClick={handleSubmit} disabled={isApplying}>
+          {isApplying ? t('submitting') : <>{t('submitApplication')} →</>}
         </button>
       </div>
     </>

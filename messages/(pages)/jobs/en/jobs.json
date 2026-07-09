@@ -13,7 +13,7 @@
     "bookmark": "Bookmark",
     "jobDescription": "Job Description",
     "requirements": "Requirements",
-    "benefits": "Benefits",
+    "responsibilities": "Responsibilities",
     "personalInfo": "Personal Information",
     "professionalInfo": "Professional Information",
     "fullName": "Full Name",
@@ -40,6 +40,14 @@
     "oneMonth": "1 month notice",
     "moreThanMonth": "More than 1 month",
     "expectedSalary": "Expected Salary",
-    "submitApplication": "Submit Application"
+    "submitApplication": "Submit Application",
+    "teamNumber": "Team Number",
+    "submitting": "Submitting...",
+    "applySuccess": "Your application has been submitted successfully.",
+    "applyFailed": "Failed to submit application. Please try again.",
+    "fullNameRequired": "Full name is required.",
+    "emailRequired": "Email is required.",
+    "phoneRequired": "Phone number is required.",
+    "cvRequired": "The CV is required."
   }
 }
