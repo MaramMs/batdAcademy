@@ -31,12 +31,27 @@ const usePlansStore = create((set) => ({
     },
 
 
-    handleGetPlanById: async (id, queryParams = "") => {
-        set({ plan: null, isLoading: true });
+    handleGetPlanById: async (id, queryParams = "", append = false) => {
+        set({ isLoading: !append });
         try {
             const locale = useLanguageStore.getState().locale;
             const data = await getPlanById(locale, id, queryParams);
-            set({ plan: data?.data || data, isLoading: false });
+            const newPlan = data?.data || data;
+            set((state) => {
+                if (append && state.plan?.courses?.items) {
+                    return {
+                        plan: {
+                            ...newPlan,
+                            courses: {
+                                ...newPlan?.courses,
+                                items: [...state.plan.courses.items, ...(newPlan?.courses?.items || [])]
+                            }
+                        },
+                        isLoading: false
+                    };
+                }
+                return { plan: newPlan, isLoading: false };
+            });
         } catch (error) {
             set({ isLoading: false });
         }

@@ -1,17 +1,10 @@
     .filter {
         display: flex;
         flex-direction: column;
-        @media (max-width:1024px) {
+        @media (max-width:1440px) {
             display: none;
-        }
-
-   
-
-      
+        } 
     }
-
-
-
     .filterGroupTitle {
         font-size: 15.77px;
         font-weight: 600;

@@ -14,8 +14,6 @@ function hasArabicCharacters(text) {
 
 export async function middleware(request) {
   const { pathname, searchParams } = request.nextUrl;
-  console.log('NEXT_LOCALE cookie:', request.cookies.get('NEXT_LOCALE')?.value);
-  console.log('accept-language:', request.headers.get('accept-language'));
 
   // ========================================================
   // أولاً: SEO Redirects للروابط القديمة
@@ -35,11 +33,12 @@ export async function middleware(request) {
 
         const localeCookie = request.cookies.get('NEXT_LOCALE')?.value;
 
-        let lang = 'en'; 
+        let lang = 'en';
 
         if (localeCookie === 'en' || localeCookie === 'ar') {
           lang = localeCookie;
         } else {
+          const acceptLang = request.headers.get('accept-language') || '';
           const primaryLang = acceptLang.split(',')[0].trim().substring(0, 2);
           lang = primaryLang === 'ar' ? 'ar' : 'en';
         }
@@ -98,13 +97,13 @@ const coursePathMatch = pathname.match(/^\/(en|ar)\/(course_training)\/(\d+)\/(.
 
     if (lang === 'en' && hasArabicCharacters(decodedSlug)) {
       const url = request.nextUrl.clone();
-      url.pathname = `/ar/${routeName}/${id}/${encodeURIComponent(decodedSlug)}`;
+      url.pathname = `/ar/${routeName}/${id}/${decodedSlug}`;
       return NextResponse.redirect(url, 301);
     }
 
     if (lang === 'ar' && !hasArabicCharacters(decodedSlug)) {
       const url = request.nextUrl.clone();
-      url.pathname = `/en/${routeName}/${id}/${encodeURIComponent(decodedSlug)}`;
+      url.pathname = `/en/${routeName}/${id}/${decodedSlug}`;
       return NextResponse.redirect(url, 301);
     }
   }
@@ -129,13 +128,13 @@ const coursePathMatch = pathname.match(/^\/(en|ar)\/(course_training)\/(\d+)\/(.
   if (isProtectedRoute && !token) {
     const locale = pathname.split('/')[1] || routing.defaultLocale;
     const url = new URL(`/${locale}/signIn`, request.url);
-    return NextResponse.redirect(url);
+    return NextResponse.redirect(url, 301);
   }
 
   if (isPublicOnlyRoute && token) {
     const locale = pathname.split('/')[1] || routing.defaultLocale;
     const url = new URL(`/${locale}/`, request.url);
-    return NextResponse.redirect(url);
+    return NextResponse.redirect(url, 301);
   }
 
   // ========================================================

@@ -1,6 +1,6 @@
 "use server";
 
-const SITEMAP_API_BASE = (process.env.NEXT_PUBLIC_API_URL || "").replace(/\/$/, "");
+const SITEMAP_API_BASE = (process.env.NEXT_PUBLIC_API_KEY || "").replace(/\/api\/v\d+\/?$/, "");
 const SITEMAP_REVALIDATE_SECONDS = 21600; // 6 hours
 
 async function fetchSitemapResource(resource, lang) {

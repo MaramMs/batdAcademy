@@ -2,6 +2,7 @@ import styles from "@/sass/components/layout/footer.module.scss";
 import Image from "next/image";
 import footerLogo from "@/public/asstes/footerlogo.webp";
 import { getTranslations } from "next-intl/server";
+import { Link } from "@/i18n/routing";
 
 // ─── SVG Icons ────────────────────────────────────────────────
 const IconYoutube = () => (
@@ -72,7 +73,8 @@ export default async function Footer() {
       title: t('columns.quickLinks.title'),
       links: [
         { label: t('columns.quickLinks.coursesByCity'), href: "/show_cities" },
-        { label: t('columns.quickLinks.yearPlans'), href: "/year_plan" },
+          { label: t('columns.quickLinks.yearPlans'), href: "/year_plan" },
+
         // { label: t('columns.quickLinks.professionalPath'), href: "#" },
         { label: t('columns.quickLinks.jobs'), href: "/jobs" },
         { label: t('columns.quickLinks.categories'), href: "/search_course" },
@@ -115,9 +117,9 @@ export default async function Footer() {
             <ul className={styles.navList}>
               {col.links.map((link) => (
                 <li key={link.label}>
-                  <a href={link.href} className={styles.navLink}>
+                  <Link href={link.href} className={styles.navLink}>
                     {link.label}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
