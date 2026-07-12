@@ -24,7 +24,7 @@ const PersonalInfo = ({ user }) => {
         { label: t('personalInfo.fullName'), value: user?.full_name, icon: User, colSpan: false },
         { label: t('personalInfo.email'), value: user?.email, icon: Mail, colSpan: false },
         { label: t('personalInfo.phone'), value: user?.phone, icon: Phone, colSpan: false },
-        { label: t('personalInfo.mobile'), value: user?.mobile_number, icon: Phone, colSpan: false },
+        { label: t('personalInfo.mobile'), value: user?.mobile, icon: Phone, colSpan: false },
         { label: t('personalInfo.country'), value: countryName, icon: Globe, colSpan: false },
         { label: t('personalInfo.jobTitle'), value: user?.job_title, icon: Briefcase, colSpan: false },
         { label: t('personalInfo.company'), value: user?.company_name, icon: Building2, colSpan: false },

@@ -5,32 +5,32 @@ import styles from "@/sass/pages/my-profile/my-profile.module.scss";
 import useUserProfileStore from "@/store/useUserProfileStore";
 import { useTranslations } from "next-intl";
 
-const initialMessages = [
-    {
-        id: 1,
-        type: "announcement",
-        title: "Welcome to British Academy!",
-        from: "British Academy Admin (admin)",
-        date: "2025-01-10",
-        isRead: true,
-    },
-    {
-        id: 2,
-        type: "announcement",
-        title: "New Module Available - Project Management",
-        from: "British Academy Admin (admin)",
-        date: "2025-01-10",
-        isRead: true,
-    },
-    {
-        id: 3,
-        type: "announcement",
-        title: "Your Digital Marketing Certificate is Ready!",
-        from: "British Academy Admin (admin)",
-        date: "2025-01-10",
-        isRead: false,
-    },
-];
+// const initialMessages = [
+//     {
+//         id: 1,
+//         type: "announcement",
+//         title: "Welcome to British Academy!",
+//         from: "British Academy Admin (admin)",
+//         date: "2025-01-10",
+//         isRead: true,
+//     },
+//     {
+//         id: 2,
+//         type: "announcement",
+//         title: "New Module Available - Project Management",
+//         from: "British Academy Admin (admin)",
+//         date: "2025-01-10",
+//         isRead: true,
+//     },
+//     {
+//         id: 3,
+//         type: "announcement",
+//         title: "Your Digital Marketing Certificate is Ready!",
+//         from: "British Academy Admin (admin)",
+//         date: "2025-01-10",
+//         isRead: false,
+//     },
+// ];
 
 const Messages = () => {
     const t = useTranslations('MyProfile');
@@ -45,6 +45,7 @@ const Messages = () => {
         // You should probably call the store's markAsRead here
     };
 
+    console.log(userMessages , 'user message')
     return (
         <div>
             <div className={styles.msgsHeader}>

@@ -1,3 +1,4 @@
+
 .jobs {
   margin-bottom: 100px;
 }
@@ -29,6 +30,7 @@
       flex-direction: column;
       gap: 16px;
       height: 100%;
+ 
       @media (max-width: 576px) {
       padding: 16px;
       }
@@ -45,7 +47,19 @@
           padding: 2px 10px;
           text-align: center;
           width: fit-content;
+          transition: transform 0.3s ease;
         }
+        svg {
+          transition: color 0.3s ease, transform 0.3s ease;
+          cursor: pointer;
+          &:hover {
+            color: #c9302c;
+            transform: scale(1.15);
+          }
+        }
+      }
+      &:hover .jobType {
+        transform: scale(1.05);
       }
 
       .jobTitle {
@@ -177,14 +191,27 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        gap: 8px;
         cursor: pointer;
         transition: all 0.3s ease;
+        svg {
+          transition: transform 0.3s ease;
+        }
         &:hover {
           background-color: $blue-800;
+          svg {
+            transform: translateX(4px);
+          }
         }
         @media (max-width: 576px) {
             font-size: 14px;
           }
+      }
+    }
+
+    @for $i from 1 through 12 {
+      .jobCard:nth-child(#{$i}) {
+        animation-delay: #{$i * 0.05}s;
       }
     }
   }

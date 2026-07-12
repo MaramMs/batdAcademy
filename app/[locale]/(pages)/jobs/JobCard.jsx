@@ -1,8 +1,7 @@
 "use client";
-
+import { useState } from "react";
+import { motion } from "framer-motion";
 import ApplicationModal from "@/components/common/ApplicationModal";
-import styles from "@/sass/pages/jobs/jobs.module.scss";
-import modalStyles from "@/sass/pages/jobs/job-details-modal.module.scss";
 import {
   ArrowRight,
   Award,
@@ -11,13 +10,13 @@ import {
   DollarSign,
   MapPin,
 } from "lucide-react";
-import { useState } from "react";
 import ApplyJobForm from "./ApplyJobForm";
 import JobDetailsForm from "./JobDetailsForm";
-import { MOCK_JOB } from "./jobData";
 import { useTranslations } from "next-intl";
+import modalStyles from "@/sass/pages/jobs/job-details-modal.module.scss";
+import styles from "@/sass/pages/jobs/jobs.module.scss";
 
-const JobCard = ({ job = MOCK_JOB }) => {
+const JobCard = ({ job }) => {
   const t = useTranslations('Jobs');
   const [isDetailsOpen, setIsDetailsOpen] = useState(false);
   const [isApplyOpen, setIsApplyOpen] = useState(false);
@@ -28,7 +27,19 @@ const JobCard = ({ job = MOCK_JOB }) => {
   };
 
   return (
-    <div className={styles.jobCard}>
+    <motion.div
+      className={styles.jobCard}
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.5 }}
+      whileHover={{
+        y: -10,
+        boxShadow:
+          "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
+      }}
+
+    >
       <div className={styles.cardHeader}>
         <span className={styles.jobType}>{job?.type}</span>
         <Bookmark color="#99A1AF" size={20} />
@@ -45,12 +56,12 @@ const JobCard = ({ job = MOCK_JOB }) => {
           job?.city && (
             <span>
               <MapPin />
-            {job?.country} - {job?.city}
+              {job?.country} - {job?.city}
             </span>
           )
         )}
-        
-        
+
+
         <span className={styles.salary}>
           <DollarSign color="#1E2749" />
           {job?.salary_min} - {job?.salary_max}
@@ -92,7 +103,9 @@ const JobCard = ({ job = MOCK_JOB }) => {
           onClose={() => setIsApplyOpen(false)}
         />
       </ApplicationModal>
-    </div>
+
+    </motion.div>
+
   );
 };
 

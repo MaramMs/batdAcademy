@@ -16,7 +16,7 @@ const RegisterForm = () => {
     const router = useRouter();
     const { locale } = useLanguageStore();
     const { handleSignup, isLoading } = useAuthStore();
-    const { cities, handleGetCities } = useCitiesStore();
+    const { countries,handleGetCountries } = useCitiesStore();
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
@@ -27,7 +27,7 @@ const RegisterForm = () => {
         if (errors.password_confirmation) trigger("password_confirmation");
     };
 
-    useEffect(() => { handleGetCities(); }, [handleGetCities]);
+    useEffect(() => { handleGetCountries(); }, [handleGetCountries]);
 
     const onSubmit = async (formData) => {
         const result = await handleSignup(formData, locale);
@@ -88,8 +88,8 @@ const RegisterForm = () => {
                         <select id="country_id" defaultValue=""
                             {...register("country_id", { required: t('countryRequired') })}>
                             <option value="" disabled>{t('countryPlaceholder')}</option>
-                            {cities?.map((c) => (
-                                <option key={c.id} value={282}>{c.name}</option>
+                            {countries?.map((c) => (
+                                <option key={c.id} value={c.id}>{c.name}</option>
                             ))}
                         </select>
                     </div>

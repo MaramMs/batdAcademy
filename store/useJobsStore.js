@@ -55,8 +55,9 @@ const useJobsStore = create((set, get) => ({
                 job: d || {},
                 isJobLoading: false,
             });
-        } catch {
+        } catch(error) {
             set({ isJobLoading: false });
+            console.error('Failed to fetch job by slug' , error);
         }
     },
 

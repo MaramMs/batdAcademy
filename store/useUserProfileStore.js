@@ -79,7 +79,7 @@ const useUserProfileStore = create((set) => ({
                 return;
             }
             set({
-                userMessages: data?.data ?? [],
+                userMessages: data?.messages ?? [],
                 isLoading: false,
             });
         } catch (error) {

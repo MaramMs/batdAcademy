@@ -1,10 +1,11 @@
-import { getCities } from "@/action/cities";
+import { getCities,getCountries } from "@/action/cities";
 import { create } from "zustand";
 import useLanguageStore from "./useLanguageStore";
 
 const useCitiesStore = create((set, get) => ({
     cities: [],
     stats: {},
+    countries: [],
     specializations: [],
     hasMore: false,
     nextCursor: null,
@@ -28,6 +29,22 @@ const useCitiesStore = create((set, get) => ({
             set({ isLoading: false });
         }
     },
+
+       handleGetCountries: async () => {
+        set({ isLoading: true });
+        try {
+            const locale = useLanguageStore.getState().locale;
+            const data = await getCountries(locale);
+            const d = data?.data;
+            set({
+                countries: d?.countries || [],
+                isLoading: false,
+            });
+        } catch {
+            set({ isLoading: false });
+        }
+    },
+
 
     handleLoadMore: async (queryParams = '') => {
         const { nextCursor, cities } = get();

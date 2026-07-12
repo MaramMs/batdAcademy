@@ -11,6 +11,7 @@ import { useTranslations } from "next-intl";
 const ProfileTabs = ({user}) => {
     const [activeTab, setActiveTab] = useState("personal");
     const t = useTranslations('MyProfile');
+    console.log(user , 'user from tab')
 
     const tabs = [
         { id: "personal",      label: t('tabs.personalInfo'), icon: User     },

@@ -16,7 +16,9 @@ const ProfilePage = () => {
     useEffect(() => {
         handleGetUserProfile();
 
-    }, [])
+    }, []);
+
+    
 
     return (
         <section className={styles.profilePage}>

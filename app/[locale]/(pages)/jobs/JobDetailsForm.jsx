@@ -28,10 +28,6 @@ const BENEFIT_ICONS = {
 
 const JobDetailsForm = ({ slug, onApplyNow }) => {
   const t = useTranslations('Jobs');
-  // const benefits = job.benefits.map((benefit) => {
-  //   const Icon = BENEFIT_ICONS[benefit.iconKey] ?? Briefcase;
-  //   return { ...benefit, Icon };
-  // });
 
   const {handleGetJobBySlug,job,isJobLoading} = useJobsStore();
 
@@ -86,6 +82,11 @@ const JobDetailsForm = ({ slug, onApplyNow }) => {
       </>
     );
   }
+  const benefits = job?.benefits?.map((benefit) => {
+    const Icon = BENEFIT_ICONS[benefit.iconKey] ?? Briefcase;
+    return { ...benefit, Icon };
+  });
+
 
   return (
     <>
@@ -142,26 +143,41 @@ const JobDetailsForm = ({ slug, onApplyNow }) => {
           <p className={styles.description}>{job?.description}</p>
         </section>
 
-        <section>
-          <h3 className={styles.sectionTitle}>{t('requirements')}</h3>
+    {
+      job?.requirements?.length > 0 && 
+      <section>
+        <h3 className={styles.sectionTitle}>{t('requirements')}</h3>
+        <ul className={styles.requirements}>
+          {job?.requirements?.map((item,index) => (
+            <li key={index}>{item}</li>
+          ))}
+        </ul>
+      </section>
+    }
+         {/* <section>
+          <h3 className={styles.sectionTitle}>{t('responsibilities')}</h3>
+          <div dangerousetInnerHTML={{ __html: job?.responsibilities }} /> */}
           {/* <ul className={styles.requirements}>
-            {job?.requirements?.map((item) => (
-              <li key={item}>{item}</li>
+            {job?.responsibilities?.map((item,index) => (
+              <li key={index}>{item}</li>
             ))}
           </ul> */}
-        </section>
+        {/* </section> */}
 
+      {
+        job?.benefits?.length > 0 && 
         <section>
-          <h3 className={styles.sectionTitle}>{t('responsibilities')}</h3>
-          {/* <div className={styles.benefitsGrid}>
-            {job?.responsibilities.map(({ label, Icon }) => (
-              <div key={label} className={styles.benefitItem}>
+          <h3 className={styles.sectionTitle}>{t('benefits')}</h3>
+          <div className={styles.benefitsGrid}>
+            {benefits?.map((label,index) => (
+              <div key={index} className={styles.benefitItem}>
                 <Icon size={18} />
                 <span>{label}</span>
               </div>
             ))}
-          </div> */}
+          </div>
         </section>
+      }
       </div>
 
       <footer className={styles.footer}>
