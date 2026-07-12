@@ -216,3 +216,29 @@
     }
   }
 }
+ .noDataFound {
+                    grid-column: 1 / -1;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 8px;
+                    transition: $transition-base;
+                    font-size: 16px;
+                    font-weight: 500;
+                    line-height: 20px;
+                    text-decoration: none;
+                    margin: 0px auto;
+                    height: 100%;
+
+                    @media (max-width: 480px) {
+                        width: 100%;
+                        font-size: 14px;
+                        padding: 4px 20px;
+                    }
+
+                    &:hover {
+                        background: transparent;
+                        color: $blue-900;
+                        transform: translateY(-2px);
+                    }
+                }

@@ -2,19 +2,14 @@
 import { useEffect, useState } from "react";
 import { Aperture, ChevronDown } from "lucide-react";
 import DropdownMenuCustom from "@/components/common/DropdownMenu";
-// import SearchCourse from "@/search_course/Search";
 import useCitiesStore from "@/store/useCitiesStore";
-import { useParams, useRouter, useSearchParams } from "next/navigation";
 import styles from "@/sass/pages/jobs/header.module.scss";
 import { useTranslations } from "next-intl";
 
 const Header = ({ updateFilter }) => {
     const t = useTranslations('Jobs');
-    const { id, slug, locale } = useParams();
-    const router = useRouter();
-    const searchParams = useSearchParams();
-    const [specialization, setSpecialization] = useState(searchParams.get("specialization") || "");
-    const [city, setCity] = useState(slug || "");
+    const [specialization, setSpecialization] = useState("");
+    const [city, setCity] = useState("");
     const { stats, specializations, cities, handleGetCities } = useCitiesStore();
 
     useEffect(() => {
@@ -24,22 +19,15 @@ const Header = ({ updateFilter }) => {
     const specializationOptions = specializations.map((s) => ({ label: s.name, value: s.slug }));
     const cityOptions = cities.map((c) => ({ label: c.name, value: c.slug }));
 
-    const handleSpecializationChange = (val) => {
-        setSpecialization(val);
-        updateFilter?.("specialization", val);
-    };
+    const handleFindJob = () => {
+        const selectedSpecialization = specializations.find((s) => s.slug === specialization);
+        const selectedCity = cities.find((c) => c.slug === city);
+        const searchText = [selectedSpecialization?.name, selectedCity?.name]
+            .filter(Boolean)
+            .join(" ");
 
-    const handleCityChange = (val) => {
-        setCity(val);
-        const targetCity = cities.find(c => c.slug === val);
-        if (targetCity) {
-            const params = new URLSearchParams(searchParams.toString());
-            params.delete("city");
-            router.push(`/${locale}/city/${targetCity.id}/${targetCity.slug}?${params.toString()}`);
-        }
+        updateFilter?.({ key: "search", value: searchText });
     };
-
-    const currentCity = cities.find(c => String(c.id) === String(id));
 
     return (
         <div className={styles.header}>
@@ -56,7 +44,7 @@ const Header = ({ updateFilter }) => {
                             label={t('allSpecializations')}
                             options={specializationOptions}
                             value={specialization}
-                            onChange={handleSpecializationChange}
+                            onChange={setSpecialization}
                             multi={false}
                             icon={<ChevronDown size={14} />}
                             triggerClassName={styles.dropdownTrigger}
@@ -65,13 +53,13 @@ const Header = ({ updateFilter }) => {
                             label={t('allCities')}
                             options={cityOptions}
                             value={city}
-                            onChange={handleCityChange}
+                            onChange={setCity}
                             multi={false}
                             icon={<ChevronDown size={14} />}
                             triggerClassName={styles.dropdownTrigger}
                         />
 
-                        <button className={styles.findJobBtn}>{t('findJob')}</button>
+                        <button className={styles.findJobBtn} onClick={handleFindJob}>{t('findJob')}</button>
                     </div>
                       <p className={styles.suggestions}>Suggestions: 
                         <span>Programing</span>
