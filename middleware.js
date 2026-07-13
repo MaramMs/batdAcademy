@@ -89,46 +89,22 @@ export async function middleware(request) {
     return NextResponse.redirect(url, 301);
   }
 
-  // د. فحص عام على الـ routes اللي بتستخدم slug مرتبط باللغة
-  // (course_training, city, post, blog, ...) - يدعم شكلين:
-  //   /locale/routeName/slug          (زي post)
-  //   /locale/routeName/id/slug       (زي course_training, city)
-  //
-  // ⚠️ لازم قائمة محددة بالـ routes، لأن أي route تاني فيه segment
-  // زي /ar/editMyProfile/notifications ممكن ينكسر لو طبقنا الفحص عالكل
-  const localizedSlugRoutes = ['course_training', 'city', 'post', 'blog'];
+  // د٢. فحص slug/locale mismatch
+const coursePathMatch = pathname.match(/^\/(en|ar)\/(course_training)\/(\d+)\/(.+)$/);
+  if (coursePathMatch) {
+    const [, lang, routeName, id, slugPart] = coursePathMatch;
+    const decodedSlug = decodeURIComponent(slugPart);
 
-  const slugRouteMatch = pathname.match(/^\/(en|ar)\/([a-zA-Z_]+)\/(?:(\d+)\/)?([^/]+)$/);
-  if (slugRouteMatch) {
-    const [, lang, routeName, id, slugPart] = slugRouteMatch;
+    if (lang === 'en' && hasArabicCharacters(decodedSlug)) {
+      const url = request.nextUrl.clone();
+      url.pathname = `/ar/${routeName}/${id}/${decodedSlug}`;
+      return NextResponse.redirect(url, 301);
+    }
 
-    if (localizedSlugRoutes.includes(routeName)) {
-      const decodedSlug = decodeURIComponent(slugPart);
-      const idSegment = id ? `${id}/` : '';
-
-      // د١. تنظيف الـ slug القديم اللي يبدأ بـ Training-Course(s)-in- (بس لو فيه id)
-      if (id && /^training-courses?-in-/i.test(decodedSlug)) {
-        const cleanedSlug = decodedSlug.replace(/^training-courses?-in-/i, '');
-
-        if (cleanedSlug) {
-          const url = request.nextUrl.clone();
-          url.pathname = `/${lang}/${routeName}/${idSegment}${encodeURIComponent(cleanedSlug)}`;
-          return NextResponse.redirect(url, 301);
-        }
-      }
-
-      // د٢. فحص slug/locale mismatch
-      if (lang === 'en' && hasArabicCharacters(decodedSlug)) {
-        const url = request.nextUrl.clone();
-        url.pathname = `/ar/${routeName}/${idSegment}${encodeURIComponent(decodedSlug)}`;
-        return NextResponse.redirect(url, 301);
-      }
-
-      if (lang === 'ar' && !hasArabicCharacters(decodedSlug)) {
-        const url = request.nextUrl.clone();
-        url.pathname = `/en/${routeName}/${idSegment}${encodeURIComponent(decodedSlug)}`;
-        return NextResponse.redirect(url, 301);
-      }
+    if (lang === 'ar' && !hasArabicCharacters(decodedSlug)) {
+      const url = request.nextUrl.clone();
+      url.pathname = `/en/${routeName}/${id}/${decodedSlug}`;
+      return NextResponse.redirect(url, 301);
     }
   }
 

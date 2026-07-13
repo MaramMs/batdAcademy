@@ -21,5 +21,5 @@ export default async function RedirectToSlugPage({ params }) {
   } catch (error) {
     console.error("Failed to fetch categories for slug redirection:", error);
   }
-  permanentRedirect(`/${locale}/course_training/${id}/${encodeURIComponent(targetSlug)}`);
+  permanentRedirect(`/${locale}/course_training/${id}/${targetSlug}`);
 }
