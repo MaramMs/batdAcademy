@@ -45,7 +45,7 @@ const Jobs = () => {
     <div className={styles.jobs}>
       <Header updateFilter={updateFilter} />
       <div className={styles.mainContent}>
-        <Filter />
+        <Filter updateFilter={updateFilter} />
         <div className={stylesContainer.container}>
           <div className={styles.jobsCards}>
             {

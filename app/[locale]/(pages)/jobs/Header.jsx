@@ -1,32 +1,21 @@
 "use client";
-import { useEffect, useState } from "react";
-import { Aperture, ChevronDown } from "lucide-react";
-import DropdownMenuCustom from "@/components/common/DropdownMenu";
-import useCitiesStore from "@/store/useCitiesStore";
+import { useState } from "react";
+import { Search } from "lucide-react";
 import styles from "@/sass/pages/jobs/header.module.scss";
 import { useTranslations } from "next-intl";
 
 const Header = ({ updateFilter }) => {
     const t = useTranslations('Jobs');
-    const [specialization, setSpecialization] = useState("");
-    const [city, setCity] = useState("");
-    const { stats, specializations, cities, handleGetCities } = useCitiesStore();
-
-    useEffect(() => {
-        handleGetCities();
-    }, [handleGetCities]);
-
-    const specializationOptions = specializations.map((s) => ({ label: s.name, value: s.slug }));
-    const cityOptions = cities.map((c) => ({ label: c.name, value: c.slug }));
+    const [search, setSearch] = useState("");
 
     const handleFindJob = () => {
-        const selectedSpecialization = specializations.find((s) => s.slug === specialization);
-        const selectedCity = cities.find((c) => c.slug === city);
-        const searchText = [selectedSpecialization?.name, selectedCity?.name]
-            .filter(Boolean)
-            .join(" ");
+        updateFilter?.({ key: "search", value: search.trim() });
+    };
 
-        updateFilter?.({ key: "search", value: searchText });
+    const handleKeyDown = (e) => {
+        if (e.key === "Enter") {
+            handleFindJob();
+        }
     };
 
     return (
@@ -40,24 +29,18 @@ const Header = ({ updateFilter }) => {
                 <div className={styles.searchCourse}>
 
                     <div className={styles.locationSelect}>
-                        <DropdownMenuCustom
-                            label={t('allSpecializations')}
-                            options={specializationOptions}
-                            value={specialization}
-                            onChange={setSpecialization}
-                            multi={false}
-                            icon={<ChevronDown size={14} />}
-                            triggerClassName={styles.dropdownTrigger}
-                        />
-                        <DropdownMenuCustom
-                            label={t('allCities')}
-                            options={cityOptions}
-                            value={city}
-                            onChange={setCity}
-                            multi={false}
-                            icon={<ChevronDown size={14} />}
-                            triggerClassName={styles.dropdownTrigger}
-                        />
+
+                        <div className={styles.searchInputWrapper}>
+                            <Search size={18} />
+                            <input
+                                type="text"
+                                className={styles.searchInput}
+                                placeholder={t('searchPlaceholder')}
+                                value={search}
+                                onChange={(e) => setSearch(e.target.value)}
+                                onKeyDown={handleKeyDown}
+                            />
+                        </div>
 
                         <button className={styles.findJobBtn} onClick={handleFindJob}>{t('findJob')}</button>
                     </div>
