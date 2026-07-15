@@ -1,12 +1,12 @@
 "use client";
-import { useEffect, useState } from "react";
-import { useParams, useSearchParams, useRouter, usePathname } from "next/navigation";
+import { useEffect, useRef, useState } from "react";
+import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import * as Dialog from "@radix-ui/react-dialog";
 import { ArrowRight, ArrowLeft, X } from "lucide-react";
 import Header from "./Header";
 import NavgationBar from "./NavgationBar";
 import UpcomingCouresCard from "@/components/ui/UpcomingCouresCard";
-import useCoursesStore from "@/store/useCoursesStore";
+import { getCourses } from "@/action/courses";
 import Skeleton from "@/components/ui/Skeleton";
 import SidebarFilter from "@/components/common/SidebarFilter";
 import NoData from "@/components/common/NoData";
@@ -14,32 +14,63 @@ import stylesContainer from "@/sass/components/common/container.module.scss";
 import styles from "@/sass/pages/course-details-by-city/course-details-by-city.module.scss";
 import { useTranslations, useLocale } from "next-intl";
 
-const CourseByCityDetails = () => {
-    const { id } = useParams();
+// Mirrors buildCourseListQuery in page.jsx exactly (type -> taxonomy rename, city_id
+// from the route) so a client refetch (filters, show more) never disagrees with the
+// server's initial fetch.
+function buildCourseListQuery(searchParams, cityId) {
+    const params = new URLSearchParams(searchParams.toString());
+    if (params.has('type')) {
+        params.set('taxonomy', params.get('type'));
+        params.delete('type');
+    }
+    params.set("city_id", cityId);
+    return `?${params.toString()}`;
+}
+
+const CourseByCityDetails = ({ initialCity, initialCityDescription, initialCoursesData, cityId }) => {
     const searchParams = useSearchParams();
     const t = useTranslations();
     const locale = useLocale();
     const router = useRouter();
     const pathname = usePathname();
-    const { data, handleGetCourses, isLoading } = useCoursesStore();
+    const [data, setData] = useState(initialCoursesData);
+    const [isLoading, setIsLoading] = useState(false);
     const [visibleCount, setVisibleCount] = useState(6);
     const [mounted, setMounted] = useState(false);
     const [filterOpen, setFilterOpen] = useState(false);
+    const isInitialMount = useRef(true);
 
     useEffect(() => {
         setMounted(true);
     }, []);
 
-    useEffect(() => {
-        const params = new URLSearchParams(searchParams.toString());
-        if (params.has('type')) {
-            params.set('taxonomy', params.get('type'));
-            params.delete('type');
+    const fetchCourses = async (queryString, append = false) => {
+        setIsLoading(!append);
+        try {
+            const res = await getCourses(locale, queryString);
+            setData((prev) => {
+                if (append && prev?.courses) {
+                    return { ...res?.data, courses: [...prev.courses, ...(res?.data?.courses || [])] };
+                }
+                return res?.data || { courses: [] };
+            });
+        } catch (error) {
+            console.error("Failed to fetch courses:", error);
+        } finally {
+            setIsLoading(false);
         }
-        params.set("city_id", id);
-        const queryString = `?${params.toString()}`;
-        handleGetCourses(queryString);
-    }, [searchParams, id, handleGetCourses]);
+    };
+
+    useEffect(() => {
+        // The server already fetched courses for this exact URL (see page.jsx) — skip
+        // the redundant refetch on mount and only react to later filter/city changes.
+        if (isInitialMount.current) {
+            isInitialMount.current = false;
+            return;
+        }
+        fetchCourses(buildCourseListQuery(searchParams, cityId));
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [searchParams, cityId]);
 
     const updateFilter = (key, value) => {
         const params = new URLSearchParams(searchParams.toString());
@@ -62,16 +93,21 @@ const CourseByCityDetails = () => {
                 params.set('taxonomy', params.get('type'));
                 params.delete('type');
             }
-            params.set("city_id", id);
+            params.set("city_id", cityId);
             params.set('cursor', data.next_cursor);
-            handleGetCourses(`?${params.toString()}`, true);
+            fetchCourses(`?${params.toString()}`, true);
         }
     };
 
     return (
         <section className={styles.courseByCityDetails}>
-            <NavgationBar />
-            <Header updateFilter={updateFilter} onOpenFilters={() => setFilterOpen(true)} />
+            <NavgationBar cityName={initialCity?.name} />
+            <Header
+                updateFilter={updateFilter}
+                onOpenFilters={() => setFilterOpen(true)}
+                cityName={initialCity?.name}
+                cityDescription={initialCityDescription}
+            />
 
             <div className={styles.mainContent}>
                 <div className={stylesContainer.container}>
@@ -109,12 +145,12 @@ const CourseByCityDetails = () => {
                                     <div className={styles.cards}>
                                         {
                                         data?.courses?.length === 0 ? (
-                                            <div className={styles.noDataFound}> 
-                                              <NoData message='No Courses Found' />
+                                            <div className={styles.noDataFound}>
+                                              <NoData message={t('noCoursesFound')} />
                                              </div>
                                         ) : (
                                             data?.courses?.slice(0, visibleCount)?.map((course, index) => (
-                                                <UpcomingCouresCard key={index} course={course} cityId={id} />
+                                                <UpcomingCouresCard key={index} course={course} cityId={cityId} locale={locale} />
                                             ))
                                         )}
                                     </div>

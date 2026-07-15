@@ -9,5 +9,6 @@
     "showMore":"Show More",
     "viewAllCourses":"View All Courses",
     "weeks":"weeks",
-    "filters":"Filters"
+    "filters":"Filters",
+    "noCoursesFound":"No courses available at the moment."
 }

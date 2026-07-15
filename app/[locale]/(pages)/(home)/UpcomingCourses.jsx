@@ -7,10 +7,11 @@ import stylesContainer from "@/sass/components/common/container.module.scss";
 import styles from "@/sass/pages/home/upcoming-coures.module.scss";
 import useCoursesStore from "@/store/useCoursesStore";
 import Skeleton from "@/components/ui/Skeleton";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 
 const UpcomingCourses = () => {
     const t = useTranslations('UpcomingCourses');
+    const locale = useLocale();
     const swiperRef = useRef(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -45,6 +46,7 @@ const UpcomingCourses = () => {
                                         <UpcomingCouresCard course={course}
                                             slideIndex={index}
                                             swiperRef={swiperRef}
+                                            locale={locale}
                                             onModalOpen={() => setIsModalOpen(true)}
                                             onModalClose={() => setIsModalOpen(false)} isLoading={isLoading}/>
 

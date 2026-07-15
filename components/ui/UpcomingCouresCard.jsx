@@ -7,19 +7,30 @@ import Image from "next/image";
 import { Calendar, Clock, MapPin, Star } from "lucide-react";
 import DatePopUp from "./DatePopUp";
 import styles from "@/sass/components/ui/Upcoming-Coures-Card.module.scss";
-import useLanguageStore from "@/store/useLanguageStore";
-import img1 from "/public/asstes/default-1.jpeg";
-import img2 from "/public/asstes/course1.jpg";
-import img3 from "/public/asstes/default-2.webp";
-import { useTranslations } from "next-intl";
+import { isPlaceholderImage } from "@/lib/seoMeta";
+import { useTranslations, useLocale } from "next-intl";
 import { useRouter } from "next/navigation";
 
-const placeholderImages = [
-  "https://batdacademy.com/uploads/placeholder_image.webp",
-  img2,
-  img1,
-  img3,
-];
+// Single, deterministic fallback for every card — replaces the old id-based random
+// rotation across 4 different placeholders, which made the same course show a
+// different "no image" picture depending on its id.
+const DEFAULT_COURSE_IMAGE = "/asstes/default-2.webp";
+
+// The API returns a real URL, "", null, or (most commonly) a blank-image.svg CMS
+// placeholder for courses with no photo — isPlaceholderImage() is the same helper
+// page.jsx/lib/seoMeta.js already use to detect that exact placeholder elsewhere,
+// so both the visible card and JSON-LD agree on what counts as "no image".
+function resolveCourseImage(image) {
+  if (typeof image !== "string") return DEFAULT_COURSE_IMAGE;
+  const normalizedImage = image.trim();
+  if (!normalizedImage || normalizedImage === "null" || normalizedImage === "undefined") {
+    return DEFAULT_COURSE_IMAGE;
+  }
+  if (isPlaceholderImage(normalizedImage)) {
+    return DEFAULT_COURSE_IMAGE;
+  }
+  return normalizedImage;
+}
 
 /**
  * @typedef {Object} Course
@@ -46,10 +57,21 @@ const UpcomingCouresCard = ({
   swiperRef,
   cityId,
   filterLanguage,
+  locale: localeProp,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState(null);
-  const locale = useLanguageStore((state) => state.locale);
+  // Tracks the last resolved src that actually failed to load (onError), not the
+  // src to display — recomputing that from course.image on every render (below)
+  // means a card reused for a different course (same map key) never shows a stale
+  // fallback: the failure only applies while it still matches the current course.
+  const [erroredImageSrc, setErroredImageSrc] = useState(null);
+  // Prefer the locale the page explicitly resolved server-side (route param,
+  // never wrong); next-intl's useLocale() — itself SSR-safe, unlike a Zustand
+  // client store that starts at a hardcoded 'en' until a useEffect syncs it —
+  // is only a fallback for the few callers that don't pass one yet.
+  const contextLocale = useLocale();
+  const locale = (localeProp ?? contextLocale) === "ar" ? "ar" : "en";
   const router = useRouter()
   const t =useTranslations();
   const handleOpen = () => {
@@ -95,14 +117,15 @@ const UpcomingCouresCard = ({
     filterLanguage,
   ]);
 
-  const randomImageIndex = course?.id
-    ? course?.id % 3
-    : Math.floor(Math.random() * 3);
-  const randomImage = placeholderImages[randomImageIndex];
+  // Resolved fresh from course.image every render (no useEffect) — present in the
+  // very first server-rendered HTML, and automatically correct again if this same
+  // card instance later gets a different course's data.
+  const dataImageSrc = resolveCourseImage(course?.image);
+  const imageSrc = erroredImageSrc === dataImageSrc ? DEFAULT_COURSE_IMAGE : dataImageSrc;
   return (
     <motion.div
       className={styles.card}
-      initial={{ opacity: 0, y: 30 }}
+      initial={false}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.5 }}
@@ -110,10 +133,15 @@ const UpcomingCouresCard = ({
     >
       <div className={styles.imageWrapper}>
         <Image
-          src={course?.image  || randomImage}
+          src={imageSrc}
           alt={course?.name || course?.title || 'Course thumbnail'}
           width={361}
           height={208}
+          onError={() => {
+            if (dataImageSrc !== DEFAULT_COURSE_IMAGE) {
+              setErroredImageSrc(dataImageSrc);
+            }
+          }}
         />
 
         <div className={styles.overlay} />
@@ -171,7 +199,7 @@ const UpcomingCouresCard = ({
             <span className="sr-only"> for {course?.name}</span>
           </Link>
           <Link
-            href={`/${locale}/course_details/${course?.id}/${course?.slug}`}
+            href={`/${locale}/course_details/${course?.id}/${encodeURIComponent(course?.slug ?? "")}`}
             className={styles.btnDetails}
           >
             {t('details')}

@@ -1,5 +1,6 @@
 import { cache } from "react";
-import { getCoursesByCity } from "@/action/cities";
+import { notFound, permanentRedirect } from "next/navigation";
+import { getCoursesByCity, findCityById } from "@/action/cities";
 import { getCourses } from "@/action/courses";
 import AlternatePathsSetter from "@/components/common/AlternatePathsSetter";
 import {
@@ -7,6 +8,7 @@ import {
   cleanMeta,
   BRAND_NAME,
   cleanJsonLd,
+  parseKeywords,
   safeJsonLdString,
   resolveOgImage,
   isPlaceholderImage,
@@ -17,9 +19,51 @@ import {
 } from "@/lib/seoMeta";
 import CourseByCityDetails from "./City";
 
-// generateMetadata and the page component both need the same city — memoize per-request
-// so they share one API call instead of two independent (and possibly inconsistent) fetches.
-const getCachedCityBySlug = cache((locale, slug) => getCoursesByCity(locale, slug));
+function safeDecodeSlug(slug) {
+  if (typeof slug !== "string") return slug;
+  try {
+    // The slug may already have been decoded by the router, or may still be
+    // percent-encoded (e.g. shared links) — decode once, and fall back to the
+    // raw value if it isn't validly encoded rather than throwing URIError.
+    return decodeURIComponent(slug);
+  } catch {
+    return slug;
+  }
+}
+
+// Single source of truth for resolving /city/[id]/[slug], shared by generateMetadata
+// and the page component (cache() dedupes the underlying fetches across both calls
+// within one request) so they can never disagree on whether a city exists.
+//
+// Contract:
+//  - slug (and id) match a real city exactly      -> returns the city object
+//  - id belongs to a real city but slug is stale   -> permanentRedirect() to the canonical URL
+//  - id doesn't belong to any city                 -> notFound()
+//  - the API itself fails (network/parse error)    -> the error propagates to error.jsx
+const resolveCityForRequest = cache(async (locale, routeId, routeSlug) => {
+  const decodedSlug = safeDecodeSlug(routeSlug);
+
+  const cityRes = await getCoursesByCity(locale, decodedSlug);
+  const city = cityRes?.success && cityRes?.data?.id ? cityRes.data : null;
+
+  if (city) {
+    const canonicalSlug = (locale === "ar" ? city.slug_ar : city.slug_en) || decodedSlug;
+    const idMatches = String(city.id) === String(routeId);
+    const slugMatches = decodedSlug === canonicalSlug;
+    if (idMatches && slugMatches) {
+      return city;
+    }
+    permanentRedirect(`/${locale}/city/${city.id}/${encodeURIComponent(canonicalSlug)}`);
+  }
+
+  // Slug didn't resolve — the id might still belong to a real city under a
+  // different slug (renamed city, typo, truncated link, ...).
+  const match = await findCityById(locale, routeId);
+  if (!match) {
+    notFound();
+  }
+  permanentRedirect(`/${locale}/city/${match.id}/${encodeURIComponent(match.slug)}`);
+});
 
 // No city-specific asset exists in public/asstes yet, so this reuses the same generic
 // fallback already used (and approved) for course images — a real, existing file, not
@@ -34,10 +78,12 @@ function buildCityDescription(data) {
   return cleanMeta(data?.meta?.description || data?.details);
 }
 
-// Mirrors the query City.jsx itself builds (type -> taxonomy rename), minus city_id:
-// courses aren't associated with specific cities in the database, so every city page
-// shows the same general course list — city_id is not a real filter and is never sent.
-function buildCourseListQuery(searchParams) {
+// Exactly mirrors the query City.jsx itself builds client-side (type -> taxonomy
+// rename, city_id set from the route) so the server's initial fetch and any
+// subsequent client-side refetch (filters, show more) never disagree. city_id is
+// sent as-is — same as before — it's the API's job to decide priority vs. exclusion;
+// this never adds a client-side filter on top of it.
+function buildCourseListQuery(searchParams, cityId) {
   const query = new URLSearchParams();
   for (const [key, rawValue] of Object.entries(searchParams || {})) {
     if (rawValue == null) continue;
@@ -45,6 +91,7 @@ function buildCourseListQuery(searchParams) {
     if (value == null) continue;
     query.set(key === "type" ? "taxonomy" : key, value);
   }
+  if (cityId != null) query.set("city_id", cityId);
   const qs = query.toString();
   return qs ? `?${qs}` : "";
 }
@@ -247,115 +294,79 @@ function buildCityGraph({ city, locale, routeId, routeSlug, siteUrl, cityCourses
 
 export async function generateMetadata({ params }) {
   const { locale, id, slug } = await params;
-  const name = slug
-    ? decodeURIComponent(slug)
-        .replace(/-/g, " ")
-        .replace(/\b\w/g, (c) => c.toUpperCase())
-    : "City";
-  const fallback = {
-    title: `Training Courses in ${name} `,
-    description: `Explore training courses available in ${name} from the British Academy for Training & Development.`,
-  };
-  try {
-    const response = await getCachedCityBySlug(locale, slug);
-    const res = response?.data;
-    if (!res) return fallback;
+  // Resolves to a real, canonical-matched city, or calls notFound()/permanentRedirect()
+  // internally — this function never falls through with an unresolved city, and a real
+  // API failure propagates up to error.jsx instead of landing here as a caught error.
+  const city = await resolveCityForRequest(locale, id, slug);
 
-    const meta = res.meta || {};
-    const title = meta.title || res.name || fallback.title;
-    const description = buildCityDescription(res) || fallback.description;
+  const meta = city.meta || {};
+  const title = meta.title || city.name;
+  const description = buildCityDescription(city) || city.name;
+  const keywords = parseKeywords(meta.keyword);
 
-    let keywords = meta.keyword;
-    if (keywords && typeof keywords === "string" && keywords.startsWith("[")) {
-      try {
-        const parsed = JSON.parse(keywords);
-        keywords = parsed.map((k) => k.value).join(", ");
-      } catch (e) {
-        console.error("Error parsing keywords:", e);
-      }
-    }
+  const resolvedImageUrl = resolveContentImageUrl(city?.image, SITE_URL, FALLBACK_CITY_IMAGE_PATH);
+  const ogImage = { url: resolvedImageUrl, width: 1200, height: 630, alt: title };
+  const pageUrl = `${SITE_URL}/${locale}/city/${id}/${slug}`;
 
-    const resolvedImageUrl = resolveContentImageUrl(res?.image, SITE_URL, FALLBACK_CITY_IMAGE_PATH);
-    const ogImage = { url: resolvedImageUrl, width: 1200, height: 630, alt: title };
-    const pageUrl = `${SITE_URL}/${locale}/city/${id}/${slug}`;
-
-    return {
-      metadataBase: new URL(SITE_URL),
+  return {
+    metadataBase: new URL(SITE_URL),
+    title,
+    description,
+    keywords: keywords || undefined,
+    alternates: {
+      canonical: `/${locale}/city/${id}/${slug}`,
+      languages: {
+        en: `${SITE_URL}/en/city/${city.id}/${city.slug_en}`,
+        ar: `${SITE_URL}/ar/city/${city.id}/${city.slug_ar}`,
+        "x-default": `${SITE_URL}/en/city/${city.id}/${city.slug_en}`,
+      },
+    },
+    openGraph: {
       title,
       description,
-      keywords: keywords || undefined,
-      alternates: {
-        canonical: `/${locale}/city/${id}/${slug}`,
-        languages: {
-          en: `${SITE_URL}/en/city/${id}/${slug}`,
-          ar: `${SITE_URL}/ar/city/${id}/${slug}`,
-          "x-default": `${SITE_URL}/en/city/${id}/${slug}`,
-        },
-      },
-      openGraph: {
-        title,
-        description,
-        type: "article",
-        url: pageUrl,
-        siteName: BRAND_NAME,
-        locale: locale === "ar" ? "ar_AR" : "en_US",
-        alternateLocale: locale === "ar" ? ["en_US"] : ["ar_AR"],
-        images: [ogImage],
-      },
-      twitter: {
-        card: "summary_large_image",
-        title,
-        description,
-        images: [ogImage],
-      },
-    };
-  } catch (error) {
-    console.error("Metadata error:", error);
-    const defaultImages = [
-      { url: "/og-image.png", width: 1200, height: 630, alt: fallback.title },
-    ];
-    return {
-      ...fallback,
-      openGraph: { ...fallback, type: "article", images: defaultImages },
-      twitter: {
-        card: "summary_large_image",
-        ...fallback,
-        images: defaultImages,
-      },
-    };
-  }
+      type: "article",
+      url: pageUrl,
+      siteName: BRAND_NAME,
+      locale: locale === "ar" ? "ar_AR" : "en_US",
+      alternateLocale: locale === "ar" ? ["en_US"] : ["ar_AR"],
+      images: [ogImage],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [ogImage],
+    },
+  };
 }
 
 export default async function CourseByCityPage({ params, searchParams }) {
   const { locale, id, slug } = await params;
   const sp = await searchParams;
 
-  let cityData = {};
-  try {
-    const res = await getCachedCityBySlug(locale, slug);
-    cityData = res?.data || {};
-  } catch (error) {
-    console.error("Failed to fetch city details:", error);
-  }
+  // Same resolver as generateMetadata (deduped by cache()) — by the time this
+  // returns, city.id/slug are guaranteed to match the URL exactly. Any mismatch,
+  // missing city, or real API failure was already handled (redirect/404/throw)
+  // before we get here — no more "metadata found it, the page didn't" split brain,
+  // and no more catching failures into an empty 200 page.
+  const [city, coursesRes] = await Promise.all([
+    resolveCityForRequest(locale, id, slug),
+    getCourses(locale, buildCourseListQuery(sp, id)),
+  ]);
 
-  let cityCourses = [];
-  try {
-    const coursesRes = await getCourses(locale, buildCourseListQuery(sp));
-    cityCourses = (coursesRes?.data?.courses || []).slice(0, INITIAL_VISIBLE_COURSES);
-  } catch (error) {
-    console.error("Failed to fetch city courses list:", error);
-  }
+  const coursesData = coursesRes?.data || { courses: [] };
+  const cityDescription = buildCityDescription(city);
+  const canonicalEnPath = `/city/${city.id}/${city.slug_en}`;
+  const canonicalArPath = `/city/${city.id}/${city.slug_ar}`;
 
-  const citySchema = cityData?.name
-    ? buildCityGraph({
-        city: cityData,
-        locale,
-        routeId: id,
-        routeSlug: slug,
-        siteUrl: SITE_URL,
-        cityCourses,
-      })
-    : null;
+  const citySchema = buildCityGraph({
+    city,
+    locale,
+    routeId: city.id,
+    routeSlug: locale === "ar" ? city.slug_ar : city.slug_en,
+    siteUrl: SITE_URL,
+    cityCourses: (coursesData.courses || []).slice(0, INITIAL_VISIBLE_COURSES),
+  });
 
   return (
     <>
@@ -365,13 +376,15 @@ export default async function CourseByCityPage({ params, searchParams }) {
           dangerouslySetInnerHTML={{ __html: safeJsonLdString(citySchema) }}
         />
       )}
-      {cityData?.slug_en && cityData?.slug_ar && (
-        <AlternatePathsSetter
-          enPath={`/city/${cityData.id}/${cityData.slug_en}`}
-          arPath={`/city/${cityData.id}/${cityData.slug_ar}`}
-        />
+      {city.slug_en && city.slug_ar && (
+        <AlternatePathsSetter enPath={canonicalEnPath} arPath={canonicalArPath} />
       )}
-      <CourseByCityDetails />
+      <CourseByCityDetails
+        initialCity={city}
+        initialCityDescription={cityDescription}
+        initialCoursesData={coursesData}
+        cityId={city.id}
+      />
     </>
   );
 }
