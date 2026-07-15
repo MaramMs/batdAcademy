@@ -1,23 +1,24 @@
 import { cache } from "react";
 import { getCourseBySlug } from "@/action/courses";
 import AlternatePathsSetter from "@/components/common/AlternatePathsSetter";
-import { SITE_URL, cleanMeta, resolveOgImage } from "@/lib/seoMeta";
+import {
+  SITE_URL,
+  cleanMeta,
+  BRAND_NAME,
+  cleanJsonLd,
+  safeJsonLdString,
+  resolveContentImageUrl,
+  resolveCoursePriceCurrency,
+  buildOrganizationNode,
+  buildWebsiteNode,
+} from "@/lib/seoMeta";
 import CourseDetails from "./CourseDetails";
 
 // generateMetadata and the page component both need the same course — memoize per-request
 // so they share one API call instead of two independent (and possibly inconsistent) fetches.
 const getCachedCourseBySlug = cache((locale, slug) => getCourseBySlug(locale, slug));
 
-// The API sometimes returns this generic CMS placeholder instead of omitting `image` —
-// treat it as "no image" so schema doesn't advertise a blank graphic.
-const PLACEHOLDER_IMAGE_PATTERN = /blank-image/i;
 const FALLBACK_COURSE_IMAGE_PATH = "/asstes/details.jpg"; // same fallback CourseDetails.jsx renders on-page
-const PROVIDER_LOGO_PATH = "/asstes/batdacademy-logo.png";
-// Prices are always GBP across the app (see the hardcoded "£" in CourseSummaryCard.jsx /
-// MobileCourseHeader.jsx) — the API never returns a per-course currency field.
-const COURSE_CURRENCY = "GBP";
-const BRAND_NAME = "British Academy for Training & Development";
-const BRAND_NAME_AR = "الأكاديمية البريطانية للتدريب والتطوير";
 const IMAGE_MIME_TYPES = { jpg: "image/jpeg", jpeg: "image/jpeg", png: "image/png", webp: "image/webp", gif: "image/gif" };
 
 function getImageMimeType(url) {
@@ -29,36 +30,10 @@ function buildOgImage({ url, alt }) {
   return { url, width: 1200, height: 630, alt, type: getImageMimeType(url) };
 }
 
-function cleanJsonLd(value) {
-  if (Array.isArray(value)) {
-    const arr = value.map(cleanJsonLd).filter((item) => item !== undefined);
-    return arr.length ? arr : undefined;
-  }
-
-  if (value && typeof value === "object") {
-    const obj = Object.entries(value).reduce((acc, [key, val]) => {
-      const cleaned = cleanJsonLd(val);
-      if (cleaned !== undefined && cleaned !== null && cleaned !== "") {
-        acc[key] = cleaned;
-      }
-      return acc;
-    }, {});
-    return Object.keys(obj).length ? obj : undefined;
-  }
-
-  return value;
-}
-
 function toIsoDate(value) {
   if (!value) return undefined;
   const date = new Date(value);
   return Number.isNaN(date.getTime()) ? undefined : date.toISOString();
-}
-
-// Prevents a literal "</script>" inside CMS-sourced text (e.g. course.name) from
-// closing the script tag early and breaking out into the surrounding HTML.
-function safeJsonLdString(value) {
-  return JSON.stringify(value).replace(/</g, "\\u003c");
 }
 
 function buildCourseDescription(data) {
@@ -74,9 +49,7 @@ function buildCourseDescription(data) {
 // and JSON-LD, so the two channels never advertise different pictures for the same page.
 // Falls back to the real on-page fallback (details.jpg) — never the org logo.
 function resolveCourseImageUrl(rawImage, siteUrl) {
-  const isPlaceholder = typeof rawImage === "string" && PLACEHOLDER_IMAGE_PATTERN.test(rawImage);
-  const resolved = isPlaceholder ? undefined : resolveOgImage(rawImage);
-  return resolved || `${siteUrl}${FALLBACK_COURSE_IMAGE_PATH}`;
+  return resolveContentImageUrl(rawImage, siteUrl, FALLBACK_COURSE_IMAGE_PATH);
 }
 
 function buildCourseGraph({ course, locale, routeId, routeSlug, siteUrl }) {
@@ -98,9 +71,7 @@ function buildCourseGraph({ course, locale, routeId, routeSlug, siteUrl }) {
     course.price !== "" &&
     !Number.isNaN(priceNum) &&
     priceNum > 0;
-  // No confirmed per-course currency field from the API — GBP is a temporary sitewide
-  // assumption (see COURSE_CURRENCY above). Use the API's value the moment it exists.
-  const priceCurrency = course.currency || course.price_currency || COURSE_CURRENCY;
+  const priceCurrency = resolveCoursePriceCurrency(course);
 
   const seenInstanceKeys = new Set();
   const hasCourseInstance =
@@ -167,37 +138,12 @@ function buildCourseGraph({ course, locale, routeId, routeSlug, siteUrl }) {
     breadcrumb: { "@id": `${courseUrl}#breadcrumb` },
   };
 
-  // Same @id must resolve to the same entity on every locale page, so name/url stay
-  // constant here regardless of `locale` — only the localized label moves to alternateName.
-  const website = {
-    "@type": "WebSite",
-    "@id": websiteId,
-    url: siteUrl,
-    name: BRAND_NAME,
-    publisher: { "@id": organizationId },
-    inLanguage: ["en", "ar"],
-  };
-
-  // address/contactPoint intentionally omitted: no verified street/postal/phone data exists
-  // anywhere in this project (the contact_us page pulls freeform label/value content from
-  // action/contact.js, not structured PostalAddress fields — mapping it would mean inventing
-  // structure that isn't in the source data). Add these back once real data is confirmed.
-  const organization = {
-    "@type": "Organization",
-    "@id": organizationId,
-    name: BRAND_NAME,
-    alternateName: BRAND_NAME_AR,
-    url: siteUrl,
-    logo: { "@type": "ImageObject", url: `${siteUrl}${PROVIDER_LOGO_PATH}` },
-    sameAs: [
-      "https://www.facebook.com/batdacademy",
-      "https://www.instagram.com/batdacademyuk/",
-      "https://www.linkedin.com/company/british-academy-for-training-development-uk/",
-      "https://uk.pinterest.com/batdacademy/",
-      "https://x.com/batadacademy",
-      "https://www.youtube.com/@BatdacademyCoUk",
-    ],
-  };
+  // address/contactPoint intentionally omitted from Organization: no verified street/postal/
+  // phone data exists anywhere in this project (the contact_us page pulls freeform label/value
+  // content from action/contact.js, not structured PostalAddress fields — mapping it would mean
+  // inventing structure that isn't in the source data). Add these back once real data is confirmed.
+  const website = buildWebsiteNode(siteUrl);
+  const organization = buildOrganizationNode(siteUrl);
 
   const breadcrumb = {
     "@type": "BreadcrumbList",
