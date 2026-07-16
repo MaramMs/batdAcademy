@@ -8,10 +8,10 @@ import useCitiesStore from "@/store/useCitiesStore";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 
-const Header = ({ updateFilter, onOpenFilters }) => {
+const Header = ({ updateFilter, onOpenFilters, cityName, cityDescription }) => {
     const  t = useTranslations('header');
     const tLables = useTranslations()
-    const { id, slug, locale } = useParams();
+    const { slug, locale } = useParams();
     const router = useRouter();
     const searchParams = useSearchParams();
     const [specialization, setSpecialization] = useState(searchParams.get("specialization") || "");
@@ -41,14 +41,13 @@ const Header = ({ updateFilter, onOpenFilters }) => {
         }
     };
 
-    const currentCity = cities.find(c => String(c.id) === String(id));
-
     return (
         <div className={styles.header}>
             <div className={styles.content}>
                 <div className={styles.title}>
                     <span><Aperture color="#B12E33" size={22} />{t('globle')}</span>
-                    <h1> {t('title')} <br /> {t('subTitle')}  {currentCity?.name || "..."}</h1>
+                    <h1> {t('title')} <br /> {t('subTitle')}  {cityName}</h1>
+                    {cityDescription && <p>{cityDescription}</p>}
                     <p> {t('text')} {stats?.cities || "..."} {t('subText')} </p>
                 </div>
                 <div className={styles.searchCourse}>

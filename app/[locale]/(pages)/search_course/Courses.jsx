@@ -111,7 +111,7 @@ const CoursesPage = () => {
                                                     </div>
                                                 ) : (
                                                     data?.courses?.slice(0, visibleCount)?.map((course, index) => (
-                                                        <UpcomingCouresCard key={index} course={course} filterLanguage={searchParams.get('lang')} />
+                                                        <UpcomingCouresCard key={index} course={course} filterLanguage={searchParams.get('lang')} locale={locale} />
                                                     ))
                                                 )
 

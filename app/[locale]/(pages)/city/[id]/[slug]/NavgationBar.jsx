@@ -1,13 +1,15 @@
+import Link from "next/link";
 import styles from "@/sass/pages/course-details-by-city/navgation-bar.module.scss";
 import stylesContainer from "@/sass/components/common/container.module.scss";
 import { ArrowLeft, ArrowRight, House } from "lucide-react";
 import { useParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 import useLanguageStore from "@/store/useLanguageStore";
-const NavgationBar = () => {
+const NavgationBar = ({ cityName }) => {
   const locale = useLanguageStore();
   const params = useParams();
-  const cityName = decodeURIComponent(params?.slug || params?.slug || "");
+  const routeLocale = params?.locale;
+  const resolvedCityName = cityName || decodeURIComponent(params?.slug || "");
   const t = useTranslations("NavBar");
   return (
     <section className={styles.navgationBar}>
@@ -18,16 +20,18 @@ const NavgationBar = () => {
             <span>{t("backToCourse")}</span>
           </div>
           <span>|</span>
-          <House color="#4A5565" size={20} />
+          <Link href={`/${routeLocale}`} aria-label={routeLocale === "ar" ? "الرئيسية" : "Home"}>
+            <House color="#4A5565" size={20} />
+          </Link>
           <ArrowRight color="#4A5565" size={20} />
-          <span>{t("cities")}</span>
+          <Link href={`/${routeLocale}/show_cities`}>{t("cities")}</Link>
           {locale === "ar" ? (
             <ArrowRight />
           ) : (
             <ArrowLeft color="#4A5565" size={20} />
           )}
 
-          <span>{cityName}</span>
+          <span>{resolvedCityName}</span>
         </div>
       </div>
     </section>

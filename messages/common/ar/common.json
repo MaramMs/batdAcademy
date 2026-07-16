@@ -9,5 +9,6 @@
     "showMore":"عرض المزيد",
     "viewAllCourses":"عرض جميع الدورات",
     "weeks":"أسابيع",
-    "filters":"الفلاتر"
+    "filters":"الفلاتر",
+    "noCoursesFound":"لا توجد دورات متاحة حاليًا."
 }

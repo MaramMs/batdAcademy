@@ -83,7 +83,7 @@ const SpecializationDetails = ({ params }) => {
                     ))
                   ) : data?.courses?.length > 0 ? (
                     data.courses.map((course, index) => (
-                      <UpcomingCouresCard key={index} course={course} />
+                      <UpcomingCouresCard key={index} course={course} locale={locale} />
                     ))
                   ) : (
                     <div className={styles.noCourses}>

@@ -16,7 +16,7 @@ const CouresByCities = ({ city }) => {
     return (
         <Link
             className={styles.couresByCities}
-            href={`${locale}/city/${city.id}/${city.country.slug}`}
+            href={`/${locale}/city/${city.id}/${city.slug}`}
             title={city.name}
         >
             <div className={styles.couresByCities__image}>
