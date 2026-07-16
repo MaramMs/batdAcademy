@@ -20,6 +20,7 @@ const RegisterPage = () => {
                 <div className={styles.formSide}>
                     <RegisterForm />
                 </div>
+
                 <div className={styles.panelSide}>
                     <InfoPanel />
                 </div>
